@@ -2,7 +2,44 @@ Package: vibass
 Type: Package
 Title: Valencia International Bayesian Summer School
 Version: 0.0-1
-Author: Facundo Muñoz
+Authors@R: c(
+    person(
+    "Carmen", "Armero",
+    email = "carmen.armero@uv.es",
+    role = c("ctb"),
+    comment = c("Universitat de València")
+    ),
+    person(
+    "Anabel", "Forte",
+    email = "anabel.forte@uv.es",
+    role = c("ctb"),
+    comment = c("Universitat de València")
+    ),
+    person(
+    "David", "Conesa",
+    email = "David.V.Conesa@uv.es",
+    role = c("ctb"),
+    comment = c("Universitat de València")
+    ),
+    person(
+    "Mark", "Brewer",
+    email = "mark.brewer@hutton.ac.uk",
+    role = c("ctb"),
+    comment = c("Biomathematics and Statistics Scotland (BioSS)")
+    ),
+    person(
+    "Virgilio", "Gómez-Rubio",
+    email = "Virgilio.Gomez@uclm.es",
+    role = c("ctb"),
+    comment = c("Universidad Castilla-La Mancha")
+    ),
+    person(
+    "Facundo", "Muñoz",
+    email = "facundo.munoz@cirad.fr",
+    role = c("aut", "cre"),
+    comment = c("Cirad", "Package developer", ORCID = "0000-0002-5061-4241")
+    ),
+    )
 Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
 Description: |
     Materials for the introductory course on Bayesian inference.
