@@ -47,4 +47,5 @@ Description: |
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: shiny, extraDistr, colorspace, ggplot2, dplyr, tibble, magrittr, tidyr
 RoxygenNote: 7.1.1
