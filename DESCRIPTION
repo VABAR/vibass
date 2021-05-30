@@ -1,0 +1,13 @@
+Package: vibass
+Type: Package
+Title: Valencia International Bayesian Summer School
+Version: 0.0-1
+Author: Facundo Muñoz
+Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
+Description: |
+    Materials for the introductory course on Bayesian inference.
+    Practicals, data and interactive apps.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
