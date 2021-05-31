@@ -4,7 +4,8 @@
 #'
 #' @param x integer 1. Practical id.
 #'
-#' @import shiny extraDistr colorspace ggplot2 dplyr tibble magrittr tidyr
+#' @import shiny extraDistr colorspace ggplot2 dplyr tibble tidyr
+#' @importFrom magrittr %>%
 #' @export
 vibass_app <- function (x = 1, bg = FALSE) {
 
