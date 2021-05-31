@@ -16,7 +16,7 @@ inference](http://vabar.es/events/vibass4-intro/) at
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("VABAR/vibass")
+remotes::install_github("VABAR/vibass", build_vignettes = TRUE)
 ```
 
 ## Example
@@ -26,7 +26,7 @@ apps
 
 ``` r
 library(vibass)
-vignette("p1", package = "vibass")  # Open practical 1
+vignette("p1")  # Open practical 1
 vibass_app(1)  # Launch the interactive app for practical 1
 ```
 

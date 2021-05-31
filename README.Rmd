@@ -27,7 +27,7 @@ Teaching materials for the [introductory course on Bayesian inference](http://va
 
 ```{r install, eval = FALSE}
 # install.packages("remotes")
-remotes::install_github("VABAR/vibass")
+remotes::install_github("VABAR/vibass", build_vignettes = TRUE)
 ```
 
 ## Example
@@ -36,7 +36,7 @@ The package contains the course practicals and associated interactive apps
 
 ```{r example, eval = FALSE}
 library(vibass)
-vignette("p1", package = "vibass")  # Open practical 1
+vignette("p1")  # Open practical 1
 vibass_app(1)  # Launch the interactive app for practical 1
 ```
 
