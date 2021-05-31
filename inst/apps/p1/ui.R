@@ -13,11 +13,10 @@ explanations <- fluidRow(
           cols %>% filter(target == "prior") %>% pull(hex)
         )
       ),
-      "distribution $\\theta \\sim \\text{Be}(\\alpha_0,\\, \\beta_0)$.",
-      br(),
+      "$$\\theta \\sim \\text{Be}(\\alpha_0,\\, \\beta_0)$$",
       "Represents your beliefs", strong("before"), "observing the data $r$.",
       br(),
-      "The shaded areas represent central 95% Credible Intervals."
+      "The shaded areas represent central 95% credible intervals."
     )
   ),
 
@@ -31,8 +30,8 @@ explanations <- fluidRow(
           cols %>% filter(target == "likelihood") %>% pull(hex)
         )
       ),
-      ": $$L(\\theta \\mid \\mathcal D) = P(Y=r \\mid \\theta,\\, n)$$",
-      "where $Y \\sim \\text{Bi}(n,\\, \\theta)$ and $n = 20$.", br(),
+      "$$L(\\theta \\mid \\mathcal D) = P(Y=r \\mid \\theta,\\, n)$$",
+      "where $Y \\mid \\theta \\sim \\text{Bi}(n,\\, \\theta)$ and $n = 20$.", br(),
       # "It is a", strong("function"), "of $\\theta$, not a probability distribution. ",
       # "Here it is scaled for visualisation purposes.",
       "Represents the relative", strong("compatibility"),
@@ -50,7 +49,7 @@ explanations <- fluidRow(
           cols %>% filter(target == "posterior") %>% pull(hex)
         )
       ),
-      ": $$\\theta \\mid r \\sim \\text{Be}(\\alpha_0 + r,\\, \\beta_0 + n - r)$$",
+      "$$\\theta \\mid r \\sim \\text{Be}(\\alpha_0 + r,\\, \\beta_0 + n - r)$$",
       "where $n = 20$.", br(),
       "Represents your knowledge about $\\theta$", strong("after"),
       "observing the data $r$."
@@ -67,9 +66,9 @@ explanations <- fluidRow(
           cols %>% filter(target == "predictive") %>% pull(hex)
         )
       ),
-      ": $$Y' \\sim \\text{Bb}(\\alpha_0 + r,\\, \\beta_0 + n - r,\\, n')$$",
+      "$$Y' \\sim \\text{Bb}(\\alpha_0 + r,\\, \\beta_0 + n - r,\\, n')$$",
       "where $n' = 10$.", br(),
-      "Represents the predicted outcome of a future observation."
+      "Represents the predicted outcome of future observations."
     )
   )
 )
