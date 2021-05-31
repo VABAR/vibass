@@ -38,7 +38,7 @@ Authors@R: c(
     email = "facundo.munoz@cirad.fr",
     role = c("aut", "cre"),
     comment = c("Cirad", "Package developer", ORCID = "0000-0002-5061-4241")
-    ),
+    )
     )
 Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
 Description: |
