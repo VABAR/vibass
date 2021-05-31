@@ -3,7 +3,7 @@
 
 # vibass
 
-[![](http://vabar.es/images//widget_vibass4.png)](http://vabar.es/events/vibass4/)
+[<img src="http://vabar.es/images//widget_vibass4.png" width="300px"/>](http://vabar.es/events/vibass4/)
 
 <!-- badges: start -->
 <!-- badges: end -->

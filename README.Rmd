@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # vibass
-[![](http://vabar.es/images//widget_vibass4.png)](http://vabar.es/events/vibass4/)
+[`r htmltools::img(src = "http://vabar.es/images//widget_vibass4.png", width = "300px")`](http://vabar.es/events/vibass4/)
 
 <!-- badges: start -->
 <!-- badges: end -->
