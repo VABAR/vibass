@@ -1,4 +1,11 @@
-server <- function(input, output, session) {
+#' The application server-side Practical 1
+#'
+#' @param input,output,session Internal parameters for {shiny}.
+#'     DO NOT REMOVE.
+#' @import colorspace ggplot2 dplyr tibble tidyr
+#' @importFrom extraDistr dbbinom
+#' @noRd
+p1_server <- function(input, output, session) {
 
   # For debugging
   # input <- list(a0 = .01, b0 = .01, r = 4)

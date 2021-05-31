@@ -36,25 +36,7 @@ theta_values <- data.frame(
   x = seq(0.01, .99, length = 101)
 )
 
-qbbinom <- function(p, n, a, b) {
-  # n <- 10; a <- 5; b <- 8
-  stopifnot(
-    all(between(p, 0, 1))
-  )
-  cdf <- pbbinom(0:n, n, a, b)
 
-  q <- apply(
-    vapply(p, '<=', rep(T, length(cdf)), cdf),
-    2,
-    function(.) head(which(.), 1)
-  ) - 1
-
-  return(q)
-}
-
-
-mean_beta <- function(a, b) a / (a + b)
-sd_beta <- function(a, b) sqrt( a * b / ( (a + b)**2 * (a + b + 1) ) )
 
 ## TODO
 ## - Add button "Take snapshot" and plot the curves greyed out in the
