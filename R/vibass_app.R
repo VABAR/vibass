@@ -10,8 +10,12 @@ vibass_app <- function (x = 1, bg = FALSE) {
 
   app <- shinyApp(
     ui = eval(parse(text = paste0("p", x, "_ui"))),
-    server = eval(parse(text = paste0("p", x, "_server")))
-    # , options = list(launch.browser = FALSE)
+    server = eval(parse(text = paste0("p", x, "_server"))),
+    options = list(
+      # launch.browser = FALSE,
+      # width = "900px",
+      # height = "600px"
+    )
   )
 
   app
