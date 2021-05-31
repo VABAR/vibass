@@ -4,6 +4,12 @@ Title: Valencia International Bayesian Summer School
 Version: 0.0-1
 Authors@R: c(
     person(
+    "Facundo", "Muñoz",
+    email = "facundo.munoz@cirad.fr",
+    role = c("aut", "cre"),
+    comment = c("Cirad, Package developer", ORCID = "0000-0002-5061-4241")
+    ),
+    person(
     "Carmen", "Armero",
     email = "carmen.armero@uv.es",
     role = c("ctb"),
@@ -32,12 +38,6 @@ Authors@R: c(
     email = "Virgilio.Gomez@uclm.es",
     role = c("ctb"),
     comment = c("Universidad Castilla-La Mancha")
-    ),
-    person(
-    "Facundo", "Muñoz",
-    email = "facundo.munoz@cirad.fr",
-    role = c("aut", "cre"),
-    comment = c("Cirad", "Package developer", ORCID = "0000-0002-5061-4241")
     )
     )
 Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
