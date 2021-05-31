@@ -53,4 +53,8 @@ Suggests:
     rmarkdown,
     knitr,
     png
+    pacman,
+    cowplot,
+    hrbrthemes,
+    waffle
 VignetteBuilder: knitr
