@@ -21,7 +21,7 @@ cols <- transform(
 
 plot_style <- list(
   # labs(x = expression(theta), y = NULL, color = NULL),
-  scale_color_manual(
+  scale_colour_manual(
     values = setNames(cols$name, cols$target)
   ),
   theme_minimal(),
