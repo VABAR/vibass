@@ -51,7 +51,7 @@ According to Wikipedia:
 >
 > The candy originated in the United States in 1941. They are produced in different colors, some of which have changed over the years. The candy-coated chocolate concept was inspired by a method used to allow soldiers in the Spanish Civil War (1936–1939)  to carry chocolate in warm climates without it melting.  A traditional milk chocolate M&M weighs about 0.91 grams and has about 4.7 calories  of food energy''.
  
-```{r fig.cap = cap, echo = FALSE}
+```{r fig.cap = cap, echo = FALSE, fig.align='center'}
 cap <- "A pile of peanut M&M's candies. Photo by Victor Roda."
 include_graphics("mm_photo.png")
 ```

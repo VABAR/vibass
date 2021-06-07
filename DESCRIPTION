@@ -50,11 +50,12 @@ LazyData: true
 Imports: shiny, extraDistr, colorspace, ggplot2, golem, dplyr, tibble, magrittr, tidyr
 RoxygenNote: 7.1.1
 Suggests: 
-    rmarkdown,
-    knitr,
-    png,
-    pacman,
     cowplot,
     hrbrthemes,
+    knitr,
+    magick,
+    pacman,
+    png,
+    rmarkdown,
     waffle
 VignetteBuilder: knitr
