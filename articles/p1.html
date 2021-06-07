@@ -92,9 +92,6 @@
 <p>M&amp;M’s are multi-colored button-shaped chocolates, each of which has the letter “m” printed in lower case in white on one side, consisting of a candy shell surrounding a filling which varies depending upon the variety of M&amp;M’s. The original candy has a semi-sweet chocolate filling which, upon introduction of other variations, was branded as the “plain, normal” variety.</p>
 <p>The candy originated in the United States in 1941. They are produced in different colors, some of which have changed over the years. The candy-coated chocolate concept was inspired by a method used to allow soldiers in the Spanish Civil War (1936–1939) to carry chocolate in warm climates without it melting. A traditional milk chocolate M&amp;M weighs about 0.91 grams and has about 4.7 calories of food energy’’.</p>
 </blockquote>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cap</span> <span class="op">&lt;-</span> <span class="st">"A pile of peanut M&amp;M's candies. Photo by Victor Roda."</span>
-<span class="fu">include_graphics</span><span class="op">(</span><span class="st">"mm_photo.png"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="mm_photo.png" alt="A pile of peanut M&amp;M's candies. Photo by Victor Roda." width="300"><p class="caption">
 A pile of peanut M&amp;M’s candies. Photo by Victor Roda.
@@ -116,7 +113,7 @@ Representation of the sampling experiment.
 </div>
 <p>For those of us who physically have the bag of M<span class="math inline">\(\&amp;\)</span>M’s, the most appropriate experiment would be to take candies out of the bag one at a time and replace them, recording whether their colour is red or not, until the number <span class="math inline">\(n\)</span> of candies we have previously set is obtained. We consider <span class="math inline">\(n\)</span>=20.</p>
 <p>In case you are online or you don’t want to carry out the experiment physically you can use the following result of the experiment:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fl">20</span>, red <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </code></pre></div>
 </div>
 <div id="the-sampling-model-is-binomial" class="section level2">
@@ -149,7 +146,7 @@ Binomial probability function for two values of $ heta$ and <span class="math in
 </li>
 </ul>
 <p>We will start by working with the non-informative prior distribution Be<span class="math inline">\((\alpha_0=0.5, \beta_0=0.5)\)</span> whose prior expectation and standard deviation is E<span class="math inline">\((\theta)=0.5\)</span> and DT<span class="math inline">\((\theta)=0.3535\)</span>, respectively. Its graphic is obtained via</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span>
 <span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>
@@ -167,7 +164,7 @@ Binomial probability function for two values of $ heta$ and <span class="math in
 <p><span class="math display">\[L(\theta \mid \mathcal D) = P(Y=r \mid \theta, n) = \binom{n}{r}\, \theta^r\,(1- \theta)^{n-r},\]</span></p>
 <p>where <span class="math inline">\(r\)</span> is the <em>observed</em> number of successes in the sample (here the number of red candies in the sample of size <span class="math inline">\(n\)</span>). In our first experiment, the likelihood function of <span class="math inline">\(\theta\)</span> for the data <span class="math inline">\(\mathcal D_1 = \{r_1 = 4 \text{ red candies in } n_1 = 20 \text{ sampled}\}\)</span> is</p>
 <p><span class="math display">\[L(\theta \mid \mathcal D_1) = \binom{20}{4}\, \theta^4\,(1- \theta)^{16},\]</span></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">4</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">20</span>
 <span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span>
@@ -184,19 +181,19 @@ Binomial probability function for two values of $ heta$ and <span class="math in
 <p><span class="math display">\[\pi(\theta \mid \mathcal{D})= \mbox{Be}(\alpha=\alpha_0+r, \beta= \beta_0+n-r).\]</span></p>
 <p>In our case, the posterior distribution of the proportion of red candies is</p>
 <p><span class="math display">\[\pi(\theta \mid \mathcal{D_1})= \mbox{Be}(\alpha=4.5, \beta= 16.5) \]</span> whose graphic is</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span>
 <span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior</span>, type <span class="op">=</span> <span class="st">"l"</span>, lwd <span class="op">=</span> <span class="fl">4</span>, col <span class="op">=</span> <span class="st">"darkgreen"</span>,
      xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>, 
      xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"proportion of red candies "</span>, <span class="va">theta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="p1_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;"> The posterior mean and posterior standard deviation of the proportion of red candies is</p>
-<p><span class="math display">\[\mbox{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \,\,\,\, \mbox{DT}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.\]</span> A 95<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\theta\)</span> is</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p><span class="math display">\[\mbox{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mbox{DT}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.\]</span> A 95<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\theta\)</span> is</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.07152005 0.40822576</span></code></pre></div>
 <p>and the posterior probability that the proportion of red candies is between 0.1 and 0.3 is</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">pbeta</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">pbeta</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.7571733</span></code></pre></div>
 <p>You can see these posterior characteristics in Figure 4 below</p>
@@ -219,7 +216,7 @@ Posterior summaries for <span class="math inline">\(\theta\)</span>.
 </li>
 </ul>
 <p>Suppose now that we are going to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag but before we are going to predict the number of red M<span class="math inline">\(\&amp;\)</span>M’s we can record. The posterior predictive distribution is a betabinomial distribution with parameters <span class="math inline">\(\alpha=4.5\)</span> and <span class="math inline">\(\beta=16.5\)</span>, that we pick from the posterior distribution <span class="math inline">\(\pi(\theta \mid \mathcal D)\)</span>, and <span class="math inline">\(n^{\prime}=10\)</span>, which is the size of the new experiment.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr">extraDistr</a></span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
 <span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/BetaBinom.html">dbbinom</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>
@@ -228,7 +225,7 @@ Posterior summaries for <span class="math inline">\(\theta\)</span>.
      xlab <span class="op">=</span> <span class="st">"number of red candies"</span>, ylab <span class="op">=</span> <span class="st">"probability"</span><span class="op">)</span></code></pre></div>
 <p><img src="p1_files/figure-html/unnamed-chunk-8-1.png" width="60%" style="display: block; margin: auto;"></p>
 <p>We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of the number of red candies is this new sample is</p>
-<p><span class="math display">\[\mbox{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \,\,\,  \mbox{DT}(Y^{\prime} \mid \mathcal D)=1.5403.\]</span></p>
+<p><span class="math display">\[\mbox{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mbox{DT}(Y^{\prime} \mid \mathcal D)=1.5403.\]</span></p>
 </div>
 </div>
 <div id="time-to-individual-work" class="section level1">
