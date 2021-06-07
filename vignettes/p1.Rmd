@@ -51,7 +51,7 @@ According to Wikipedia:
 >
 > The candy originated in the United States in 1941. They are produced in different colors, some of which have changed over the years. The candy-coated chocolate concept was inspired by a method used to allow soldiers in the Spanish Civil War (1936–1939)  to carry chocolate in warm climates without it melting.  A traditional milk chocolate M&M weighs about 0.91 grams and has about 4.7 calories  of food energy''.
  
-```{r fig.cap = cap}
+```{r fig.cap = cap, echo = FALSE}
 cap <- "A pile of peanut M&M's candies. Photo by Victor Roda."
 include_graphics("mm_photo.png")
 ```
@@ -139,7 +139,7 @@ p <-
   theme_void()
 
 ggdraw() +
-  draw_image("mm_bag.png", x = -.3, y = 0) +
+  draw_image(mm_bag, x = -.3, y = 0) +
   draw_plot(p) +
   annotate(
     "text",
@@ -287,7 +287,7 @@ plot(theta, posterior, type = "l", lwd = 4, col = "darkgreen",
 ```
 The posterior mean and posterior standard deviation of  the proportion of red candies is
 
- $$\mbox{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \,\,\,\, \mbox{DT}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.$$
+$$\mbox{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mbox{DT}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.$$
 A 95$\%$ credible interval for $\theta$ is 
 ```{r}
 qbeta(c(0.025, 0.975), 4.5, 16.5)
@@ -399,7 +399,7 @@ plot(x, pred, type = "h", lwd = 2, col = "purple",
 
 We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of  the number of red candies is this new sample is
 
- $$\mbox{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \,\,\,  \mbox{DT}(Y^{\prime} \mid \mathcal D)=1.5403.$$
+$$\mbox{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mbox{DT}(Y^{\prime} \mid \mathcal D)=1.5403.$$
  
 # Time to individual work
  
