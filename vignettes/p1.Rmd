@@ -28,6 +28,7 @@ pacman::p_load(
   extraDistr,
   ggplot2,
   hrbrthemes,
+  knitr,
   magrittr,
   png,
   tibble,
