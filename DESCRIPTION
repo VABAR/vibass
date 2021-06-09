@@ -1,54 +1,52 @@
-Package: vibass
 Type: Package
+Package: vibass
 Title: Valencia International Bayesian Summer School
 Version: 0.0-1
-Authors@R: c(
-    person(
-    "Facundo", "Muñoz",
-    email = "facundo.munoz@cirad.fr",
-    role = c("aut", "cre"),
-    comment = c("Cirad, Package developer", ORCID = "0000-0002-5061-4241")
-    ),
-    person(
-    "Carmen", "Armero",
-    email = "carmen.armero@uv.es",
-    role = c("ctb"),
-    comment = c("Universitat de València")
-    ),
-    person(
-    "Anabel", "Forte",
-    email = "anabel.forte@uv.es",
-    role = c("ctb"),
-    comment = c("Universitat de València")
-    ),
-    person(
-    "David", "Conesa",
-    email = "David.V.Conesa@uv.es",
-    role = c("ctb"),
-    comment = c("Universitat de València")
-    ),
-    person(
-    "Mark", "Brewer",
-    email = "mark.brewer@hutton.ac.uk",
-    role = c("ctb"),
-    comment = c("Biomathematics and Statistics Scotland (BioSS)")
-    ),
-    person(
-    "Virgilio", "Gómez-Rubio",
-    email = "Virgilio.Gomez@uclm.es",
-    role = c("ctb"),
-    comment = c("Universidad Castilla-La Mancha")
-    )
-    )
+Authors@R: 
+    c(person(given = "Facundo",
+             family = "Muñoz",
+             role = c("aut", "cre"),
+             email = "facundo.munoz@cirad.fr",
+             comment = c("Cirad, Package developer", ORCID = "0000-0002-5061-4241")),
+      person(given = "Carmen",
+             family = "Armero",
+             role = "ctb",
+             email = "carmen.armero@uv.es",
+             comment = "Universitat de València"),
+      person(given = "Anabel",
+             family = "Forte",
+             role = "ctb",
+             email = "anabel.forte@uv.es",
+             comment = "Universitat de València"),
+      person(given = "David",
+             family = "Conesa",
+             role = "ctb",
+             email = "David.V.Conesa@uv.es",
+             comment = "Universitat de València"),
+      person(given = "Mark",
+             family = "Brewer",
+             role = "ctb",
+             email = "mark.brewer@hutton.ac.uk",
+             comment = "Biomathematics and Statistics Scotland (BioSS)"),
+      person(given = "Virgilio",
+             family = "Gómez-Rubio",
+             role = "ctb",
+             email = "Virgilio.Gomez@uclm.es",
+             comment = "Universidad Castilla-La Mancha"))
 Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
-Description: |
-    Materials for the introductory course on Bayesian inference.
-    Practicals, data and interactive apps.
+Description: | Materials for the introductory course on Bayesian
+    inference.  Practicals, data and interactive apps.
 License: GPL-3
-Encoding: UTF-8
-LazyData: true
-Imports: shiny, extraDistr, colorspace, ggplot2, golem, dplyr, tibble, magrittr, tidyr
-RoxygenNote: 7.1.1
+Imports: 
+    colorspace,
+    dplyr,
+    extraDistr,
+    ggplot2,
+    golem,
+    magrittr,
+    shiny,
+    tibble,
+    tidyr
 Suggests: 
     cowplot,
     hrbrthemes,
@@ -58,4 +56,8 @@ Suggests:
     png,
     rmarkdown,
     waffle
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
