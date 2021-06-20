@@ -26,8 +26,9 @@ apps
 
 ``` r
 library(vibass)
-vignette("p1")  # Open practical 1
-vibass_app(1)  # Launch the interactive app for practical 1
+browseVignettes('vibass')  # Index of all practicals
+vignette('p1')  # Open practical 1
+vibass_app(1)   # Launch the interactive app for practical 1
 ```
 
 ![](man/figures/p1_app.png)

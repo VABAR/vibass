@@ -26,7 +26,7 @@ print_welcome <- function() {
     paste(
       format(
         text_col(
-          c("browseVignettes() ",
+          c("browseVignettes('vibass')",
             "vignette('p1') ",
             "vibass_app(1) "
           )
