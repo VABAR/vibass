@@ -16,7 +16,7 @@ inference](http://vabar.es/events/vibass4-intro/) at
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("VABAR/vibass", build_vignettes = TRUE)
+remotes::install_github("VABAR/vibass", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
 ## Example
