@@ -1,7 +1,7 @@
 .onAttach <- function(...) {
 
   packageStartupMessage(
-    print_welcome()
+    if (interactive()) print_welcome()
   )
 }
 
