@@ -4,9 +4,15 @@
     <loc>http://vabar.es/vibass//index.html</loc>
   </url>
   <url>
+    <loc>http://vabar.es/vibass//reference/text_col.html</loc>
+  </url>
+  <url>
     <loc>http://vabar.es/vibass//reference/vibass_app.html</loc>
   </url>
   <url>
     <loc>http://vabar.es/vibass//articles/p1.html</loc>
+  </url>
+  <url>
+    <loc>http://vabar.es/vibass//articles/p2.html</loc>
   </url>
 </urlset>

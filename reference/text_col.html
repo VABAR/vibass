@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VIBASS interactive apps. — vibass_app • vibass</title>
+<title>Return text in a contrasting colour — text_col • vibass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="VIBASS interactive apps. — vibass_app" />
-<meta property="og:description" content="Launches the Shiny interactive applications for the practicals." />
+<meta property="og:title" content="Return text in a contrasting colour — text_col" />
+<meta property="og:description" content="Overcome default colouring schemes (e.g. for packageStartupMessages())
+and make sure some text is printed in a contrasting colour depending
+on the theme (dark or light) in RStudio." />
 
 
 
@@ -118,27 +120,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>VIBASS interactive apps.</h1>
+    <h1>Return text in a contrasting colour</h1>
     
-    <div class="hidden name"><code>vibass_app.Rd</code></div>
+    <div class="hidden name"><code>text_col.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Launches the Shiny interactive applications for the practicals.</p>
+    <p>Overcome default colouring schemes (e.g. for packageStartupMessages())
+and make sure some text is printed in a contrasting colour depending
+on the theme (dark or light) in RStudio.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vibass_app</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, bg <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>integer 1. Practical id.</p></td>
-    </tr>
-    </table>
+    <pre class="usage"><span class='fu'>text_col</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Uses <code>crayon</code> for printing white text in dark themes or black text
+on light themes in RStudio.
+Borrowed from package <code>tidyverse</code> (https://github.com/tidyverse/tidyverse/blob/72af810106d7249c905d6b0f5b8b42dc33e6ac21/R/utils.R)</p>
+<p>x Character. Text to print.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>text_col</span><span class='op'>(</span><span class='st'>"Hello world"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in text_col("Hello world"): could not find function "text_col"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='st'>"Hello world"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Hello world</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'>text_col</span><span class='op'>(</span><span class='st'>"Hello world"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in text_col("Hello world"): could not find function "text_col"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
