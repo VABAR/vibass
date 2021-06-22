@@ -112,7 +112,7 @@ summary_table(
   var = var(oddstheta.r),
   quant = quantile(oddstheta.r, probs = c(0.05, 0.5, 0.95)),
   ic95 = quantile(oddstheta.r, probs = c(.025,  0.975)),
-  prop1 = sum(oddstheta.r > 1)/10000,
+  prop1 = mean(oddstheta.r > 1),
   label = "$\\text{odds}(\\theta)$"
 )
 ```
@@ -190,7 +190,7 @@ summary_table(
   var = var(theta.dif),
   quant = quantile(theta.dif, probs = c(0.05, 0.5, 0.95)),
   ic95 = quantile(theta.dif, probs = c(.025,  0.975)),
-  prop0 = sum(theta.dif > 0)/10000,
+  prop0 = mean(theta.dif > 0),
   label = "$\\theta_b - \\theta_r$"
 )
 ```
