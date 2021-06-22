@@ -33,6 +33,7 @@ pacman::p_load(
   png,
   tibble,
   tidyr,
+  vibass,
   waffle
 )
 
@@ -96,21 +97,26 @@ We then approximate the posterior distribution for the odds of $\theta$ \vspace*
 
 ```{r, fig.align='center', out.width="70%"}
 oddstheta.r <- theta.r/(1-theta.r)
-hist(oddstheta.r, breaks = 100, freq=FALSE, col="gray98", main="", xlim=c(0,1.5), ylim=c(0,4), 
-    xlab=expression(paste("odds of the proportion of red candies ", theta )), ylab="posterior") 
+hist(oddstheta.r,
+     breaks = 100, freq=FALSE, col="gray98", main="", xlim=c(0,1.5), ylim=c(0,4), 
+     xlab=expression(paste("odds of the proportion of red candies ", theta )),
+     ylab="posterior"
+)
 ```
  
 We can also approximate any characteristic of the  posteriori distribution that we are interested in, such as the posterior mean, variance, standard deviation, 5th, 50 th and 95th percentile, 95$\%$ credible interval and any probability   posterior probability, e.g. $P(\mbox{odds}(\theta)>1 \mid \mathcal D)$ by means of the corresponding  characteristics of the simulated sample.   
- 
-```{r}
-mean(oddstheta.r)
-var(oddstheta.r)
-sqrt(var(oddstheta.r))
-quantile(oddstheta.r, probs = c(0.05, 0.5, 0.95))
-quantile(oddstheta.r, probs = c(.025,  0.975))
-sum(oddstheta.r>1)/10000
-```  
-   
+
+```{r summary-table-odds-theta}
+summary_table(
+  mean = mean(oddstheta.r),
+  var = var(oddstheta.r),
+  quant = quantile(oddstheta.r, probs = c(0.05, 0.5, 0.95)),
+  ic95 = quantile(oddstheta.r, probs = c(.025,  0.975)),
+  prop1 = sum(oddstheta.r > 1)/10000,
+  label = "$\\text{odds}(\\theta)$"
+)
+```
+
 #  Comparing the proportion of red and blue M$\&$M's
 
 Suppose now that we want to compare the proportion of red and blue candies in the population. 
@@ -120,7 +126,7 @@ Suppose now that we want to compare the proportion of red and blue candies in th
 
 ![A pile of red and blue peanut M&M's candies. Photos by Victor Roda.](red_blue_simulation.jpg)
  
-<center>
+</center>
 
 \vspace*{0.4cm}
 
@@ -176,14 +182,19 @@ hist(theta.dif, breaks = 70, freq=FALSE, col="gray98", main="", xlim=c(-0.5, +0.
      xlab="proportion  blue - proportion red", ylab="posterior")
 ```
 
-```{r}
-mean(theta.dif)
-var(theta.dif)
-sqrt(var(theta.dif))
-quantile(theta.dif, probs = c(0.05, 0.5, 0.95))
-quantile(theta.dif, probs = c(0.025,  0.975))
-sum(theta.dif>0)/10000
-``` 
+
+
+```{r summary-table-theta-diff}
+summary_table(
+  mean = mean(theta.dif),
+  var = var(theta.dif),
+  quant = quantile(theta.dif, probs = c(0.05, 0.5, 0.95)),
+  ic95 = quantile(theta.dif, probs = c(.025,  0.975)),
+  prop0 = sum(theta.dif > 0)/10000,
+  label = "$\\theta_b - \\theta_r$"
+)
+```
+
 
 # Individual work 
 We will now work individually on the simulation procedure of the   posterior  distribution of a function of the quantity of interest and also the comparison of two groups through the relative risk. \vspace*{0.2cm}
