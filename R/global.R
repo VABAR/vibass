@@ -1,6 +1,44 @@
 
 options(shiny.usecairo = FALSE)
 
+fig_transformations <-
+  data.frame(
+    x = seq(0.01, .99, length = 101)
+  ) |>
+  mutate(
+    odds = x/(1-x),
+    logodds = log(odds)
+  ) |>
+  pivot_longer(
+    cols = -x,
+    names_to = "transf",
+    values_to = "y"
+  ) |>
+  ggplot(aes(x, y)) +
+  geom_line(aes(group = transf)) +
+  geom_text(
+    data = data.frame(
+      x = c(.25, .75),
+      y = c(1, 0),
+      l = c("odds", "log-odds")
+    ),
+    aes(label = l)
+  ) +
+  coord_cartesian(
+    ylim = c(-1, 1) * 5
+  ) +
+  theme_minimal() +
+  theme(
+    # axis.text.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(
+    x = "Probability",
+    y = NULL
+  )
+
+
 mm_cols <-
   c(
     red = "#b11224",
