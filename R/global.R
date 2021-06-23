@@ -1,6 +1,16 @@
 
 options(shiny.usecairo = FALSE)
 
+mm_cols <-
+  c(
+    red = "#b11224",
+    yellow = "#fff200",
+    blue = "#2f9fd7",
+    green = "#31ac55",
+    orange = "#f26f22",
+    brown = "#603a34"
+  )
+
 cols <- transform(
   data.frame(
     target = c("prior", "likelihood", "posterior", "predictive"),

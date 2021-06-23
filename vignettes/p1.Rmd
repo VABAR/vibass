@@ -36,8 +36,6 @@ pacman::p_load(
   waffle
 )
 
-mm_cols <- c(red = "#b11224", yellow = "#fff200", blue = "#2f9fd7", green = "#31ac55", orange = "#f26f22", brown = "#603a34") 
-
 ```
 
  
@@ -75,7 +73,7 @@ cap <- "Representation of the sampling experiment."
 # ) %>% 
 #   ggplot(aes(x, y)) +
 #   geom_point(
-#     colour = sample(mm_cols, 1e3, replace = TRUE)
+#     colour = sample(vibass:::mm_cols, 1e3, replace = TRUE)
 #   ) +
 #   coord_fixed() +
 #   theme_void()
@@ -117,7 +115,7 @@ p <-
     x = 0, y = 1.3,
     label = "Red M&Ms: 4",
     hjust = .8,
-    colour = mm_cols["red"]
+    colour = vibass:::mm_cols["red"]
   ) +
   geom_curve(
     data = tribble(
@@ -134,7 +132,7 @@ p <-
     x = 3, y = 5,
     label = "Sample size: 20"
   ) +
-  scale_colour_discrete(type = c(mm_cols["red"], "grey")) +
+  scale_colour_discrete(type = c(vibass:::mm_cols["red"], "grey")) +
   coord_fixed(xlim = c(-6, 6), ylim = c(0, 5)) +
   theme_void()
 
