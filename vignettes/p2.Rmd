@@ -43,13 +43,18 @@ pacman::p_load(
 
 # Introduction
 
-We know that probabilities and proportions take values between 0 and 1. But in some studies the relevant information about them is presented on a different scale. Although different scales can be found in the statistical literature, we will only use the two most popular ones, which are the odds and the logit function. 
+We know that probabilities and proportions take values between 0 and 1. But in some studies the relevant information about them is presented on a different scale. Although different scales can be found in the statistical literature, we will only use the two most popular ones, which are the _odds_ and the _log-odds_, also known as the _logit_ function. 
 
 - Any probability  $\theta$ can be expressed in terms of odds as $$\mbox{odds} (\theta)=\frac{\theta}{ 1-\theta}$$
 
-- Any probability $\theta$ can be expressed in the logit scales as $$\mbox{logit} (\theta)= \mbox{log}\,\frac{\theta}{ 1-\theta}$$
+- Any probability $\theta$ can be expressed in the log-odds scale as $$\mbox{log-odds} (\theta)= \mbox{log}\,\frac{\theta}{ 1-\theta}$$
 
 The odds of an event represent the ratio of the  probability  $\theta$ that the event will occur to the probability $1-\theta$ that the event will not occur. The odds scale extends the probability to the set of positive reals. The logit transformation are odds in logarithmic scale and extends the probability to all reals, positive and negative.   
+
+```{r fig-transformations, fig.cap = cap, echo = FALSE, fig.width=3, fig.height=3}
+cap <- "Probability-scale transformations."
+vibass:::fig_transformations
+```
 
 #  Return to study of  the proportion of red M$\&$M's
 
@@ -66,9 +71,9 @@ plot(theta, posterior, type="l", lwd=4, col="red", xlim=c(0, 1), ylim=c(0, 5),
       xlab=expression(paste("proportion of red candies ", theta ))) 
 ```
 
-Let's obtain the posterior distribution of $\theta$ on the odds   scale, 
+Let's obtain the posterior distribution of $\theta$ on the odds scale, 
 $\pi(\mbox{odds}(\theta) \mid \mathcal D)$ and we will leave  the simulation of 
-$\pi(\mbox{logit}(\theta) \mid \mathcal D)$ as individual work at the end of the practice.
+$\pi(\mbox{log-odds}(\theta) \mid \mathcal D)$ as individual work at the end of the practice.
 
 ## Computation of $\pi(\mbox{odds}(\theta) \mid \mathcal D)$
 
@@ -202,7 +207,7 @@ We will now work individually on the simulation procedure of the   posterior  di
 
  
 
-1. Compute the posterior distribution of the proportion of red M&M's in the logit scale as well as its main characteristics 
+1. Compute the posterior distribution of the proportion of red M&M's in the log-odds scale as well as its main characteristics 
 
 2. Compare the proportion of red and blue M&M's through the relative risk $\theta_b/\theta_r$. 
 
