@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • vibass</title>
+<title>Print a standardised summary table — summary_table • vibass</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Print a standardised summary table — summary_table" />
+<meta property="og:description" content="Make a table of several summary statistics with proper formatting." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">vibass</a>
+        <a class="navbar-link" href="../index.html">vibass</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0-3</span>
       </span>
     </div>
@@ -78,13 +79,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,10 +95,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/p1.html">PRACTICAL 1: Binary data</a>
+      <a href="../articles/p1.html">PRACTICAL 1: Binary data</a>
     </li>
     <li>
-      <a href="articles/p2.html">PRACTICAL 2: Inference with simulated samples</a>
+      <a href="../articles/p2.html">PRACTICAL 2: Inference with simulated samples</a>
     </li>
   </ul>
 </li>
@@ -115,42 +116,74 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Print a standardised summary table</h1>
+    
+    <div class="hidden name"><code>summary_table.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Facundo Muñoz</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-5061-4241' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        <br /><small>Cirad, Package developer</small></p>
-      </li>
-      <li>
-        <p><strong>Carmen Armero</strong>. Contributor. 
-        <br /><small>Universitat de València</small></p>
-      </li>
-      <li>
-        <p><strong>Anabel Forte</strong>. Contributor. 
-        <br /><small>Universitat de València</small></p>
-      </li>
-      <li>
-        <p><strong>David Conesa</strong>. Contributor. 
-        <br /><small>Universitat de València</small></p>
-      </li>
-      <li>
-        <p><strong>Mark Brewer</strong>. Contributor. 
-        <br /><small>Biomathematics and Statistics Scotland (BioSS)</small></p>
-      </li>
-      <li>
-        <p><strong>Virgilio Gómez-Rubio</strong>. Contributor. 
-        <br /><small>Universidad Castilla-La Mancha</small></p>
-      </li>
-    </ul>
+    <div class="ref-description">
+    <p>Make a table of several summary statistics with proper formatting.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>summary_table</span><span class='op'>(</span><span class='va'>mean</span>, <span class='va'>var</span>, <span class='va'>quant</span>, <span class='va'>ic95</span>, prop0 <span class='op'>=</span> <span class='cn'>NULL</span>, prop1 <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>label</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>mean</th>
+      <td><p>Real.</p></td>
+    </tr>
+    <tr>
+      <th>var</th>
+      <td><p>Real.</p></td>
+    </tr>
+    <tr>
+      <th>quant</th>
+      <td><p>Numeric vector.</p></td>
+    </tr>
+    <tr>
+      <th>ic95</th>
+      <td><p>Numeric vector.</p></td>
+    </tr>
+    <tr>
+      <th>prop0</th>
+      <td><p>Real.</p></td>
+    </tr>
+    <tr>
+      <th>prop1</th>
+      <td><p>Real.</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>Character. Name of the summarised variable .</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    
+
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The table includes the mean, variance and standard deviation, a vector of 3
+quantiles at 0.05, 0.50 and 0.95, a 95<!-- % centred confidence interval and a -->
+numeric value to be interpreted as a proportion above 0 and 1. All values are
+rounded to 2 significant digits.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>summary_table</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fl'>1</span>, var <span class='op'>=</span> <span class='fl'>1</span>, quant <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, ic95 <span class='op'>=</span> <span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span>, prop1 <span class='op'>=</span> <span class='fl'>.6</span>, label <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in kable(setNames(rownames_to_column(data.frame(setNames(c(round(c(mean,     var, sqrt(var), quant), 2), paste0("(", paste(round(ic95,     2), collapse = ", "), ")"), if (!is.null(prop0)) {    paste0(round(100 * prop0, 1), "%")}, if (!is.null(prop1)) {    paste0(round(100 * prop1, 1), "%")}), c("Mean", "Var", "S.Dev", "Q05", "Q50", "Q95", "IC95", if (!is.null(prop0)) {    "Prop&gt;0"}, if (!is.null(prop1)) {    "Prop&gt;1"})))), c("Summary", label))): could not find function "kable"</span></div></pre>
   </div>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
+  </div>
 </div>
-
 
 
       <footer>
