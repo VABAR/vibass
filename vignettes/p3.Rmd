@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 According to Wikipedia: ``*A Game of Thrones* is the first novel in *A Song of Ice and Fire*, a series of fantasy novels by the American author George R. R. Martin. In the novel, recounting events from various points of view, Martin introduces the plot-lines of the noble houses of Westeros, the Wall, and the Targaryens. The novel has inspired several spin-off works, including several games. It is also the namesake and basis for the first season of the television series *Game of Thrones*.''
 
 
-If you want to get a bit of atmosphere you can go to https://www.youtube.com/watch?v=KPLWWIOCOOQ where you can see a trailer of the series and if you want the music of this series to accompany you throughout the practice you can go to https://www.youtube.com/watch?v=Hf9u3jPvkkI.
+If you want to get a bit of atmosphere, you can see a trailer of the series [here](https://www.youtube.com/watch?v=KPLWWIOCOOQ) and if you want the music of this series to accompany you throughout the practice you can go [here](https://www.youtube.com/watch?v=Hf9u3jPvkkI).
 
 # Bayesian inference for the mean of the number of u's in a page of *A Game of Thrones* 
 
