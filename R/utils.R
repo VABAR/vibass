@@ -8,7 +8,7 @@
 #' on light themes in RStudio.
 #' Borrowed from package \code{tidyverse} (https://github.com/tidyverse/tidyverse/blob/72af810106d7249c905d6b0f5b8b42dc33e6ac21/R/utils.R)
 #'
-#' \param x Character. Text to print.
+#' @param x Character. Text to print.
 #'
 #' @examples
 #' text_col("Hello world")
