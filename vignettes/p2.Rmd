@@ -10,7 +10,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{PRACTICAL 2: Inference with simulated samples}
+  %\VignetteIndexEntry{Practical 2: Inference with simulated samples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
