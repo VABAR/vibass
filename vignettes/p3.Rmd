@@ -38,25 +38,23 @@ If you want to get a bit of atmosphere, you can see a trailer of the series [her
 
 ## The experiment: Number of u's in a page of *A Game of Thrones*
 
- 
- In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, *A Game of Thrones*, and we are interested in learning about the mean number of letters u we can find on a page of this book. We select pages of the book at random and count the number of u's on each page. The random sampling is ``with replacement'' in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data 
- 
- ```{r}
+In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, *A Game of Thrones*, and we are interested in learning about the mean number of letters u we can find on a page of this book. We select pages of the book at random and count the number of u's on each page. The random sampling is ``with replacement'' in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data 
+
+```{r}
 udata <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23, 28, 25, 24, 22, 
 25, 23, 29, 23, 28, 21, 29, 28, 23, 28))
 ```
 
+that we have obtained as a consequence of carrying out an experiment consisting of randomly selecting $n=25$ pages of the book and counting the number of u's in each one of them. 
  
- that we have obtained as a consequence of carrying out an experiment consisting of randomly selecting $n=25$ pages of the book and counting the number of u's in each one of them. 
- 
- We can summarize the results obtained by means of a table of frequencies and its graphical representation 
+We can summarize the results obtained by means of a table of frequencies and its graphical representation 
 
- ```{r}
- table.udata <- table(udata)
- table.udata
+```{r}
+table.udata <- table(udata)
+table.udata
 ```
 
- ```{r, fig.align='center', out.width="70%"}
+```{r, fig.align='center', out.width="70%"}
 barplot(table.udata, col="gray89", xlab="Number of letters u in a page")
 ```
 
@@ -66,7 +64,7 @@ let $Y$ the random variable that describes the number of u's in a page of the no
 
 $$Y \mid \lambda \sim \mbox{Po}(\lambda),$$
  
- whose conditional probability function, expectation and variance is: 
+whose conditional probability function, expectation and variance is: 
 
 - $P(Y=y \mid \lambda)= \frac{\lambda^y\, \mbox{e}^{-\lambda}}{y!}, \,\,y=0,1,\ldots$ 
 - E$(Y\mid \lambda)= \lambda$, 
@@ -153,8 +151,8 @@ prior2 <- dgamma(lambda, 105.8, 4.6)
 lines(lambda, prior2, type="l", lwd=4, col="dodgerblue") 
 ```
 
- Interestingly, the two posterior distributions are quite similar despite the fact that the informative prior distribution is compatible with smaller lambda values than indicated by the data.
- The posterior mean and standard deviation of $\lambda$ according to each posterior distributions is
+Interestingly, the two posterior distributions are quite similar despite the fact that the informative prior distribution is compatible with smaller lambda values than indicated by the data.
+The posterior mean and standard deviation of $\lambda$ according to each posterior distributions is
 \begin{align*}
 \mbox{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(643.5, 25 ), \,\,\mbox{E} (\lambda \mid \mathcal D)=25.74, \,\,\mbox{DT}(\lambda \mid \mathcal D)=1.0147 \mbox{ letters u} \\
 \mbox{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\mbox{Ga}(748.8, 29.6 ), \,\,\mbox{E} (\lambda \mid \mathcal D)=25.30, \,\,\mbox{DT}(\lambda \mid \mathcal D)=0.9245 \mbox{ letters u}
@@ -180,11 +178,12 @@ Remember that the posterior predictive distribution for the result of a new obse
 \begin{align*}
 P(Y_{n+1}&=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \frac{\Gamma(r+\alpha)}{r!}\,\frac{1}{(\beta+1)^{(r+\alpha)}}, \,r=0,1,2,\ldots, \nonumber \\
 \end{align*}
- where E$(Y_{n+1}\mid \mathcal D) = \alpha/\beta$ and Var$(Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))$.
- 
- Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is GaPo(643.5, 25, 1) if we work in the framework of the posterior 1 Ga(643.5, 25) or GaPo(748.8, 29.6, 1) if we work in the framework of the posterior 2 Ga(748.8, 29.6). New we represent both predictive distributions
- 
- ```{r, fig.align='center', out.width="55%"}
+where E$(Y_{n+1}\mid \mathcal D) = \alpha/\beta$ and Var$(Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))$.
+
+Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is $\text{GaPo}(643.5,\, 25, 1)$ if we work in the framework of the posterior 1 or $\text{GaPo}(748.8,\, 29.6, 1)$ if we work in the framework of the posterior 2.
+Now we represent both predictive distributions
+
+```{r, fig.align='center', out.width="55%"}
 library(extraDistr)
 x<-c(10:40)
 pred1<-dgpois(10:40, 643.5, 25)
@@ -194,7 +193,7 @@ pred2<-dgpois(10:40, 748.8, 29.6)
 plot(x,pred2,type="h",xlim=c(10,40),ylim=c(0,0.1),lwd=2,col="purple", ylab="probability", 
       xlab="number of u's in a new page")
 ```
- The graphs of both distributions are visually almost identical. The mean and standard deviation are
+The graphs of both distributions are visually almost identical. The mean and standard deviation are
 
 \begin{align*}
 \mbox{Predictive 1: }& \mbox{GaPo}(643.5, 25, 1 ), \,\, \mbox{E}(Y_{26} \mid \mathcal D)=25.74, \,\,DT(Y_{26} \mid \mathcal{D})=5.17 \mbox{ letters u}\\
