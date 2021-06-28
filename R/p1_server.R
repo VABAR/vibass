@@ -62,9 +62,7 @@ p1_server <- function(input, output, session) {
     theta_values %>%
       mutate(
         prior = dbeta(x, input$a0, input$b0),
-        likelihood = dbinom(input$r, size = 20, prob = x) /
-          # scale it to make it comparable in size
-          integrate(function(x) dbinom(input$r, size = 20, prob = x), 0, 1)$value,
+        likelihood = dbeta(x, 1 + input$r, 1 + 20 - input$r),
         posterior = dbeta(x, input$a0 + input$r, input$b0 + 20 - input$r)
       ) %>%
       pivot_longer(
