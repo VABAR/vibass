@@ -58,7 +58,7 @@ p1_server <- function(input, output, session) {
   })
 
 
-  output$figure <- renderPlot(
+  output$inference <- renderPlot(
     theta_values %>%
       mutate(
         prior = dbeta(x, input$a0, input$b0),

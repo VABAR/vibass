@@ -103,7 +103,7 @@ p1_ui <- function(request) {
     fluidRow(
       column(
         6,
-        plotOutput("figure", height = "300px")
+        plotOutput("inference", height = "300px")
       ),
       column(
         6,
