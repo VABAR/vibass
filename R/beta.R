@@ -1,3 +1,8 @@
+theta_values <- data.frame(
+  x = seq(0.01, .99, length = 101)
+)
+
+
 #' Beta-Binomial quantile function
 #'
 #' @param p numeric vector of values between 0 and 1. Cumulative probabilities.
@@ -45,7 +50,7 @@ mean_beta <- function(a, b) {
   a / (a + b)
 }
 
-#' Mean of a Beta distribution
+#' Standard deviation of a Beta distribution
 #'
 #' @param a alpha
 #' @param b beta

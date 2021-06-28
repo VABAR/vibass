@@ -80,11 +80,6 @@ plot_style <- list(
   )
 )
 
-theta_values <- data.frame(
-  x = seq(0.01, .99, length = 101)
-)
-
-
 
 ## TODO
 ## - Add button "Take snapshot" and plot the curves greyed out in the
