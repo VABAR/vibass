@@ -24,7 +24,12 @@ qbbinom <- function(p, n, a, b) {
     all(p >= 0),
     all(p <= 1)
   )
-  cdf <- pbbinom(0:n, n, a, b)
+  cdf <- if(a > 0) {
+    pbbinom(0:n, n, a, b)
+  } else {
+    # extreme case
+    rep(1, n+1)
+  }
 
   q <- apply(
     vapply(p, '<=', rep(T, length(cdf)), cdf),
