@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -93,7 +93,10 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>According to Wikipedia: ``<em>A Game of Thrones</em> is the first novel in <em>A Song of Ice and Fire</em>, a series of fantasy novels by the American author George R. R. Martin. In the novel, recounting events from various points of view, Martin introduces the plot-lines of the noble houses of Westeros, the Wall, and the Targaryens. The novel has inspired several spin-off works, including several games. It is also the namesake and basis for the first season of the television series <em>Game of Thrones</em>.’’</p>
+<p>According to Wikipedia:</p>
+<blockquote>
+<p><em>A Game of Thrones</em> is the first novel in <em>A Song of Ice and Fire</em>, a series of fantasy novels by the American author George R. R. Martin. In the novel, recounting events from various points of view, Martin introduces the plot-lines of the noble houses of Westeros, the Wall, and the Targaryens. The novel has inspired several spin-off works, including several games. It is also the namesake and basis for the first season of the television series <em>Game of Thrones</em>.</p>
+</blockquote>
 <p>If you want to get a bit of atmosphere, you can see a trailer of the series <a href="https://www.youtube.com/watch?v=KPLWWIOCOOQ">here</a> and if you want the music of this series to accompany you throughout the practice you can go <a href="https://www.youtube.com/watch?v=Hf9u3jPvkkI">here</a>.</p>
 </div>
 <div id="bayesian-inference-for-the-mean-of-the-number-of-us-in-a-page-of-a-game-of-thrones" class="section level1">
@@ -225,18 +228,18 @@ L(\lambda \mid \mathcal D)\propto &amp; \lambda^{643}\mbox{e}^{-25 \lambda}
 <p>Remember that the posterior predictive distribution for the result of a new observation <span class="math inline">\(Y_{n+1}\)</span> is a Gamma-Poisson distribution GaPo<span class="math inline">\((\alpha, \beta, 1)\)</span> with probability distribution <span class="math display">\[\begin{align*}
 P(Y_{n+1}&amp;=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \frac{\Gamma(r+\alpha)}{r!}\,\frac{1}{(\beta+1)^{(r+\alpha)}}, \,r=0,1,2,\ldots, \nonumber \\
 \end{align*}\]</span> where E<span class="math inline">\((Y_{n+1}\mid \mathcal D) = \alpha/\beta\)</span> and Var<span class="math inline">\((Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))\)</span>.</p>
-<p>Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is GaPo(643.5, 25, 1) if we work in the framework of the posterior 1 Ga(643.5, 25) or GaPo(748.8, 29.6, 1) if we work in the framework of the posterior 2 Ga(748.8, 29.6). New we represent both predictive distributions</p>
+<p>Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is <span class="math inline">\(\text{GaPo}(643.5,\, 25, 1)\)</span> if we work in the framework of the posterior 1 or <span class="math inline">\(\text{GaPo}(748.8,\, 29.6, 1)\)</span> if we work in the framework of the posterior 2. Now we represent both predictive distributions</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr">extraDistr</a></span><span class="op">)</span>
 <span class="va">x</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span><span class="op">)</span>
 <span class="va">pred1</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/GammaPoiss.html">dgpois</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">pred1</span>,type<span class="op">=</span><span class="st">"h"</span>,xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="st">"purple"</span>, ylab<span class="op">=</span><span class="st">"probability"</span>, 
-     xlab<span class="op">=</span><span class="st">"number of letters u in a new page"</span><span class="op">)</span></code></pre></div>
+      xlab<span class="op">=</span><span class="st">"number of letters u in a new page"</span><span class="op">)</span></code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-10-1.png" width="55%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pred2</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/GammaPoiss.html">dgpois</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">pred2</span>,type<span class="op">=</span><span class="st">"h"</span>,xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="st">"purple"</span>, ylab<span class="op">=</span><span class="st">"probability"</span>, 
-     xlab<span class="op">=</span><span class="st">"number of u's in a new page"</span><span class="op">)</span></code></pre></div>
+      xlab<span class="op">=</span><span class="st">"number of u's in a new page"</span><span class="op">)</span></code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-10-2.png" width="55%" style="display: block; margin: auto;"> The graphs of both distributions are visually almost identical. The mean and standard deviation are</p>
 <p><span class="math display">\[\begin{align*}
 \mbox{Predictive 1: }&amp; \mbox{GaPo}(643.5, 25, 1 ), \,\, \mbox{E}(Y_{26} \mid \mathcal D)=25.74, \,\,DT(Y_{26} \mid \mathcal{D})=5.17 \mbox{ letters u}\\

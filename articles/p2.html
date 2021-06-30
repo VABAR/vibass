@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@ Probability-scale transformations.
 <code class="sourceCode R"><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span>
 <span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"red"</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>,
-      xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"proportion of red candies "</span>, <span class="va">theta</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"proportion of red candies "</span>, <span class="va">theta</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-1-1.png" width="60%" style="display: block; margin: auto;"></p>
 <p>Let’s obtain the posterior distribution of <span class="math inline">\(\theta\)</span> on the odds scale, <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span> and we will leave the simulation of <span class="math inline">\(\pi(\mbox{log-odds}(\theta) \mid \mathcal D)\)</span> as individual work at the end of the practice.</p>
 <div id="computation-of-pimboxoddstheta-mid-mathcal-d" class="section level2">
@@ -150,7 +150,7 @@ Probability-scale transformations.
   mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">oddstheta.r</span><span class="op">)</span>,
   var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">oddstheta.r</span><span class="op">)</span>,
   quant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">oddstheta.r</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>,
-  ic95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">oddstheta.r</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>,  <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span>,
+  ic95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">oddstheta.r</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span>,
   prop1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">oddstheta.r</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span>,
   label <span class="op">=</span> <span class="st">"$\\text{odds}(\\theta)$"</span>
 <span class="op">)</span></code></pre></div>
@@ -186,7 +186,7 @@ Probability-scale transformations.
 </tr>
 <tr class="odd">
 <td align="left">IC95</td>
-<td align="left">(0.08, 0.7)</td>
+<td align="left">(0.08, 0.68)</td>
 </tr>
 <tr class="even">
 <td align="left">Prop&gt;1</td>
@@ -220,7 +220,7 @@ Probability-scale transformations.
 <span class="va">posterior.blue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">14.5</span>, <span class="fl">36.5</span><span class="op">)</span>
 <span class="va">posterior.red</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior.blue</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"dodgerblue1"</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">7</span><span class="op">)</span>,
-      xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"proportion of blue and red candies "</span>,   <span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span> 
+     xlab<span class="op">=</span><span class="st">"proportion of blue and red candies"</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span> 
 <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior.red</span>, col<span class="op">=</span><span class="st">"red"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">2.7</span><span class="op">)</span></code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;"></p>
 
@@ -243,14 +243,14 @@ Probability-scale transformations.
 <span class="va">theta.b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">rbeta</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">14.5</span>, <span class="fl">36.5</span><span class="op">)</span>
 <span class="va">theta.dif</span> <span class="op">&lt;-</span> <span class="va">theta.b</span><span class="op">-</span> <span class="va">theta.r</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">theta.dif</span>, breaks <span class="op">=</span> <span class="fl">70</span>, freq<span class="op">=</span><span class="cn">FALSE</span>, col<span class="op">=</span><span class="st">"gray98"</span>, main<span class="op">=</span><span class="st">""</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="op">+</span><span class="fl">0.5</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, 
-     xlab<span class="op">=</span><span class="st">"proportion  blue - proportion red"</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span></code></pre></div>
+     xlab<span class="op">=</span><span class="st">"proportion blue - proportion red"</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span></code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/summary_table.html">summary_table</a></span><span class="op">(</span>
   mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">theta.dif</span><span class="op">)</span>,
   var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">theta.dif</span><span class="op">)</span>,
   quant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">theta.dif</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>,
-  ic95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">theta.dif</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>,  <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span>,
+  ic95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">theta.dif</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span>,
   prop0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">theta.dif</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>,
   label <span class="op">=</span> <span class="st">"$\\theta_b - \\theta_r$"</span>
 <span class="op">)</span></code></pre></div>
@@ -274,7 +274,7 @@ Probability-scale transformations.
 </tr>
 <tr class="even">
 <td align="left">Q05</td>
-<td align="left">-0.12</td>
+<td align="left">-0.11</td>
 </tr>
 <tr class="odd">
 <td align="left">Q50</td>
@@ -290,7 +290,7 @@ Probability-scale transformations.
 </tr>
 <tr class="even">
 <td align="left">Prop&gt;0</td>
-<td align="left">74.5%</td>
+<td align="left">74.8%</td>
 </tr>
 </tbody>
 </table>
