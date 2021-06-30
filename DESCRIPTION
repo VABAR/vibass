@@ -3,9 +3,11 @@ Package: vibass
 Title: Valencia International Bayesian Summer School
 Version: 0.0.4
 Authors@R: 
-    c(person(given = "Facundo",
+    c(person(given = "VIBASS4",
+             role = c("aut")),
+      person(given = "Facundo",
              family = "Muñoz",
-             role = c("aut", "cre"),
+             role = c("ctb", "cre"),
              email = "facundo.munoz@cirad.fr",
              comment = c("Cirad, Package developer", ORCID = "0000-0002-5061-4241")),
       person(given = "Carmen",
