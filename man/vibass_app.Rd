@@ -7,7 +7,7 @@
 vibass_app(x = 1, bg = FALSE)
 }
 \arguments{
-\item{x}{integer or character interpretable as integer. 1-2. Practical id.}
+\item{x}{integer or character interpretable as integer. 1--3. Practical id.}
 }
 \description{
 Launches the Shiny interactive applications for the practicals.
