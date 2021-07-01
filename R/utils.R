@@ -11,9 +11,9 @@
 #' @param x Character. Text to print.
 #'
 #' @examples
-#' text_col("Hello world")
+#' vibass:::text_col("Hello world")
 #' message("Hello world")
-#' message(text_col("Hello world"))
+#' message(vibass:::text_col("Hello world"))
 text_col <- function(x) {
   # If RStudio not available, messages already printed in black
   if (!rstudioapi::isAvailable()) {

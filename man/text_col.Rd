@@ -20,7 +20,7 @@ on light themes in RStudio.
 Borrowed from package \code{tidyverse} (https://github.com/tidyverse/tidyverse/blob/72af810106d7249c905d6b0f5b8b42dc33e6ac21/R/utils.R)
 }
 \examples{
-text_col("Hello world")
+vibass:::text_col("Hello world")
 message("Hello world")
-message(text_col("Hello world"))
+message(vibass:::text_col("Hello world"))
 }
