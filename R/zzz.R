@@ -17,7 +17,7 @@ print_welcome <- function() {
 
   message(
     "Training materials for the introductory ",
-    "course on Bayesian inference, at the València ",
+    "course on Bayesian inference, at the Val\u00e8ncia ",
     "International Bayesian Summer School."
   )
 
