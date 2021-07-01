@@ -46,8 +46,6 @@ summary_table <- function(
     gsub("100%", "Max.", names(quant))[quantiles == 100]
   )
 
-  prettyNum(quantiles[!idx_100], digits = 2, zero.print = "0", replace.zero = TRUE)
-
   c(
     round( c(mean, var, sqrt(var), quant), digits),
     if(!is.null(ic95)) {paste0("(", paste(round(ic95, digits), collapse = ", "), ")")},
