@@ -30,7 +30,7 @@ pacman::p_load(
 
 # How tall the VIBASS' students are?
 
-One of the most commonly used examples of normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS students of the past editions. We start first with the height of the women. 
+One of the most commonly used examples of Normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS students of the past editions. We start first with the height of the women. 
 
 ```{r fig.cap = cap, echo = FALSE, fig.align='center'}
 cap <- "Some VIBASS students."
@@ -38,7 +38,7 @@ include_graphics("vibass_participants.jpg")
 ```
 
 
-# Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling normal model is known.
+# Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling Normal model is known.
 
 
 ## The data
@@ -69,11 +69,14 @@ hist(hwomen$height,
 )
 ```
 
-The histogram obtained does not remind us much of the normal distribution. But we know that when we work with small amounts of data, even if they are normal, we cannot expect their histogram to look like a symmetrical bell. In fact, if we were to generate small normal data samples, few of them would resemble the Gaussian ideal. 
+The histogram obtained does not remind us much of the Normal distribution.
+But we know that when we work with small amounts of data, even if they are Normal, we cannot expect their histogram to look like a symmetrical bell.
+In fact, if we were to generate small Normal data samples, few of them would resemble the Gaussian ideal. 
 
-## The sampling model is approximately normal
+## The sampling model is approximately Normal
 
-Let $Y$ the random variable that describes the height of the women in VIBASS. We assume that given $\mu$, the mean of the height of the VIBASS women, the distribution of $Y$ is normal with mean $\mu$ and standard deviation $\sigma= 0.1$ 
+Let $Y$ be the random variable that describes the height of the women in VIBASS.
+We assume that given the mean of the height of the VIBASS women $\mu$, the distribution of $Y$ is Normal with mean $\mu$ and standard deviation $\sigma= 0.1$ 
 
 $$Y \mid \mu \sim \mbox{N}(\mu, \sigma=0.1),$$
 whose conditional density function, expectation and variance is: 
@@ -87,8 +90,8 @@ whose conditional density function, expectation and variance is:
 
 ## A prior distribution for $\mu$
 
-Recall that the normal distribution is conjugate with respect to the Normal probability model with $\sigma$ known. If we elicit
-a normal prior distribution N$(\mu_0, \sigma_0)$ for $\mu$, its density is 
+Recall that the Normal distribution is conjugate with respect to the Normal probability model with $\sigma$ known. If we elicit
+a Normal prior distribution N$(\mu_0, \sigma_0)$ for $\mu$, its density is 
 
 $$\pi(\mu)=\frac{1}{\sigma_0 \,\sqrt{2 \pi}}\, \mbox{e}^{\, \frac{-1}{2\sigma_{0}^2}\,(\mu-\mu_0)^2 }$$
 
@@ -151,7 +154,7 @@ plot(aux, C*aux2, type = "l", main = " ", lwd=4, col="darkorange",
 
 ## The posterior distribution of $\mu$
 
-The posterior distribution of $\mu$ is a normal distribution with parameters
+The posterior distribution of $\mu$ is a Normal distribution with parameters
 
 \begin{align*}
  \pi(\mu \mid & \mathcal{D})= \mbox{N}(\mu_n, \sigma_n), \, \mbox{ where}\\
@@ -187,7 +190,7 @@ Consequently, a 99$\%$ credible interval for $\mu$ is $(1,60, \,1.73)$ which mea
 
 ## The posterior predictive distribution for the height of a new VIBASS student
 
-We are interested in predicting the height of Anin\`e, a new woman VIBASS student who has not participed in the sample of the inferential process. In this case, the posterior predictive distribution for the Anin\`e's height $Y_{16}$ is a normal distribution \vspace*{0.2cm}
+We are interested in predicting the height of Anin\`e, a new woman VIBASS student who has not participed in the sample of the inferential process. In this case, the posterior predictive distribution for the Anin\`e's height $Y_{16}$ is a Normal distribution \vspace*{0.2cm}
 
 $$\mbox{N}(\mu_n=1.6642, \sqrt(\sigma_n^2+\sigma^2)=\sqrt(0.000587+0.01)=0.1029)$$
 It is important to note that the mean of this predictive distribution coincides with the mean of the posterior distribution of $\mu$. However, the enormous variability of the predictive distribution, which depends on the variability of the sampling model and the variability of the a posteriori distribution, is very striking. The following graph shows the posterior distribution (in green) of $\mu$ and the posterior predictive distribution (in purple) for the Anin\`e's height and makes the previous comments very well visible. \vspace*{0.2cm}
@@ -210,16 +213,16 @@ qnorm(c(0.025, 0.975), 1.6642, 0.1029)
 This indicates that the probability that Anin\`e's height is between 1.46 and 1.87 metres is 0.95. 
 
 
-# Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling normal model is unknown.
+# Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling Normal model is unknown.
 
 
-If we follow the same scheme as in the previous case where the variance was known, we would have a first section dedicated to the data which would be the same. The sampling model is also approximately normal but now we will work with a normal with unknown mean and variance. 
+If we follow the same scheme as in the previous case where the variance was known, we would have a first section dedicated to the data which would be the same. The sampling model is also approximately Normal but now we will work with a Normal with unknown mean and variance. 
 
 
 
-## The sampling model is approximately normal
+## The sampling model is approximately Normal
 
-Let $Y$ the random variable that describes the height of the women in VIBASS. We assume that given $\mu$, the mean of the height of the VIBASS women, the distribution of $Y$ is normal with unknown mean $\mu$ and unknown standard deviation $\sigma$ 
+Let $Y$ the random variable that describes the height of the women in VIBASS. We assume that given $\mu$, the mean of the height of the VIBASS women, the distribution of $Y$ is Normal with unknown mean $\mu$ and unknown standard deviation $\sigma$ 
 
 $$Y \mid \mu \sim \mbox{N}(\mu, \sigma),$$
 whose conditional density function, expectation and variance is: 
@@ -346,7 +349,7 @@ data <- data.frame(height = c(1.92, 1.82, 1.69, 1.75, 1.72, 1.71, 1.73, 1.69, 1.
 1.88, 1.82, 1.86, 1.65))
 ```
 
-1. Construct a Bayesian inferential process for the mean of the height of the VIBASS men participants. Assume a non-informative prior scenario and a sampling model approximately normal with 
+1. Construct a Bayesian inferential process for the mean of the height of the VIBASS men participants. Assume a non-informative prior scenario and a sampling model approximately Normal with 
 1.1 Known variance $\sigma^2=0.1$. 
 1.2 Unknown variance. 
 2. Compare the mean of the height between men and women. It is possible to compute the posterior probability associated to ? and to $\mu_{men}-\mu_{woman}$? $\mu_{men}/\mu_{woman}$?
