@@ -5,34 +5,63 @@
 #' The table includes the mean, variance and standard deviation, a vector of 3
 #' quantiles at 0.05, 0.50 and 0.95, a 95% centred confidence interval and a
 #' numeric value to be interpreted as a proportion above 0 and 1. All values are
-#' rounded to 2 significant digits.
+#' rounded to the specified number of decimal places.
 #'
 #' @param mean Real.
 #' @param var Real.
-#' @param quant Numeric vector.
+#' @param quant Named numeric vector. Names must be of the form "xx%" with
+#'   numeric xx. As from the output of the function \code{quantile}.
 #' @param ic95 Numeric vector.
 #' @param prop0 Real.
 #' @param prop1 Real.
-#' @param label Character. Name of the summarised variable .
+#' @param label Character. Name of the summarised variable.
+#' @param digits Integer. Number of decimal places to be used.
 #'
 #' @return
+#' @importFrom knitr kable
+#' @importFrom tibble rownames_to_column
 #' @export
 #'
 #' @examples
-#' summary_table(mean = 1, var = 1, quant = 1:3, ic95 = 4:5, prop1 = .6, label = "test")
-summary_table <- function(mean, var, quant, ic95, prop0 = NULL, prop1 = NULL, label) {
-c(1, 2, if(!is.null(NULL)) {paste(round(100*NULL, 2), "%")}, 3)
+#' summary_table(mean = 1, var = 1, quant = quantile(1:10, 0:4/4), ic95 = 4:5,
+#' prop1 = .6, label = "test")
+summary_table <- function(
+  mean,
+  var,
+  quant,
+  ic95 = NULL,
+  prop0 = NULL,
+  prop1 = NULL,
+  label,
+  digits = 2
+) {
+
+  quantiles <- as.numeric(gsub("%", "", names(quant)))
+
+  extremes <- quantiles %in% c(0, 100)
+
+  quantile_names <- c(
+    gsub("0%", "Min.", names(quant))[quantiles == 0],
+    paste0("Q", formatC(quantiles[!extremes], width = 2, flag = "0")),
+    gsub("100%", "Max.", names(quant))[quantiles == 100]
+  )
+
+  prettyNum(quantiles[!idx_100], digits = 2, zero.print = "0", replace.zero = TRUE)
 
   c(
-    round( c(mean, var, sqrt(var), quant), 2),
-    paste0("(", paste(round(ic95, 2), collapse = ", "), ")"),
+    round( c(mean, var, sqrt(var), quant), digits),
+    if(!is.null(ic95)) {paste0("(", paste(round(ic95, digits), collapse = ", "), ")")},
     if(!is.null(prop0)) {paste0(round(100*prop0, 1), "%")},
     if(!is.null(prop1)) {paste0(round(100*prop1, 1), "%")}
   ) |>
     setNames(
-      c("Mean", "Var", "S.Dev", "Q05", "Q50", "Q95", "IC95",
+      c(
+        "Mean", "Var", "S.Dev",
+        quantile_names,
+        if(!is.null(ic95)) {"IC95"},
         if(!is.null(prop0)) {"Prop>0"},
-        if(!is.null(prop1)) {"Prop>1"})
+        if(!is.null(prop1)) {"Prop>1"}
+      )
     ) |>
     # as.list() |>
     data.frame() |>

@@ -4,14 +4,24 @@
 \alias{summary_table}
 \title{Print a standardised summary table}
 \usage{
-summary_table(mean, var, quant, ic95, prop0 = NULL, prop1 = NULL, label)
+summary_table(
+  mean,
+  var,
+  quant,
+  ic95 = NULL,
+  prop0 = NULL,
+  prop1 = NULL,
+  label,
+  digits = 2
+)
 }
 \arguments{
 \item{mean}{Real.}
 
 \item{var}{Real.}
 
-\item{quant}{Numeric vector.}
+\item{quant}{Named numeric vector. Names must be of the form "xx%" with
+numeric xx. As from the output of the function \code{quantile}.}
 
 \item{ic95}{Numeric vector.}
 
@@ -19,7 +29,9 @@ summary_table(mean, var, quant, ic95, prop0 = NULL, prop1 = NULL, label)
 
 \item{prop1}{Real.}
 
-\item{label}{Character. Name of the summarised variable .}
+\item{label}{Character. Name of the summarised variable.}
+
+\item{digits}{Integer. Number of decimal places to be used.}
 }
 \value{
 
@@ -31,8 +43,9 @@ Make a table of several summary statistics with proper formatting.
 The table includes the mean, variance and standard deviation, a vector of 3
 quantiles at 0.05, 0.50 and 0.95, a 95% centred confidence interval and a
 numeric value to be interpreted as a proportion above 0 and 1. All values are
-rounded to 2 significant digits.
+rounded to the specified number of decimal places.
 }
 \examples{
-summary_table(mean = 1, var = 1, quant = 1:3, ic95 = 4:5, prop1 = .6, label = "test")
+summary_table(mean = 1, var = 1, quant = quantile(1:10, 0:4/4), ic95 = 4:5,
+prop1 = .6, label = "test")
 }
