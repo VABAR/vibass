@@ -78,7 +78,7 @@ In fact, if we were to generate small Normal data samples, few of them would res
 Let $Y$ be the random variable that describes the height of the women in VIBASS.
 We assume that given the mean of the height of the VIBASS women $\mu$, the distribution of $Y$ is Normal with mean $\mu$ and standard deviation $\sigma= 0.1$ 
 
-$$Y \mid \mu \sim \mbox{N}(\mu, \sigma=0.1),$$
+$$Y \mid \mu \sim \mbox{N}(\mu,\, \sigma=0.1),$$
 whose conditional density function, expectation and variance is: 
 
 - $f(y \mid \mu )= \frac{1}{0.1 \,\sqrt{2 \pi}}\, \mbox{e}^{\big\{ \frac{-1}{2 \,\cdot \, 0.01^2}\,(y-\mu)^2\big\}}$
@@ -224,7 +224,7 @@ If we follow the same scheme as in the previous case where the variance was know
 
 Let $Y$ the random variable that describes the height of the women in VIBASS. We assume that given $\mu$, the mean of the height of the VIBASS women, the distribution of $Y$ is Normal with unknown mean $\mu$ and unknown standard deviation $\sigma$ 
 
-$$Y \mid \mu \sim \mbox{N}(\mu, \sigma),$$
+$$Y \mid \mu \sim \mbox{N}(\mu,\, \sigma),$$
 whose conditional density function, expectation and variance is: 
 
 - $f(y \mid \mu )= \frac{1}{0.1 \,\sqrt{2 \pi}}\, \mbox{e}^{\big\{ \frac{-1}{2 \,\cdot \, 0.01^2}\,(y-\mu)^2\big\}}$
@@ -233,28 +233,28 @@ whose conditional density function, expectation and variance is:
 
 
 
-## A prior distribution for $(\mu, \sigma)$
+## A prior distribution for $(\mu,\, \sigma)$
 
-Our basic quantity of interest is bidimensional $(\mu, \sigma^2)$. We work in a non-informative prior scenario and use the improper Jefreys's prior distribution 
+Our basic quantity of interest is bidimensional $(\mu,\, \sigma^2)$. We work in a non-informative prior scenario and use the improper Jefreys's prior distribution 
 
-$$\pi(\mu, \sigma^2) \propto \mbox{constant}$$
+$$\pi(\mu,\, \sigma^2) \propto \mbox{constant}$$
 
 
 
-## The likelihood function of $(\mu, \sigma^2)$
+## The likelihood function of $(\mu,\, \sigma^2)$
 
-The likelihood is a function of $(\mu, \sigma^2)$ for the data $\mathcal D=\{y_1, y_2,\ldots, y_{15} \}$. It is defined as follows
+The likelihood is a function of $(\mu,\, \sigma^2)$ for the data $\mathcal D=\{y_1, y_2,\ldots, y_{15} \}$. It is defined as follows
 
 \begin{align*}
-L(\mu, \sigma^2 \mid \mathcal D)=& f(y_1, y_2, \ldots, y_{15} \mid \mu, \sigma^2) =
- \prod_{i=1}^{15}\, f(y_i \mid \mu, \sigma^2) =
+L(\mu,\, \sigma^2 \mid \mathcal D)=& f(y_1, y_2, \ldots, y_{15} \mid \mu,\, \sigma^2) =
+ \prod_{i=1}^{15}\, f(y_i \mid \mu,\, \sigma^2) =
  \prod_{i=1}^{15}\, \frac{1}{\sigma \,\sqrt{2 \pi}}\, \mbox{exp}\Big\{\, \frac{-1}{2\sigma^2}\,(y_i-\mu)^2\Big\} \\
 = & \, \frac{1}{(\sigma\,\sqrt{2 \pi})^{15}}\,\,\mbox{exp}\Big\{\, \frac{-1}{2\sigma^2}\,\sum_{i=1}^{15}\,(y_i-\mu)^2\Big \} \\
  = &\,\frac{1}{(\sigma\,\sqrt{2 \pi})^{15}}\,\,\mbox{exp}\Big\{\, \frac{-1}{2  \sigma^2}\,(\sum_{i=1}^{15} y_i^{2} - 2 \cdot 15 \, \bar{y} \, \mu + 15 \mu^2)\Big \},
 \end{align*}
 
 
-where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\mu$ evaluated in $\mathcal D$. Since $Y_i$'s are independent given $\mu$ and $\sigma^2$, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of $(\mu, \sigma^2)$ will be
+where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\mu$ evaluated in $\mathcal D$. Since $Y_i$'s are independent given $\mu$ and $\sigma^2$, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of $(\mu,\, \sigma^2)$ will be
 
 
 
@@ -278,12 +278,12 @@ persp3D(x=x, y=y, z=Z, theta=120, phi=10, ticktype="detailed", colkey = FALSE,
         xlab='mu', ylab='sigma2', zlab='', axes=TRUE)
 ```
 
-## The posterior distribution of $(\mu, \sigma^2)$
+## The posterior distribution of $(\mu,\, \sigma^2)$
 
-The posterior distribution of $(\mu, \sigma^2)$ is a bivariant probability distribution whose joint posterior density function can be expressed in terms of the conditional posterior distribution of $\mu$ given $\sigma^2$ and the marginal posterior distribution of $\sigma^2$ as follows
+The posterior distribution of $(\mu,\, \sigma^2)$ is a bivariant probability distribution whose joint posterior density function can be expressed in terms of the conditional posterior distribution of $\mu$ given $\sigma^2$ and the marginal posterior distribution of $\sigma^2$ as follows
 
 \begin{align*}
- \pi(\mu, \sigma^2 \mid & \mathcal{D})= \pi(\mu \mid \sigma^2, \mathcal{D}) \, \pi(\sigma^2 \mid \mathcal{D}),
+ \pi(\mu,\, \sigma^2 \mid & \mathcal{D})= \pi(\mu \mid \sigma^2, \mathcal{D}) \, \pi(\sigma^2 \mid \mathcal{D}),
 \end{align*}
 
 where
