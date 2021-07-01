@@ -51,7 +51,7 @@ According to Wikipedia:
  
 ```{r fig.cap = cap, echo = FALSE, fig.align='center'}
 cap <- "A pile of peanut M&M's candies. Photo by Victor Roda."
-include_graphics("mm_photo.png")
+include_graphics("mm_photo.jpg")
 ```
 
 
