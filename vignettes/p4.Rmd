@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+pacman::p_load(
+  knitr
+)
+
 ```
 
 
@@ -42,22 +46,27 @@ include_graphics("vibass_participants.jpg")
 We have the following height data, in metres, for a random sample of $n=15$ women students from previous editions of VIBASS.
 
 ```{r, eval=TRUE}
-hwomen<- data.frame(height= c(1.73, 1.65, 1.65, 1.76, 1.65, 1.63, 1.70, 1.58, 1.57, 1.65, 
-1.74, 1.68, 1.67, 1.58, 1.66))
+hwomen <- data.frame(height = c(1.73, 1.65, 1.65, 1.76, 1.65, 1.63, 1.70, 1.58, 1.57, 1.65, 1.74, 1.68, 1.67, 1.58, 1.66))
 ```
 
 We can summarize the data and represent them by means of a histogram.
 
-```{r}
-hsummary <-summary(hwomen)
-hsummary
-sd(hwomen$height)
-sd(hwomen$height)^2
+
+```{r summary-table-women-height}
+summary_table(
+  mean = mean(hwomen$height),
+  var = var(hwomen$height),
+  quant = quantile(hwomen$height, probs = c(0, 0.25, 0.5, 0.75, 1)),
+  label = "Women height",
+  digits = 3
+)
 ```
 
 ```{r, fig.align='center', out.width="65%"}
-hist(hwomen$height, col="gray89", main=" ", xlab="Height in metres", xlim=c(1.50, 1.85), 
-     freq = NULL) 
+hist(hwomen$height,
+     main = NULL, xlab="Height in metres",
+     col="gray89", xlim=c(1.50, 1.85)
+)
 ```
 
 The histogram obtained does not remind us much of the normal distribution. But we know that when we work with small amounts of data, even if they are normal, we cannot expect their histogram to look like a symmetrical bell. In fact, if we were to generate small normal data samples, few of them would resemble the Gaussian ideal. 
