@@ -6,7 +6,7 @@
 #'
 #' @import shiny
 #' @export
-vibass_app <- function (x = 1, bg = FALSE) {
+vibass_app <- function (x = 1) {
 
   app <- shinyApp(
     ui = eval(parse(text = paste0("p", x, "_ui"))),
@@ -19,17 +19,5 @@ vibass_app <- function (x = 1, bg = FALSE) {
   )
 
   app
-
-  # path <- paste0("\"apps/p", x, "\"")
-  # code_launch <- paste0(
-  #   "shiny::runApp(system.file(",
-  #   path, ", package = \"vibass\"), launch.browser = TRUE)"
-  # )
-  #
-  # if (bg) {
-  #   system(paste0("Rscript -e '", "vibass::vibass_app(x)", "' &"))
-  # } else {
-  #   eval(parse(text = code_launch))
-  # }
 }
 
