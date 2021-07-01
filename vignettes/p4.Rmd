@@ -28,11 +28,11 @@ knitr::opts_chunk$set(
 
 One of the most commonly used examples of normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS students of the past editions. We start first with the height of the women. 
 
-<center>
+```{r fig.cap = cap, echo = FALSE, fig.align='center'}
+cap <- "Some VIBASS students."
+include_graphics("vibass_participants.jpg")
+```
 
-![Some VIBASS students.](foto_VIBASS.pdf){width=60%}
-
-</center>
 
 # Bayesian inference for the  mean height of the women VIBASS students. The variance of the sampling normal model is known.
 
