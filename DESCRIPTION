@@ -59,6 +59,7 @@ Suggests:
     hrbrthemes,
     magick,
     pacman,
+    plotly,
     png,
     rmarkdown,
     waffle
