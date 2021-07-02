@@ -4,7 +4,7 @@
 \alias{vibass_app}
 \title{VIBASS interactive apps.}
 \usage{
-vibass_app(x = 1, bg = FALSE)
+vibass_app(x = 1)
 }
 \arguments{
 \item{x}{integer or character interpretable as integer. 1--3. Practical id.}
