@@ -434,15 +434,15 @@ Posterior (green) distribution for the mean height.
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
-<span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="co">#&gt; 0.0009268 0.0026735 0.0034187 0.0038147 0.0044859 0.0289642</span>
+<span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
+<span class="co">#&gt; 0.001008 0.002663 0.003426 0.003800 0.004474 0.029886</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.977022e-06</span>
+<span class="co">#&gt; [1] 2.885701e-06</span>
 <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.001725405</span>
+<span class="co">#&gt; [1] 0.001698735</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;        0.5%       99.5% </span>
-<span class="co">#&gt; 0.001445536 0.011411755</span></code></pre></div>
+<span class="co">#&gt; 0.001471461 0.011277074</span></code></pre></div>
 <p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid \mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
 </div>
 </div>
@@ -455,10 +455,14 @@ Posterior (green) distribution for the mean height.
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hmen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.92</span>, <span class="fl">1.82</span>, <span class="fl">1.69</span>, <span class="fl">1.75</span>, <span class="fl">1.72</span>, <span class="fl">1.71</span>, <span class="fl">1.73</span>, <span class="fl">1.69</span>, <span class="fl">1.70</span>, <span class="fl">1.78</span>, <span class="fl">1.88</span>, <span class="fl">1.82</span>, <span class="fl">1.86</span>, <span class="fl">1.65</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <ol style="list-style-type: decimal">
-<li><p>Construct a Bayesian inferential process for the mean of the height of the VIBASS men participants. Assume a non-informative prior scenario and a sampling model approximately Normal with</p></li>
+<li>
+<p>Construct a Bayesian inferential process for the mean of the height of the VIBASS men participants. Assume a non-informative prior scenario and a sampling model approximately Normal with</p>
+<ul>
 <li><p>Known variance <span class="math inline">\(\sigma^2=0.1\)</span>.</p></li>
 <li><p>Unknown variance.</p></li>
-<li><p>Compare the mean of the height between men and women. It is possible to compute the posterior probability associated to ? and to <span class="math inline">\(\mu_\text{m}-\mu_\text{w}\)</span>? <span class="math inline">\(\mu_\text{m}/\mu_\text{w}\)</span>?</p></li>
+</ul>
+</li>
+<li><p>Compare the mean of the height between men and women. Is it possible to compute the posterior probability associated to <span class="math inline">\(\mu_\text{m}-\mu_\text{w}\)</span>? and to <span class="math inline">\(\mu_\text{m}/\mu_\text{w}\)</span>?</p></li>
 </ol>
 </div>
   </div>
