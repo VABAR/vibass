@@ -300,6 +300,10 @@ where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\
 
 
 ```{r likelihood-3d, fig.cap = cap, echo = FALSE}
+## Note: plotly breaks LaTeX rendering in rmarkdown
+## Need to enclose output in a iframe. 
+## https://github.com/ropensci/plotly/blob/master/inst/examples/rmd/MathJax/index.Rmd
+
 cap <- "Bi-variate likelihood function"
 
 lik_norm <- function(m, s) {
@@ -315,7 +319,7 @@ surf_lik <- expand.grid(
 )
 surf_lik$z <- mapply(lik_norm, surf_lik$mu, surf_lik$s)
 
-plot_ly() |> 
+p <- plot_ly() |> 
   add_surface(
     x = ~ mu_vals,
     y = ~ s_vals,
@@ -324,14 +328,18 @@ plot_ly() |>
   ) |> 
   layout(
     scene = list(
-      xaxis = list(title = list(text = "μ")),
-      yaxis = list(title = list(text = "σ²")),
+      xaxis = list(title = "mu"),
+      yaxis = list(title = "s2"),
       zaxis = list(visible = FALSE)
     )
   )
 
+htmlwidgets::saveWidget(p, "like_surf.html")
+
 ```
 
+
+<iframe src="like_surf.html" width="100%" height="400" id="igraph" scrolling="no" seamless="seamless" frameBorder="0"> </iframe>
 
 
 ## The posterior distribution of $(\mu,\, \sigma^2)$
