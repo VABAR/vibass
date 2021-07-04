@@ -57,6 +57,7 @@ Imports:
 Suggests: 
     cowplot,
     hrbrthemes,
+    htmlwidgets,
     magick,
     pacman,
     plotly,
