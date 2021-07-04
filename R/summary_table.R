@@ -17,7 +17,7 @@
 #' @param label Character. Name of the summarised variable.
 #' @param digits Integer. Number of decimal places to be used.
 #'
-#' @return
+#' @return A knitr_kable object.
 #' @importFrom knitr kable
 #' @importFrom tibble rownames_to_column
 #' @export

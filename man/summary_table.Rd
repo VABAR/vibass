@@ -34,7 +34,7 @@ numeric xx. As from the output of the function \code{quantile}.}
 \item{digits}{Integer. Number of decimal places to be used.}
 }
 \value{
-
+A knitr_kable object.
 }
 \description{
 Make a table of several summary statistics with proper formatting.
