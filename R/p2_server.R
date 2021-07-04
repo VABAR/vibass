@@ -3,6 +3,8 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import colorspace ggplot2 dplyr tibble tidyr
+#' @importFrom stats rbeta dbeta
+#' @importFrom rlang .data
 #' @noRd
 p2_server <- function(input, output, session) {
 
@@ -26,9 +28,9 @@ p2_server <- function(input, output, session) {
     color = "red",
     theta = rbeta(N_samples, 4.5, 16.5)
   ) %>%
-    transform(
-      odds = theta/(1-theta),
-      logodds = log(theta/(1-theta))
+    mutate(
+      odds = .data$theta / (1 - .data$theta),
+      logodds = log(.data$theta / (1 - .data$theta))
     )
 
   output$transformation_functions <- renderPlot(
@@ -63,15 +65,15 @@ p2_server <- function(input, output, session) {
         names_prefix = "posterior_",
         values_to = "y"
       ) %>%
-      ggplot(aes(x, y)) +
+      ggplot(aes(.data$x, .data$y)) +
       geom_line(
-        aes(colour = curve),
+        aes(colour = .data$curve),
         lwd = 1,
         show.legend = FALSE
       ) +
       plot_style +
       scale_colour_manual(values = mm_cols) +
-      labs(x = expression(theta), y = NULL, color = NULL)
+      labs(x = expression(.data$theta), y = NULL, color = NULL)
   )
 
   output$theta_b_dist <- renderUI({
@@ -88,7 +90,7 @@ p2_server <- function(input, output, session) {
 
   # Histograms --------------------------------------------------------------
   output$hist_theta <- renderPlot(
-    ggplot(samples(), aes(theta, fill = color)) +
+    ggplot(samples(), aes(.data$theta, fill = .data$color)) +
       geom_histogram(bins = 16, show.legend = FALSE) +
       scale_fill_manual(values = mm_cols) +
       plot_style +
@@ -97,7 +99,7 @@ p2_server <- function(input, output, session) {
   )
 
   output$hist_odds <- renderPlot(
-    ggplot(samples(), aes(odds, fill = color)) +
+    ggplot(samples(), aes(odds, fill = .data$color)) +
       geom_histogram(bins = 16, show.legend = FALSE) +
       scale_fill_manual(values = mm_cols) +
       plot_style +
@@ -106,7 +108,7 @@ p2_server <- function(input, output, session) {
   )
 
   output$hist_logodds <- renderPlot(
-    ggplot(samples(), aes(logodds, fill = color)) +
+    ggplot(samples(), aes(.data$logodds, fill = .data$color)) +
       geom_histogram(bins = 16, show.legend = FALSE) +
       scale_fill_manual(values = mm_cols) +
       plot_style +
@@ -120,14 +122,14 @@ p2_server <- function(input, output, session) {
 
   output$contrast_diff <- renderPlot(
     samples() %>%
-      group_by(color) %>%
+      group_by(.data$color) %>%
       mutate(id = row_number()) %>%
       pivot_wider(
         id_cols = "id",
         names_from = "color",
         values_from = "theta"
       ) %>%
-      mutate(x = blue - red) %>%
+      mutate(x = blue - .data$red) %>%
       ggplot(aes(x)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +
@@ -138,14 +140,14 @@ p2_server <- function(input, output, session) {
 
   output$contrast_ratio <- renderPlot(
     samples() %>%
-      group_by(color) %>%
+      group_by(.data$color) %>%
       mutate(id = row_number()) %>%
       pivot_wider(
         id_cols = "id",
         names_from = "color",
         values_from = "theta"
       ) %>%
-      mutate(x = blue / red) %>%
+      mutate(x = .data$blue / .data$red) %>%
       ggplot(aes(x)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 1, colour = "darkgrey") +
@@ -156,14 +158,14 @@ p2_server <- function(input, output, session) {
 
   output$contrast_logratio <- renderPlot(
     samples() %>%
-      group_by(color) %>%
+      group_by(.data$color) %>%
       mutate(id = row_number()) %>%
       pivot_wider(
         id_cols = "id",
         names_from = "color",
         values_from = "theta"
       ) %>%
-      mutate(x = log(blue / red)) %>%
+      mutate(x = log(.data$blue / .data$red)) %>%
       ggplot(aes(x)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +

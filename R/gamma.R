@@ -1,3 +1,4 @@
+#' @importFrom stats qgamma
 lambda_values <- function(a, b) {
   l_range <- qgamma(c(.0005, .999), a, b)
 
@@ -15,6 +16,8 @@ lambda_values <- function(a, b) {
 #'
 #' @return numeric vector of quantiles between 0 and n.
 #' @importFrom extraDistr pgpois
+#' @importFrom stats qlogis plogis qpois
+#' @importFrom utils head
 #'
 #' @examples
 #' p <- c(0, .2, .5, .9)

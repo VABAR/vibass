@@ -16,7 +16,7 @@ p3_ui <- function(request) {
           strong("Prior"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "prior") %>% pull(hex)
+            cols[cols$target == "prior", "hex"]
           )
         ),
         "$$\\lambda \\sim \\text{Ga}(\\alpha_0,\\, \\beta_0)$$",
@@ -36,7 +36,7 @@ p3_ui <- function(request) {
           strong("Likelihood"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "likelihood") %>% pull(hex)
+            cols[cols$target == "likelihood", "hex"]
           )
         ),
         "$$L(\\lambda \\mid \\mathcal D) = P(\\sum_i Y_i = r \\mid \\lambda,\\, n)$$",
@@ -55,7 +55,7 @@ p3_ui <- function(request) {
           strong("Posterior"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "posterior") %>% pull(hex)
+            cols[cols$target == "posterior", "hex"]
           )
         ),
         "$$\\lambda \\mid r \\sim \\text{Ga}(\\alpha_0 + r,\\, \\beta_0 + n)$$",
@@ -72,7 +72,7 @@ p3_ui <- function(request) {
           strong("Posterior predictive"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "predictive") %>% pull(hex)
+            cols[cols$target == "predictive", "hex"]
           )
         ),
         "$$Y' \\sim \\text{GaPo}(\\alpha_0 + r,\\, \\beta_0 + n,\\, 1)$$", br(),

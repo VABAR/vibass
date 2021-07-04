@@ -4,6 +4,8 @@
 #'     DO NOT REMOVE.
 #' @import colorspace ggplot2 dplyr tibble tidyr
 #' @importFrom extraDistr dbbinom
+#' @importFrom stats dbeta qbeta setNames
+#' @importFrom rlang .data
 #' @noRd
 p1_server <- function(input, output, session) {
 
@@ -12,7 +14,7 @@ p1_server <- function(input, output, session) {
   plot_style <- list(
     # labs(x = expression(theta), y = NULL, color = NULL),
     scale_color_manual(
-      values = cols %>% pull(name, name = target)
+      values = setNames(cols$name, cols$target)
     ),
     theme_minimal(),
     theme(
@@ -61,21 +63,21 @@ p1_server <- function(input, output, session) {
   output$inference <- renderPlot(
     theta_values %>%
       mutate(
-        prior = dbeta(x, input$a0, input$b0),
-        likelihood = dbeta(x, 1 + input$r, 1 + 20 - input$r),
-        posterior = dbeta(x, input$a0 + input$r, input$b0 + 20 - input$r)
+        prior = dbeta(.data$x, input$a0, input$b0),
+        likelihood = dbeta(.data$x, 1 + input$r, 1 + 20 - input$r),
+        posterior = dbeta(.data$x, input$a0 + input$r, input$b0 + 20 - input$r)
       ) %>%
       pivot_longer(
-        cols = -x,
+        cols = -.data$x,
         names_to = "curve",
         values_to = "y"
       ) %>%
-      ggplot(aes(x, y)) +
+      ggplot(aes(.data$x, .data$y)) +
       geom_area(
         ## 95 % CrI prior
         data = ~ .x %>%
           filter(
-            curve == "prior",
+            .data$curve == "prior",
             between(
               x,
               qbeta(0.025, input$a0, input$b0),
@@ -91,7 +93,7 @@ p1_server <- function(input, output, session) {
           filter(
             curve == "posterior",
             between(
-              x,
+              .data$x,
               qbeta(0.025, input$a0 + input$r, input$b0 + 20 - input$r),
               qbeta(0.975, input$a0 + input$r, input$b0 + 20 - input$r)
             )
@@ -102,13 +104,13 @@ p1_server <- function(input, output, session) {
       geom_vline(
         data = dist_summaries() %>%
           mutate(curve = tolower(`-`)) %>%
-          filter(curve != "predictive"),
-        aes(xintercept = Mean, colour = curve),
+          filter(.data$curve != "predictive"),
+        aes(xintercept = .data$Mean, colour = .data$curve),
         lwd = 1,
         alpha = .2,
         show.legend = FALSE
       ) +
-      geom_line(aes(colour = curve)) +
+      geom_line(aes(colour = .data$curve)) +
       plot_style +
       labs(x = expression(theta), y = NULL, color = NULL)
   )
@@ -116,11 +118,11 @@ p1_server <- function(input, output, session) {
   output$predictive <- renderPlot(
     tibble(x = 0:10) %>%
       mutate(
-        y = dbbinom(x, 10, input$a0 + input$r, input$b0 + 20 - input$r)
+        y = dbbinom(.data$x, 10, input$a0 + input$r, input$b0 + 20 - input$r)
       ) %>%
-      ggplot(aes(x, y)) +
+      ggplot(aes(.data$x, .data$y)) +
       geom_bar(
-        fill = cols %>% filter(target == "predictive") %>% pull(name),
+        fill = cols %>% filter(.data$target == "predictive") %>% pull(.data$name),
         stat = "identity", width = .2
       ) +
       scale_x_continuous(breaks = 0:10) +

@@ -50,6 +50,7 @@ Imports:
     golem,
     knitr,
     magrittr,
+    rlang,
     rstudioapi,
     shiny,
     tibble,

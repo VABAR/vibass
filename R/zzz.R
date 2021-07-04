@@ -5,6 +5,9 @@
   )
 }
 
+#' @importFrom utils packageVersion
+#' @importFrom cli rule
+#' @importFrom crayon bold blue
 print_welcome <- function() {
   message(
     text_col(

@@ -16,7 +16,7 @@ p1_ui <- function(request) {
           strong("Prior"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "prior") %>% pull(hex)
+            cols[cols$target == "prior", "hex"]
           )
         ),
         "$$\\theta \\sim \\text{Be}(\\alpha_0,\\, \\beta_0)$$",
@@ -33,7 +33,7 @@ p1_ui <- function(request) {
           strong("Likelihood"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "likelihood") %>% pull(hex)
+            cols[cols$target == "likelihood", "hex"]
           )
         ),
         "$$L(\\theta \\mid \\mathcal D) = P(Y=r \\mid \\theta,\\, n)$$",
@@ -52,7 +52,7 @@ p1_ui <- function(request) {
           strong("Posterior"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "posterior") %>% pull(hex)
+            cols[cols$target == "posterior", "hex"]
           )
         ),
         "$$\\theta \\mid r \\sim \\text{Be}(\\alpha_0 + r,\\, \\beta_0 + n - r)$$",
@@ -69,7 +69,7 @@ p1_ui <- function(request) {
           strong("Posterior predictive"),
           style = paste0(
             "color:",
-            cols %>% filter(target == "predictive") %>% pull(hex)
+            cols[cols$target == "predictive", "hex"]
           )
         ),
         "$$Y' \\sim \\text{Bb}(\\alpha_0 + r,\\, \\beta_0 + n - r,\\, n')$$",

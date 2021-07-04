@@ -20,6 +20,7 @@
 #' @return A knitr_kable object.
 #' @importFrom knitr kable
 #' @importFrom tibble rownames_to_column
+#' @importFrom stats setNames
 #' @export
 #'
 #' @examples
