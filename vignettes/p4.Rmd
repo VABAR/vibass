@@ -319,13 +319,13 @@ surf_lik <- expand.grid(
 )
 surf_lik$z <- mapply(lik_norm, surf_lik$mu, surf_lik$s)
 
-p <- plot_ly() |> 
+p <- plot_ly() %>% 
   add_surface(
     x = ~ mu_vals,
     y = ~ s_vals,
     z = ~ t(matrix(surf_lik$z, length(mu_vals), length(s_vals))),
     showscale = FALSE
-  ) |> 
+  ) %>% 
   layout(
     scene = list(
       xaxis = list(title = "mu"),

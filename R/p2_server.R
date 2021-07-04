@@ -25,7 +25,7 @@ p2_server <- function(input, output, session) {
   samples_red <- data.frame(
     color = "red",
     theta = rbeta(N_samples, 4.5, 16.5)
-  ) |>
+  ) %>%
     transform(
       odds = theta/(1-theta),
       logodds = log(theta/(1-theta))
@@ -119,15 +119,15 @@ p2_server <- function(input, output, session) {
   # Contrasts ---------------------------------------------------------------
 
   output$contrast_diff <- renderPlot(
-    samples() |>
-      group_by(color) |>
-      mutate(id = row_number()) |>
+    samples() %>%
+      group_by(color) %>%
+      mutate(id = row_number()) %>%
       pivot_wider(
         id_cols = "id",
         names_from = "color",
         values_from = "theta"
-      ) |>
-      mutate(x = blue - red) |>
+      ) %>%
+      mutate(x = blue - red) %>%
       ggplot(aes(x)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +
@@ -137,15 +137,15 @@ p2_server <- function(input, output, session) {
   )
 
   output$contrast_ratio <- renderPlot(
-    samples() |>
-      group_by(color) |>
-      mutate(id = row_number()) |>
+    samples() %>%
+      group_by(color) %>%
+      mutate(id = row_number()) %>%
       pivot_wider(
         id_cols = "id",
         names_from = "color",
         values_from = "theta"
-      ) |>
-      mutate(x = blue / red) |>
+      ) %>%
+      mutate(x = blue / red) %>%
       ggplot(aes(x)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 1, colour = "darkgrey") +
@@ -155,15 +155,15 @@ p2_server <- function(input, output, session) {
   )
 
   output$contrast_logratio <- renderPlot(
-    samples() |>
-      group_by(color) |>
-      mutate(id = row_number()) |>
+    samples() %>%
+      group_by(color) %>%
+      mutate(id = row_number()) %>%
       pivot_wider(
         id_cols = "id",
         names_from = "color",
         values_from = "theta"
-      ) |>
-      mutate(x = log(blue / red)) |>
+      ) %>%
+      mutate(x = log(blue / red)) %>%
       ggplot(aes(x)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +

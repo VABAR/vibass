@@ -4,16 +4,16 @@ options(shiny.usecairo = FALSE)
 fig_transformations <-
   data.frame(
     x = seq(0.01, .99, length = 101)
-  ) |>
+  ) %>%
   mutate(
     odds = x/(1-x),
     logodds = log(odds)
-  ) |>
+  ) %>%
   pivot_longer(
     cols = -x,
     names_to = "transf",
     values_to = "y"
-  ) |>
+  ) %>%
   ggplot(aes(x, y)) +
   geom_line(aes(group = transf)) +
   geom_text(

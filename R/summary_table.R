@@ -51,7 +51,7 @@ summary_table <- function(
     if(!is.null(ic95)) {paste0("(", paste(round(ic95, digits), collapse = ", "), ")")},
     if(!is.null(prop0)) {paste0(round(100*prop0, 1), "%")},
     if(!is.null(prop1)) {paste0(round(100*prop1, 1), "%")}
-  ) |>
+  ) %>%
     setNames(
       c(
         "Mean", "Var", "S.Dev",
@@ -60,10 +60,10 @@ summary_table <- function(
         if(!is.null(prop0)) {"Prop>0"},
         if(!is.null(prop1)) {"Prop>1"}
       )
-    ) |>
-    # as.list() |>
-    data.frame() |>
-    rownames_to_column() |>
-    setNames(c("Summary", label)) |>
+    ) %>%
+    # as.list() %>%
+    data.frame() %>%
+    rownames_to_column() %>%
+    setNames(c("Summary", label)) %>%
     kable()
 }
