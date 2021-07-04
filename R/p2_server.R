@@ -95,7 +95,7 @@ p2_server <- function(input, output, session) {
       scale_fill_manual(values = mm_cols) +
       plot_style +
       labs(x = expression(theta), y = NULL, color = NULL) +
-      facet_grid(color~., labeller = \(.) list(c("", "")))
+      facet_grid(color~., labeller = function(.) list(c("", "")))
   )
 
   output$hist_odds <- renderPlot(
@@ -104,7 +104,7 @@ p2_server <- function(input, output, session) {
       scale_fill_manual(values = mm_cols) +
       plot_style +
       labs(x = expression(odds(theta)), y = NULL, color = NULL) +
-      facet_grid(color~., labeller = \(.) list(c("", "")))
+      facet_grid(color~., labeller = function(.) list(c("", "")))
   )
 
   output$hist_logodds <- renderPlot(
@@ -113,7 +113,7 @@ p2_server <- function(input, output, session) {
       scale_fill_manual(values = mm_cols) +
       plot_style +
       labs(x = expression(log-odds(theta)), y = NULL, color = NULL) +
-      facet_grid(color~., labeller = \(.) list(c("", "")))
+      facet_grid(color~., labeller = function(.) list(c("", "")))
   )
 
 
