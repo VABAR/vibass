@@ -27,7 +27,7 @@ Teaching materials for the [introductory course on Bayesian inference](http://va
 
 ```{r install, eval = FALSE}
 # install.packages("remotes")
-remotes::install_github("VABAR/vibass", build_vignettes = TRUE, dependencies = TRUE)
+remotes::install_github("VABAR/vibass", ref = "main", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
 ## Example

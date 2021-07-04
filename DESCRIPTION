@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: 
     c(person(given = "VIBASS4",
              role = c("aut")),
