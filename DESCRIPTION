@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.7
+Version: 0.0.8
 Authors@R: 
     c(person(given = "VIBASS4",
              role = c("aut")),
@@ -39,7 +39,7 @@ Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
 Description: | Materials for the introductory course on Bayesian
     inference.  Practicals, data and interactive apps.
 License: GPL-3
-Depends: R (>= 3.2)
+Depends: R (>= 3.6)
 Imports: 
     cli,
     colorspace,
@@ -52,7 +52,7 @@ Imports:
     magrittr,
     rlang,
     rstudioapi,
-    shiny,
+    shiny (>= 1.5),
     tibble,
     tidyr
 Suggests: 
