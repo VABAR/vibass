@@ -14,6 +14,7 @@ p3_server <- function(input, output, session) {
 
   # For debugging
   # input <- list(a0 = .01, b0 = .01, r = 4)
+  # a0 <- list(value = 0); input = list(b0 = 0, r = 0)
   plot_style <- list(
     # labs(x = expression(lambda), y = NULL, color = NULL),
     scale_color_manual(
@@ -50,13 +51,25 @@ p3_server <- function(input, output, session) {
         0.025, a0$value + c(0, input$r), input$b0 + c(0, 25)
       ) %>%
         round(2) %>%
-        c(qgpois(.025, a0$value + input$r, input$b0 + 25))
+        c(
+          ifelse(
+            a0$value + input$r > 0,
+            qgpois(.025, a0$value + input$r, input$b0 + 25),
+            0
+          )
+        )
       ,
       Q_975 = qgamma(
         0.975, a0$value + c(0, input$r), input$b0 + c(0, 25)
       ) %>%
         round(2) %>%
-        c(qgpois(.975, a0$value + input$r, input$b0 + 25))
+        c(
+          ifelse(
+            a0$value + input$r > 0,
+            qgpois(.975, a0$value + input$r, input$b0 + 25),
+            0
+          )
+        )
     )
   })
 
