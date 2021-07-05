@@ -12,6 +12,7 @@ p1_server <- function(input, output, session) {
 
   # For debugging
   # input <- list(a0 = .01, b0 = .01, r = 4)
+  # input <- list(a0 = 0, b0 = 0, r = 20)
   plot_style <- list(
     # labs(x = expression(theta), y = NULL, color = NULL),
     scale_color_manual(
@@ -24,9 +25,6 @@ p1_server <- function(input, output, session) {
       panel.grid.minor.y = element_blank()
     )
   )
-
-  mean_beta <- function(a, b) a / (a + b)
-  sd_beta <- function(a, b) sqrt( a * b / ( (a + b)**2 * (a + b + 1) ) )
 
   dist_summaries <- reactive({
     tibble(
@@ -50,13 +48,25 @@ p1_server <- function(input, output, session) {
         0.025, input$a0 + c(0, input$r), input$b0 + c(0, 20 - input$r)
       ) %>%
         round(2) %>%
-        c(qbbinom(.025, n = 10, input$a0 + input$r, input$b0 + 20 - input$r))
+        c(
+          ifelse(
+            input$b0 + 20 - input$r > 0,
+            qbbinom(.025, n = 10, input$a0 + input$r, input$b0 + 20 - input$r),
+            10
+          )
+        )
       ,
       Q_975 = qbeta(
         0.975, input$a0 + c(0, input$r), input$b0 + c(0, 20 - input$r)
       ) %>%
         round(2) %>%
-        c(qbbinom(.975, n = 10, input$a0 + input$r, input$b0 + 20 - input$r))
+        c(
+          ifelse(
+            input$b0 + 20 - input$r > 0,
+            qbbinom(.975, n = 10, input$a0 + input$r, input$b0 + 20 - input$r),
+            10
+          )
+        )
     )
   })
 
