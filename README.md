@@ -6,6 +6,8 @@
 [<img src="http://vabar.es/images//widget_vibass4.png" width="300px"/>](http://vabar.es/events/vibass4/)
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/VABAR/vibass/workflows/R-CMD-check/badge.svg)](https://github.com/VABAR/vibass/actions)
 <!-- badges: end -->
 
 Teaching materials for the [introductory course on Bayesian
