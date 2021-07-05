@@ -36,8 +36,8 @@ Authors@R:
              email = "Virgilio.Gomez@uclm.es",
              comment = "Universidad Castilla-La Mancha"))
 Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
-Description: | Materials for the introductory course on Bayesian
-    inference.  Practicals, data and interactive apps.
+Description: Materials for the introductory course on Bayesian
+    inference. Practicals, data and interactive apps.
 License: GPL-3
 Depends: R (>= 3.6)
 Imports: 
