@@ -6,6 +6,7 @@
 #' @importFrom extraDistr dbbinom
 #' @importFrom stats dbeta qbeta setNames
 #' @importFrom rlang .data
+#' @importFrom magrittr %>%
 #' @noRd
 p1_server <- function(input, output, session) {
 

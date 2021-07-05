@@ -5,6 +5,7 @@
 #' @import colorspace ggplot2 dplyr tibble tidyr
 #' @importFrom stats rbeta dbeta
 #' @importFrom rlang .data
+#' @importFrom magrittr %>%
 #' @noRd
 p2_server <- function(input, output, session) {
 

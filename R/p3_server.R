@@ -6,6 +6,7 @@
 #' @importFrom extraDistr dgpois
 #' @importFrom stats dgamma qgamma setNames
 #' @importFrom rlang .data
+#' @importFrom magrittr %>%
 #' @noRd
 p3_server <- function(input, output, session) {
 
