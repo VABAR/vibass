@@ -30,22 +30,22 @@ pacman::p_load(
 ```
 
 
-# How tall the VIBASS' students are?
+# How tall the VIBASS' participants are?
 
-One of the most commonly used examples of Normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS students of the past editions. We start first with the height of the women. 
+One of the most commonly used examples of Normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS participants of the past editions. We start first with the height of the women. 
 
 ```{r fig.cap = cap, echo = FALSE, fig.align='center'}
-cap <- "Some VIBASS students."
+cap <- "Some VIBASS' participants."
 include_graphics("vibass_participants.jpg")
 ```
 
 
-# Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling Normal model is known.
+# Bayesian inference for the mean height of the women VIBASS' participants. The variance of the sampling Normal model is known.
 
 
 ## The data
 
-We have the following height data, in metres, for a random sample of $n=15$ women students from previous editions of VIBASS.
+We have the following height data, in metres, for a random sample of $n=15$ women participants from previous editions of VIBASS.
 
 ```{r, eval=TRUE}
 hwomen <- data.frame(height = c(1.73, 1.65, 1.65, 1.76, 1.65, 1.63, 1.70, 1.58, 1.57, 1.65, 1.74, 1.68, 1.67, 1.58, 1.66))
@@ -106,7 +106,7 @@ This prior distribution is
 
 $$\pi(\mu) = \mathcal{N}(\mu_0=1.70, \sigma_0=0.07).$$
 
-On the basis of this distribution these two teachers think that the mean of the height of women VIBASS students is centred on $1.70$ m with a standard deviation of $0.07$ m.
+On the basis of this distribution these two teachers think that the mean of the height of women VIBASS participants is centred on $1.70$ m with a standard deviation of $0.07$ m.
 According to it, we can compute the following percentile and probabilities 
 
 ```{r}
@@ -114,7 +114,7 @@ qnorm(c(0.005, 0.995), 1.70, 0.07)
 pnorm(c(1.50, 1.60, 1.70, 1.80, 1.90), 1.70, 0.07)
 ```
 
-Consequently, a 99$\%$ credible interval for $\mu$ is $(1,52, \,1.88)$ which means that the probability that a VIBASS student is neither taller than 1.88 metres nor shorter than 1.52 is 0.99. The probability that she is shorter than 1.50 is 0.0021, the probability that her height is between 1.60 and 1.80 is 0.9234-0.0766= 0.8468 or the probability that is taller than 1.80 is 1-0.9234=0.0766.
+Consequently, a 99$\%$ credible interval for $\mu$ is $(1.52, \,1.88)$ which means that the probability that a VIBASS participant is neither taller than 1.88 metres nor shorter than 1.52 is 0.99. The probability that she is shorter than 1.50 is 0.0021, the probability that her height is between 1.60 and 1.80 is 0.9234-0.0766= 0.8468 or the probability that is taller than 1.80 is 1-0.9234=0.0766.
 Next we show the graphic of the density of this prior distribution. 
 
 
@@ -205,7 +205,7 @@ curve(
 
 The visual difference between the two distributions is very clear: The posterior distribution has a very low variability compared to the prior ($\sigma_n \approx `r round(s1, 2)`$ m vs. $\sigma_0 =`r s0`$ m) and is slightly shifted to the left because the posterior mean is slightly lower than the prior mean ($\mu_n\approx `r round(m1, 1)`$ vs. $\mu_0 = `r m0`$). 
 
-On the basis of the posterior distribution, the two teachers now think that the mean of the height of women VIBASS students is centred on $\mu_n$ m with a standard deviation of $\sigma_n$ metres.
+On the basis of the posterior distribution, the two teachers now think that the mean of the height of women VIBASS participants is centred on $\mu_n$ with a standard deviation of $\sigma_n$ metres.
 According to it, we can compute the following percentiles and probabilities
 
 ```{r}
@@ -213,21 +213,21 @@ qnorm(c(0.005, 0.995), m1, s1)
 pnorm(c(1.50, 1.60, 1.70, 1.80, 1.90), m1, s1)
 ```
 
-Consequently, a 99% credible interval for $\mu$ is $(`r paste(ic95_post <- round(qnorm(c(0.005, 0.995), m1, s1), 2), collapse = ", ")`)$, which means that the probability that a VIBASS student is between `r ic95_post[1]` m and `r ic95_post[2]` m is 0.99.
+Consequently, a 99% credible interval for $\mu$ is $(`r paste(ic95_post <- round(qnorm(c(0.005, 0.995), m1, s1), 2), collapse = ", ")`)$, which means that the probability that a VIBASS participant is between `r ic95_post[1]` m and `r ic95_post[2]` m is 0.99.
 The probability that she is shorter than 1.50 m is $0.0000$, the probability that her height is between 1.60 m and 1.80 m is $1.0000-0.0040=0.9960$ or the probability that is taller than 1.80 m is 0.0000. 
 
-## The posterior predictive distribution for the height of a new VIBASS student
+## The posterior predictive distribution for the height of a new VIBASS participant
 
-We are interested in predicting the height of Anin\`e, a new female VIBASS student who has not participated in the sample of the inferential process.
-In this case, the posterior predictive distribution for the Anin\`e's height $Y_{16}$ is a Normal distribution
+We are interested in predicting the height of Aninè, a new female VIBASS participant who has not participated in the sample of the inferential process.
+In this case, the posterior predictive distribution for the Aninè's height $Y_{16}$ is a Normal distribution
 
-$$\mathcal{N}(\mu_n, \sqrt{\sigma_n^2+\sigma^2}$$
+$$\mathcal{N}\Big(\mu_n, \sqrt{\sigma_n^2+\sigma^2}\Big)$$
 
 with standard deviation $\sqrt{\sigma_n^2+\sigma^2} = \sqrt{0.000587+0.01}=0.1029$.
 
 It is important to note that the mean of this predictive distribution coincides with the mean of the posterior distribution of $\mu$.
 However, the enormous variability of the predictive distribution, which depends on the variability of the sampling model and the variability of the a posteriori distribution, is very striking.
-The following figure shows the posterior distribution (in green) of $\mu$ and the posterior predictive distribution (in purple) for Anin\`e's height illustrating the previous comments.
+The following figure shows the posterior distribution (in green) of $\mu$ and the posterior predictive distribution (in purple) for Aninè's height illustrating the previous comments.
 
 ```{r posterior-predictive, fig.align='center', out.width="60%", fig.cap = cap, echo = -1}
 cap <- "Predictive (purple) and posterior (green) distributions for the mean height."
@@ -244,15 +244,15 @@ curve(
 
 ```
 
-We can calculate prediction intervals for the height of Anin\`e. A prediction interval at 95 $%$ would be
+We can calculate prediction intervals for the height of Aninè. A prediction interval at 95% would be
 
 ```{r}
 qnorm(c(0.025, 0.975), 1.6642, 0.1029)
 ```
-This indicates that the probability that Anin\`e's height is between 1.46 and 1.87 metres is 0.95. 
+This indicates that the probability that Aninè's height is between 1.46 and 1.87 metres is 0.95. 
 
 
-# Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling Normal model is unknown.
+# Bayesian inference for the mean height of the women VIBASS participants. The variance of the sampling Normal model is unknown.
 
 
 If we follow the same scheme as in the previous case where the variance was known, we would have a first section dedicated to the data which would be the same. The sampling model is also approximately Normal but now we will work with a Normal with unknown mean and variance. 
@@ -296,7 +296,7 @@ L(\mu,\, \sigma^2 \mid \mathcal D)=& f(y_1, y_2, \ldots, y_{15} \mid \mu,\, \sig
 \end{align*}
 
 
-where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\mu$ evaluated in $\mathcal D$. Since $Y_i$'s are independent given $\mu$ and $\sigma^2$, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of $(\mu,\, \sigma^2)$ will be
+where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\mu$ and $\sigma^2$ evaluated in $\mathcal D$. Since $Y_i$'s are independent given $\mu$ and $\sigma^2$, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of $(\mu,\, \sigma^2)$ will be
 
 
 ```{r likelihood-3d, fig.cap = cap, echo = FALSE}
@@ -356,7 +356,7 @@ where
 
 - $\pi(\mu \mid \sigma^2, \mathcal D) =\mathcal{N}(\mu_n, \sigma^2_n = \sigma^2/15)$
 
-- $\pi(\sigma^2 \mid \mathcal D)$ is such that $\pi((n-1)s^2/\sigma^2 \mid \mathcal D) = \chi^2(n-1)$
+- $\pi(\sigma^2 \mid \mathcal D)$ is such that $\pi((n-1)s^2/\sigma^2 \mid \mathcal D) = \chi^2(n-1)$, where $s^2 = \sum(y_i - \bar{y})^2 / (n-1)$
 
 - The posterior marginal of $\mu$ is $\pi(\mu \mid \mathcal D)= \text{St}(\bar{y}, s^2/n, n-1)$ 
 
@@ -395,7 +395,7 @@ curve(
 
 
 We focus now on the variance of the sampling model. Its posterior distribution is such that $\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)$.
-This is not the posterior distribution of $\sigma^2$ but a function, $0.045598/\sigma^2$ of it. Consequently, we can approximate the posterior distribution for $\sigma^2$ by simulation as follows:
+This is not the posterior distribution of $\sigma^2$ but a function, $0.045598/\sigma^2$, of it. Consequently, we can approximate the posterior distribution for $\sigma^2$ by simulation as follows:
 
 - If $$\{a^{(1)}, a^{(2)}, \ldots, a^{(M)}\}$$ is a random sample from $\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)$ then 
 $$\{0.045598/a^{(1)}, 0.045598/a^{(2)}, \ldots, 0.045598/a^{(M)}\}$$ is a random sample from $\pi(\sigma^2 \mid \mathcal D)$. 
@@ -410,7 +410,7 @@ hist(
   simu.sigma,
   breaks = 300, freq = FALSE, col = "gray99",
   xlim = c(0, 0.02), ylim = c(0, 400),
-  ylab = "density", xlab = expression(paste(sigma2))
+  main = NULL, ylab = "density", xlab = expression(paste(sigma2))
 )
 
 summary(simu.sigma)
