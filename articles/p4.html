@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -93,23 +93,23 @@
 
     
     
-<div id="how-tall-the-vibass-students-are" class="section level1">
+<div id="how-tall-the-vibass-participants-are" class="section level1">
 <h1 class="hasAnchor">
-<a href="#how-tall-the-vibass-students-are" class="anchor"></a>How tall the VIBASS’ students are?</h1>
-<p>One of the most commonly used examples of Normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS students of the past editions. We start first with the height of the women.</p>
+<a href="#how-tall-the-vibass-participants-are" class="anchor"></a>How tall the VIBASS’ participants are?</h1>
+<p>One of the most commonly used examples of Normal data are heights and weights. We want to continue this tradition. We will dedicate this practice to work with the heights of the VIBASS participants of the past editions. We start first with the height of the women.</p>
 <div class="figure" style="text-align: center">
-<img src="vibass_participants.jpg" alt="Some VIBASS students."><p class="caption">
-Some VIBASS students.
+<img src="vibass_participants.jpg" alt="Some VIBASS' participants."><p class="caption">
+Some VIBASS’ participants.
 </p>
 </div>
 </div>
-<div id="bayesian-inference-for-the-mean-height-of-the-women-vibass-students--the-variance-of-the-sampling-normal-model-is-known-" class="section level1">
+<div id="bayesian-inference-for-the-mean-height-of-the-women-vibass-participants--the-variance-of-the-sampling-normal-model-is-known-" class="section level1">
 <h1 class="hasAnchor">
-<a href="#bayesian-inference-for-the-mean-height-of-the-women-vibass-students--the-variance-of-the-sampling-normal-model-is-known-" class="anchor"></a>Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling Normal model is known.</h1>
+<a href="#bayesian-inference-for-the-mean-height-of-the-women-vibass-participants--the-variance-of-the-sampling-normal-model-is-known-" class="anchor"></a>Bayesian inference for the mean height of the women VIBASS’ participants. The variance of the sampling Normal model is known.</h1>
 <div id="the-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-data" class="anchor"></a>The data</h2>
-<p>We have the following height data, in metres, for a random sample of <span class="math inline">\(n=15\)</span> women students from previous editions of VIBASS.</p>
+<p>We have the following height data, in metres, for a random sample of <span class="math inline">\(n=15\)</span> women participants from previous editions of VIBASS.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hwomen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.73</span>, <span class="fl">1.65</span>, <span class="fl">1.65</span>, <span class="fl">1.76</span>, <span class="fl">1.65</span>, <span class="fl">1.63</span>, <span class="fl">1.70</span>, <span class="fl">1.58</span>, <span class="fl">1.57</span>, <span class="fl">1.65</span>, <span class="fl">1.74</span>, <span class="fl">1.68</span>, <span class="fl">1.67</span>, <span class="fl">1.58</span>, <span class="fl">1.66</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can summarize the data and represent them by means of a histogram.</p>
@@ -195,13 +195,13 @@ Some VIBASS students.
 </ul>
 <p>We are going to work with a prior distribution based on the information from two of the VIBASS lecturers. This prior distribution is</p>
 <p><span class="math display">\[\pi(\mu) = \mathcal{N}(\mu_0=1.70, \sigma_0=0.07).\]</span></p>
-<p>On the basis of this distribution these two teachers think that the mean of the height of women VIBASS students is centred on <span class="math inline">\(1.70\)</span> m with a standard deviation of <span class="math inline">\(0.07\)</span> m. According to it, we can compute the following percentile and probabilities</p>
+<p>On the basis of this distribution these two teachers think that the mean of the height of women VIBASS participants is centred on <span class="math inline">\(1.70\)</span> m with a standard deviation of <span class="math inline">\(0.07\)</span> m. According to it, we can compute the following percentile and probabilities</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1.519692 1.880308</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.002137367 0.076563726 0.500000000 0.923436274 0.997862633</span></code></pre></div>
-<p>Consequently, a 99<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1,52, \,1.88)\)</span> which means that the probability that a VIBASS student is neither taller than 1.88 metres nor shorter than 1.52 is 0.99. The probability that she is shorter than 1.50 is 0.0021, the probability that her height is between 1.60 and 1.80 is 0.9234-0.0766= 0.8468 or the probability that is taller than 1.80 is 1-0.9234=0.0766. Next we show the graphic of the density of this prior distribution.</p>
+<p>Consequently, a 99<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.52, \,1.88)\)</span> which means that the probability that a VIBASS participant is neither taller than 1.88 metres nor shorter than 1.52 is 0.99. The probability that she is shorter than 1.50 is 0.0021, the probability that her height is between 1.60 and 1.80 is 0.9234-0.0766= 0.8468 or the probability that is taller than 1.80 is 1-0.9234=0.0766. Next we show the graphic of the density of this prior distribution.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cap</span> <span class="op">&lt;-</span> <span class="st">"Prior distribution for the mean height."</span>
 <span class="va">m0</span> <span class="op">&lt;-</span> <span class="fl">1.7</span>; <span class="va">s0</span> <span class="op">&lt;-</span> <span class="fl">0.07</span>
@@ -289,21 +289,21 @@ Prior (blue) and posterior (green) distributions for the mean height.
 </p>
 </div>
 <p>The visual difference between the two distributions is very clear: The posterior distribution has a very low variability compared to the prior (<span class="math inline">\(\sigma_n \approx 0.02\)</span> m vs. <span class="math inline">\(\sigma_0 =0.07\)</span> m) and is slightly shifted to the left because the posterior mean is slightly lower than the prior mean (<span class="math inline">\(\mu_n\approx 1.7\)</span> vs. <span class="math inline">\(\mu_0 = 1.7\)</span>).</p>
-<p>On the basis of the posterior distribution, the two teachers now think that the mean of the height of women VIBASS students is centred on <span class="math inline">\(\mu_n\)</span> m with a standard deviation of <span class="math inline">\(\sigma_n\)</span> metres. According to it, we can compute the following percentiles and probabilities</p>
+<p>On the basis of the posterior distribution, the two teachers now think that the mean of the height of women VIBASS participants is centred on <span class="math inline">\(\mu_n\)</span> with a standard deviation of <span class="math inline">\(\sigma_n\)</span> metres. According to it, we can compute the following percentiles and probabilities</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1.602465 1.727135</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span>
 <span class="co">#&gt; [1] 4.882741e-12 3.706635e-03 9.271024e-01 1.000000e+00 1.000000e+00</span></code></pre></div>
-<p>Consequently, a 99% credible interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.6, 1.73)\)</span>, which means that the probability that a VIBASS student is between 1.6 m and 1.73 m is 0.99. The probability that she is shorter than 1.50 m is <span class="math inline">\(0.0000\)</span>, the probability that her height is between 1.60 m and 1.80 m is <span class="math inline">\(1.0000-0.0040=0.9960\)</span> or the probability that is taller than 1.80 m is 0.0000.</p>
+<p>Consequently, a 99% credible interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.6, 1.73)\)</span>, which means that the probability that a VIBASS participant is between 1.6 m and 1.73 m is 0.99. The probability that she is shorter than 1.50 m is <span class="math inline">\(0.0000\)</span>, the probability that her height is between 1.60 m and 1.80 m is <span class="math inline">\(1.0000-0.0040=0.9960\)</span> or the probability that is taller than 1.80 m is 0.0000.</p>
 </div>
-<div id="the-posterior-predictive-distribution-for-the-height-of-a-new-vibass-student" class="section level2">
+<div id="the-posterior-predictive-distribution-for-the-height-of-a-new-vibass-participant" class="section level2">
 <h2 class="hasAnchor">
-<a href="#the-posterior-predictive-distribution-for-the-height-of-a-new-vibass-student" class="anchor"></a>The posterior predictive distribution for the height of a new VIBASS student</h2>
-<p>We are interested in predicting the height of Anin`e, a new female VIBASS student who has not participated in the sample of the inferential process. In this case, the posterior predictive distribution for the Anin`e’s height <span class="math inline">\(Y_{16}\)</span> is a Normal distribution</p>
-<p><span class="math display">\[\mathcal{N}(\mu_n, \sqrt{\sigma_n^2+\sigma^2}\]</span></p>
+<a href="#the-posterior-predictive-distribution-for-the-height-of-a-new-vibass-participant" class="anchor"></a>The posterior predictive distribution for the height of a new VIBASS participant</h2>
+<p>We are interested in predicting the height of Aninè, a new female VIBASS participant who has not participated in the sample of the inferential process. In this case, the posterior predictive distribution for the Aninè’s height <span class="math inline">\(Y_{16}\)</span> is a Normal distribution</p>
+<p><span class="math display">\[\mathcal{N}\Big(\mu_n, \sqrt{\sigma_n^2+\sigma^2}\Big)\]</span></p>
 <p>with standard deviation <span class="math inline">\(\sqrt{\sigma_n^2+\sigma^2} = \sqrt{0.000587+0.01}=0.1029\)</span>.</p>
-<p>It is important to note that the mean of this predictive distribution coincides with the mean of the posterior distribution of <span class="math inline">\(\mu\)</span>. However, the enormous variability of the predictive distribution, which depends on the variability of the sampling model and the variability of the a posteriori distribution, is very striking. The following figure shows the posterior distribution (in green) of <span class="math inline">\(\mu\)</span> and the posterior predictive distribution (in purple) for Anin`e’s height illustrating the previous comments.</p>
+<p>It is important to note that the mean of this predictive distribution coincides with the mean of the posterior distribution of <span class="math inline">\(\mu\)</span>. However, the enormous variability of the predictive distribution, which depends on the variability of the sampling model and the variability of the a posteriori distribution, is very striking. The following figure shows the posterior distribution (in green) of <span class="math inline">\(\mu\)</span> and the posterior predictive distribution (in purple) for Aninè’s height illustrating the previous comments.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mp</span> <span class="op">&lt;-</span> <span class="va">m1</span>; <span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">s1</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span>
@@ -320,16 +320,16 @@ Prior (blue) and posterior (green) distributions for the mean height.
 Predictive (purple) and posterior (green) distributions for the mean height.
 </p>
 </div>
-<p>We can calculate prediction intervals for the height of Anin`e. A prediction interval at 95 <span class="math inline">\(%\)</span> would be</p>
+<p>We can calculate prediction intervals for the height of Aninè. A prediction interval at 95% would be</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">1.6642</span>, <span class="fl">0.1029</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1.46252 1.86588</span></code></pre></div>
-<p>This indicates that the probability that Anin`e’s height is between 1.46 and 1.87 metres is 0.95.</p>
+<p>This indicates that the probability that Aninè’s height is between 1.46 and 1.87 metres is 0.95.</p>
 </div>
 </div>
-<div id="bayesian-inference-for-the-mean-height-of-the-women-vibass-students--the-variance-of-the-sampling-normal-model-is-unknown-" class="section level1">
+<div id="bayesian-inference-for-the-mean-height-of-the-women-vibass-participants--the-variance-of-the-sampling-normal-model-is-unknown-" class="section level1">
 <h1 class="hasAnchor">
-<a href="#bayesian-inference-for-the-mean-height-of-the-women-vibass-students--the-variance-of-the-sampling-normal-model-is-unknown-" class="anchor"></a>Bayesian inference for the mean height of the women VIBASS students. The variance of the sampling Normal model is unknown.</h1>
+<a href="#bayesian-inference-for-the-mean-height-of-the-women-vibass-participants--the-variance-of-the-sampling-normal-model-is-unknown-" class="anchor"></a>Bayesian inference for the mean height of the women VIBASS participants. The variance of the sampling Normal model is unknown.</h1>
 <p>If we follow the same scheme as in the previous case where the variance was known, we would have a first section dedicated to the data which would be the same. The sampling model is also approximately Normal but now we will work with a Normal with unknown mean and variance.</p>
 <div id="the-sampling-model-is-approximately-normal-1" class="section level2">
 <h2 class="hasAnchor">
@@ -364,7 +364,7 @@ L(\mu,\, \sigma^2 \mid \mathcal D)=&amp; f(y_1, y_2, \ldots, y_{15} \mid \mu,\, 
  \sum_{i=1}^{15} y_i^{2} - 2 \cdot 15 \, \bar{y} \, \mu + 15 \mu^2
  \big) \Big\},
 \end{align*}\]</span></p>
-<p>where <span class="math inline">\(f(y_1, y_2, \ldots, y_{15})\)</span> is the joint density of the <span class="math inline">\(Y_i\)</span>’s given <span class="math inline">\(\mu\)</span> evaluated in <span class="math inline">\(\mathcal D\)</span>. Since <span class="math inline">\(Y_i\)</span>’s are independent given <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of <span class="math inline">\((\mu,\, \sigma^2)\)</span> will be</p>
+<p>where <span class="math inline">\(f(y_1, y_2, \ldots, y_{15})\)</span> is the joint density of the <span class="math inline">\(Y_i\)</span>’s given <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> evaluated in <span class="math inline">\(\mathcal D\)</span>. Since <span class="math inline">\(Y_i\)</span>’s are independent given <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of <span class="math inline">\((\mu,\, \sigma^2)\)</span> will be</p>
 <iframe src="like_surf.html" width="100%" height="400" id="igraph" scrolling="no" seamless="seamless" frameborder="0">
 </iframe>
 </div>
@@ -381,7 +381,7 @@ L(\mu,\, \sigma^2 \mid \mathcal D)=&amp; f(y_1, y_2, \ldots, y_{15} \mid \mu,\, 
 <p>where</p>
 <ul>
 <li><p><span class="math inline">\(\pi(\mu \mid \sigma^2, \mathcal D) =\mathcal{N}(\mu_n, \sigma^2_n = \sigma^2/15)\)</span></p></li>
-<li><p><span class="math inline">\(\pi(\sigma^2 \mid \mathcal D)\)</span> is such that <span class="math inline">\(\pi((n-1)s^2/\sigma^2 \mid \mathcal D) = \chi^2(n-1)\)</span></p></li>
+<li><p><span class="math inline">\(\pi(\sigma^2 \mid \mathcal D)\)</span> is such that <span class="math inline">\(\pi((n-1)s^2/\sigma^2 \mid \mathcal D) = \chi^2(n-1)\)</span>, where <span class="math inline">\(s^2 = \sum(y_i - \bar{y})^2 / (n-1)\)</span></p></li>
 <li><p>The posterior marginal of <span class="math inline">\(\mu\)</span> is <span class="math inline">\(\pi(\mu \mid \mathcal D)= \text{St}(\bar{y}, s^2/n, n-1)\)</span></p></li>
 </ul>
 <p>In our case, the more relevant posterior distributions are the marginal ones:</p>
@@ -415,7 +415,7 @@ L(\mu,\, \sigma^2 \mid \mathcal D)=&amp; f(y_1, y_2, \ldots, y_{15} \mid \mu,\, 
 Posterior (green) distribution for the mean height.
 </p>
 </div>
-<p>We focus now on the variance of the sampling model. Its posterior distribution is such that <span class="math inline">\(\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)\)</span>. This is not the posterior distribution of <span class="math inline">\(\sigma^2\)</span> but a function, <span class="math inline">\(0.045598/\sigma^2\)</span> of it. Consequently, we can approximate the posterior distribution for <span class="math inline">\(\sigma^2\)</span> by simulation as follows:</p>
+<p>We focus now on the variance of the sampling model. Its posterior distribution is such that <span class="math inline">\(\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)\)</span>. This is not the posterior distribution of <span class="math inline">\(\sigma^2\)</span> but a function, <span class="math inline">\(0.045598/\sigma^2\)</span>, of it. Consequently, we can approximate the posterior distribution for <span class="math inline">\(\sigma^2\)</span> by simulation as follows:</p>
 <ul>
 <li>If <span class="math display">\[\{a^{(1)}, a^{(2)}, \ldots, a^{(M)}\}\]</span> is a random sample from <span class="math inline">\(\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)\)</span> then <span class="math display">\[\{0.045598/a^{(1)}, 0.045598/a^{(2)}, \ldots, 0.045598/a^{(M)}\}\]</span> is a random sample from <span class="math inline">\(\pi(\sigma^2 \mid \mathcal D)\)</span>.</li>
 </ul>
@@ -428,21 +428,21 @@ Posterior (green) distribution for the mean height.
   <span class="va">simu.sigma</span>,
   breaks <span class="op">=</span> <span class="fl">300</span>, freq <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="st">"gray99"</span>,
   xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.02</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">400</span><span class="op">)</span>,
-  ylab <span class="op">=</span> <span class="st">"density"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">sigma2</span><span class="op">)</span><span class="op">)</span>
+  main <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="st">"density"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">sigma2</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="p4_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
 <span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="co">#&gt; 0.0008999 0.0026544 0.0034129 0.0037906 0.0044624 0.0286118</span>
+<span class="co">#&gt; 0.0009366 0.0026688 0.0034188 0.0038098 0.0045072 0.0346289</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.881259e-06</span>
+<span class="co">#&gt; [1] 2.941381e-06</span>
 <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.001697427</span>
+<span class="co">#&gt; [1] 0.001715046</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;        0.5%       99.5% </span>
-<span class="co">#&gt; 0.001470431 0.011180543</span></code></pre></div>
+<span class="co">#&gt; 0.001469622 0.011162934</span></code></pre></div>
 <p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid \mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
 </div>
 </div>
