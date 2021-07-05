@@ -2,7 +2,7 @@
 #'
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
-#' @import colorspace ggplot2 dplyr tibble tidyr
+#' @import ggplot2 dplyr tibble tidyr
 #' @importFrom extraDistr dbbinom
 #' @importFrom stats dbeta qbeta setNames
 #' @importFrom rlang .data

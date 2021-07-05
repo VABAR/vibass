@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.9
+Version: 0.0.10
 Authors@R: 
     c(person(given = "VIBASS4",
              role = c("aut")),
@@ -42,7 +42,6 @@ License: GPL-3
 Depends: R (>= 3.6)
 Imports: 
     cli,
-    colorspace,
     crayon,
     dplyr,
     extraDistr,

@@ -49,23 +49,24 @@ mm_cols <-
     brown = "#603a34"
   )
 
-cols <- transform(
-  data.frame(
-    target = c("prior", "likelihood", "posterior", "predictive"),
-    name = c("dodgerblue", "darkorange", "darkgreen", "purple")
-  ),
-  hex = colorspace::hex(
-    do.call(
-      colorspace::RGB,
-      setNames(
-        as.data.frame(
-          t(col2rgb(name)/255)
-        ),
-        c("R", "G", "B")
-      )
-    )
-  )
+cols <- data.frame(
+  target = c("prior", "likelihood", "posterior", "predictive"),
+  name = c("dodgerblue", "darkorange", "darkgreen", "purple"),
+  hex = c("#60C6FF", "#FFC400", "#00A800", "#D063F8")
 )
+
+## Hex codes from named colours
+# colorspace::hex(
+#   do.call(
+#     colorspace::RGB,
+#     setNames(
+#       as.data.frame(
+#         t(col2rgb(cols$name)/255)
+#       ),
+#       c("R", "G", "B")
+#     )
+#   )
+# )
 
 plot_style <- list(
   # labs(x = expression(theta), y = NULL, color = NULL),

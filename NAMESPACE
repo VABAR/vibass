@@ -2,7 +2,6 @@
 
 export(summary_table)
 export(vibass_app)
-import(colorspace)
 import(dplyr)
 import(ggplot2)
 import(shiny)
