@@ -52,6 +52,7 @@ Imports:
     rlang,
     rstudioapi,
     shiny (>= 1.5),
+    stringi,
     tibble,
     tidyr
 Suggests: 
