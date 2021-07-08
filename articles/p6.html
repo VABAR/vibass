@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.13</span>
       </span>
     </div>
 
@@ -54,16 +54,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/p1.html">PRACTICAL 1: Binary data</a>
+      <a href="../articles/p1.html">Practical 1: Binary data</a>
     </li>
     <li>
-      <a href="../articles/p2.html">PRACTICAL 2: Inference with simulated samples</a>
+      <a href="../articles/p2.html">Practical 2: Inference with simulated samples</a>
     </li>
     <li>
-      <a href="../articles/p3.html">PRACTICAL 3: Count data</a>
+      <a href="../articles/p3.html">Practical 3: Count data</a>
     </li>
     <li>
-      <a href="../articles/p4.html">PRACTICAL 4: Normal data</a>
+      <a href="../articles/p4.html">Practical 4: Normal data</a>
     </li>
     <li>
       <a href="../articles/p5.html">Practical 5: Numerical approaches</a>
@@ -193,20 +193,13 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
   xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Note that the value of the bandwidth used (argument <code>bw</code>) has been set manually so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution).</p>
-<p>A bivariate density estimate can also be computed by using a weighted kernel density estimator in two dimensions:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/contour.html">contour</a></span><span class="op">(</span>
-  <span class="fu">kde2d.weighted</span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, h <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">7.5</span><span class="op">)</span>, w <span class="op">=</span> <span class="va">ww</span>, n <span class="op">=</span> <span class="fl">25</span><span class="op">)</span>,
-     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2.5</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">65</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p><img src="p6_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div id="metropolis-hastings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metropolis-hastings" class="anchor"></a>Metropolis-Hastings</h2>
 <p>In this example we have two parameters to make inference. Hence, the proposal distribution will be a bivariate distribution, i.e., the distribution is defined on vector <span class="math inline">\(\theta = (\mu, \tau)\)</span>. Actually, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently from each other, but the two values will be accepted jointly. A new value of <span class="math inline">\(\mu\)</span> will be proposed using a Normal distribution centered at the current value of <span class="math inline">\(\mu\)</span> with precision <span class="math inline">\(10\)</span>, and a new value of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean the logarithm of the current value and precision <span class="math inline">\(10\)</span>.</p>
 <p>All these functions are defined here:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Proposal distribution: sampling</span>
 <span class="va">rq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">theta</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>  
@@ -236,7 +229,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="va">loglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">theta</span><span class="op">)</span> <span class="op">{</span>
    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">y</span>, mean <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> 
 <span class="op">}</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Number of iterations</span>
 <span class="va">n.iter</span> <span class="op">&lt;-</span> <span class="fl">40500</span>
 
@@ -264,7 +257,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <p>The same burn-in, thinning and summary statistics and plots will be computed now:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Remove burn-in</span>
 <span class="va">theta</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span>
 
@@ -294,15 +287,15 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>, 
   xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="p6_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="p6_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>Finally, if you prefer to show the posterior distribution of the variance (instead of that of the precision), then you can simply transform the samples of the precision as follows:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample.var</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">theta</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>
 
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sample.var</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>, ylab <span class="op">=</span> <span class="st">"variance"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">sample.var</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>, xlab <span class="op">=</span> <span class="st">"variance"</span><span class="op">)</span></code></pre></div>
-<p><img src="p6_files/figure-html/unnamed-chunk-11-1.png" width="960"></p>
+<p><img src="p6_files/figure-html/unnamed-chunk-10-1.png" width="960"></p>
 </div>
 <div id="exercises" class="section level2">
 <h2 class="hasAnchor">
@@ -312,7 +305,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <a href="#linear-models" class="anchor"></a>Linear models</h3>
 <p>The previous example can be regarded as a simple linear regression example in which the mean <span class="math inline">\(\mu_i\)</span> (of participant <span class="math inline">\(i\)</span>) is equal to an intercept term <span class="math inline">\(\alpha\)</span>, i.e., <span class="math inline">\(\mu_i = \alpha\)</span>. If a covariate <span class="math inline">\(x_i\)</span> is available, the model could be extended to consider a mean equal to <span class="math inline">\(\mu_i = \alpha + \beta x_i\)</span>.</p>
 <p>We can consider the gender of the VIBASS participants as a covariate and add this information to the dataset:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span><span class="op">$</span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">14</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>In the new <code>gender</code> variable, <code>1</code> means that the participant is a woman and <code>0</code> means that the participant is a man. The resulting model is now:</p>
 <p><span class="math display">\[
