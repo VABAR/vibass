@@ -478,7 +478,7 @@ logdq <- function(new.theta, theta) {
   dlnorm(new.theta, meanlog = log(theta), sdlog = sqrt(1 / 100), log = TRUE)
 }
 
-#Prior distribution: Gamma(0.01, 0.01)
+#Prior distribution: Ga(0.01, 0.01)
 logprior <- function(theta) {
   dgamma(theta, 0.01, 0.01, log = TRUE)
 }
@@ -560,7 +560,7 @@ How is this related to the number of IS samples (`n_simulations`)?
 
 * Use a different sampling distribution and check how sampling weights, ESS and
 point estimates differ from those in the current example. For example, a
-Gamma(5, 0.1) will put a higher mass on values around 40, unlike the
+Ga(5, 0.1) will put a higher mass on values around 40, unlike the
 actual posterior distribution. What differences do you find with the example
 presented here using a uniform sampling distribution? Why do you think that
 these differences appear?

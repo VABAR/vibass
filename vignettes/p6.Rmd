@@ -46,7 +46,7 @@ $$
 \begin{array}{rcl}
 y_i & \sim & N(\mu, \tau)\\
 \mu & \sim & N(\mu_{\mu}, \tau_{\mu})\\
-\tau & \sim & Gamma(a, b)
+\tau & \sim & Ga(a, b)
 \end{array}
 $$
 
@@ -306,7 +306,7 @@ y_i & \sim & N(\mu_i, \tau)\\
 \mu_i & = & \alpha + \beta x_i\\
 \alpha & \sim & N(0, 0.001)\\
 \beta & \sim & N(0, 0.001)\\
-\tau & \sim & Gamma(0.01, 0.01)
+\tau & \sim & Ga(0.01, 0.01)
 \end{array}
 $$
 
