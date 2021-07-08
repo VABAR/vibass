@@ -39,13 +39,14 @@ Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
 Description: Materials for the introductory course on Bayesian
     inference. Practicals, data and interactive apps.
 License: GPL-3
-Depends: R (>= 3.4.4)
+Depends: R (>= 3.6)
 Imports: 
     cli,
     crayon,
     dplyr,
     extraDistr,
     ggplot2,
+    ggtern,
     golem,
     knitr,
     magrittr,
