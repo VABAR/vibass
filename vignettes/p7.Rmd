@@ -1,0 +1,203 @@
+---
+title: 'Practical 7: Generalized linear models'
+author: "VIBASS4"
+date: "July 2021"
+output:
+  html_vignette:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    fig_width: 6
+    fig_height: 4
+vignette: >
+  %\VignetteIndexEntry{Practical 7: Generalized linear models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Introduction
+
+In the previous practical Bayesian inference for lineal models using Importance
+Sampling (IS) and the Metropolis-Hestings (M-H) algorithms has been introduced.
+In this computer lab you will be working with generalized linear models (GLMs)
+on the binomial and Poisson examples described in previous practicals.
+In particular, you will be implementing the IS and M-H algorithms for
+Bayesian inference on GLMs. In case you need to refresh the details about
+IS and M-H, please check the lecture notes or Practical 5.
+
+
+# Example: Binomial-Beta Model
+
+This dataset is described in detail in previous practicals and
+it recorded the number of red M&M's in a tube with $N$ M&M's for
+different tubes.
+
+The model can be stated as follows:
+
+$$
+\begin{array}{rcl}
+y_i & \sim & Bi(N_i, \theta)\\
+\theta & \sim & Be(1, 1)
+\end{array}
+$$
+
+You can use the following dataset for this exercise:
+
+```{r eval = TRUE}
+data <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
+```
+
+These data reproduce different counts of red M&M's in three different
+tubes, with `MMs`recording the total number of M&M's in the tube
+and `red` the number of red ones.
+
+Please, check Practical 5 in case you need to remember the details of the
+implementation of the IS and M-H algorithms for this particular model.  Also,
+you can take the `R` code from Practical 5 and modify it to complete the
+exercise above.
+
+## Exercises
+
+
+### Generalized linear models
+
+
+The current model can be expressed as a generalized linear model as follows:
+
+$$
+\begin{array}{rcl}
+y_i & \sim & Bi(\theta, n_i)\\
+\textrm{logit}(\theta) & = & \alpha\\
+\alpha & \sim & N(0, \tau_{\alpha} = 0.001)
+\end{array}
+$$
+
+
+Note that now the model parameter $\theta$ is linked to a
+linear preditor ($\alpha$ in this case) via the logit link function.
+Hence, the model parameter is now $\alpha$.
+
+This GLM can be easily fit using IS and M-H by treating $\alpha$
+as the unique model parameter.
+
+### Importance sampling
+
+In order to fit this model using the IS algorithm, values of $\alpha$
+need to be sampled. Given that $\alpha$ is not bounded, we can use
+a Normal distribution with zero mean and precision 0.1. Alternatively,
+the mean of the sampling distribution can be set to a more reasonable
+value, close to the logit of the average proportions of red
+M&Ms in the sample (for example, -1.5).
+
+* Implement the IS algorithm using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean -1.5 and precision 0.1.
+
+* Compute the posterior mean and variance for both sets of results.
+Are they similar?
+
+* Compute and compare the effective sample sizes obtained with both
+sampling distributions. What do you find? Why do you think that this happens?
+
+
+
+### Metropolis-Hastings
+
+Similarly, the previous GLM can be fit using the M-H algorithm. Now, values
+of $\alpha$ are proposed, for which a Normal distribution centered at
+the current value and precision 0.1 can be used. However, the precision
+value can be tuned if proposed values are rejected too often or not
+rejected at all.
+
+
+* Implement the M-H.
+
+* Compute the posterior mean and variance of $\alpha$ and $\theta$.
+
+* Compare these results to the ones obtained with the IS algorithm.
+
+# Example: Poisson-Gamma Model
+
+The second example will be based on the *Game of Thrones* dataset, which
+has also been described in previpus practicals.
+ Remember that this is made of the observed number of u's on
+a page of a book of Game of Thrones. The model can be stated as:
+
+$$
+\begin{array}{rcl}
+y_i & \sim & Po(\theta)\\
+\theta & \sim & Ga(0.01, 0.01)
+\end{array}
+$$
+
+We will denote the observed values by `y` in the `R` code. The data can be
+loaded with:
+
+```{r eval = TRUE}
+data <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23, 28, 25,
+  24, 22, 25, 23, 29, 23, 28, 21, 29, 28, 23, 28))
+y <- data$Us
+```
+
+Again, please check Practical 5 is you need to remember the details of
+the implementation of the IS and M-H algorithms for this particular
+example. You can also use the `R` code from Practical 5 to develop the following
+exercises.
+
+## Exercises
+
+### Generalized linear models
+
+
+The current model can be expressed as a generalized linear model as follows:
+
+$$
+\begin{array}{rcl}
+y_i & \sim & Po(\theta)\\
+\log(\theta) & = & \alpha\\
+\alpha & \sim & N(0, \tau_{\alpha} = 0.001)
+\end{array}
+$$
+
+
+Note that now the model parameter $\theta$ is linked to a
+linear preditor ($\alpha$ in this case) via the logarithm link function.
+Hence, the model parameter is now $\alpha$.
+
+This GLM can be easily fit using IS and M-H by treating $\alpha$
+as the unique model parameter.
+
+### Importance sampling
+
+In order to fit this model using the IS algorithm, values of $\alpha$
+need to be sampled. Given that $\alpha$ is not bounded, we can use
+a Normal distribution with zero mean and precision 0.1. Alternatively,
+the mean of the sampling distribution can be set to a more reasonable
+value, close to the logarithmof the average number of u's 
+in the sample (for example, 3.25).
+
+* Implement the M-H using the two sampling distributions proposed above, i.e.,
+a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and 
+precision 0.1.
+
+* Compute the posterior mean and variance for both sets of results.
+
+* Compute and compare the effective sample sizes obtained with both
+sampling distributions. What do you find? Why do you think that this happens?
+
+
+
+### Metropolis-Hastings
+
+Similarly, the previous GLM can be fit using the M-H algorithm. Now, values
+of $\alpha$ are proposed, for which a Normal distribution centered at
+the current value and precision 0.1 can be used. However, the precision
+value can be tuned if proposed values are rejected too often or not
+rejected at all.
+
+
+* Implement the M-H algorithm for this model.
+
+* Compute the posterior mean and variance of $\alpha$ and $\theta$.
+
+* Compare the results obtained now with those obtained with the I-S algorithm.
+
