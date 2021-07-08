@@ -108,12 +108,12 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>In the previous practical Bayesian inference for lineal models using Importance Sampling (IS) and the Metropolis-Hestings (M-H) algorithms has been introduced. In this computer lab you will be working with generalized linear models (GLMs) on the binomial and Poisson examples described in previous practicals. In particular, you will be implementing the IS and M-H algorithms for Bayesian inference on GLMs. In case you need to refresh the details about IS and M-H, please check the lecture notes or Practical 5.</p>
+<p>In the previous practical, Bayesian inference for linear models using Importance Sampling (IS) and the Metropolis-Hastings (M-H) algorithms has been introduced. In this practical you will be working with generalized linear models (GLMs) on the binomial and Poisson examples described earlier. In particular, you will be implementing the IS and M-H algorithms for Bayesian inference on GLMs. In case you need to refresh yourself on the details about IS and M-H, please check the lecture notes or Practical 5.</p>
 </div>
 <div id="example-binomial-beta-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#example-binomial-beta-model" class="anchor"></a>Example: Binomial-Beta Model</h1>
-<p>This dataset is described in detail in previous practicals and it recorded the number of red M&amp;M’s in a tube with <span class="math inline">\(N\)</span> M&amp;M’s for different tubes.</p>
+<p>This data set is described in detail in previous practicals; it concerns the recorded the number of red M&amp;M’s in a tube with <span class="math inline">\(N_i\)</span> M&amp;M’s for different tubes.</p>
 <p>The model can be stated as follows:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
@@ -121,11 +121,11 @@ y_i &amp; \sim &amp; Bi(N_i, \theta)\\
 \theta &amp; \sim &amp; Be(1, 1)
 \end{array}
 \]</span></p>
-<p>You can use the following dataset for this exercise:</p>
+<p>You can use the following data set for this exercise:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">22</span>, <span class="fl">24</span><span class="op">)</span>, red <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>These data reproduce different counts of red M&amp;M’s in three different tubes, with <code>MMs</code>recording the total number of M&amp;M’s in the tube and <code>red</code> the number of red ones.</p>
-<p>Please, check Practical 5 in case you need to remember the details of the implementation of the IS and M-H algorithms for this particular model. Also, you can take the <code>R</code> code from Practical 5 and modify it to complete the exercise above.</p>
+<p>Please check Practical 5 in case you need to remember the details of the implementation of the IS and M-H algorithms for this particular model. Also, you can take the <code>R</code> code from Practical 5 and modify it to complete the exercise above.</p>
 <div id="exercises" class="section level2">
 <h2 class="hasAnchor">
 <a href="#exercises" class="anchor"></a>Exercises</h2>
@@ -140,8 +140,8 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 \alpha &amp; \sim &amp; N(0, \tau_{\alpha} = 0.001)
 \end{array}
 \]</span></p>
-<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear preditor (<span class="math inline">\(\alpha\)</span> in this case) via the logit link function. Hence, the model parameter is now <span class="math inline">\(\alpha\)</span>.</p>
-<p>This GLM can be easily fit using IS and M-H by treating <span class="math inline">\(\alpha\)</span> as the unique model parameter.</p>
+<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\alpha\)</span> in this case) via the logit link function. Hence, the model parameter is now <span class="math inline">\(\alpha\)</span>.</p>
+<p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\alpha\)</span> as the unique model parameter.</p>
 </div>
 <div id="importance-sampling" class="section level3">
 <h3 class="hasAnchor">
@@ -158,9 +158,9 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 <a href="#metropolis-hastings" class="anchor"></a>Metropolis-Hastings</h3>
 <p>Similarly, the previous GLM can be fit using the M-H algorithm. Now, values of <span class="math inline">\(\alpha\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
 <ul>
-<li><p>Implement the M-H.</p></li>
+<li><p>Implement the M-H algorithm for this example.</p></li>
 <li><p>Compute the posterior mean and variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
-<li><p>Compare these results to the ones obtained with the IS algorithm.</p></li>
+<li><p>Compare these results to those obtained with the IS algorithm.</p></li>
 </ul>
 </div>
 </div>
@@ -168,7 +168,7 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 <div id="example-poisson-gamma-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#example-poisson-gamma-model" class="anchor"></a>Example: Poisson-Gamma Model</h1>
-<p>The second example will be based on the <em>Game of Thrones</em> dataset, which has also been described in previpus practicals. Remember that this is made of the observed number of u’s on a page of a book of Game of Thrones. The model can be stated as:</p>
+<p>The second example will be based on the <em>Game of Thrones</em> data set, which has also been described in previous practicals. Remember that this is made of the observed number of u’s on a page of a book of Game of Thrones. The model can be stated as:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
 y_i &amp; \sim &amp; Po(\theta)\\
@@ -180,7 +180,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>,
   <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">28</span><span class="op">)</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Us</span></code></pre></div>
-<p>Again, please check Practical 5 is you need to remember the details of the implementation of the IS and M-H algorithms for this particular example. You can also use the <code>R</code> code from Practical 5 to develop the following exercises.</p>
+<p>Again, please check Practical 5 if you need to recall the details of the implementation of the IS and M-H algorithms for this particular example. You can also use the <code>R</code> code from Practical 5 to develop the following exercises.</p>
 <div id="exercises-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#exercises-1" class="anchor"></a>Exercises</h2>
@@ -195,13 +195,13 @@ y_i &amp; \sim &amp; Po(\theta)\\
 \alpha &amp; \sim &amp; N(0, \tau_{\alpha} = 0.001)
 \end{array}
 \]</span></p>
-<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear preditor (<span class="math inline">\(\alpha\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\alpha\)</span>.</p>
-<p>This GLM can be easily fit using IS and M-H by treating <span class="math inline">\(\alpha\)</span> as the unique model parameter.</p>
+<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\alpha\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\alpha\)</span>.</p>
+<p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\alpha\)</span> as the unique model parameter.</p>
 </div>
 <div id="importance-sampling-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#importance-sampling-1" class="anchor"></a>Importance sampling</h3>
-<p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\alpha\)</span> need to be sampled. Given that <span class="math inline">\(\alpha\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logarithmof the average number of u’s in the sample (for example, 3.25).</p>
+<p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\alpha\)</span> need to be sampled. Given that <span class="math inline">\(\alpha\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logarithm of the average number of u’s in the sample (for example, 3.25).</p>
 <ul>
 <li><p>Implement the M-H using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and precision 0.1.</p></li>
 <li><p>Compute the posterior mean and variance for both sets of results.</p></li>
@@ -211,7 +211,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <div id="metropolis-hastings-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#metropolis-hastings-1" class="anchor"></a>Metropolis-Hastings</h3>
-<p>Similarly, the previous GLM can be fit using the M-H algorithm. Now, values of <span class="math inline">\(\alpha\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
+<p>Again, the previous GLM can be fitted using the M-H algorithm. Now, values of <span class="math inline">\(\alpha\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
 <ul>
 <li><p>Implement the M-H algorithm for this model.</p></li>
 <li><p>Compute the posterior mean and variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>

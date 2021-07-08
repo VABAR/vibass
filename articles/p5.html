@@ -405,7 +405,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
   <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">dlnorm</a></span><span class="op">(</span><span class="va">new.theta</span>, meanlog <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, sdlog <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="co">#Prior distribution: Gamma(0.01, 0.01)</span>
+<span class="co">#Prior distribution: Ga(0.01, 0.01)</span>
 <span class="va">logprior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">theta</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">}</span>
@@ -470,7 +470,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <p>Similarly to the exercises in the example on binomial data, you will now assess the impact of the sampling distribution on the inference process.</p>
 <ul>
 <li><p>Compute the effective sample size for the previous example. How is this related to the number of IS samples (<code>n_simulations</code>)?</p></li>
-<li><p>Use a different sampling distribution and check how sampling weights, ESS and point estimates differ from those in the current example. For example, a Gamma(5, 0.1) will put a higher mass on values around 40, unlike the actual posterior distribution. What differences do you find with the example presented here using a uniform sampling distribution? Why do you think that these differences appear?</p></li>
+<li><p>Use a different sampling distribution and check how sampling weights, ESS and point estimates differ from those in the current example. For example, a Ga(5, 0.1) will put a higher mass on values around 40, unlike the actual posterior distribution. What differences do you find with the example presented here using a uniform sampling distribution? Why do you think that these differences appear?</p></li>
 </ul>
 </div>
 <div id="sampling-from-the-actual-posterior-1" class="section level3">

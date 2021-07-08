@@ -119,7 +119,7 @@
 \begin{array}{rcl}
 y_i &amp; \sim &amp; N(\mu, \tau)\\
 \mu &amp; \sim &amp; N(\mu_{\mu}, \tau_{\mu})\\
-\tau &amp; \sim &amp; Gamma(a, b)
+\tau &amp; \sim &amp; Ga(a, b)
 \end{array}
 \]</span></p>
 <p><strong>Note that now the Normal distribution is expressed using precision rather than variance.</strong></p>
@@ -315,7 +315,7 @@ y_i &amp; \sim &amp; N(\mu_i, \tau)\\
 \mu_i &amp; = &amp; \alpha + \beta x_i\\
 \alpha &amp; \sim &amp; N(0, 0.001)\\
 \beta &amp; \sim &amp; N(0, 0.001)\\
-\tau &amp; \sim &amp; Gamma(0.01, 0.01)
+\tau &amp; \sim &amp; Ga(0.01, 0.01)
 \end{array}
 \]</span></p>
 <p>Note that that the mean <span class="math inline">\(\mu_i\)</span> is different for different participants as gender is involved, whose value is represented by covariate <span class="math inline">\(x_i\)</span>. Also, the priors of the model parameters have been fully defined (i.e., the distribution parameters are set), but other priors could be used.</p>
