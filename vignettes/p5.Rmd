@@ -191,7 +191,7 @@ post_var
 
 
 Finally, an estimate of the posterior density of the parameter can be 
-obtained by using a *weighted* kernel density estimation:
+obtained by using *weighted* kernel density estimation:
 
 
 ```{r fig = TRUE}
@@ -506,7 +506,7 @@ theta[1] <- 30
 for(i in 2:n.iter) {
   new.theta <- rq(theta[i - 1])
   
-  #Log-Accepance probability
+  #Log-Acceptance probability
   logacc.prob <- loglik(y, new.theta) + logprior(new.theta) +
     logdq(theta[i - 1], new.theta)
   logacc.prob <- logacc.prob - loglik(y, theta[i - 1]) - logprior(theta[i - 1]) - 
