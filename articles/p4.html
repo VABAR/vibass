@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.12</span>
       </span>
     </div>
 
@@ -64,6 +64,15 @@
     </li>
     <li>
       <a href="../articles/p4.html">PRACTICAL 4: Normal data</a>
+    </li>
+    <li>
+      <a href="../articles/p5.html">Practical 5: Numerical approaches</a>
+    </li>
+    <li>
+      <a href="../articles/p6.html">Practical 6: Linear models</a>
+    </li>
+    <li>
+      <a href="../articles/p8.html">Practical 8: Bayesian hierachical models</a>
     </li>
   </ul>
 </li>
@@ -435,14 +444,14 @@ Posterior (green) distribution for the mean height.
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
 <span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="co">#&gt; 0.0009026 0.0026658 0.0034084 0.0037908 0.0044779 0.0348282</span>
+<span class="co">#&gt; 0.0009355 0.0026778 0.0034254 0.0038022 0.0044911 0.0396391</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.861059e-06</span>
+<span class="co">#&gt; [1] 2.861036e-06</span>
 <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.001691467</span>
+<span class="co">#&gt; [1] 0.00169146</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;        0.5%       99.5% </span>
-<span class="co">#&gt; 0.001455473 0.011191540</span></code></pre></div>
+<span class="co">#&gt;       0.5%      99.5% </span>
+<span class="co">#&gt; 0.00145235 0.01110741</span></code></pre></div>
 <p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid \mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
 </div>
 </div>

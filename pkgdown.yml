@@ -6,7 +6,10 @@ articles:
   p2: p2.html
   p3: p3.html
   p4: p4.html
-last_built: 2021-07-08T11:44Z
+  p5: p5.html
+  p6: p6.html
+  p8: p8.html
+last_built: 2021-07-08T13:45Z
 urls:
   reference: http://vabar.es/vibass//reference
   article: http://vabar.es/vibass//articles
