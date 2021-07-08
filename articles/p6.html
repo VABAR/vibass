@@ -108,12 +108,12 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>In the previous practical, you have implemented the Importance sampling (IS) and Metropolis-Hastings (M-H) algorithms using examples on binomial and Poisson data. In this practical, an example on Normal data will be used to estimate the mean and precision of the Normal distribution. Please, refer to the previous practical if you need to refresh the details about the IS and M-H algorithms.</p>
+<p>In the previous practical, you implemented the Importance sampling (IS) and Metropolis-Hastings (M-H) algorithms using examples on binomial and Poisson data. In this practical, an example on Normal data will be used to estimate the mean and precision of the Normal distribution. Please refer to the previous practical if you need to refresh yuor memory on the details of the IS and M-H algorithms.</p>
 </div>
 <div id="example-normal-normal-gamma-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#example-normal-normal-gamma-model" class="anchor"></a>Example: Normal-Normal-Gamma Model</h1>
-<p>In this example the heights dataset will be considered. In this case, the heights of the attendants to VIBASS have been collected and the aim is to make inference about the average. In this case, the data follow a Normal distribution with mean <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>. The prior on <span class="math inline">\(\mu\)</span> is a Normal with known mean and precision and the prior on <span class="math inline">\(\tau\)</span> is a gamma distribution with known parameters.</p>
+<p>In this example the heights data set will be considered. The heights of the participants of VIBASS have been collected and the aim is to make inference about the average. In this case, the data follow a Normal distribution with mean <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>. The prior on <span class="math inline">\(\mu\)</span> is a Normal with known mean and precision and the prior on <span class="math inline">\(\tau\)</span> is a gamma distribution with known parameters.</p>
 <p>This model can be stated as:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
@@ -122,17 +122,17 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 \tau &amp; \sim &amp; Gamma(a, b)
 \end{array}
 \]</span></p>
-<p><strong>Note that now the Normal distribution is expressed using its precission.</strong></p>
-<p>The parameters for the priors are as follows. For the prior on <span class="math inline">\(\mu\)</span>, we will use a Gaussian distribution with mean <span class="math inline">\(\mu_{\mu} = 0\)</span> and precision <span class="math inline">\(\tau_{\mu} = 0.001\)</span>. For the prior on <span class="math inline">\(\tau\)</span>, a Gamma with parameters <span class="math inline">\(0.01\)</span> and <span class="math inline">\(0.01\)</span> will be used, as this provide a vague prior because of it small precision.</p>
+<p><strong>Note that now the Normal distribution is expressed using precision rather than variance.</strong></p>
+<p>The parameters for the priors are as follows. For the prior on <span class="math inline">\(\mu\)</span>, we will use a Gaussian distribution with mean <span class="math inline">\(\mu_{\mu} = 0\)</span> and precision <span class="math inline">\(\tau_{\mu} = 0.001\)</span>. For the prior on <span class="math inline">\(\tau\)</span>, a Gamma with parameters <span class="math inline">\(0.01\)</span> and <span class="math inline">\(0.01\)</span> will be used, as this provides a vague prior due to a small precision (and hence a large variance).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> 
 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.73</span>, <span class="fl">1.65</span>, <span class="fl">1.65</span>, <span class="fl">1.76</span>, <span class="fl">1.65</span>, <span class="fl">1.63</span>, <span class="fl">1.70</span>, <span class="fl">1.58</span>, <span class="fl">1.57</span>, <span class="fl">1.65</span>, <span class="fl">1.74</span>, <span class="fl">1.68</span>, <span class="fl">1.67</span>, <span class="fl">1.58</span>, <span class="fl">1.66</span>, <span class="fl">1.92</span>, <span class="fl">1.82</span>, <span class="fl">1.69</span>, <span class="fl">1.75</span>, <span class="fl">1.72</span>, <span class="fl">1.71</span>, <span class="fl">1.73</span>, <span class="fl">1.69</span>, <span class="fl">1.70</span>, <span class="fl">1.78</span>, <span class="fl">1.88</span>, <span class="fl">1.82</span>, <span class="fl">1.86</span>, <span class="fl">1.65</span><span class="op">)</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">height</span></code></pre></div>
-<p>Note that these heights correspond to the ones available in previous practicals, with the first 15 values corresponding to female VIBASS participants and the following 14 to male VIBASS participants.</p>
+<p>Note that these heights correspond to those available in previous practicals, with the first 15 values corresponding to female VIBASS participants and the following 14 to male VIBASS participants.</p>
 <div id="importance-sampling" class="section level2">
 <h2 class="hasAnchor">
 <a href="#importance-sampling" class="anchor"></a>Importance sampling</h2>
-<p>In this example we have two parameters to make inference, i.e., now we have <span class="math inline">\(\theta = (\mu, \tau)\)</span>. Hence, the sampling distribution will be a bivariate distribution. Actually, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently from each other. Values of <span class="math inline">\(\mu\)</span> will be sampled using a log-Normal distribution centered at 0 and with standard deviation 0.5, and values of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean 0 and standard deviation 1.25.</p>
+<p>In this example we have to make inference on two parameters, i.e. <span class="math inline">\(\theta = (\mu, \tau)\)</span>. Hence, the sampling distribution will be a bivariate distribution. In fact, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently of each other. Values of <span class="math inline">\(\mu\)</span> will be sampled using a log-Normal distribution centered at 0 and with standard deviation 0.5, and values of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean 0 and standard deviation 1.25.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># We increase the number of simulations in this example</span>
 <span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">40000</span>
@@ -140,7 +140,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">rlnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>,
   <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">rlnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fl">0</span>, <span class="fl">1.25</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p>Next, importance weights are computed. Note that now the density of the bivariate sampling distribution is the product of the two univarite sampling distributions (or the sum in the log scale).</p>
+<p>Next, importance weights are computed. Note that now the density of the bivariate sampling distribution is the product of the two univariate sampling distributions (or the sum on the log scale).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Log-Likelihood (for each value of theta_sim)</span>
 <span class="co"># NOTE: 'apply' is used now as 'theta_sim' is a matrix</span>
@@ -154,11 +154,11 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">dlnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">dlnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>
   
 
-<span class="co"># Re-scale weights to sum up to one</span>
+<span class="co"># Re-scale weights to sum to one</span>
 <span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span>
 <span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span>
 <span class="va">ww</span> <span class="op">&lt;-</span> <span class="va">ww</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></code></pre></div>
-<p>Importance weights can be summarized using a histogram (see below). Small weights show that most samples are far from the regions of high posterior density.</p>
+<p>Importance weights can be summarized using a histogram (see below). The distribution of weights shows that most samples are far from the regions of high posterior density.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">ww</span>, xlab <span class="op">=</span> <span class="st">"Importance weights"</span><span class="op">)</span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -183,7 +183,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="va">post_var_tau</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean_tau</span><span class="op">^</span><span class="fl">2</span>
 <span class="va">post_var_tau</span>
 <span class="co">#&gt; [1] 24.79545</span></code></pre></div>
-<p>Finally, an estimate of the posterior density of the parameter can be obtained by using a <em>weighted</em> kernel density estimation:</p>
+<p>Finally, an estimate of the posterior density of each parameter can be obtained by using <em>weighted</em> kernel density estimation:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density (mu)"</span>,
@@ -192,12 +192,13 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">7.5</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density (tau)"</span>,
   xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>Note that the value of the bandwidth used (argument <code>bw</code>) has been set manually so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution).</p>
+<p>Note that the value of the bandwidth used (argument <code>bw</code>) has been set manually so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.</p>
 </div>
 <div id="metropolis-hastings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metropolis-hastings" class="anchor"></a>Metropolis-Hastings</h2>
-<p>In this example we have two parameters to make inference. Hence, the proposal distribution will be a bivariate distribution, i.e., the distribution is defined on vector <span class="math inline">\(\theta = (\mu, \tau)\)</span>. Actually, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently from each other, but the two values will be accepted jointly. A new value of <span class="math inline">\(\mu\)</span> will be proposed using a Normal distribution centered at the current value of <span class="math inline">\(\mu\)</span> with precision <span class="math inline">\(10\)</span>, and a new value of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean the logarithm of the current value and precision <span class="math inline">\(10\)</span>.</p>
+<p>As above, we have to make inference on two parameters. Hence, the proposal distribution will be a bivariate distribution, i.e., the distribution is defined on vector <span class="math inline">\(\theta = (\mu,\tau)\)</span>.<br>
+In fact, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently from each other, but the two values will be accepted jointly. A new value of <span class="math inline">\(\mu\)</span> will be proposed using a Normal distribution centered at the current value of <span class="math inline">\(\mu\)</span> with precision <span class="math inline">\(10\)</span>, and a new value of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean the logarithm of the current value and precision <span class="math inline">\(10\)</span>.</p>
 <p>All these functions are defined here:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Proposal distribution: sampling</span>
@@ -242,7 +243,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">n.iter</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">new.theta</span> <span class="op">&lt;-</span> <span class="fu">rq</span><span class="op">(</span><span class="va">theta</span><span class="op">[[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
   
-  <span class="co">#Log-Accepance probability</span>
+  <span class="co">#Log-Acceptance probability</span>
   <span class="va">logacc.prob</span> <span class="op">&lt;-</span> <span class="fu">loglik</span><span class="op">(</span><span class="va">y</span>, <span class="va">new.theta</span><span class="op">)</span> <span class="op">+</span> <span class="fu">logprior</span><span class="op">(</span><span class="va">new.theta</span><span class="op">)</span> <span class="op">+</span> <span class="fu">logdq</span><span class="op">(</span><span class="va">theta</span><span class="op">[[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">new.theta</span><span class="op">)</span>
   <span class="va">logacc.prob</span> <span class="op">&lt;-</span> <span class="va">logacc.prob</span> <span class="op">-</span> <span class="fu">loglik</span><span class="op">(</span><span class="va">y</span>, <span class="va">theta</span><span class="op">[[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu">logprior</span><span class="op">(</span><span class="va">theta</span><span class="op">[[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> 
     <span class="fu">logdq</span><span class="op">(</span><span class="va">new.theta</span>, <span class="va">theta</span><span class="op">[[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
@@ -256,7 +257,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
     <span class="va">theta</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span>
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
-<p>The same burn-in, thinning and summary statistics and plots will be computed now:</p>
+<p>The same burn-in, thinning and summary statistics and plots are computed:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Remove burn-in</span>
 <span class="va">theta</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span>
@@ -288,7 +289,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>, 
   xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>Finally, if you prefer to show the posterior distribution of the variance (instead of that of the precision), then you can simply transform the samples of the precision as follows:</p>
+<p>Finally, if you prefer to show the posterior distribution of the variance (instead of that of the precision), then you can simply transform the sampled values of the precision as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample.var</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">theta</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>
 
@@ -304,7 +305,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <h3 class="hasAnchor">
 <a href="#linear-models" class="anchor"></a>Linear models</h3>
 <p>The previous example can be regarded as a simple linear regression example in which the mean <span class="math inline">\(\mu_i\)</span> (of participant <span class="math inline">\(i\)</span>) is equal to an intercept term <span class="math inline">\(\alpha\)</span>, i.e., <span class="math inline">\(\mu_i = \alpha\)</span>. If a covariate <span class="math inline">\(x_i\)</span> is available, the model could be extended to consider a mean equal to <span class="math inline">\(\mu_i = \alpha + \beta x_i\)</span>.</p>
-<p>We can consider the gender of the VIBASS participants as a covariate and add this information to the dataset:</p>
+<p>We can consider the gender of the VIBASS participants as a covariate and add this information to the data set:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span><span class="op">$</span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">14</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>In the new <code>gender</code> variable, <code>1</code> means that the participant is a woman and <code>0</code> means that the participant is a man. The resulting model is now:</p>
@@ -317,26 +318,26 @@ y_i &amp; \sim &amp; N(\mu_i, \tau)\\
 \tau &amp; \sim &amp; Gamma(0.01, 0.01)
 \end{array}
 \]</span></p>
-<p>Note that now that the mean <span class="math inline">\(\mu_i\)</span> is different for different participants as gender is involved, whose value is represented by covariate <span class="math inline">\(x_i\)</span>. Also, the priors of the model parameters have been fully defined (i.e., the distribution parameters are set), but other priors could be used.</p>
-<p>In the follwing exercises you will be using IS and M-H to fit this linear regression model with a single covariate.</p>
+<p>Note that that the mean <span class="math inline">\(\mu_i\)</span> is different for different participants as gender is involved, whose value is represented by covariate <span class="math inline">\(x_i\)</span>. Also, the priors of the model parameters have been fully defined (i.e., the distribution parameters are set), but other priors could be used.</p>
+<p>In the following exercises you will be using IS and M-H to fit this linear regression model with a single covariate.</p>
 </div>
 <div id="importance-sampling-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#importance-sampling-1" class="anchor"></a>Importance-sampling</h3>
-<p>This model can be fit using IS by sampling values for <span class="math inline">\(\theta =(\alpha, \beta, \tau)\)</span>. Values for these three model parameters can be sampled independently. For <span class="math inline">\(\alpha\)</span> a Normal distribution with mean 1.71 (the average height) and standard deviation 10 (to have ample variability) can be used to sample values, and values of <span class="math inline">\(\beta\)</span> can be sampled from a Normal with zero mean and standard deviation 10. Values for <span class="math inline">\(\tau\)</span> can be obtained using a log-Normal with mean 0 and standard deviation <span class="math inline">\(1.25\)</span>.</p>
+<p>This model can be fitted using IS by sampling values for <span class="math inline">\(\theta =(\alpha, \beta, \tau)\)</span>. Values for these three model parameters can be sampled independently. For <span class="math inline">\(\alpha\)</span> a Normal distribution with mean 1.71 (the average height) and standard deviation <span class="math inline">\(10\)</span> (to have large variability) can be used to sample values, and values of <span class="math inline">\(\beta\)</span> can be sampled from a Normal with zero mean and standard deviation <span class="math inline">\(10\)</span>. Values for <span class="math inline">\(\tau\)</span> can be obtained using a log-Normal with mean <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(1.25\)</span>.</p>
 <ul>
 <li><p>Implement the IS algorithm to fit this model.</p></li>
 <li><p>Compute estimates of the posterior mean and variance of the three model parameters.</p></li>
-<li><p>Compute the effective sample size for each parameter. What do you observe? Do you think that inference is equally reliable for the three parameters?</p></li>
+<li><p>Compute the effective sample size for each parameter. What do you observe? Do you think that inference is equally reliable for all three parameters?</p></li>
 </ul>
 </div>
 <div id="metropolis-hastings-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#metropolis-hastings-1" class="anchor"></a>Metropolis-Hastings</h3>
-<p>Similarly, this model can be fit using the M-H algorithm. In this case, the proposal distribution needs to provide values of <span class="math inline">\(\theta =(\alpha, \beta, \tau)\)</span>. This can be done independently for each variable as in the example developed above. For each of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, the proposal distribution can be a Normal distribution with mean the current value and precision 10, while for <span class="math inline">\(\tau\)</span> exactly the same proposal as before can be used.</p>
+<p>Similarly, this model can be fitted using the M-H algorithm. In this case, the proposal distribution needs to provide values of <span class="math inline">\(\theta =(\alpha, \beta, \tau)\)</span>. This can be done independently for each variable as in the example developed above. For each of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, the proposal distribution can be a Normal distribution with mean the current value and precision 10, while for <span class="math inline">\(\tau\)</span> exactly the same proposal as before can be used.</p>
 <ul>
-<li><p>Implement the M-H algorithm to fit this model. You can rely on the code above.</p></li>
-<li><p>Compute summary statistics of the model parameters and compare them to the ones obtained with IS.</p></li>
+<li><p>Implement the M-H algorithm to fit this model. You can make use of the code above.</p></li>
+<li><p>Compute summary statistics of the model parameters and compare them with the ones obtained with IS.</p></li>
 </ul>
 </div>
 </div>
