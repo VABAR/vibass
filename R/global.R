@@ -52,7 +52,8 @@ mm_cols <-
 cols <- data.frame(
   target = c("prior", "likelihood", "posterior", "predictive"),
   name = c("dodgerblue", "darkorange", "darkgreen", "purple"),
-  hex = c("#60C6FF", "#FFC400", "#00A800", "#D063F8")
+  hex = c("#60C6FF", "#FFC400", "#00A800", "#D063F8"),
+  stringsAsFactors = FALSE
 )
 
 ## Hex codes from named colours
