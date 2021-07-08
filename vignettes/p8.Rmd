@@ -25,11 +25,11 @@ seldom available in closed form and implementing the Metropolis-Hastings
 algorithm for complex models can be tricky.
 
 For this reason, in this practical several `R` packages to fit Bayesian
-hierarchical models will be explained. The examples that have been considered
+hierarchical models will be explored. The examples that have been considered
 in previous practicals will be revisited, but the computational tools discussed
 now can be used to deal with more complex models.
 
-In particular, the following software will be considered:
+In particular, the following two software packages will be considered:
 
 
 * `BayesX`
@@ -39,11 +39,12 @@ In particular, the following software will be considered:
 `BayesX` implements MCMC methods to obtain samples from the joint posterior.
 `INLA` is based on producing (accurate) approximations to the marginal
 distributions of the model parameters. Although this can be enough most of the
-time, making multivarite inference with `INLA` can be difficult or impossible.
-However, in many cases this is not needed and `INLA` can fit models in a
-fraction of what it takes with MCMC. In addition, `BayesX` and `INLA` have a
-very simple interface to define models using a `formula` (similarly as it is
-done using `glm` and `gam`).
+time, making multivariate inference with `INLA` can be difficult or impossible.
+However, in many cases this is not needed and `INLA` can fit some classes of models in a
+fraction of the time it takes with MCMC.
+
+Both `BayesX` and `INLA` have a
+very simple interface to define models using a `formula` (in the same way as with `glm` and `gam`).
 
 
 
@@ -52,43 +53,35 @@ done using `glm` and `gam`).
 
 ## Binomial model
 
-The model that we will be using now is slightly different to the one
-prevented in previous practicals. In particular, instead of a Binomial we
-will consider each one of the Bernouilli trials, so that data is encoded
+The model that we will be using now is slightly different from the one
+presented in previous practicals. In particular, instead of a Binomial we
+will consider each one of the Bernoulli trials, so that data is encoded
 as $0$ or $1$ and the model becomes:
 
 $$
 \begin{array}{rcl}
-y_{ij} & \sim & Bi(\theta, 1)\\
+y_{ij} & \sim & Bi(1,\theta)\\
 \textrm{logit}(\theta) & = & \alpha\\
 \alpha & \sim & N(0, \tau_{\alpha})
 \end{array}
 $$
 
-Note that now probability $\theta$ is not modeled directly but that its logit
+Note that now the probability $\theta$ is not modeled directly but that its logit
 depends on a linear predictor, which is made of a single intercept term
 $\alpha$. This term is assigned a (vague) Gaussian prior.
 
-You can use the data from the proportion of red lacasitos obtained
+You can use the data from the proportion of red M&Ms obtained
 before:
 
-```{r,tidy = TRUE, eval = FALSE}
-require(gsheet)
-data <- gsheet2tbl('https://docs.google.com/spreadsheets/d/19xrl9tk_Bpvfq1Os9ZuZ13kBNF4RbhPq-7IwW2KUFBE/edit?usp=sharing')
-```
-
-In case you have lost your data, you can use the following:
-
-
 ```{r eval = TRUE}
-data <- data.frame(lacasitos = c(35, 36, 35), red = c(5, 8, 9))
+data <- data.frame(MMs = c(35, 36, 35), red = c(5, 8, 9))
 ```
 
 Before fitting the model, you will need to transform the original data into binary data:
 
 ```{r}
 red.bin <- rep(c(1,0), times = c(sum(data$red), 
-  sum(data$lacasitos) - sum(data$red)))
+  sum(data$MMs) - sum(data$red)))
 ```
 
 As mentioned above, fitting a model with `BayesX` is similar to fitting a
@@ -108,7 +101,7 @@ summary(bayesx.bin)
 ```
 
 
-Note that the output shows the summary of the intercept term and not
+Note that the output shows the summary of the intercept term $\alpha$ and not of
 $\theta$. In this simple case, we can obtain a sample from the posterior
 of $\theta$ by back-transforming the samples of the intercept term, i.e.,
 $\theta = \textrm{expit}(\alpha) = 1/(1 + \exp(-\alpha))$.
@@ -131,7 +124,7 @@ plot(density(bayesx.theta), main = "Posterior density",
 
 ## Poisson model
 
-A Poisson model has already been used for the *Game of Thrones* dataset. In this case,
+A Poisson model has already been used for the *Game of Thrones* data set. In this case,
 a slightly different model will be fitted:
 
 $$
@@ -147,18 +140,10 @@ and 0.001, but we will ignore that for now.
 
 This is often called a *Poisson model* or *log-linear model* because the
 logarithm of the mean (i.e., $\theta$) is modeled on a vector of covariates.
-In this case the linear predictor is made of a single intercept term, which
+In this case the linear predictor is made up of a single intercept term, which
 is assigned a Gaussian prior. 
 
 To fit this model, use the data collected previously, which can be loaded with:
-
-
-```{r, tidy = TRUE, eval = FALSE}
-require(gsheet)
-data <- gsheet2tbl('https://docs.google.com/spreadsheets/d/1x48c2BspJYlIoH1EydQp2Aw0sHBeIrm-20JmpvFV48c/edit?usp=sharing')
-Us <- data$Us
-```
-In case you have lost the data, you can use the following:
 
 ```{r eval = TRUE}
 data <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23, 28, 25,
@@ -173,7 +158,7 @@ bayesx.pois <- bayesx(Us ~ 1, family = "poisson", method = "MCMC")
 summary(bayesx.pois)
 ```
 
-Note that the output shows the summary of the intercept term and not
+Note that the output shows the summary of the intercept term $\alpha$ and not of
 $\theta$. In this simple case, we can obtain a sample from the posterior
 of $\theta$ by back-transforming the samples of the intercept term, i.e., 
 $\theta = \exp(\alpha)$.
@@ -195,7 +180,7 @@ plot(density(bayesx.theta), main = "Posterior density", xlab = expression(theta)
 
 ## Normal model 
 
-The last model is based on the height data collected before. The actual
+The final model is based on the height data collected before. The actual
 model that will be considered is:
 
 
@@ -208,20 +193,12 @@ y_i & \sim & N(\mu, \tau)\\
 \end{array}
 $$
 
-In this case, we have explicitely written the mean $\mu$ equal to a linear
+In this case, we have explicitly written the mean $\mu$ equal to a linear
 predictor because this model can be generalised to include additive effects on
 several covariates.
 
 
 You can load the height data using this:
-
-```{r eval = FALSE, tidy = TRUE}
-data <- gsheet2tbl('https://docs.google.com/spreadsheets/d/1_o6y1sgMf2DiFi5MEZ-kGpv161g9JlFihaGDWzKgXdE/edit?usp=sharing')
-heights <- data$height
-```
-
-If you cannot find
-them you can use the following:
 
 ```{r eval = TRUE}
 data <- data.frame(height = c(1.6, 1.62, 1.69, 1.58, 1.57, 1.57, 1.47, 1.59,
@@ -274,15 +251,15 @@ different numerical approximations with the Laplace method.
 
 
 
-Model fitting with `R-INLA` is very similar to model fitting with `BayesX`.
+Model-fitting with `R-INLA` is very similar to model-fitting with `BayesX`.
 Instead of calling `bayesx()`, you will be calling `inla()`. Of course there
-are important differences between these two packages but, in practice, model
-fitting works very similarly.
+are important differences between these two packages but, in practice, the process of
+fitting models works in a very similar way.
 
 
 ## Binomial model
 
-First, a model to the lacasitos dataset will be fitted:
+First, a model to the M&Ms data set will be fitted:
 
 ```{r}
 library(INLA)
@@ -291,9 +268,9 @@ inla.bin <- inla(red.bin ~ 1, family = "binomial",
 summary(inla.bin)
 ```
 
-The summary output shows summary statistics of the intercept, which is not
+The output shows summary statistics of the intercept, which is not
 the proportion. We need to back-transform the output but, in this case, 
-we need to back-transform the marginal of the intercept (because there
+we need to back-transform the marginal distribution of the intercept (because there
 are no samples from the posterior):
 
 ```{r}
@@ -314,7 +291,7 @@ plot(marg.theta, type = "l", main = "Posterior density",
 ## Poisson model
 
 
-Next, the analysis of the *Game of Thrones* dataset will be considered and 
+Next, the analysis of the *Game of Thrones* data set will be considered and 
 a Poisson model will be fitted:
 
 ```{r}
@@ -323,7 +300,7 @@ inla.pois <- inla(Us ~ 1, data = list(Us = Us),
 summary(inla.pois)
 ```
 
-Again, in order to obtain the posterior marginal distribution of mean
+Again, in order to obtain the posterior marginal distribution of the mean
 $\theta$,
 the marginal of $\alpha$ needs to be transformed. In this case it is a bit
 simpler since $\theta = \exp(\alpha)$:
@@ -341,7 +318,7 @@ plot(marg.theta, type = "l", main = "Posterior density",
 
 ## Normal model
 
-Finally, the heights dataset will be considered to fit a Bayesian model
+Finally, the heights data set will be considered to fit a Bayesian model
 using a Gaussian likelihood with `INLA`:
 
 ```{r}
@@ -350,7 +327,7 @@ inla.norm <- inla(heights ~ 1, data = list(heights = heights),
 summary(inla.norm)
 ```
 
-As mean $\mu$ is equal to the intercept $\alpha$, there is no need
+As the mean $\mu$ is equal to the intercept $\alpha$, there is no need
 to make any transformation. Also, `INLA` provides an approximation
 to the model precision, so both marginals can be plotted straight away:
 
