@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.13
+Version: 0.0.14
 Authors@R: 
     c(person(given = "VIBASS4",
              role = c("aut")),
@@ -52,7 +52,6 @@ Imports:
     rlang,
     rstudioapi,
     shiny (>= 1.5),
-    stringi,
     tibble,
     tidyr
 Suggests: 

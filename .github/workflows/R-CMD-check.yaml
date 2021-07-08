@@ -11,6 +11,8 @@ on:
       - master
 
 name: R-CMD-check
+env:
+  cache-version: v2
 
 jobs:
   R-CMD-check:
@@ -55,8 +57,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          key: ${{ env.cache-version }}-${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
