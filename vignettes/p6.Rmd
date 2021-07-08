@@ -16,6 +16,16 @@ vignette: >
 ---
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>"
+)
+library("ggtern")
+
+```
+
 # Introduction
 
 In the previous practical, you have implemented the Importance sampling (IS) and Metropolis-Hastings (M-H) algorithms using examples on binomial and Poisson data. In this practical,
@@ -156,8 +166,6 @@ A bivariate density estimate can also be computed by using a weighted kernel den
 estimator in two dimensions:
 
 ```{r}
-library("ggtern")
-
 contour(
   kde2d.weighted(theta_sim[, 1], theta_sim[, 2], h = c(0.2, 7.5), w = ww, n = 25),
      xlim = c(1, 2.5), ylim = c(35, 65)

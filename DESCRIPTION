@@ -46,6 +46,7 @@ Imports:
     dplyr,
     extraDistr,
     ggplot2,
+    ggtern,
     golem,
     knitr,
     magrittr,
