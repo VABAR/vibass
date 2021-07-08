@@ -38,15 +38,15 @@ $$
 $$
 
 If $g(\cdot)$ is the sampling distribution, and $\{\theta^{(i)}\}_{i=1}^n$
-the $n$ samples, then importance weights are
+are $n$ samples from that distribution, then the importance weights are
 
 $$
 w_i = \frac{\pi(\theta^{(i)} \mid y)}{g(\theta^{(i)})} \propto 
   \frac{f(y \mid \theta^{(i)}) \pi(\theta^{(i)})}{g(\theta^{(i)})} .
 $$
 \noindent
-When the normalizing constant in the posterior distribution is not known, importance 
-weights are re-scaled to sum up to one.
+When the normalizing constant in the posterior distribution is not known, the importance 
+weights are re-scaled to sum to one.
 
 Hence, the posterior mean can be computed as
 
@@ -99,17 +99,17 @@ $$
 
 
 If the value is accepted, then the current state is set to the proposed value,
-i.e., $\theta^{(i+1)} = \theta^{*}$. Otherwise, $\theta^{(i+1)} =
+i.e., $\theta^{(i+1)} = \theta^{*}$. Otherwise we keep the previous value, so $\theta^{(i+1)} =
 \theta^{(i)}$.
 
 # Example: Binomial-Beta Model
 
-The first example that will be considered is based on the dataset colected on
+The first example that will be considered is based on the data set collected on
 the number of red M&M's in a tube with $N$ M&M's. The number of
 red M&M's obtained depends on the total number of M&M's extracted and the
 actual proportion of red ones $\theta$. Given the proportion $\theta$,
 the number of red M&M's obtained follows a Binomial
-distribution. Because $\theta$ is between 0 and 1, the prior is a Beta.
+distribution. Because $\theta$ takes values between 0 and 1, a sensible choice for a prior is the Beta distribution.
 
 The model can be stated as follows:
 
@@ -119,10 +119,11 @@ y_i & \sim & Bi(N_i, \theta)\\
 \theta & \sim & Be(a, b)
 \end{array}
 $$
+to allow for multiple tubes $i$.
 
 In particular, we will consider a vague uniform prior in the $[0,1]$ interval, which corresponds to $a=b=1$.
 
-You can use the following dataset for this exercise:
+You can use the following data set for this exercise:
 
 ```{r eval = TRUE}
 data <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
@@ -136,10 +137,9 @@ and `red` the actual number of red M&M's ($y_i$ in the model).
 
 Although the posterior distribution is known in closed form, IS can
 be used to estimate the posterior mean and variance. Given that
-the parameter is bounded, a uniform in the interval $[0,1]$ will
+the parameter is bounded, a uniform distribution in the interval $[0,1]$ will
 be used. This is probably not very efficient (as it is likely not
-to be close to the actual posterior) but will provide a straightforward
-simulation strategy.
+to be close to the actual posterior) but it will provide a straightforward simulation strategy.
 
 ```{r}
 n_simulations <- 10000
@@ -149,8 +149,7 @@ theta_sim <- runif(n_simulations)
 
 Next, importance weights are computed in two steps. First, the
 ratio between the likelihood times the prior and the density of the
-sampling distribution is computed. Secondly, weights are re-scaled to sum up
-to one.
+sampling distribution is computed. Secondly, weights are re-scaled to sum to one.
 
 ```{r}
 # Log-Likelihood (for each value of theta_sim)
@@ -170,8 +169,8 @@ ww <- ww / sum(ww)
 
 
 Importance weights can be summarized using a histogram (see below).
-Small weights show that most samples are far from the regions of high
-posterior density.
+The distribution of weights shows that most samples are far from the
+regions of high posterior density.
 
 
 ```{r fig = TRUE}
@@ -201,19 +200,19 @@ curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, ad
 ```
 
 Note that the value of the bandwidth used (argument `bw`) has been set manually
-so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution).
+so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.
 
 
 ## Metropolis-Hastings
 
-As stated above, the impleentation of the M-H algorithm requires a proposal
+As stated above, the implementation of the M-H algorithm requires a proposal
 distribution to obtain new values of the parameter $\theta$.
 Usually, the proposal distribution is defined so that the proposed movement
 depends on the current value. However, in this case we will use a uniform
 distribution between 0 and 1 as our proposal distribution.
 
 First of all, we will define the proposal distribution, prior
-and likelihod of the model:
+and likelihood of the model:
 
 ```{r}
 #Proposal distribution: sampling
@@ -237,7 +236,7 @@ loglik <- function(y, theta, N) {
 }
 ```
 
-Note that all densities and the likelihood are computed in the log-scale.
+Note that all densities and the likelihood are computed on the log-scale.
 
 Next, the implementation of the M-H algorithms is as follows:
 
@@ -258,11 +257,11 @@ N <- data$MMs
 for(i in 2:n.iter) {
   new.theta <- rq()
 
-  #Log-Accepance probability
+  #Log-Acceptance probability
   logacc.prob <- loglik(y, new.theta, N) + logprior(new.theta) + logdq(theta[i - 1])
   logacc.prob <- logacc.prob - loglik(y, theta[i - 1], N) - logprior(theta[i - 1]) - 
     logdq(new.theta)
-  logacc.prob <- min(0, logacc.prob)#0 = log(1)
+  logacc.prob <- min(0, logacc.prob) # Note that 0 = log(1)
 
   if(log(runif(1)) < logacc.prob) {
     #Accept
@@ -300,8 +299,8 @@ plot(density(theta), main = "Posterior density", xlab = expression(theta))
 ### Performance of the sampling distribution
 
 The sampling distribution plays a crucial role in IS and it should be
-as close to the posterior as possible. As way of measuring how good
-a sampling distribution is it is possible to compute the
+as close to the posterior as possible. As a way of measuring how good
+a sampling distribution is, it is possible to compute the
 *effective* sample size as follows:
 
 $$
@@ -323,16 +322,16 @@ do you think that these differences appear?
 Use the posterior distribution (which for
 this particular case is known in a closed form) as the sampling distribution.
 
-  * How are the weights now?
+  * What is the distribution of the importance weights now?
 
-  * Compute the effective sample size. How is it? Why do you think this happens?
+  * Compute the effective sample size. How large is it? Why do you think this happens?
 
 
 ### Non-conjugate prior
 
 IS and M-H are algorithms that can be used to make inference about
-$\theta$ when the posterior desnsity of the parameter is not avialble
-in a closed form. This is the case of models with non-conjugate priors.
+$\theta$ when the posterior density of the parameter is not available
+in closed form. This is the case with models which have non-conjugate priors.
 As an exercise, try to obtain the posterior density of the same
 model with the following non-conjugate prior:
 
@@ -348,21 +347,20 @@ plot(xx, (1 - xx)^2, type = "l", xlab = expression(theta),
   ylab = expression(theta^2))
 ```
 
-The interpretation of this prior is that higher values are favoured as compared
-to smaller values, i.e., our prior information is that the parameter is more
+The interpretation of this prior is that higher values are favoured over smaller values, i.e., our prior information is that the parameter is more
 likely to have values close to 0 than values close to 1.
 
 Note that the prior is specified up to a normalizing constant (which in
 this case is not difficult to compute). However, this constant is not
 needed to implement both IS and M-H. In the case of IS, the constant will
-cancel when the weights are re-scaled to sum up to one and in the case of
+cancel when the weights are re-scaled to sum to one and in the case of
 the M-H the constant will cancel when the acceptance ratio is computed.
 
 
 
 # Example: Poisson-Gamma Model
 
-The second example will be based on the *Game of Thrones* dataset.
+The second example will be based on the *Game of Thrones* data set.
 Remember that this is made of the observed number of u's on
 a page of a book of Game of Thrones. The model can be stated as:
 
@@ -392,10 +390,10 @@ y <- data$Us
 Now the parameter of interest is not bounded, so the sampling distribution
 needs to be chosen with care. We will use a log-Normal distribution with mean 3
 and standard deviation equal to 0.5. This will ensure that all the sampled
-values are positive (because $\theta$ can not take negative values) and that
+values are positive (because $\theta$ cannot take negative values) and that
 the sample values are reasonable (i.e, they are not too small or too large).
 Note that this sampling distribution has been chosen having in mind
-the problem at hand and that this may not work well with other problems.
+the problem at hand and that it may not work well with other problems.
 
 
 ```{r}
@@ -405,7 +403,7 @@ theta_sim <- rlnorm(n_simulations, 3, 0.5)
 ```
 
 Next, importance weights are computed in two steps, as in the previous example.
-Note that now the likelihood, prior and sampling distribtion are different
+Note that now the likelihood, prior and sampling distribution are different
 from the ones in the binomial example.
 
 ```{r}
@@ -446,7 +444,7 @@ post_var
 
 
 Finally, an estimate of the posterior density of the parameter can be
-obtained by using a *weighted* kernel density estimation:
+obtained by using *weighted* kernel density estimation:
 
 
 ```{r fig = TRUE}
@@ -455,7 +453,7 @@ curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRU
 ```
 
 Note that the value of the bandwidth used (argument `bw`) has been set manually
-so that both curves will match (as the default bandwidth provided a slightly different estimate of hte posterior distribution).
+so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.
 
 
 
@@ -463,8 +461,8 @@ so that both curves will match (as the default bandwidth provided a slightly dif
 
 ## Metropolis-Hastings
 
-Similarly as in the previous example, we will set the proposal distribution, as
-the model has benn fully defined above.  In this case, the proposal
+Similarly to the previous example, we will set the proposal distribution, as
+the model has been fully defined above.  In this case, the proposal
 distribution is a log-Normal distribution centered at the logarithm of the
 current value with precision 100.
 
@@ -552,8 +550,8 @@ plot(density(theta), main = "Posterior density", xlab = expression(theta))
 
 ### Performance of the sampling distribution
 
-Similarly as in the exercises in the example on binomial data, you will
-now assess the impact of the sampling distribution the inference process.
+Similarly to the exercises in the example on binomial data, you will
+now assess the impact of the sampling distribution on the inference process.
 
 
 * Compute the effective sample size for the previous example.
@@ -562,7 +560,7 @@ How is this related to the number of IS samples (`n_simulations`)?
 
 * Use a different sampling distribution and check how sampling weights, ESS and
 point estimates differ from those in the current example. For example, a
-Gamma(5, 0.1) will put a higher mass on values about 40, unlike the
+Gamma(5, 0.1) will put a higher mass on values around 40, unlike the
 actual posterior distribution. What differences do you find with the example
 presented here using a uniform sampling distribution? Why do you think that
 these differences appear?
@@ -572,14 +570,14 @@ these differences appear?
 Use the posterior distribution (which for this particular case is known in a
 closed form) as the sampling distribution.
 
-  * How are the weights now?
+  * How large are the weights now?
 
-  * Compute the effective sample size. How is it? Why do you think this happens?
+  * Compute the effective sample size. How large is it? Why do you think this happens?
 
 
 ### Non-conjugate prior
 
-Similarly as in the binomial example, non-conjugate priors can be used
+Just as in the binomial example, non-conjugate priors can be used
 for the $\theta$ parameter. In this case, given that $\theta$ is positive,
 care must be taken when choosing the prior. For this exercise, try to use a
 log-Normal prior with mean 4 and standard deviation 1. This will
@@ -590,7 +588,7 @@ xx <- seq(0, 1000, by = 1)
 plot(xx, dlnorm(xx, 4, 1), type = "l")
 ```
 
-Hence, with this prior small values of the averge number of u's are
+Hence, with this prior small values of the average number of u's are
 given a higher prior density.
 
 A model with this prior can be estimated using IS and M-H algorithms.
