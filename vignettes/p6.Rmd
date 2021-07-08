@@ -22,8 +22,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library("ggtern")
-
 ```
 
 # Introduction
@@ -161,16 +159,6 @@ plot(density(theta_sim[, 2], weights = ww, bw = 7.5), main = "Posterior density 
 Note that the value of the bandwidth used (argument `bw`) has been set manually
 so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution).
 
-
-A bivariate density estimate can also be computed by using a weighted kernel density
-estimator in two dimensions:
-
-```{r}
-contour(
-  kde2d.weighted(theta_sim[, 1], theta_sim[, 2], h = c(0.2, 7.5), w = ww, n = 25),
-     xlim = c(1, 2.5), ylim = c(35, 65)
-)
-```
 
 ## Metropolis-Hastings
 
