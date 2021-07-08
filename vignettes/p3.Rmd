@@ -1,5 +1,5 @@
 ---
-title: 'PRACTICAL 3: Count data'
+title: 'Practical 3: Count data'
 author: "VIBASS4"
 date: "July 2021"
 output:

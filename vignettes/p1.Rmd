@@ -1,5 +1,5 @@
 ---
-title: 'PRACTICAL 1: Binary data'
+title: 'Practical 1: Binary data'
 author: "VIBASS4"
 date: "July 2021"
 output:

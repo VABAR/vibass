@@ -1,5 +1,5 @@
 ---
-title: 'PRACTICAL 2: Inference with simulated samples'
+title: 'Practical 2: Inference with simulated samples'
 author: "VIBASS4"
 date: "July 2021"
 output:
