@@ -1,0 +1,597 @@
+---
+title: 'Practical 5: Numerical approaches'
+author: "VIBASS4"
+date: "July 2021"
+output:
+  html_vignette:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    fig_width: 6
+    fig_height: 4
+vignette: >
+  %\VignetteIndexEntry{Practical 5: Numerical approaches}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Introduction
+
+In previous practicals you have used Bayesian models with conjugate priors
+where the posterior distribution can be easily worked out. In general, this is
+seldom the case and other approaches need to be considered. In particular,
+Importance Sampling and Markov Chain Monte Carlo (MCMC) methods can be used to draw samples from the
+posterior distribution that are in turn used to obtain estimates of the
+posterior mean and variance and other quantities of interest.
+
+# Importance-Sampling
+
+As described in the previous lecture, Importance Sampling (IS) is an
+algorithm to estimate some quantities of interest of a target distribution
+by sampling from a different (sampling) distribution and reweighting the samples using importance weights. In Bayeisan inference, IS can be used to sample
+from the posterior distribution when the normalizing constant is not known
+because
+
+$$
+\pi(\theta \mid y) \propto f(y\mid \theta) \pi(\theta) .
+$$
+
+If $g(\cdot)$ is the sampling distribution, and $\{\theta^{(i)}\}_{i=1}^n$
+the $n$ samples, then importance weights are
+
+$$
+w_i = \frac{\pi(\theta^{(i)} \mid y)}{g(\theta^{(i)})} \propto 
+  \frac{f(y \mid \theta^{(i)}) \pi(\theta^{(i)})}{g(\theta^{(i)})} .
+$$
+\noindent
+When the normalizing constant in the posterior distribution is not known, importance 
+weights are re-scaled to sum up to one.
+
+Hence, the posterior mean can be computed as
+
+$$
+\mu = \int \theta \pi(\theta \mid y) d\theta
+  \simeq \sum_{i=1}^n \theta^{(i)} w_i = \hat{\mu}.
+$$
+\noindent
+Similarly, the posterior variance can be computed as
+
+$$
+\sigma^2 = \int (\theta - \mu)^2 \pi(\theta \mid y) d\theta
+  \simeq \sum_{i=1}^n (\theta^{(i)})^2 w_i - (\hat{\mu})^2 .
+$$
+
+
+
+# The Metropolis-Hastings Algorithm
+
+The Metropolis-Hastings (M-H) algorithm is a popular MCMC method to obtain
+samples from the posterior distribution of an ensemble of parameters.
+In the examples below we will only consider models with one parameter,
+but the M-H algorithm can be used on models with a large number of parameters.
+
+The M-H algorithm works in a very simple way. At every step of the 
+algorithm a new movement is proposed using a *proposal distribution*.
+This movement is accepted with a known probability, which implies that the
+movement can be rejected so that the algorithm stays at the same state in the
+current iteration.
+
+Hence, in order to code the M-H algorithm for a set of parameters $\theta$ we need to define:
+
+* A function to draw observations from the proposal distribution, given
+its current state. This will be denoted by $q(\cdot|\cdot)$, so that
+the density of a new proposal $\theta^*$ given a current state 
+$\theta^{(i)}$ is given by $q(\theta^*|\theta^{(i)})$.
+
+From the Bayesian model, we already know:
+
+* A prior distribution on the parameters of interest, i.e., $\pi(\theta)$.
+
+* The likelihood of the data $y$ given $\theta$, i.e, $f(y|\theta)$.
+
+At step $i$, a new value is drawn from $q(\cdot|\theta^{(i)})$ and it
+is accepted with probability:
+
+$$
+\alpha = \min\left\{1, \frac{f(y|\theta^*)\pi(\theta^{*})q(\theta^{(i)}|\theta^{*})}{f(y|\theta^{(i)})\pi(\theta^{(i)})q(\theta^{*}|\theta^{(i)})}\right\}
+$$
+
+
+If the value is accepted, then the current state is set to the proposed value,
+i.e., $\theta^{(i+1)} = \theta^{*}$. Otherwise, $\theta^{(i+1)} =
+\theta^{(i)}$.
+
+# Example: Binomial-Beta Model
+
+The first example that will be considered is based on the dataset colected on
+the number of red M&M's in a tube with $N$ M&M's. The number of
+red M&M's obtained depends on the total number of M&M's extracted and the
+actual proportion of red ones $\theta$. Given the proportion $\theta$,
+the number of red M&M's obtained follows a Binomial
+distribution. Because $\theta$ is between 0 and 1, the prior is a Beta.
+
+The model can be stated as follows:
+
+$$
+\begin{array}{rcl}
+y_i & \sim & Bi(N_i, \theta)\\
+\theta & \sim & Be(a, b)
+\end{array}
+$$
+
+In particular, we will consider a vague uniform prior in the $[0,1]$ interval, which corresponds to $a=b=1$.
+
+You can use the following dataset for this exercise:
+
+```{r eval = TRUE}
+data <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
+```
+
+These data reproduce different counts of red M&M's in three different
+tubes. Variable `MMs` records the total number of M&M's in the tube ($N_i$ in the model)
+and `red` the actual number of red M&M's ($y_i$ in the model).
+
+## Importance sampling
+
+Although the posterior distribution is known in closed form, IS can
+be used to estimate the posterior mean and variance. Given that
+the parameter is bounded, a uniform in the interval $[0,1]$ will
+be used. This is probably not very efficient (as it is likely not
+to be close to the actual posterior) but will provide a straightforward
+simulation strategy.
+
+```{r}
+n_simulations <- 10000
+set.seed(12)
+theta_sim <- runif(n_simulations)
+```
+
+Next, importance weights are computed in two steps. First, the
+ratio between the likelihood times the prior and the density of the
+sampling distribution is computed. Secondly, weights are re-scaled to sum up
+to one.
+
+```{r}
+# Log-Likelihood (for each value of theta_sim)
+loglik_binom <- sapply(theta_sim, function(THETA) {
+  sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
+})
+
+# Log-weights: log-lik + log-prior - log-sampling_ditr
+log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - log(1)
+
+# Re-scale weights to sum up to one
+log_ww <- log_ww - max(log_ww)
+ww <- exp(log_ww)
+ww <- ww / sum(ww)
+
+```
+
+
+Importance weights can be summarized using a histogram (see below).
+Small weights show that most samples are far from the regions of high
+posterior density.
+
+
+```{r fig = TRUE}
+hist(ww, xlab = "Importance weights")
+``` 
+
+The posterior mean and variance can be computed as follows:
+
+```{r}
+# Posterior mean
+post_mean <- sum(theta_sim * ww)
+post_mean 
+
+# Posterior variance
+post_var <- sum(theta_sim^2 * ww)- post_mean^2
+post_var
+```
+
+
+Finally, an estimate of the posterior density of the parameter can be 
+obtained by using a *weighted* kernel density estimation:
+
+
+```{r fig = TRUE}
+plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
+curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+```
+
+Note that the value of the bandwidth used (argument `bw`) has been set manually
+so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution).
+
+
+## Metropolis-Hastings
+
+As stated above, the impleentation of the M-H algorithm requires a proposal
+distribution to obtain new values of the parameter $\theta$.
+Usually, the proposal distribution is defined so that the proposed movement
+depends on the current value. However, in this case we will use a uniform
+distribution between 0 and 1 as our proposal distribution.
+
+First of all, we will define the proposal distribution, prior
+and likelihod of the model:
+
+```{r}
+#Proposal distribution: sampling
+rq <- function() {
+  runif(1)
+}
+
+#Proposal distribution: log-density
+logdq <- function(x) {
+  dunif(x, log = TRUE)
+}
+
+#Prior distribution: Beta(1, 1)
+logprior <- function(theta) {
+  dbeta(theta, 1, 1, log = TRUE)
+}
+
+#Log-Likelihood
+loglik <- function(y, theta, N) {
+   res <- sum(dbinom(y, N, theta, log = TRUE)) 
+}
+```
+
+Note that all densities and the likelihood are computed in the log-scale.
+
+Next, the implementation of the M-H algorithms is as follows:
+
+```{r}
+#Number of iterations
+n.iter <- 40500
+
+#Simulations of the parameter
+theta <- rep(NA, n.iter)
+
+#Initial value
+theta[1] <- 0.5
+
+#Data
+y <- data$red
+N <- data$MMs
+
+for(i in 2:n.iter) {
+  new.theta <- rq()
+
+  #Log-Accepance probability
+  logacc.prob <- loglik(y, new.theta, N) + logprior(new.theta) + logdq(theta[i - 1])
+  logacc.prob <- logacc.prob - loglik(y, theta[i - 1], N) - logprior(theta[i - 1]) - 
+    logdq(new.theta)
+  logacc.prob <- min(0, logacc.prob)#0 = log(1)
+
+  if(log(runif(1)) < logacc.prob) {
+    #Accept
+    theta[i] <- new.theta
+  } else {
+    #Reject
+    theta[i] <- theta[i - 1]
+  }
+}
+```
+
+
+We will remove the first 500 iterations as burn-in, and thin the simulations
+to keep one in 10 to reduce autocorrelation. After that,  we will compute summary statistics
+and display a density of the simulations:
+
+```{r}
+#Remove burn-in
+theta <- theta[-c(1:500)]
+
+#Thinning
+theta <- theta[seq(1, length(theta), by = 10)]
+
+#Summary statistics
+summary(theta)
+
+par(mfrow = c(1, 2))
+plot(theta, type = "l", main = "MCMC samples", ylab = expression(theta))
+plot(density(theta), main = "Posterior density", xlab = expression(theta))
+```
+
+## Exercises
+
+
+### Performance of the sampling distribution
+
+The sampling distribution plays a crucial role in IS and it should be
+as close to the posterior as possible. As way of measuring how good
+a sampling distribution is it is possible to compute the
+*effective* sample size as follows:
+
+$$
+ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w_i}.
+$$
+
+* Compute the effective sample size for the previous example.
+How is this related to the number of IS samples (`n_simulations`)?
+
+* Use a different sampling distribution and check how sampling weights, ESS and
+point estimates differ from those in the current example. For
+example, a Beta(20, 10) will put more mass on high values of $\theta$, unlike
+the actual posterior distribution. What differences do you find with
+the example presented here using a uniform sampling distribution? Why
+do you think that these differences appear?
+
+### Sampling from the actual posterior
+
+Use the posterior distribution (which for
+this particular case is known in a closed form) as the sampling distribution.
+
+  * How are the weights now?
+
+  * Compute the effective sample size. How is it? Why do you think this happens?
+
+
+### Non-conjugate prior
+
+IS and M-H are algorithms that can be used to make inference about
+$\theta$ when the posterior desnsity of the parameter is not avialble
+in a closed form. This is the case of models with non-conjugate priors.
+As an exercise, try to obtain the posterior density of the same
+model with the following non-conjugate prior:
+
+$$
+\pi(\theta) \propto (1-\theta)^2;\ \theta\in[0,1].
+$$
+
+This prior has the following shape:
+
+```{r}
+xx <- seq(0, 1, by = 0.01)
+plot(xx, (1 - xx)^2, type = "l", xlab = expression(theta),
+  ylab = expression(theta^2))
+```
+
+The interpretation of this prior is that higher values are favoured as compared
+to smaller values, i.e., our prior information is that the parameter is more
+likely to have values close to 0 than values close to 1.
+
+Note that the prior is specified up to a normalizing constant (which in
+this case is not difficult to compute). However, this constant is not
+needed to implement both IS and M-H. In the case of IS, the constant will
+cancel when the weights are re-scaled to sum up to one and in the case of
+the M-H the constant will cancel when the acceptance ratio is computed.
+
+
+
+# Example: Poisson-Gamma Model
+
+The second example will be based on the *Game of Thrones* dataset.
+Remember that this is made of the observed number of u's on
+a page of a book of Game of Thrones. The model can be stated as:
+
+$$
+\begin{array}{rcl}
+y_i & \sim & Po(\theta)\\
+\theta & \sim & Ga(a, b)
+\end{array}
+$$
+
+In particular, the prior on $\theta$ will be a Gamma distribution with parameters
+$0.01$ and $0.01$, which is centered at 1 and has a small precision (i.e.,
+large variance).
+
+
+We will denote the observed values by `y` in the `R` code. The data collected can be loaded with:
+
+```{r eval = TRUE}
+data <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23, 28, 25,
+  24, 22, 25, 23, 29, 23, 28, 21, 29, 28, 23, 28))
+y <- data$Us
+```
+
+
+## Importance sampling
+
+Now the parameter of interest is not bounded, so the sampling distribution
+needs to be chosen with care. We will use a log-Normal distribution with mean 3
+and standard deviation equal to 0.5. This will ensure that all the sampled
+values are positive (because $\theta$ can not take negative values) and that
+the sample values are reasonable (i.e, they are not too small or too large).
+Note that this sampling distribution has been chosen having in mind
+the problem at hand and that this may not work well with other problems.
+
+
+```{r}
+n_simulations <- 10000
+set.seed(1)
+theta_sim <- rlnorm(n_simulations, 3, 0.5)
+```
+
+Next, importance weights are computed in two steps, as in the previous example.
+Note that now the likelihood, prior and sampling distribtion are different
+from the ones in the binomial example.
+
+```{r}
+# Log-Likelihood (for each value of theta_sim)
+loglik_pois <- sapply(theta_sim, function(THETA) {
+  sum(dpois(data$Us, THETA, log = TRUE))
+})
+
+# Log-weights: log-lik + log-prior - log-sampling_ditr
+log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dlnorm(theta_sim, 3, 0.5)
+
+# Re-scale weights to sum up to one
+log_ww <- log_ww - max(log_ww)
+ww <- exp(log_ww)
+ww <- ww / sum(ww)
+
+```
+
+
+Importance weights can be summarized using a histogram:
+
+
+```{r fig = TRUE}
+hist(ww, xlab = "Importance weights")
+```
+
+The posterior mean and variance can be computed as follows:
+
+```{r}
+# Posterior mean
+post_mean <- sum(theta_sim * ww)
+post_mean
+
+# Posterior variance
+post_var <- sum(theta_sim^2 * ww)- post_mean^2
+post_var
+```
+
+
+Finally, an estimate of the posterior density of the parameter can be
+obtained by using a *weighted* kernel density estimation:
+
+
+```{r fig = TRUE}
+plot(density(theta_sim, weights = ww, bw = 0.5) , main = "Posterior density")
+curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+```
+
+Note that the value of the bandwidth used (argument `bw`) has been set manually
+so that both curves will match (as the default bandwidth provided a slightly different estimate of hte posterior distribution).
+
+
+
+
+
+## Metropolis-Hastings
+
+Similarly as in the previous example, we will set the proposal distribution, as
+the model has benn fully defined above.  In this case, the proposal
+distribution is a log-Normal distribution centered at the logarithm of the
+current value with precision 100.
+
+
+```{r}
+#Proposal distribution: sampling
+rq <- function(theta) {
+  rlnorm(1, meanlog = log(theta), sdlog = sqrt(1 / 100))
+}
+
+#Proposal distribution: log-density
+logdq <- function(new.theta, theta) {
+  dlnorm(new.theta, meanlog = log(theta), sdlog = sqrt(1 / 100), log = TRUE)
+}
+
+#Prior distribution: Gamma(0.01, 0.01)
+logprior <- function(theta) {
+  dgamma(theta, 0.01, 0.01, log = TRUE)
+}
+
+#LogLikelihood
+loglik <- function(y, theta) {
+   res <- sum(dpois(y, theta, log = TRUE)) 
+}
+```
+
+
+With these definitions we can actually use the same implementation of the
+M-H that we have used in the previous section.
+ 
+```{r}
+#Number of iterations
+n.iter <- 40500
+
+#Simulations of the parameter
+theta <- rep(NA, n.iter)
+
+#Initial value
+theta[1] <- 30
+
+for(i in 2:n.iter) {
+  new.theta <- rq(theta[i - 1])
+  
+  #Log-Accepance probability
+  logacc.prob <- loglik(y, new.theta) + logprior(new.theta) +
+    logdq(theta[i - 1], new.theta)
+  logacc.prob <- logacc.prob - loglik(y, theta[i - 1]) - logprior(theta[i - 1]) - 
+    logdq(new.theta, theta[i - 1])
+  logacc.prob <- min(0, logacc.prob)#0 = log(1)
+  
+  if(log(runif(1)) < logacc.prob) {
+    #Accept
+    theta[i] <- new.theta
+  } else {
+    #Reject
+    theta[i] <- theta[i - 1]
+  }
+}
+```
+
+
+The same burn-in and thinning as in the Beta-Binomial example will be used. 
+Furthermore, summary statistics and plots will be computed
+now:
+
+
+```{r}
+#Remove burn-in
+theta <- theta[-c(1:500)]
+
+#Thinning
+theta <- theta[seq(1, length(theta), by = 10)]
+
+#Summary statistics
+summary(theta)
+
+par(mfrow = c(1, 2))
+plot(theta, type = "l", main = "MCMC samples", ylab = expression(theta))
+plot(density(theta), main = "Posterior density", xlab = expression(theta))
+```
+
+
+## Exercises
+
+
+### Performance of the sampling distribution
+
+Similarly as in the exercises in the example on binomial data, you will
+now assess the impact of the sampling distribution the inference process.
+
+
+* Compute the effective sample size for the previous example.
+How is this related to the number of IS samples (`n_simulations`)?
+
+
+* Use a different sampling distribution and check how sampling weights, ESS and
+point estimates differ from those in the current example. For example, a
+Gamma(5, 0.1) will put a higher mass on values about 40, unlike the
+actual posterior distribution. What differences do you find with the example
+presented here using a uniform sampling distribution? Why do you think that
+these differences appear?
+
+### Sampling from the actual posterior
+
+Use the posterior distribution (which for this particular case is known in a
+closed form) as the sampling distribution.
+
+  * How are the weights now?
+
+  * Compute the effective sample size. How is it? Why do you think this happens?
+
+
+### Non-conjugate prior
+
+Similarly as in the binomial example, non-conjugate priors can be used
+for the $\theta$ parameter. In this case, given that $\theta$ is positive,
+care must be taken when choosing the prior. For this exercise, try to use a
+log-Normal prior with mean 4 and standard deviation 1. This will
+provide a prior of $\theta$ as seen in the next plot:
+
+```{r}
+xx <- seq(0, 1000, by = 1)
+plot(xx, dlnorm(xx, 4, 1), type = "l")
+```
+
+Hence, with this prior small values of the averge number of u's are
+given a higher prior density.
+
+A model with this prior can be estimated using IS and M-H algorithms.
+
