@@ -57,6 +57,9 @@
       <a href="../articles/bonus5.html">Practical 5: Numerical approaches Solutions</a>
     </li>
     <li>
+      <a href="../articles/bonus6.html">Practical 6: Linear models Solutions</a>
+    </li>
+    <li>
       <a href="../articles/p1.html">Practical 1: Binary data</a>
     </li>
     <li>
@@ -305,7 +308,7 @@ ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w^2_i}.
 <li>Compute the effective sample size for the previous example. How is this related to the number of IS samples (<code>n_simulations</code>)?</li>
 </ul>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ESS</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">{</span>
+<code class="sourceCode R"><span class="va">ESS</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span><span class="op">{</span>
   <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
 <span class="op">}</span>
 <span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></code></pre></div>
