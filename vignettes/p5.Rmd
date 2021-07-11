@@ -304,7 +304,7 @@ a sampling distribution is, it is possible to compute the
 *effective* sample size as follows:
 
 $$
-ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w_i}.
+ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w^2_i}.
 $$
 
 * Compute the effective sample size for the previous example.
