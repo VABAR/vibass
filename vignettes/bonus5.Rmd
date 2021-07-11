@@ -647,11 +647,11 @@ these differences appear?
 ```{r}
 n_simulations <- 10000
 set.seed(12)
-theta_sim <- rbeta(n_simulations,20,10)
-loglik_binom <- sapply(theta_sim, function(THETA) {
-  sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
+theta_sim <- rgamma(n_simulations,5,0.1)
+loglik_pois <- sapply(theta_sim, function(THETA) {
+  sum(dpois(data$Us, THETA, log = TRUE))
 })
-log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - log(1)
+log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dlnorm(theta_sim, 3, 0.5)
 log_ww <- log_ww - max(log_ww)
 ww <- exp(log_ww)
 ww <- ww / sum(ww)
@@ -669,8 +669,8 @@ post_var
 ```
 
 ```{r fig = TRUE}
-plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
-curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+plot(density(theta_sim, weights = ww, bw = 0.5), main = "Posterior density")
+curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
 ```{r}
@@ -688,11 +688,11 @@ this particular case is known in a closed form) as the sampling distribution.
 ```{r}
 n_simulations <- 10000
 set.seed(12)
-theta_sim <- rbeta(n_simulations, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1)
-loglik_binom <- sapply(theta_sim, function(THETA) {
-  sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
+theta_sim <- rgamma(n_simulations, sum(data$Us) + 0.01, length(data$Us) + 0.01)
+loglik_pois <- sapply(theta_sim, function(THETA) {
+  sum(dpois(data$Us, THETA, log = TRUE))
 })
-log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - log(1)
+log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dlnorm(theta_sim, 3, 0.5)
 log_ww <- log_ww - max(log_ww)
 ww <- exp(log_ww)
 ww <- ww / sum(ww)
@@ -710,24 +710,16 @@ post_var
 ```
 
 ```{r fig = TRUE}
-plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
-curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+plot(density(theta_sim, weights = ww, bw = 0.5) , main = "Posterior density")
+curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
 ```
+
+  * Compute the effective sample size. How large is it? Why do you think this happens?
 
 ```{r}
 ESS(ww)
 n_simulations
 ```
-
-### Sampling from the actual posterior
-
-Use the posterior distribution (which for this particular case is known in a
-closed form) as the sampling distribution.
-
-  * How large are the weights now?
-
-  * Compute the effective sample size. How large is it? Why do you think this happens?
-
 
 ### Non-conjugate prior
 
