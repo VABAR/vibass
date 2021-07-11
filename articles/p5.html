@@ -296,7 +296,7 @@ y_i &amp; \sim &amp; Bi(N_i, \theta)\\
 <a href="#performance-of-the-sampling-distribution" class="anchor"></a>Performance of the sampling distribution</h3>
 <p>The sampling distribution plays a crucial role in IS and it should be as close to the posterior as possible. As a way of measuring how good a sampling distribution is, it is possible to compute the <em>effective</em> sample size as follows:</p>
 <p><span class="math display">\[
-ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w_i}.
+ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w^2_i}.
 \]</span></p>
 <ul>
 <li><p>Compute the effective sample size for the previous example. How is this related to the number of IS samples (<code>n_simulations</code>)?</p></li>
