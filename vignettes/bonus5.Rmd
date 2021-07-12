@@ -487,7 +487,7 @@ loglik_pois <- sapply(theta_sim, function(THETA) {
   sum(dpois(data$Us, THETA, log = TRUE))
 })
 
-# Log-weights: log-lik + log-prior - log-sampling_ditr
+# Log-weights: log-lik + log-prior - log-sampling_distr
 log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dlnorm(theta_sim, 3, 0.5)
 
 # Re-scale weights to sum up to one
