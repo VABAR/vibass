@@ -105,7 +105,7 @@ p5MH_ui <- function(request) {
       max = 20, step = 1),
     sliderInput("burnin", "Burn-in", value = 100, min = 0,
       max= 1000, step = 100),
-    sliderInput("nsim", "Number of simulations", value = 1000, min = 500,
+    sliderInput("nsim", "Number of simulations", value = 1000, min = 1000,
       max= 50000, step = 100)
 
   )
