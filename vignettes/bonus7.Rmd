@@ -196,7 +196,6 @@ logprior <- function(alpha) {
 
 #LogLikelihood
 loglik <- function(alpha) {
-  res <- sum(log)
   theta_sim <- plogis(alpha)
   sum(dbinom(data$red, data$MMs, theta_sim, log = TRUE))
 }
@@ -207,26 +206,26 @@ loglik <- function(alpha) {
 n.iter <- 40500
 
 #Simulations of the parameter
-alpha <- as.list(rep(NA, n.iter))
+alpha <- numeric(n.iter)
 
 #Initial value
-alpha[[1]] <- c(0.0, 1)
+alpha[1] <- 0.0
 
 for(i in 2:n.iter) {
-  new.alpha <- rq(alpha[[i - 1]])
+  new.alpha <- rq(alpha[i - 1])
   
   #Log-Acceptance probability
-  logacc.prob <- loglik(new.alpha) + logprior(new.alpha) + logdq(alpha[[i - 1]], new.alpha)
-  logacc.prob <- logacc.prob - loglik(alpha[[i - 1]]) - logprior(alpha[[i - 1]]) - 
-    logdq(new.alpha, alpha[[i - 1]])
+  logacc.prob <- loglik(new.alpha) + logprior(new.alpha) + logdq(alpha[i - 1], new.alpha)
+  logacc.prob <- logacc.prob - loglik(alpha[i - 1]) - logprior(alpha[i - 1]) - 
+    logdq(new.alpha, alpha[i - 1])
   logacc.prob <- min(0, logacc.prob)#0 = log(1)
   
   if(log(runif(1)) < logacc.prob) {
     #Accept
-    alpha[[i]] <- new.alpha
+    alpha[i] <- new.alpha
   } else {
     #Reject
-    alpha[[i]] <- alpha[[i - 1]]
+    alpha[i] <- alpha[i - 1]
   }
 }
 ```
@@ -240,23 +239,30 @@ alpha <- alpha[-c(1:500)]
 #Thinning
 alpha <- alpha[seq(1, length(alpha), by = 10)]
 
-#Use matrix format
-alpha <- do.call(rbind, alpha)
-
 #Summary statistics
-apply(alpha, 2, summary)
+summary(alpha)
+
+#Summary statistics - on theta
+theta <- plogis(alpha)
+summary(theta)
 
 par(mfrow = c(2, 2))
-#Mean
-plot(alpha[, 1], type = "l", main = "MCMC samples",
+#Alpha
+plot(alpha, type = "l", main = "MCMC samples",
   ylab = expression(alpha))
-plot(density(alpha[, 1]), main = "Posterior density",
+plot(density(alpha), main = "Posterior density",
   xlab = expression(alpha))
+#Theta
+plot(theta, type = "l", main = "MCMC samples",
+  ylab = expression(theta))
+plot(density(theta), main = "Posterior density",
+  xlab = expression(theta))
 ```
 
 
 * Compare these results to those obtained with the IS algorithm.
 
+The results look very similar - Importance Sampling may be adequate for this simple example, if the sampling distribution is chosen appropriately. Remember that it always possible to tune the sampling and proposal distributions from IS and M-H respectively.
 
 # Example: Poisson-Gamma Model
 
@@ -318,7 +324,7 @@ the mean of the sampling distribution can be set to a more reasonable
 value, close to the logarithm of the average number of u's 
 in the sample (for example, 3.25).
 
-* Implement the M-H using the two sampling distributions proposed above, i.e.,
+* Implement the IS using the two sampling distributions proposed above, i.e.,
 a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and 
 precision 0.1.
 

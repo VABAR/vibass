@@ -176,7 +176,7 @@ the mean of the sampling distribution can be set to a more reasonable
 value, close to the logarithm of the average number of u's 
 in the sample (for example, 3.25).
 
-* Implement the M-H using the two sampling distributions proposed above, i.e.,
+* Implement the IS using the two sampling distributions proposed above, i.e.,
 a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and 
 precision 0.1.
 
