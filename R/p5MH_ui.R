@@ -4,7 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
-p5_ui <- function(request) {
+p5MH_ui <- function(request) {
 
   # Top banner with explanatory text and equations --------------------------
   explanations <- fluidRow(

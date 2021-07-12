@@ -16,7 +16,7 @@ values <-  reactiveValues(theta_sim = NA, accepted = NA, density = NA, LL = NA,
   UL = NA)
 
 
-p5_server <- function(input, output, session) {
+p5MH_server <- function(input, output, session) {
 
 
   # Run simulations
