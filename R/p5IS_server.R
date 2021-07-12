@@ -75,7 +75,7 @@ p5IS_server <- function(input, output, session) {
   dist_summaries <- reactive({
     IS()
     tibble(
-      "-" = c("Prior", "Posterior", "is posterior")
+      "-" = c("Prior", "Posterior", "IS posterior")
       ,
       Mean = c(
         mean_beta(input$a0, input$b0),
