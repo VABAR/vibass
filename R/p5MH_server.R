@@ -17,7 +17,7 @@ values <-  reactiveValues(theta_sim = NA, accepted = NA, density = NA, LL = NA,
 
 # Add colours
 #cols <- rbind(cols, c("IS posterior", "black", "#000000"))
-cols2 <- rbind(cols, c("mh posterior", "black", "#000000"))
+cols2 <- rbind(cols, c("m-h posterior", "black", "#000000"))
 
 
 
@@ -130,7 +130,7 @@ p5MH_server <- function(input, output, session) {
   dist_summaries <- reactive({
     MH()
     tibble(
-      "-" = c("Prior", "Posterior", "mh posterior")
+      "-" = c("Prior", "Posterior", "M-H posterior")
       ,
       Mean = c(
         mean_beta(input$a0, input$b0),
@@ -184,7 +184,7 @@ p5MH_server <- function(input, output, session) {
         prior = dbeta(.data$x, input$a0, input$b0),
         likelihood = dbeta(.data$x, 1 + sum(data$red), 1 + sum(data$MMs) - sum(data$red)),
         posterior = dbeta(.data$x, input$a0 + sum(data$red), input$b0 + sum(data$MMs) - sum(data$red)),
-        "mh posterior" = values$density$y
+        "m-h posterior" = values$density$y
       ) %>%
       pivot_longer(
         cols = -.data$x,
