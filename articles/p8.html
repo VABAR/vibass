@@ -170,7 +170,7 @@ y_{ij} &amp; \sim &amp; Bi(1,\theta)\\
 ## 
 ## Parametric coefficients:
 ##                Mean      Sd    2.5%     50%   97.5%
-## (Intercept) -1.3577  0.2458 -1.8520 -1.3473 -0.9026
+## (Intercept) -1.3544  0.2372 -1.8447 -1.3515 -0.9059
 ##  
 ## family = binomial  method = MCMC  N = 106  iterations = 12000  
 ## burnin = 2000  step = 10</code></pre>
@@ -179,7 +179,7 @@ y_{ij} &amp; \sim &amp; Bi(1,\theta)\\
 <code class="sourceCode R"><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## 0.08829 0.18061 0.20631 0.20747 0.23296 0.36655</code></pre>
+## 0.08631 0.18084 0.20562 0.20782 0.23239 0.33635</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
@@ -217,7 +217,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 ## 
 ## Parametric coefficients:
 ##               Mean     Sd   2.5%    50%  97.5%
-## (Intercept) 3.2464 0.0391 3.1694 3.2454 3.3211
+## (Intercept) 3.2463 0.0396 3.1656 3.2480 3.3212
 ##  
 ## family = poisson  method = MCMC  N = 25  iterations = 12000  
 ## burnin = 2000  step = 10</code></pre>
@@ -227,7 +227,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   22.75   25.07   25.67   25.72   26.40   28.87</code></pre>
+##   22.62   25.03   25.74   25.72   26.44   28.89</code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
@@ -266,11 +266,11 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ## 
 ## Parametric coefficients:
 ##               Mean     Sd   2.5%    50%  97.5%
-## (Intercept) 1.7171 0.0251 1.6667 1.7173 1.7669
+## (Intercept) 1.7163 0.0250 1.6692 1.7159 1.7661
 ##  
 ## Scale estimate:
 ##          Mean     Sd   2.5%    50%  97.5%
-## Sigma2 0.0180 0.0052 0.0108 0.0171 0.0309
+## Sigma2 0.0177 0.0049 0.0106 0.0168 0.0292
 ##  
 ## family = gaussian  method = MCMC  N = 30  iterations = 12000  
 ## burnin = 2000  step = 10</code></pre>
@@ -321,7 +321,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ##    "inla(formula = red.bin ~ 1, family = \"binomial\", data = list(red.bin 
 ##    = red.bin))" 
 ## Time used:
-##     Pre = 3.17, Running = 1.01, Post = 0.237, Total = 4.42 
+##     Pre = 3.05, Running = 1.24, Post = 0.221, Total = 4.51 
 ## Fixed effects:
 ##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld
 ## (Intercept) -1.34 0.239     -1.828   -1.334     -0.888 -1.321   0
@@ -352,7 +352,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ## Call:
 ##    "inla(formula = Us ~ 1, family = \"poisson\", data = list(Us = Us))" 
 ## Time used:
-##     Pre = 3, Running = 0.17, Post = 0.278, Total = 3.44 
+##     Pre = 4.05, Running = 0.484, Post = 0.226, Total = 4.76 
 ## Fixed effects:
 ##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld
 ## (Intercept) 3.247 0.039      3.169    3.248      3.324 3.248   0
@@ -382,7 +382,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ##    "inla(formula = heights ~ 1, family = \"gaussian\", data = list(heights 
 ##    = heights))" 
 ## Time used:
-##     Pre = 3.07, Running = 0.18, Post = 0.207, Total = 3.46 
+##     Pre = 4.42, Running = 0.686, Post = 0.213, Total = 5.32 
 ## Fixed effects:
 ##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld
 ## (Intercept) 1.716 0.023       1.67    1.716      1.763 1.716   0
