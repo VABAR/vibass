@@ -1,5 +1,5 @@
 ---
-title: 'Practical 5: Numerical approaches Solutions'
+title: 'Solutions 5: Numerical approaches'
 author: "VIBASS4"
 date: "July 2021"
 output:
@@ -10,7 +10,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Practical 5: Numerical approaches Solutions}
+  %\VignetteIndexEntry{Solutions 5: Numerical approaches}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

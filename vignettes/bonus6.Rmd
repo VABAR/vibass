@@ -1,5 +1,5 @@
 ---
-title: 'Practical 6: Linear models Solutions'
+title: 'Solutions 6: Linear models'
 author: "VIBASS4"
 date: "July 2021"
 output:
@@ -10,7 +10,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Practical 6: Linear models Solutions}
+  %\VignetteIndexEntry{Solutions 6: Linear models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
