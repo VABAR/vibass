@@ -15,6 +15,9 @@ data <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
 values <-  reactiveValues(theta_sim = NA, ww = NA, density = NA, LL = NA,
   UL = NA)
 
+# Add colours
+#cols <- rbind(cols, c("IS posterior", "black", "#000000"))
+cols2 <- rbind(cols, c("is posterior", "black", "#000000"))
 
 p5IS_server <- function(input, output, session) {
 
@@ -59,7 +62,7 @@ p5IS_server <- function(input, output, session) {
   plot_style <- list(
     # labs(x = expression(theta), y = NULL, color = NULL),
     scale_color_manual(
-      values = setNames(cols$name, cols$target)
+      values = setNames(cols2$name, cols2$target)
     ),
     theme_minimal(),
     theme(
@@ -72,7 +75,7 @@ p5IS_server <- function(input, output, session) {
   dist_summaries <- reactive({
     IS()
     tibble(
-      "-" = c("Prior", "Posterior", "IS posterior")
+      "-" = c("Prior", "Posterior", "is posterior")
       ,
       Mean = c(
         mean_beta(input$a0, input$b0),
@@ -89,7 +92,7 @@ p5IS_server <- function(input, output, session) {
         round(2)
       ,
       Q_025 = qbeta(
-        0.025, input$a0 + c(0, input$r), input$b0 + c(0, 20 - input$r)
+        0.025, input$a0 + c(0), input$b0 + c(0)
       ) %>%
         round(2) %>%
         c(
@@ -103,7 +106,7 @@ p5IS_server <- function(input, output, session) {
        
       ,
       Q_975 = qbeta(
-        0.975, input$a0 + c(0, input$r), input$b0 + c(0, 20 - input$r)
+        0.975, input$a0 + c(0), input$b0 + c(0)
       ) %>%
         round(2) %>%
         c(
@@ -120,11 +123,13 @@ p5IS_server <- function(input, output, session) {
 
 
   output$inference <- renderPlot(
-    theta_values %>%
+    #theta_values %>%
+      data.frame(x = values$density$x) %>%
       mutate(
         prior = dbeta(.data$x, input$a0, input$b0),
-        likelihood = dbeta(.data$x, 1 + sum(data$red), 1 + sum(data$MMs) - sum(data$red)),
-        posterior = dbeta(.data$x, input$a0 + sum(data$red), 1 + sum(data$MMs) - sum(data$red))
+        likelihood = dbeta(.data$x, 1 + sum(data$red), 1 + sum(data$MMs - data$red)),
+        posterior = dbeta(.data$x, input$a0 + sum(data$red), input$b0 + sum(data$MMs - data$red)),
+        "is posterior" = values$density$y
       ) %>%
       pivot_longer(
         cols = -.data$x,
@@ -153,8 +158,8 @@ p5IS_server <- function(input, output, session) {
             curve == "posterior",
             between(
               .data$x,
-              qbeta(0.025, input$a0 + input$r, input$b0 + 20 - input$r),
-              qbeta(0.975, input$a0 + input$r, input$b0 + 20 - input$r)
+              qbeta(0.025, input$a0 + sum(data$red), input$b0 + sum(data$MMs - data$red)),
+              qbeta(0.975, input$a0 + sum(data$red), input$b0 + sum(data$MMs - data$red))
             )
           ),
         fill = "darkgreen",
@@ -171,10 +176,10 @@ p5IS_server <- function(input, output, session) {
       ) +
       geom_line(aes(colour = .data$curve)) +
       plot_style +
-      labs(x = expression(theta), y = NULL, color = NULL) +
+      labs(x = expression(theta), y = NULL, color = NULL) #+
       # Density plot from IS
-      geom_line(data = data.frame(x = values$density$x, y = values$density$y),
-        aes(x = x, y = y))
+      #geom_line(data = data.frame(x = values$density$x, y = values$density$y),
+      #  aes(x = x, y = y), colour = "purple")
   )
 
 
@@ -183,26 +188,6 @@ p5IS_server <- function(input, output, session) {
     qplot(values$ww, geom = "histogram", bins = 40) + xlab("Weight") + 
       ggtitle("Importance sampling weights")
   )
-
-  output$predictive <- renderPlot(
-    tibble(x = 0:10) %>%
-      mutate(
-        y = dbbinom(.data$x, 10, input$a0 + input$r, input$b0 + 20 - input$r)
-      ) %>%
-      ggplot(aes(.data$x, .data$y)) +
-      geom_bar(
-        fill = cols %>% filter(.data$target == "predictive") %>% pull(.data$name),
-        stat = "identity", width = .2
-      ) +
-      scale_x_continuous(breaks = 0:10) +
-      plot_style +
-      labs(x = "Y'", y = NULL) +
-      theme(
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()
-      )
-  )
-
 
   output$dist_summaries <- renderTable({dist_summaries()})
 
