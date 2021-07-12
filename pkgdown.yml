@@ -2,18 +2,18 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  bonus5: bonus5.html
-  bonus6: bonus6.html
-  bonus7: bonus7.html
   p1: p1.html
   p2: p2.html
   p3: p3.html
   p4: p4.html
   p5: p5.html
+  p5_solutions: p5_solutions.html
   p6: p6.html
+  p6_solutions: p6_solutions.html
   p7: p7.html
+  p7_solutions: p7_solutions.html
   p8: p8.html
-last_built: 2021-07-12T12:53Z
+last_built: 2021-07-12T13:21Z
 urls:
   reference: http://vabar.es/vibass//reference
   article: http://vabar.es/vibass//articles
