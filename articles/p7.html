@@ -54,10 +54,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/bonus5.html">Practical 5: Numerical approaches Solutions</a>
+      <a href="../articles/bonus5.html">Solutions 5: Numerical approaches</a>
     </li>
     <li>
-      <a href="../articles/bonus6.html">Practical 6: Linear models Solutions</a>
+      <a href="../articles/bonus6.html">Solutions 6: Linear models</a>
+    </li>
+    <li>
+      <a href="../articles/bonus7.html">Solutions 7: Generalized linear models</a>
     </li>
     <li>
       <a href="../articles/p1.html">Practical 1: Binary data</a>
@@ -209,7 +212,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <a href="#importance-sampling-1" class="anchor"></a>Importance sampling</h3>
 <p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\alpha\)</span> need to be sampled. Given that <span class="math inline">\(\alpha\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logarithm of the average number of u’s in the sample (for example, 3.25).</p>
 <ul>
-<li><p>Implement the M-H using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and precision 0.1.</p></li>
+<li><p>Implement the IS using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and precision 0.1.</p></li>
 <li><p>Compute the posterior mean and variance for both sets of results.</p></li>
 <li><p>Compute and compare the effective sample sizes obtained with both sampling distributions. What do you find? Why do you think that this happens?</p></li>
 </ul>

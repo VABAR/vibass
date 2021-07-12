@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   bonus5: bonus5.html
   bonus6: bonus6.html
+  bonus7: bonus7.html
   p1: p1.html
   p2: p2.html
   p3: p3.html
@@ -12,7 +13,7 @@ articles:
   p6: p6.html
   p7: p7.html
   p8: p8.html
-last_built: 2021-07-11T18:40Z
+last_built: 2021-07-12T09:39Z
 urls:
   reference: http://vabar.es/vibass//reference
   article: http://vabar.es/vibass//articles
