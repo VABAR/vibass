@@ -447,7 +447,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
   <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Us</span>, <span class="va">THETA</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
 
-<span class="co"># Log-weights: log-lik + log-prior - log-sampling_ditr</span>
+<span class="co"># Log-weights: log-lik + log-prior - log-sampling_distr</span>
 <span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_pois</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">theta_sim</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">dlnorm</a></span><span class="op">(</span><span class="va">theta_sim</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span>
 
 <span class="co"># Re-scale weights to sum up to one</span>

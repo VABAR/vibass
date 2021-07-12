@@ -364,20 +364,166 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <a href="#importance-sampling-1" class="anchor"></a>Importance sampling</h3>
 <p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\alpha\)</span> need to be sampled. Given that <span class="math inline">\(\alpha\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logarithm of the average number of u’s in the sample (for example, 3.25).</p>
 <ul>
-<li><p>Implement the IS using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and precision 0.1.</p></li>
-<li><p>Compute the posterior mean and variance for both sets of results.</p></li>
-<li><p>Compute and compare the effective sample sizes obtained with both sampling distributions. What do you find? Why do you think that this happens?</p></li>
+<li>Implement the IS using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and precision 0.1.</li>
 </ul>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>
+<span class="co"># The two proposed sampling distribution means - uncomment the one you want</span>
+<span class="va">alpha_sim_mean</span> <span class="op">&lt;-</span> <span class="fl">0</span>
+<span class="co">#alpha_sim_mean &lt;- 3.25</span>
+<span class="va">alpha_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>,<span class="va">alpha_sim_mean</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Log-Likelihood (for each value of theta_sim/alpha_sim)</span>
+<span class="va">loglik_pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">alpha_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ALPHA</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">ALPHA</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">theta_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
+
+<span class="co"># Log-weights: log-lik + log-prior - log-sampling_distr</span>
+<span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_pois</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">alpha_sim</span>, <span class="fl">0.0</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.001</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">theta_sim</span>, <span class="va">alpha_sim_mean</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span>, log<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="co"># Re-scale weights to sum to one</span>
+<span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span>
+<span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span>
+<span class="va">ww</span> <span class="op">&lt;-</span> <span class="va">ww</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">ww</span>, xlab <span class="op">=</span> <span class="st">"Importance weights"</span><span class="op">)</span></code></pre></div>
+<p><img src="bonus7_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<ul>
+<li>Compute the posterior mean and variance for both sets of results.</li>
+</ul>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Posterior mean</span>
+<span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">alpha_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span>
+<span class="va">post_mean</span></code></pre></div>
+<pre><code>## [1] 3.245288</code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Posterior variance</span>
+<span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">alpha_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span>
+<span class="va">post_var</span></code></pre></div>
+<pre><code>## [1] 0.001356391</code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Posterior mean - on theta</span>
+<span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">alpha_sim</span><span class="op">)</span>
+<span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span>
+<span class="va">post_mean</span></code></pre></div>
+<pre><code>## [1] 25.68652</code></pre>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Posterior variance - on theta</span>
+<span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span>
+<span class="va">post_var</span></code></pre></div>
+<pre><code>## [1] 0.8949375</code></pre>
+<ul>
+<li>Compute and compare the effective sample sizes obtained with both sampling distributions. What do you find? Why do you think that this happens?</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 110.424</code></pre>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">n_simulations</span></code></pre></div>
+<pre><code>## [1] 10000</code></pre>
 </div>
 <div id="metropolis-hastings-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#metropolis-hastings-1" class="anchor"></a>Metropolis-Hastings</h3>
 <p>Again, the previous GLM can be fitted using the M-H algorithm. Now, values of <span class="math inline">\(\alpha\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
 <ul>
-<li><p>Implement the M-H algorithm for this model.</p></li>
-<li><p>Compute the posterior mean and variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
-<li><p>Compare the results obtained now with those obtained with the I-S algorithm.</p></li>
+<li>Implement the M-H algorithm for this model.</li>
 </ul>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#Proposal distribution: sampling</span>
+<span class="va">rq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">alpha</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span> <span class="co">#Sample alpha</span>
+
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co">#Proposal distribution: log-density</span>
+<span class="va">logdq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">new.alpha</span>, <span class="va">alpha</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">new.alpha</span>, <span class="va">alpha</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">0.1</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co">#Prior distribution</span>
+<span class="va">logprior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">alpha</span>, <span class="fl">0</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">0.001</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">#alpha</span>
+
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co">#LogLikelihood</span>
+<span class="va">loglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>,<span class="va">alpha</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">theta_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#Number of iterations</span>
+<span class="va">n.iter</span> <span class="op">&lt;-</span> <span class="fl">40500</span>
+
+<span class="co">#Simulations of the parameter</span>
+<span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n.iter</span><span class="op">)</span>
+
+<span class="co">#Initial value</span>
+<span class="va">alpha</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0.0</span>
+
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">n.iter</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">new.alpha</span> <span class="op">&lt;-</span> <span class="fu">rq</span><span class="op">(</span><span class="va">alpha</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+  
+  <span class="co">#Log-Acceptance probability</span>
+  <span class="va">logacc.prob</span> <span class="op">&lt;-</span> <span class="fu">loglik</span><span class="op">(</span><span class="va">y</span>,<span class="va">new.alpha</span><span class="op">)</span> <span class="op">+</span> <span class="fu">logprior</span><span class="op">(</span><span class="va">new.alpha</span><span class="op">)</span> <span class="op">+</span> <span class="fu">logdq</span><span class="op">(</span><span class="va">alpha</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span>, <span class="va">new.alpha</span><span class="op">)</span>
+  <span class="va">logacc.prob</span> <span class="op">&lt;-</span> <span class="va">logacc.prob</span> <span class="op">-</span> <span class="fu">loglik</span><span class="op">(</span><span class="va">y</span>,<span class="va">alpha</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fu">logprior</span><span class="op">(</span><span class="va">alpha</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> 
+    <span class="fu">logdq</span><span class="op">(</span><span class="va">new.alpha</span>, <span class="va">alpha</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+  <span class="va">logacc.prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">logacc.prob</span><span class="op">)</span><span class="co">#0 = log(1)</span>
+  
+  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">logacc.prob</span><span class="op">)</span> <span class="op">{</span>
+    <span class="co">#Accept</span>
+    <span class="va">alpha</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">new.alpha</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="co">#Reject</span>
+    <span class="va">alpha</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">alpha</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span>
+  <span class="op">}</span>
+<span class="op">}</span></code></pre></div>
+<ul>
+<li>Compute the posterior mean and variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span>.</li>
+</ul>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#Remove burn-in</span>
+<span class="va">alpha</span> <span class="op">&lt;-</span> <span class="va">alpha</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span>
+
+<span class="co">#Thinning</span>
+<span class="va">alpha</span> <span class="op">&lt;-</span> <span class="va">alpha</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">]</span>
+
+<span class="co">#Summary statistics</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.113   3.219   3.247   3.248   3.275   3.391</code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#Summary statistics - on theta</span>
+<span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   22.49   25.00   25.71   25.75   26.45   29.69</code></pre>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#Variance of estimate?</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 1.002</code></pre>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#Alpha</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">alpha</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,
+  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
+  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#Theta</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,
+  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
+  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="bonus7_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<ul>
+<li>Compare the results obtained now with those obtained with the I-S algorithm.</li>
+</ul>
+<p>Again similar for this simple example. The variance of the estimate for <span class="math inline">\(\theta\)</span> is a little larger, perhaps because the M-H has explored the posterior distribution more efficiently.</p>
 </div>
 </div>
 </div>
