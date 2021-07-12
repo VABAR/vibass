@@ -21,7 +21,7 @@ p5MH_server <- function(input, output, session) {
 
   # Run simulations
   MH <- reactive({
-    print("---- M-H ----")
+    #print("---- M-H ----")
     n.iter <- input$nsim
     param1 <- input$sampa0
     param2 <- input$sampb0
@@ -93,11 +93,6 @@ p5MH_server <- function(input, output, session) {
       }
     }
 
-    print(summary(theta))
-
-    print(input$thinning)
-    print(n.iter)
-    print(input$burnin)
     idx <- seq(input$thinning + 1, n.iter, by = input$thinning) 
     values$theta_sim <- theta[idx]
     values$accepted <- accepted[idx]
