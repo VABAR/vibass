@@ -1,5 +1,5 @@
 ---
-title: 'Practical 5: Numerical approaches Solutions'
+title: 'Solutions 5: Numerical approaches'
 author: "VIBASS4"
 date: "July 2021"
 output:
@@ -10,7 +10,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Practical 5: Numerical approaches Solutions}
+  %\VignetteIndexEntry{Solutions 5: Numerical approaches}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -311,7 +311,7 @@ $$
 How is this related to the number of IS samples (`n_simulations`)?
 
 ```{r}
-ESS <- function(w){
+ESS <- function(ww){
   (sum(ww)^2)/sum(ww^2)
 }
 ESS(ww)
@@ -487,7 +487,7 @@ loglik_pois <- sapply(theta_sim, function(THETA) {
   sum(dpois(data$Us, THETA, log = TRUE))
 })
 
-# Log-weights: log-lik + log-prior - log-sampling_ditr
+# Log-weights: log-lik + log-prior - log-sampling_distr
 log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dlnorm(theta_sim, 3, 0.5)
 
 # Re-scale weights to sum up to one

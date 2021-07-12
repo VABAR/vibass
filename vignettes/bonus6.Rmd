@@ -1,5 +1,5 @@
 ---
-title: 'Practical 6: Linear models'
+title: 'Solutions 6: Linear models'
 author: "VIBASS4"
 date: "July 2021"
 output:
@@ -10,7 +10,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Practical 6: Linear models}
+  %\VignetteIndexEntry{Solutions 6: Linear models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -332,12 +332,56 @@ log-Normal with mean $0$ and standard deviation $1.25$.
 
 * Implement the IS algorithm to fit this model.
 
+```{r}
+n_simulations <- 40000
+set.seed(12)
+theta_sim <- cbind(rnorm(n_simulations, 1.71, 10),
+  rnorm(n_simulations, 0, 10), rlnorm(n_simulations, 0, 1.25)
+)
+loglik_biv <- apply(theta_sim, 1, function(THETA) {
+  sum(dnorm(data$height, THETA[1]+THETA[2]*data$gender, sqrt(1 / THETA[3]), log = TRUE))
+})
+log_ww <- loglik_biv + dnorm(theta_sim[, 1],0,sqrt(1/0.001)) + dnorm(theta_sim[,2], 0, sqrt(1/0.001)) + dgamma(theta_sim[, 3], 0.01, 0.01)
+log_ww <- log_ww - dnorm(theta_sim[, 1], 1.71, 10) - dnorm(theta_sim[, 2], 0, 10) - dlnorm(theta_sim[, 3], 0, 1.25)
+log_ww <- log_ww - max(log_ww)
+ww <- exp(log_ww)
+ww <- ww / sum(ww)
+lmfit <- lm(height~gender,data=data)
+summary(lmfit)
+```
+
+```{r fig = TRUE}
+hist(ww, xlab = "Importance weights")
+``` 
+
 * Compute estimates of the posterior mean and variance of the three
 model parameters.
+
+```{r}
+post_mean_alpha <- sum(theta_sim[, 1] * ww)
+post_mean_alpha
+post_var_alpha <- sum(theta_sim[, 1]^2 * ww)- post_mean_alpha^2
+post_var_alpha
+post_mean_beta <- sum(theta_sim[, 2] * ww)
+post_mean_beta
+post_var_beta <- sum(theta_sim[, 2]^2 * ww)- post_mean_beta^2
+post_var_beta
+post_mean_tau <- sum(theta_sim[, 3] * ww)
+post_mean_tau
+post_var_tau <- sum(theta_sim[, 3]^2 * ww)- post_mean_tau^2
+post_var_tau
+``` 
 
 * Compute the effective sample size for each parameter. What do you observe?
 Do you think that inference is equally reliable for all three parameters?
 
+```{r}
+ESS <- function(ww){
+  (sum(ww)^2)/sum(ww^2)
+}
+ESS(ww)
+n_simulations
+```
 
 ### Metropolis-Hastings
 
@@ -352,5 +396,110 @@ can be a Normal distribution with mean the current value and precision
 * Implement the M-H algorithm to fit this model. You can make use of the code
 above.
 
+```{r}
+#Proposal distribution: sampling
+rq <- function(theta) {
+  res <- c(NA, NA)  
+
+  res[1] <- rnorm(1, theta[1], sd = sqrt(1 / 10)) #Sample alpha
+  res[2] <- rnorm(1, theta[2], sd = sqrt(1 / 10)) #Sample beta
+  res[3] <- rlnorm(1, meanlog = log(theta[3]), sdlog = sqrt(1 / 10)) #Sample tau
+
+  return(res)
+}
+
+#Proposal distribution: log-density
+logdq <- function(new.theta, theta) {
+  res <- dnorm(new.theta[1], theta[1], sd = sqrt(1 / 10), log = TRUE) #Alpha
+  res <- res + dnorm(new.theta[2], theta[2], sd = sqrt(1 / 10), log = TRUE) #Beta
+  res <-  res + 
+    dlnorm(new.theta[3], meanlog = log(theta[3]), sdlog = sqrt(1 / 10), log = TRUE) #Tau
+}
+
+#Prior distribution
+logprior <- function(theta) {
+  res <- dnorm(theta[1], 0, sd = sqrt(1 / 0.001), log = TRUE) #alpha
+  res <- dnorm(theta[2], 0, sd = sqrt(1 / 0.001), log = TRUE) #beta
+  res <- res + dgamma(theta[3], 0.01, 0.01, log = TRUE) #Tau
+
+  return(res)
+}
+
+#LogLikelihood
+loglik <- function(y, theta) {
+   res <- sum(dnorm(y[,1], mean = theta[1]+theta[2]*y[,2], sd = sqrt(1 / theta[3]), log = TRUE)) 
+}
+```
+
+```{r}
+y <- cbind(data$height,data$gender)
+
+#Number of iterations
+n.iter <- 40500
+
+#Simulations of the parameter
+theta <- as.list(rep(NA, n.iter))
+
+#Initial value
+theta[[1]] <- c(1.5, 0.0, 1)
+
+for(i in 2:n.iter) {
+  new.theta <- rq(theta[[i - 1]])
+  
+  #Log-Acceptance probability
+  logacc.prob <- loglik(y, new.theta) + logprior(new.theta) + logdq(theta[[i - 1]], new.theta)
+  logacc.prob <- logacc.prob - loglik(y, theta[[i - 1]]) - logprior(theta[[i - 1]]) - 
+    logdq(new.theta, theta[[i - 1]])
+  logacc.prob <- min(0, logacc.prob)#0 = log(1)
+  
+  if(log(runif(1)) < logacc.prob) {
+    #Accept
+    theta[[i]] <- new.theta
+  } else {
+    #Reject
+    theta[[i]] <- theta[[i - 1]]
+  }
+}
+```
+
 * Compute summary statistics of the model parameters and compare them
 with the ones obtained with IS.
+
+```{r}
+#Remove burn-in
+theta <- theta[-c(1:500)]
+
+#Thinning
+theta <- theta[seq(1, length(theta), by = 10)]
+
+#Use matrix format
+theta <- do.call(rbind, theta)
+
+#Summary statistics
+apply(theta, 2, summary)
+
+par(mfrow = c(2, 3))
+#Alpha
+plot(theta[, 1], type = "l", main = "MCMC samples",
+  ylab = expression(alpha))
+plot(density(theta[, 1]), main = "Posterior density",
+  xlab = expression(alpha))
+#Beta
+plot(theta[, 2], type = "l", main = "MCMC samples",
+  ylab = expression(beta))
+plot(density(theta[, 2]), main = "Posterior density",
+  xlab = expression(beta))
+#Precision
+plot(theta[, 3], type = "l", main = "MCMC samples", ylab = expression(tau))
+plot(density(theta[, 3]), main = "Posterior density", 
+  xlab = expression(tau))
+```
+
+```{r fig.width = 10, fig.height = 5}
+sample.var <- 1 / theta[, 3]
+
+par(mfrow = c(1, 2))
+plot(sample.var, type = "l", main = "MCMC samples", ylab = "variance")
+plot(density(sample.var), main = "Posterior density", xlab = "variance")
+
+```
