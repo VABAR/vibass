@@ -343,7 +343,7 @@ loglik_pois <- sapply(alpha_sim, function(ALPHA) {
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_pois + dnorm(alpha_sim, 0.0, sqrt(1/0.001), log = TRUE) - dnorm(theta_sim, alpha_sim_mean, sqrt(1/0.1), log=TRUE)
+log_ww <- loglik_pois + dnorm(alpha_sim, 0.0, sqrt(1/0.001), log = TRUE) - dnorm(alpha_sim, alpha_sim_mean, sqrt(1/0.1), log=TRUE)
 
 # Re-scale weights to sum to one
 log_ww <- log_ww - max(log_ww)
