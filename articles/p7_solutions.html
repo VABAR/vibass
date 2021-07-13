@@ -381,7 +381,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <span class="op">}</span><span class="op">)</span>
 
 <span class="co"># Log-weights: log-lik + log-prior - log-sampling_distr</span>
-<span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_pois</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">alpha_sim</span>, <span class="fl">0.0</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.001</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">theta_sim</span>, <span class="va">alpha_sim_mean</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span>, log<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_pois</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">alpha_sim</span>, <span class="fl">0.0</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.001</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">alpha_sim</span>, <span class="va">alpha_sim_mean</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span>, log<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Re-scale weights to sum to one</span>
 <span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span>
@@ -397,29 +397,29 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <code class="sourceCode R"><span class="co"># Posterior mean</span>
 <span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">alpha_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span>
 <span class="va">post_mean</span></code></pre></div>
-<pre><code>## [1] 3.245288</code></pre>
+<pre><code>## [1] 3.245724</code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Posterior variance</span>
 <span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">alpha_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span>
 <span class="va">post_var</span></code></pre></div>
-<pre><code>## [1] 0.001356391</code></pre>
+<pre><code>## [1] 0.0013562</code></pre>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Posterior mean - on theta</span>
 <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">alpha_sim</span><span class="op">)</span>
 <span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span>
 <span class="va">post_mean</span></code></pre></div>
-<pre><code>## [1] 25.68652</code></pre>
+<pre><code>## [1] 25.6977</code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Posterior variance - on theta</span>
 <span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span>
 <span class="va">post_var</span></code></pre></div>
-<pre><code>## [1] 0.8949375</code></pre>
+<pre><code>## [1] 0.8957991</code></pre>
 <ul>
 <li>Compute and compare the effective sample sizes obtained with both sampling distributions. What do you find? Why do you think that this happens?</li>
 </ul>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 110.424</code></pre>
+<pre><code>## [1] 110.3642</code></pre>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n_simulations</span></code></pre></div>
 <pre><code>## [1] 10000</code></pre>
