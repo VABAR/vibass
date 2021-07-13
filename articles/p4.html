@@ -456,14 +456,14 @@ Posterior (green) distribution for the mean height.
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
 <span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span class="co">#&gt; 0.001003 0.002667 0.003413 0.003802 0.004490 0.026764</span>
+<span class="co">#&gt; 0.001041 0.002654 0.003403 0.003794 0.004476 0.029267</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.872046e-06</span>
+<span class="co">#&gt; [1] 2.893941e-06</span>
 <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.001694711</span>
+<span class="co">#&gt; [1] 0.001701159</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;        0.5%       99.5% </span>
-<span class="co">#&gt; 0.001458858 0.011243332</span></code></pre></div>
+<span class="co">#&gt;       0.5%      99.5% </span>
+<span class="co">#&gt; 0.00144092 0.01115265</span></code></pre></div>
 <p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid \mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
 </div>
 </div>
