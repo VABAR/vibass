@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.18</span>
       </span>
     </div>
 
@@ -170,7 +170,7 @@ y_{ij} &amp; \sim &amp; Bi(1,\theta)\\
 ## 
 ## Parametric coefficients:
 ##                Mean      Sd    2.5%     50%   97.5%
-## (Intercept) -1.3605  0.2367 -1.8493 -1.3536 -0.9109
+## (Intercept) -1.3654  0.2532 -1.9238 -1.3578 -0.9093
 ##  
 ## family = binomial  method = MCMC  N = 106  iterations = 12000  
 ## burnin = 2000  step = 10</code></pre>
@@ -179,7 +179,7 @@ y_{ij} &amp; \sim &amp; Bi(1,\theta)\\
 <code class="sourceCode R"><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## 0.09943 0.18083 0.20528 0.20681 0.23123 0.36177</code></pre>
+## 0.08795 0.17985 0.20460 0.20640 0.23307 0.34290</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
@@ -217,7 +217,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 ## 
 ## Parametric coefficients:
 ##               Mean     Sd   2.5%    50%  97.5%
-## (Intercept) 3.2462 0.0407 3.1668 3.2457 3.3301
+## (Intercept) 3.2476 0.0394 3.1691 3.2487 3.3247
 ##  
 ## family = poisson  method = MCMC  N = 25  iterations = 12000  
 ## burnin = 2000  step = 10</code></pre>
@@ -227,7 +227,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   22.76   25.02   25.68   25.71   26.40   29.14</code></pre>
+##   22.97   25.07   25.76   25.75   26.41   29.11</code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
@@ -266,11 +266,11 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ## 
 ## Parametric coefficients:
 ##               Mean     Sd   2.5%    50%  97.5%
-## (Intercept) 1.7164 0.0249 1.6673 1.7157 1.7647
+## (Intercept) 1.7161 0.0247 1.6681 1.7170 1.7611
 ##  
 ## Scale estimate:
 ##          Mean     Sd   2.5%    50%  97.5%
-## Sigma2 0.0176 0.0048 0.0107 0.0166 0.0298
+## Sigma2 0.0180 0.0050 0.0108 0.0172 0.0304
 ##  
 ## family = gaussian  method = MCMC  N = 30  iterations = 12000  
 ## burnin = 2000  step = 10</code></pre>
@@ -321,7 +321,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ##    "inla(formula = red.bin ~ 1, family = \"binomial\", data = list(red.bin 
 ##    = red.bin))" 
 ## Time used:
-##     Pre = 3.48, Running = 1.48, Post = 0.227, Total = 5.19 
+##     Pre = 3.32, Running = 1.16, Post = 0.199, Total = 4.68 
 ## Fixed effects:
 ##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld
 ## (Intercept) -1.34 0.239     -1.828   -1.334     -0.888 -1.321   0
@@ -352,7 +352,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ## Call:
 ##    "inla(formula = Us ~ 1, family = \"poisson\", data = list(Us = Us))" 
 ## Time used:
-##     Pre = 4.48, Running = 0.358, Post = 0.203, Total = 5.04 
+##     Pre = 3.16, Running = 0.172, Post = 0.226, Total = 3.56 
 ## Fixed effects:
 ##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld
 ## (Intercept) 3.247 0.039      3.169    3.248      3.324 3.248   0
@@ -382,7 +382,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 ##    "inla(formula = heights ~ 1, family = \"gaussian\", data = list(heights 
 ##    = heights))" 
 ## Time used:
-##     Pre = 4.04, Running = 0.669, Post = 0.23, Total = 4.94 
+##     Pre = 3.23, Running = 0.173, Post = 0.204, Total = 3.61 
 ## Fixed effects:
 ##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld
 ## (Intercept) 1.716 0.023       1.67    1.716      1.763 1.716   0
