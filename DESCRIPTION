@@ -47,8 +47,10 @@ Imports:
     extraDistr,
     ggplot2,
     golem,
+    INLA,
     knitr,
     magrittr,
+    R2BayesX,
     rlang,
     rstudioapi,
     shiny (>= 1.5),
@@ -64,8 +66,6 @@ Suggests:
     png,
     rmarkdown,
     waffle,
-    R2BayesX,
-    INLA
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
