@@ -48,7 +48,7 @@ p5MH_server <- function(input, output, session) {
     } else { #lognormal: mean, precision are the parameters
 
       #Proposal distribution: sampling
-      rq <- function(theta) {
+      rq <- function() {
         rlnorm(1, meanlog = param1, sdlog = sqrt(1 / param2))
       }
 
