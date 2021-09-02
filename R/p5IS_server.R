@@ -4,7 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import ggplot2 dplyr tibble tidyr
 #' @importFrom extraDistr dbbinom
-#' @importFrom stats dbeta qbeta setNames
+#' @importFrom stats dbeta qbeta setNames dbinom density
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
 #' @noRd
