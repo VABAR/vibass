@@ -13,6 +13,8 @@ vignette: >
   %\VignetteIndexEntry{Practical 8: Bayesian hierachical models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{INLA}
+  %\VignetteDepends{R2BayesX}
 ---
 
 # Introduction
