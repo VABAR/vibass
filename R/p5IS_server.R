@@ -37,7 +37,7 @@ p5IS_server <- function(input, output, session) {
      sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
     })
 
-    # Weights 
+    # Weights
     log_ww <- loglik_binom + dbeta(values$theta_sim, input$a0, input$b0, log = TRUE) - dbeta(values$theta_sim, param1, param2, log = TRUE)
     log_ww <- log_ww - max(log_ww)
     ww <- exp(log_ww)
@@ -45,7 +45,7 @@ p5IS_server <- function(input, output, session) {
 
     # 95% approximate credible interval
      idx <- order(values$theta_sim)
-    # Empirical cumulative 
+    # Empirical cumulative
     theta_sim_ordered <- values$theta_sim[idx]
     aux <- cumsum(values$ww[idx])
     values$LL <- theta_sim_ordered[which.min(abs(aux - 0.025))]
@@ -103,7 +103,7 @@ p5IS_server <- function(input, output, session) {
           )
         ) %>%
           c(values$LL)
-       
+
       ,
       Q_975 = qbeta(
         0.975, input$a0 + c(0), input$b0 + c(0)
@@ -185,7 +185,7 @@ p5IS_server <- function(input, output, session) {
 
   output$weights <- renderPlot(
 
-    qplot(values$ww, geom = "histogram", bins = 40) + xlab("Weight") + 
+    qplot(values$ww, geom = "histogram", bins = 40) + xlab("Weight") +
       ggtitle("Importance sampling weights")
   )
 

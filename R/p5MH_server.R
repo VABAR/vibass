@@ -66,7 +66,7 @@ p5MH_server <- function(input, output, session) {
 
     #Log-Likelihood
     loglik <- function(y, theta, N) {
-      res <- sum(dbinom(y, N, theta, log = TRUE)) 
+      res <- sum(dbinom(y, N, theta, log = TRUE))
     }
 
     theta <- rep(NA, n.iter)
@@ -84,7 +84,7 @@ p5MH_server <- function(input, output, session) {
 
       #Log-Acceptance probability
       logacc.prob <- loglik(y, new.theta, N) + logprior(new.theta) + logdq(theta[i - 1])
-      logacc.prob <- logacc.prob - loglik(y, theta[i - 1], N) - logprior(theta[i - 1]) - 
+      logacc.prob <- logacc.prob - loglik(y, theta[i - 1], N) - logprior(theta[i - 1]) -
         logdq(new.theta)
       logacc.prob <- min(0, logacc.prob) # Note that 0 = log(1)
 
@@ -98,7 +98,7 @@ p5MH_server <- function(input, output, session) {
       }
     }
 
-    idx <- seq(input$thinning + 1, n.iter, by = input$thinning) 
+    idx <- seq(input$thinning + 1, n.iter, by = input$thinning)
     values$theta_sim <- theta[idx]
     values$accepted <- accepted[idx]
 
@@ -158,7 +158,7 @@ p5MH_server <- function(input, output, session) {
           )
         ) %>%
           c(values$LL)
-       
+
       ,
       Q_975 = qbeta(
         0.975, input$a0 + c(0), input$b0 + c(0)
