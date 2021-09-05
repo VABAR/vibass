@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.19
+Version: 0.0.20
 Authors@R: 
     c(person(given = "VIBASS4",
              role = c("aut")),
@@ -47,11 +47,8 @@ Imports:
     extraDistr,
     ggplot2,
     golem,
-    INLA,
     knitr,
     magrittr,
-    plotly,
-    R2BayesX,
     rlang,
     rstudioapi,
     shiny (>= 1.5),
@@ -61,14 +58,19 @@ Suggests:
     cowplot,
     hrbrthemes,
     htmlwidgets,
+    INLA,
     magick,
     pacman,
+    plotly,
+    R2BayesX,
     png,
     rmarkdown,
     waffle,
 Remotes: inbo/INLA
 VignetteBuilder: 
     knitr
+URL: http://vabar.es/vibass/, https://github.com/VABAR/vibass
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+Additional_repositories: https://inla.r-inla-download.org/R/stable
