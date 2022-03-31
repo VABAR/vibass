@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.21</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -91,7 +87,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/VABAR/vibass/">
+  <a href="https://github.com/VABAR/vibass/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -110,53 +106,51 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Practical 3: Count data</h1>
-                        <h4 class="author">VIBASS4</h4>
+                        <h4 data-toc-skip class="author">VIBASS</h4>
             
-            <h4 class="date">July 2021</h4>
+            <h4 data-toc-skip class="date">July 2022</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/VABAR/vibass/blob/master/vignettes/p3.Rmd"><code>vignettes/p3.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/VABAR/vibass/blob/HEAD/vignettes/p3.Rmd" class="external-link"><code>vignettes/p3.Rmd</code></a></small>
       <div class="hidden name"><code>p3.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>According to Wikipedia:</p>
 <blockquote>
 <p><em>A Game of Thrones</em> is the first novel in <em>A Song of Ice and Fire</em>, a series of fantasy novels by the American author George R. R. Martin. In the novel, recounting events from various points of view, Martin introduces the plot-lines of the noble houses of Westeros, the Wall, and the Targaryens. The novel has inspired several spin-off works, including several games. It is also the namesake and basis for the first season of the television series <em>Game of Thrones</em>.</p>
 </blockquote>
-<p>If you want to get a bit of atmosphere, you can see a trailer of the series <a href="https://www.youtube.com/watch?v=KPLWWIOCOOQ">here</a> and if you want the music of this series to accompany you throughout the practice you can go <a href="https://www.youtube.com/watch?v=Hf9u3jPvkkI">here</a>.</p>
+<p>If you want to get a bit of atmosphere, you can see a trailer of the series <a href="https://www.youtube.com/watch?v=KPLWWIOCOOQ" class="external-link">here</a> and if you want the music of this series to accompany you throughout the practice you can go <a href="https://www.youtube.com/watch?v=Hf9u3jPvkkI" class="external-link">here</a>.</p>
 </div>
-<div id="bayesian-inference-for-the-mean-of-the-number-of-us-in-a-page-of-a-game-of-thrones" class="section level1">
-<h1 class="hasAnchor">
-<a href="#bayesian-inference-for-the-mean-of-the-number-of-us-in-a-page-of-a-game-of-thrones" class="anchor"></a>Bayesian inference for the mean of the number of u’s in a page of <em>A Game of Thrones</em>
-</h1>
-<div id="the-experiment-number-of-us-in-a-page-of-a-game-of-thrones" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-experiment-number-of-us-in-a-page-of-a-game-of-thrones" class="anchor"></a>The experiment: Number of u’s in a page of <em>A Game of Thrones</em>
+<div class="section level2">
+<h2 id="bayesian-inference-for-the-mean-of-the-number-of-us-in-a-page-of-a-game-of-thrones">Bayesian inference for the mean of the number of u’s in a page of <em>A Game of Thrones</em><a class="anchor" aria-label="anchor" href="#bayesian-inference-for-the-mean-of-the-number-of-us-in-a-page-of-a-game-of-thrones"></a>
 </h2>
+<div class="section level3">
+<h3 id="the-experiment-number-of-us-in-a-page-of-a-game-of-thrones">The experiment: Number of u’s in a page of <em>A Game of Thrones</em><a class="anchor" aria-label="anchor" href="#the-experiment-number-of-us-in-a-page-of-a-game-of-thrones"></a>
+</h3>
 <p>In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, <em>A Game of Thrones</em>, and we are interested in learning about the mean number of letters u we can find on a page of this book. We select pages of the book at random and count the number of u’s on each page. The random sampling is ``with replacement’’ in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">udata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>, <span class="fl">24</span>, <span class="fl">22</span>, 
+<code class="sourceCode R"><span class="va">udata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>, <span class="fl">24</span>, <span class="fl">22</span>, 
 <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">28</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>that we have obtained as a consequence of carrying out an experiment consisting of randomly selecting <span class="math inline">\(n=25\)</span> pages of the book and counting the number of u’s in each one of them.</p>
 <p>We can summarize the results obtained by means of a table of frequencies and its graphical representation</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">table.udata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">udata</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">table.udata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">udata</span><span class="op">)</span>
 <span class="va">table.udata</span>
 <span class="co">#&gt; udata</span>
 <span class="co">#&gt; 21 22 23 24 25 26 27 28 29 </span>
 <span class="co">#&gt;  1  2  4  1  4  1  4  4  4</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">table.udata</span>, col<span class="op">=</span><span class="st">"gray89"</span>, xlab<span class="op">=</span><span class="st">"Number of letters u in a page"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">table.udata</span>, col<span class="op">=</span><span class="st">"gray89"</span>, xlab<span class="op">=</span><span class="st">"Number of letters u in a page"</span><span class="op">)</span></code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;"></p>
 </div>
-<div id="the-sampling-model-is-approximately-poisson" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-sampling-model-is-approximately-poisson" class="anchor"></a>The sampling model is approximately Poisson</h2>
+<div class="section level3">
+<h3 id="the-sampling-model-is-approximately-poisson">The sampling model is approximately Poisson<a class="anchor" aria-label="anchor" href="#the-sampling-model-is-approximately-poisson"></a>
+</h3>
 <p>let <span class="math inline">\(Y\)</span> the random variable that describes the number of u’s in a page of the novel <em>A Game of Thrones</em>. We consider in this practice that, given <span class="math inline">\(\lambda\)</span>, the distribution of the number of u’s is Poisson with parameter <span class="math inline">\(\lambda\)</span></p>
 <p><span class="math display">\[Y \mid \lambda \sim \mbox{Po}(\lambda),\]</span></p>
 <p>whose conditional probability function, expectation and variance is:</p>
@@ -168,10 +162,9 @@
 </ul>
 <p>We know that this distribution is not exactly Poisson because the number of u’s on a page is finite and the Poisson distribution has no limit to the possible values of the variable.</p>
 </div>
-<div id="a-prior-distribution-for-lambda" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-prior-distribution-for-lambda" class="anchor"></a>A prior distribution for <span class="math inline">\(\lambda\)</span>
-</h2>
+<div class="section level3">
+<h3 id="a-prior-distribution-for-lambda">A prior distribution for <span class="math inline">\(\lambda\)</span><a class="anchor" aria-label="anchor" href="#a-prior-distribution-for-lambda"></a>
+</h3>
 <p>Recall that the gamma distribution is conjugate with respect to the Poisson probability model. If we elicit a prior gamma distribution Ga<span class="math inline">\((\alpha_0, \beta_0)\)</span> for <span class="math inline">\(\lambda\)</span>, its density is</p>
 <p><span class="math display">\[\pi(\lambda)=\frac{ \beta_0^{\alpha_0}}{\Gamma(\alpha_0) }\, \lambda^{(\alpha_0-1)}\,\mbox{e} ^{-\lambda\,\beta_0}, \,\, \lambda&gt;0\]</span> with expectation and variance</p>
 <ul>
@@ -186,20 +179,19 @@
 \end{align*}\]</span></p>
 <p>The non-informative prior distribution is intended to be a neutral distribution that leaves the data in the spotlight. Let’s try to understand what Joan’s views are that he has expressed through his prior distribution. To do so, we calculate the mean and standard deviation and graphically represent this prior.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lambda</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span>,<span class="fl">0.01</span><span class="op">)</span>
-<span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">105.8</span>, <span class="fl">4.6</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">prior2</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"dodgerblue"</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>,
-     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">lambda</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span class="va">lambda</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span>,<span class="fl">0.01</span><span class="op">)</span>
+<span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">105.8</span>, <span class="fl">4.6</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">prior2</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"dodgerblue"</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>,
+     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">lambda</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-4-1.png" width="60%" style="display: block; margin: auto;"></p>
 <p>According to Joan, the prior expectation and variance of <span class="math inline">\(\lambda\)</span> is <span class="math display">\[\mbox{E}(\lambda)=105.8/4.6= 23, \,\,\mbox{DT}{(\lambda)}= \sqrt(105.8/4.6^2)=2.236 \,\,\mbox{letters u}\]</span> and the prior probability that <span class="math inline">\(\lambda\)</span> is less than 20, 23, 25, 30 and 35 is:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">23</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="fl">35</span><span class="op">)</span>, <span class="fl">105.8</span>, <span class="fl">4.6</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">23</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="fl">35</span><span class="op">)</span>, <span class="fl">105.8</span>, <span class="fl">4.6</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.0850197 0.5129291 0.8164524 0.9980814 0.9999985</span></code></pre></div>
 </div>
-<div id="the-likelihood-function-of-lambda" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-likelihood-function-of-lambda" class="anchor"></a>The likelihood function of <span class="math inline">\(\lambda\)</span>
-</h2>
+<div class="section level3">
+<h3 id="the-likelihood-function-of-lambda">The likelihood function of <span class="math inline">\(\lambda\)</span><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-lambda"></a>
+</h3>
 <p>The likelihood of <span class="math inline">\(\lambda\)</span> is a function of <span class="math inline">\(\lambda\)</span> whose construction needs the data <span class="math inline">\(\mathcal D=\{n, \sum y_i\}\)</span>, where <span class="math inline">\(\sum y_i\)</span> is the sum of the data. It is defined as follows</p>
 <p><span class="math display">\[\begin{align*}
 L(\lambda \mid \mathcal D)=&amp; P(Y_1=y_1, Y_2=y_2, \ldots, Y_n=y_n \mid \lambda)\\
@@ -209,16 +201,15 @@ L(\lambda \mid \mathcal D)=&amp; P(Y_1=y_1, Y_2=y_2, \ldots, Y_n=y_n \mid \lambd
 L(\lambda \mid \mathcal D)\propto &amp; \lambda^{643}\mbox{e}^{-25 \lambda}
 \end{align*}\]</span></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lambda</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span>,<span class="fl">0.01</span><span class="op">)</span>
-<span class="va">like</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">643</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">-</span><span class="fl">25</span><span class="op">*</span><span class="va">lambda</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span><span class="op">(</span><span class="va">udata</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">like</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"darkorange"</span>, 
-     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"likelihood"</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span class="va">lambda</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span>,<span class="fl">0.01</span><span class="op">)</span>
+<span class="va">like</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">643</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">-</span><span class="fl">25</span><span class="op">*</span><span class="va">lambda</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Special.html" class="external-link">factorial</a></span><span class="op">(</span><span class="va">udata</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">like</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"darkorange"</span>, 
+     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"likelihood"</span><span class="op">)</span> </code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-6-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
-<div id="the-posterior-distribution-of-lambda" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-posterior-distribution-of-lambda" class="anchor"></a>The posterior distribution of <span class="math inline">\(\lambda\)</span>
-</h2>
+<div class="section level3">
+<h3 id="the-posterior-distribution-of-lambda">The posterior distribution of <span class="math inline">\(\lambda\)</span><a class="anchor" aria-label="anchor" href="#the-posterior-distribution-of-lambda"></a>
+</h3>
 <p>The posterior distribution of <span class="math inline">\(\lambda\)</span> for both priors 1 and 2 is a gamma distribution with parameters</p>
 <p><span class="math display">\[\begin{align*}
 \mbox{Posterior 1: }&amp; \pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(\alpha = 643+0.5= 643.5 , \beta =25 )\\
@@ -226,14 +217,14 @@ L(\lambda \mid \mathcal D)\propto &amp; \lambda^{643}\mbox{e}^{-25 \lambda}
 \end{align*}\]</span></p>
 <p>Next, we plot on the same graph the informative prior distribution <span class="math inline">\(\mbox{Ga}(\alpha_0=105.8, \beta_0=4.6)\)</span> from Joan (in blue) and the two posterior distributions, <span class="math inline">\(\pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(\alpha = 643.5, \beta =25 )\)</span> in dark green and <span class="math inline">\(\pi_2(\lambda \mid \mathcal D)=\mbox{Ga}(\alpha = 748.8, \beta =29.6)\)</span> in light green.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lambda</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span>,<span class="fl">0.01</span><span class="op">)</span>
-<span class="va">posterior1</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">posterior1</span>, col<span class="op">=</span><span class="st">"green3"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span><span class="op">)</span>, 
-     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"prior and posteriors"</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
-<span class="va">posterior2</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">posterior2</span>, col<span class="op">=</span><span class="st">"darkgreen"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span><span class="op">)</span>
-<span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">105.8</span>, <span class="fl">4.6</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">prior2</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"dodgerblue"</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span class="va">lambda</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span>,<span class="fl">0.01</span><span class="op">)</span>
+<span class="va">posterior1</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">posterior1</span>, col<span class="op">=</span><span class="st">"green3"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">35</span><span class="op">)</span>, 
+     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"prior and posteriors"</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
+<span class="va">posterior2</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">posterior2</span>, col<span class="op">=</span><span class="st">"darkgreen"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span><span class="op">)</span>
+<span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fl">105.8</span>, <span class="fl">4.6</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">prior2</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"dodgerblue"</span><span class="op">)</span> </code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-7-1.png" width="60%" style="display: block; margin: auto;"></p>
 <p>Interestingly, the two posterior distributions are quite similar despite the fact that the informative prior distribution is compatible with smaller lambda values than indicated by the data. The posterior mean and standard deviation of <span class="math inline">\(\lambda\)</span> according to each posterior distributions is <span class="math display">\[\begin{align*}
 \mbox{Posterior 1: }&amp; \pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(643.5, 25 ), \,\,\mbox{E} (\lambda \mid \mathcal D)=25.74, \,\,\mbox{DT}(\lambda \mid \mathcal D)=1.0147 \mbox{ letters u} \\
@@ -241,35 +232,34 @@ L(\lambda \mid \mathcal D)\propto &amp; \lambda^{643}\mbox{e}^{-25 \lambda}
 \end{align*}\]</span></p>
 <p>A 95<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\lambda\)</span> according to posteriors 1 and 2 is</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">qgamma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
 <span class="co">#&gt; [1] 23.78939 27.76637</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">qgamma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span> 
 <span class="co">#&gt; [1] 23.51758 27.14100</span></code></pre></div>
 <p>and the subsequent posterior probability that the mean of the number of letters u’s in a page of <em>A Game of Thrones</em> is between 24 and 26 letters is</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span><span class="fl">27</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span><span class="fl">24</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="fl">27</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="fl">24</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8508419</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span><span class="fl">27</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span><span class="fl">24</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="fl">27</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="fl">24</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span> 
 <span class="co">#&gt; [1] 0.8867553</span></code></pre></div>
 </div>
-<div id="the-posterior-predictive-distribution-for-the-number-of-us-in-a-new-page-of-a-game-of-thrones" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-posterior-predictive-distribution-for-the-number-of-us-in-a-new-page-of-a-game-of-thrones" class="anchor"></a>The posterior predictive distribution for the number of u’s in a new page of <em>A Game of Thrones</em>
-</h2>
+<div class="section level3">
+<h3 id="the-posterior-predictive-distribution-for-the-number-of-us-in-a-new-page-of-a-game-of-thrones">The posterior predictive distribution for the number of u’s in a new page of <em>A Game of Thrones</em><a class="anchor" aria-label="anchor" href="#the-posterior-predictive-distribution-for-the-number-of-us-in-a-new-page-of-a-game-of-thrones"></a>
+</h3>
 <p>Remember that the posterior predictive distribution for the result of a new observation <span class="math inline">\(Y_{n+1}\)</span> is a Gamma-Poisson distribution GaPo<span class="math inline">\((\alpha, \beta, 1)\)</span> with probability distribution <span class="math display">\[\begin{align*}
 P(Y_{n+1}&amp;=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \frac{\Gamma(r+\alpha)}{r!}\,\frac{1}{(\beta+1)^{(r+\alpha)}}, \,r=0,1,2,\ldots, \nonumber \\
 \end{align*}\]</span> where E<span class="math inline">\((Y_{n+1}\mid \mathcal D) = \alpha/\beta\)</span> and Var<span class="math inline">\((Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))\)</span>.</p>
 <p>Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is <span class="math inline">\(\text{GaPo}(643.5,\, 25, 1)\)</span> if we work in the framework of the posterior 1 or <span class="math inline">\(\text{GaPo}(748.8,\, 29.6, 1)\)</span> if we work in the framework of the posterior 2. Now we represent both predictive distributions</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr">extraDistr</a></span><span class="op">)</span>
-<span class="va">x</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span><span class="op">)</span>
-<span class="va">pred1</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/GammaPoiss.html">dgpois</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">pred1</span>,type<span class="op">=</span><span class="st">"h"</span>,xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="st">"purple"</span>, ylab<span class="op">=</span><span class="st">"probability"</span>, 
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr" class="external-link">extraDistr</a></span><span class="op">)</span>
+<span class="va">x</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span><span class="op">)</span>
+<span class="va">pred1</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/GammaPoiss.html" class="external-link">dgpois</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">643.5</span>, <span class="fl">25</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">pred1</span>,type<span class="op">=</span><span class="st">"h"</span>,xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="st">"purple"</span>, ylab<span class="op">=</span><span class="st">"probability"</span>, 
       xlab<span class="op">=</span><span class="st">"number of letters u in a new page"</span><span class="op">)</span></code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-10-1.png" width="55%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pred2</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/GammaPoiss.html">dgpois</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">pred2</span>,type<span class="op">=</span><span class="st">"h"</span>,xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="st">"purple"</span>, ylab<span class="op">=</span><span class="st">"probability"</span>, 
+<code class="sourceCode R"><span class="va">pred2</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/GammaPoiss.html" class="external-link">dgpois</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">748.8</span>, <span class="fl">29.6</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">pred2</span>,type<span class="op">=</span><span class="st">"h"</span>,xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="st">"purple"</span>, ylab<span class="op">=</span><span class="st">"probability"</span>, 
       xlab<span class="op">=</span><span class="st">"number of u's in a new page"</span><span class="op">)</span></code></pre></div>
 <p><img src="p3_files/figure-html/unnamed-chunk-10-2.png" width="55%" style="display: block; margin: auto;"> The graphs of both distributions are visually almost identical. The mean and standard deviation are</p>
 <p><span class="math display">\[\begin{align*}
@@ -279,9 +269,9 @@ P(Y_{n+1}&amp;=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \fra
 <p>It is important to note the large variability associated with the prediction process relative to the estimation process. This characteristic of the estimation and prediction processes is general to all inferential processes and statistical methodologies.</p>
 </div>
 </div>
-<div id="time-to-individual-work" class="section level1">
-<h1 class="hasAnchor">
-<a href="#time-to-individual-work" class="anchor"></a>Time to individual work</h1>
+<div class="section level2">
+<h2 id="time-to-individual-work">Time to individual work<a class="anchor" aria-label="anchor" href="#time-to-individual-work"></a>
+</h2>
 <p>We propose below an individual exercise that pursues to consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session.</p>
 <p><strong>Exercice</strong></p>
 <p>You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel <em>A Game of Thrones</em> and you have thought to ask her opinion about the number of u’s in the novel. Her prior distribution for <span class="math inline">\(\lambda\)</span> is very different from that of your other friend Joan. It is Ga(90, 3) and we will call it prior 3. <span class="math display">\[\begin{align*}
@@ -306,11 +296,13 @@ P(Y_{n+1}&amp;=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \fra
 
 
       <footer><div class="copyright">
-  <p>Developed by VIBASS4, Facundo Muñoz.</p>
+  <p></p>
+<p>Developed by VIBASS4, Facundo Muñoz.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -318,6 +310,8 @@ P(Y_{n+1}&amp;=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \fra
 
   
 
+
+  
 
   </body>
 </html>
