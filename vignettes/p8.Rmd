@@ -1,7 +1,7 @@
 ---
 title: 'Practical 8: Bayesian hierachical models'
-author: "VIBASS4"
-date: "July 2021"
+author: "VIBASS"
+date: "July 2022"
 output:
   html_vignette:
     fig_caption: yes
