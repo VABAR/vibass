@@ -26,44 +26,55 @@ p1_server <- function(input, output, session) {
     )
   )
 
+
+  ## Update slider maximum limit of slider "r"
+  observe({
+    sample_size <- input$n
+    updateSliderInput(
+      session, "r",
+      max = sample_size
+    )
+  })
+
+
   dist_summaries <- reactive({
     tibble(
       "-" = c("Prior", "Posterior", "Predictive")
       ,
       Mean = c(
         mean_beta(input$a0, input$b0),
-        mean_beta(input$a0 + input$r, input$b0 + 20 - input$r),
-        10*mean_beta(input$a0 + input$r, input$b0 + 20 - input$r)
+        mean_beta(input$a0 + input$r, input$b0 + input$n - input$r),
+        10*mean_beta(input$a0 + input$r, input$b0 + input$n - input$r)
       ) %>%
         round(2)
       ,
       SD = c(
         sd_beta(input$a0, input$b0),
-        sd_beta(input$a0 + input$r, input$b0 + 20 - input$r),
-        sqrt(10*(input$a0 + input$b0 + 30))*sd_beta(input$a0 + input$r, input$b0 + 20 - input$r)
+        sd_beta(input$a0 + input$r, input$b0 + input$n - input$r),
+        sqrt(10*(input$a0 + input$b0 + 30))*sd_beta(input$a0 + input$r, input$b0 + input$n - input$r)
       ) %>%
         round(2)
       ,
       Q_025 = qbeta(
-        0.025, input$a0 + c(0, input$r), input$b0 + c(0, 20 - input$r)
+        0.025, input$a0 + c(0, input$r), input$b0 + c(0, input$n - input$r)
       ) %>%
         round(2) %>%
         c(
           ifelse(
-            input$b0 + 20 - input$r > 0,
-            qbbinom(.025, n = 10, input$a0 + input$r, input$b0 + 20 - input$r),
+            input$b0 + input$n - input$r > 0,
+            qbbinom(.025, n = 10, input$a0 + input$r, input$b0 + input$n - input$r),
             10
           )
         )
       ,
       Q_975 = qbeta(
-        0.975, input$a0 + c(0, input$r), input$b0 + c(0, 20 - input$r)
+        0.975, input$a0 + c(0, input$r), input$b0 + c(0, input$n - input$r)
       ) %>%
         round(2) %>%
         c(
           ifelse(
-            input$b0 + 20 - input$r > 0,
-            qbbinom(.975, n = 10, input$a0 + input$r, input$b0 + 20 - input$r),
+            input$b0 + input$n - input$r > 0,
+            qbbinom(.975, n = 10, input$a0 + input$r, input$b0 + input$n - input$r),
             10
           )
         )
@@ -75,8 +86,8 @@ p1_server <- function(input, output, session) {
     theta_values %>%
       mutate(
         prior = dbeta(.data$x, input$a0, input$b0),
-        likelihood = dbeta(.data$x, 1 + input$r, 1 + 20 - input$r),
-        posterior = dbeta(.data$x, input$a0 + input$r, input$b0 + 20 - input$r)
+        likelihood = dbeta(.data$x, 1 + input$r, 1 + input$n - input$r),
+        posterior = dbeta(.data$x, input$a0 + input$r, input$b0 + input$n - input$r)
       ) %>%
       pivot_longer(
         cols = -.data$x,
@@ -105,8 +116,8 @@ p1_server <- function(input, output, session) {
             curve == "posterior",
             between(
               .data$x,
-              qbeta(0.025, input$a0 + input$r, input$b0 + 20 - input$r),
-              qbeta(0.975, input$a0 + input$r, input$b0 + 20 - input$r)
+              qbeta(0.025, input$a0 + input$r, input$b0 + input$n - input$r),
+              qbeta(0.975, input$a0 + input$r, input$b0 + input$n - input$r)
             )
           ),
         fill = "darkgreen",
@@ -129,7 +140,7 @@ p1_server <- function(input, output, session) {
   output$predictive <- renderPlot(
     tibble(x = 0:10) %>%
       mutate(
-        y = dbbinom(.data$x, 10, input$a0 + input$r, input$b0 + 20 - input$r)
+        y = dbbinom(.data$x, 10, input$a0 + input$r, input$b0 + input$n - input$r)
       ) %>%
       ggplot(aes(.data$x, .data$y)) +
       geom_bar(

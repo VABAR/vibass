@@ -37,7 +37,9 @@ p1_ui <- function(request) {
           )
         ),
         "$$L(\\theta \\mid \\mathcal D) = P(Y=r \\mid \\theta,\\, n)$$",
-        "where $Y \\mid \\theta \\sim \\text{Bi}(n,\\, \\theta)$ and $n = 20$.", br(),
+        "where $Y \\mid \\theta \\sim \\text{Bi}(n,\\, \\theta).$",
+        # paste("and $n = ", input$n, "$."),
+        br(),
         # "It is a", strong("function"), "of $\\theta$, not a probability distribution. ",
         # "Here it is scaled for visualisation purposes.",
         "Represents the relative", strong("compatibility"),
@@ -56,7 +58,8 @@ p1_ui <- function(request) {
           )
         ),
         "$$\\theta \\mid r \\sim \\text{Be}(\\alpha_0 + r,\\, \\beta_0 + n - r)$$",
-        "where $n = 20$.", br(),
+        # "where $n = 20$.",
+        br(),
         "Represents your knowledge about $\\theta$", strong("after"),
         "observing the data $r$."
       )
@@ -91,6 +94,7 @@ p1_ui <- function(request) {
     helpText(
       strong("Observed"), "number of red M&Ms in the sample."
     ),
+    sliderInput("n", "$n$", value = 20, min = 1, max = 100, step = 1),
     sliderInput("r", "$r$", value = 4, min = 0, max = 20, step = 1)
 
   )
@@ -147,7 +151,7 @@ p1_ui <- function(request) {
       strong(
         paste(
           "Estimate the global proportion $\\boldsymbol{\\theta}$ of red M&Ms",
-          "by observing their number in a sample of size 20."
+          "by observing their number in a sample."
         )
       ),
 
