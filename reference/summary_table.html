@@ -90,41 +90,58 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">summary_table</span><span class="op">(</span>
-  <span class="va">mean</span>,
-  <span class="va">var</span>,
-  <span class="va">quant</span>,
-  ic95 <span class="op">=</span> <span class="cn">NULL</span>,
-  prop0 <span class="op">=</span> <span class="cn">NULL</span>,
-  prop1 <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">label</span>,
-  digits <span class="op">=</span> <span class="fl">2</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">summary_table</span><span class="op">(</span></span>
+<span>  <span class="va">mean</span>,</span>
+<span>  <span class="va">var</span>,</span>
+<span>  <span class="va">quant</span>,</span>
+<span>  ic95 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  prop0 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  prop1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">label</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>mean</dt>
 <dd><p>Real.</p></dd>
+
+
 <dt>var</dt>
 <dd><p>Real.</p></dd>
+
+
 <dt>quant</dt>
 <dd><p>Named numeric vector. Names must be of the form "xx<!-- %" with -->
 numeric xx. As from the output of the function <code>quantile</code>.</p></dd>
+
+
 <dt>ic95</dt>
 <dd><p>Numeric vector.</p></dd>
+
+
 <dt>prop0</dt>
 <dd><p>Real.</p></dd>
+
+
 <dt>prop1</dt>
 <dd><p>Real.</p></dd>
+
+
 <dt>label</dt>
 <dd><p>Character. Name of the summarised variable.</p></dd>
+
+
 <dt>digits</dt>
 <dd><p>Integer. Number of decimal places to be used.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A knitr_kable object.</p>
+    
+
+<p>A knitr_kable object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -136,8 +153,8 @@ rounded to the specified number of decimal places.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">summary_table</span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">1</span>, var <span class="op">=</span> <span class="fl">1</span>, quant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">4</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span>, ic95 <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span class="r-in">prop1 <span class="op">=</span> <span class="fl">.6</span>, label <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">summary_table</span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">1</span>, var <span class="op">=</span> <span class="fl">1</span>, quant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">4</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span>, ic95 <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">5</span>,</span></span>
+<span class="r-in"><span>prop1 <span class="op">=</span> <span class="fl">.6</span>, label <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> |Summary |test   |</span>
@@ -166,7 +183,7 @@ rounded to the specified number of decimal places.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

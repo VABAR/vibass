@@ -148,47 +148,47 @@ y_{ij} &amp; \sim &amp; Bi(1,\theta)\\
 <p>Note that now the probability <span class="math inline">\(\theta\)</span> is not modeled directly but that its logit depends on a linear predictor, which is made of a single intercept term <span class="math inline">\(\alpha\)</span>. This term is assigned a (vague) Gaussian prior.</p>
 <p>You can use the data from the proportion of red M&amp;Ms obtained before:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">36</span>, <span class="fl">35</span><span class="op">)</span>, red <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">36</span>, <span class="fl">35</span><span class="op">)</span>, red <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Before fitting the model, you will need to transform the original data into binary data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">red.bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">red</span><span class="op">)</span>, 
-  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">MMs</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">red</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">red.bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">red</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">MMs</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">red</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>As mentioned above, fitting a model with <code>BayesX</code> is similar to fitting a model with the <code>glm</code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">R2BayesX</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Loading required package: BayesXsrc</span></code></pre>
-<pre><code><span class="co">## Loading required package: colorspace</span></code></pre>
-<pre><code><span class="co">## Loading required package: mgcv</span></code></pre>
-<pre><code><span class="co">## Loading required package: nlme</span></code></pre>
-<pre><code><span class="co">## This is mgcv 1.8-39. For overview type 'help("mgcv-package")'.</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">R2BayesX</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Loading required package: BayesXsrc</span></span></code></pre>
+<pre><code><span><span class="co">## Loading required package: colorspace</span></span></code></pre>
+<pre><code><span><span class="co">## Loading required package: mgcv</span></span></code></pre>
+<pre><code><span><span class="co">## Loading required package: nlme</span></span></code></pre>
+<pre><code><span><span class="co">## This is mgcv 1.8-40. For overview type 'help("mgcv-package")'.</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bayesx.bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span><span class="va">red.bin</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, method <span class="op">=</span> <span class="st">"MCMC"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bayesx.bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span><span class="va">red.bin</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, method <span class="op">=</span> <span class="st">"MCMC"</span><span class="op">)</span></span></code></pre></div>
 <p>Note option <code>method = "MCMC"</code> which is needed to use MCMC to fit a Bayesian model. <code>BayesX</code> also supports restricted maximum likelihood (REML) and penalized least squares (PLS). Summary results can be displayed as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Call:</span>
-<span class="co">## bayesx(formula = red.bin ~ 1, family = "binomial", method = "MCMC")</span>
-<span class="co">##  </span>
-<span class="co">## Fixed effects estimation results:</span>
-<span class="co">## </span>
-<span class="co">## Parametric coefficients:</span>
-<span class="co">##                Mean      Sd    2.5%     50%  97.5%</span>
-<span class="co">## (Intercept) -1.3559  0.2352 -1.8259 -1.3512 -0.904</span>
-<span class="co">##  </span>
-<span class="co">## family = binomial  method = MCMC  N = 106  iterations = 12000  </span>
-<span class="co">## burnin = 2000  step = 10</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Call:</span></span>
+<span><span class="co">## bayesx(formula = red.bin ~ 1, family = "binomial", method = "MCMC")</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## Fixed effects estimation results:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Parametric coefficients:</span></span>
+<span><span class="co">##                Mean      Sd    2.5%     50%   97.5%</span></span>
+<span><span class="co">## (Intercept) -1.3590  0.2372 -1.8360 -1.3519 -0.9282</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## family = binomial  method = MCMC  N = 106  iterations = 12000  </span></span>
+<span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
 <p>Note that the output shows the summary of the intercept term <span class="math inline">\(\alpha\)</span> and not of <span class="math inline">\(\theta\)</span>. In this simple case, we can obtain a sample from the posterior of <span class="math inline">\(\theta\)</span> by back-transforming the samples of the intercept term, i.e., <span class="math inline">\(\theta = \textrm{expit}(\alpha) = 1/(1 + \exp(-\alpha))\)</span>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="co">## 0.09999 0.18052 0.20568 0.20753 0.23209 0.32558</span></code></pre>
+<code class="sourceCode R"><span><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">##  0.1109  0.1795  0.2056  0.2071  0.2333  0.3428</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p8_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -206,36 +206,36 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <p>This is often called a <em>Poisson model</em> or <em>log-linear model</em> because the logarithm of the mean (i.e., <span class="math inline">\(\theta\)</span>) is modeled on a vector of covariates. In this case the linear predictor is made up of a single intercept term, which is assigned a Gaussian prior.</p>
 <p>To fit this model, use the data collected previously, which can be loaded with:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>,
-  <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">28</span><span class="op">)</span><span class="op">)</span>
-<span class="va">Us</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Us</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>,</span>
+<span>  <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">28</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Us</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Us</span></span></code></pre></div>
 <p>Fitting this model with <code>BayesX</code> is very easy:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bayesx.pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span><span class="va">Us</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"poisson"</span>, method <span class="op">=</span> <span class="st">"MCMC"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.pois</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Call:</span>
-<span class="co">## bayesx(formula = Us ~ 1, family = "poisson", method = "MCMC")</span>
-<span class="co">##  </span>
-<span class="co">## Fixed effects estimation results:</span>
-<span class="co">## </span>
-<span class="co">## Parametric coefficients:</span>
-<span class="co">##               Mean     Sd   2.5%    50% 97.5%</span>
-<span class="co">## (Intercept) 3.2478 0.0403 3.1695 3.2478 3.326</span>
-<span class="co">##  </span>
-<span class="co">## family = poisson  method = MCMC  N = 25  iterations = 12000  </span>
-<span class="co">## burnin = 2000  step = 10</span></code></pre>
+<code class="sourceCode R"><span><span class="va">bayesx.pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span><span class="va">Us</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"poisson"</span>, method <span class="op">=</span> <span class="st">"MCMC"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.pois</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Call:</span></span>
+<span><span class="co">## bayesx(formula = Us ~ 1, family = "poisson", method = "MCMC")</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## Fixed effects estimation results:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Parametric coefficients:</span></span>
+<span><span class="co">##               Mean     Sd   2.5%    50%  97.5%</span></span>
+<span><span class="co">## (Intercept) 3.2442 0.0411 3.1580 3.2453 3.3175</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## family = poisson  method = MCMC  N = 25  iterations = 12000  </span></span>
+<span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
 <p>Note that the output shows the summary of the intercept term <span class="math inline">\(\alpha\)</span> and not of <span class="math inline">\(\theta\)</span>. In this simple case, we can obtain a sample from the posterior of <span class="math inline">\(\theta\)</span> by back-transforming the samples of the intercept term, i.e., <span class="math inline">\(\theta = \exp(\alpha)\)</span>.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.pois</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.pois</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="co">##   22.87   25.00   25.73   25.76   26.45   28.77</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">##   22.19   24.99   25.67   25.66   26.40   29.78</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p8_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -253,45 +253,45 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 <p>In this case, we have explicitly written the mean <span class="math inline">\(\mu\)</span> equal to a linear predictor because this model can be generalised to include additive effects on several covariates.</p>
 <p>You can load the height data using this:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.6</span>, <span class="fl">1.62</span>, <span class="fl">1.69</span>, <span class="fl">1.58</span>, <span class="fl">1.57</span>, <span class="fl">1.57</span>, <span class="fl">1.47</span>, <span class="fl">1.59</span>,
-  <span class="fl">1.59</span>, <span class="fl">1.66</span>, <span class="fl">1.59</span>, <span class="fl">1.73</span>, <span class="fl">1.61</span>, <span class="fl">1.59</span>, <span class="fl">1.73</span>, <span class="fl">1.92</span>, <span class="fl">1.74</span>, <span class="fl">1.82</span>, <span class="fl">1.74</span>, <span class="fl">1.82</span>, <span class="fl">1.89</span>,
-  <span class="fl">1.96</span>, <span class="fl">1.83</span>, <span class="fl">1.81</span>, <span class="fl">1.74</span>, <span class="fl">1.75</span>, <span class="fl">1.9</span>, <span class="fl">1.69</span>, <span class="fl">1.92</span>, <span class="fl">1.77</span><span class="op">)</span><span class="op">)</span>
-<span class="va">heights</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">height</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.6</span>, <span class="fl">1.62</span>, <span class="fl">1.69</span>, <span class="fl">1.58</span>, <span class="fl">1.57</span>, <span class="fl">1.57</span>, <span class="fl">1.47</span>, <span class="fl">1.59</span>,</span>
+<span>  <span class="fl">1.59</span>, <span class="fl">1.66</span>, <span class="fl">1.59</span>, <span class="fl">1.73</span>, <span class="fl">1.61</span>, <span class="fl">1.59</span>, <span class="fl">1.73</span>, <span class="fl">1.92</span>, <span class="fl">1.74</span>, <span class="fl">1.82</span>, <span class="fl">1.74</span>, <span class="fl">1.82</span>, <span class="fl">1.89</span>,</span>
+<span>  <span class="fl">1.96</span>, <span class="fl">1.83</span>, <span class="fl">1.81</span>, <span class="fl">1.74</span>, <span class="fl">1.75</span>, <span class="fl">1.9</span>, <span class="fl">1.69</span>, <span class="fl">1.92</span>, <span class="fl">1.77</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">heights</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">height</span></span></code></pre></div>
 <p>Similarly as in the previous examples, the model can be fitted as:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bayesx.norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span><span class="va">heights</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"gaussian"</span>, method <span class="op">=</span> <span class="st">"MCMC"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bayesx.norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span><span class="va">heights</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"gaussian"</span>, method <span class="op">=</span> <span class="st">"MCMC"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.norm</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Call:</span>
-<span class="co">## bayesx(formula = heights ~ 1, family = "gaussian", method = "MCMC")</span>
-<span class="co">##  </span>
-<span class="co">## Fixed effects estimation results:</span>
-<span class="co">## </span>
-<span class="co">## Parametric coefficients:</span>
-<span class="co">##               Mean     Sd   2.5%    50%  97.5%</span>
-<span class="co">## (Intercept) 1.7169 0.0246 1.6682 1.7166 1.7651</span>
-<span class="co">##  </span>
-<span class="co">## Scale estimate:</span>
-<span class="co">##          Mean     Sd   2.5%    50%  97.5%</span>
-<span class="co">## Sigma2 0.0179 0.0053 0.0103 0.0170 0.0312</span>
-<span class="co">##  </span>
-<span class="co">## family = gaussian  method = MCMC  N = 30  iterations = 12000  </span>
-<span class="co">## burnin = 2000  step = 10</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.norm</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Call:</span></span>
+<span><span class="co">## bayesx(formula = heights ~ 1, family = "gaussian", method = "MCMC")</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## Fixed effects estimation results:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Parametric coefficients:</span></span>
+<span><span class="co">##               Mean     Sd   2.5%    50%  97.5%</span></span>
+<span><span class="co">## (Intercept) 1.7156 0.0235 1.6701 1.7152 1.7623</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## Scale estimate:</span></span>
+<span><span class="co">##          Mean     Sd   2.5%    50%  97.5%</span></span>
+<span><span class="co">## Sigma2 0.0178 0.0050 0.0105 0.0170 0.0292</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">## family = gaussian  method = MCMC  N = 30  iterations = 12000  </span></span>
+<span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
 <p>In this case, mean <span class="math inline">\(\mu\)</span> is equal to <span class="math inline">\(\alpha\)</span>, so there is no need to make any transformation. However, <code>BayesX</code> reports the variance, so we need to take the inverse of the samples in order to estimate the precision:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bayesx.mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.norm</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
-<span class="va">bayesx.tau</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.norm</span><span class="op">$</span><span class="va">variance</span>, <span class="st">"sample"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bayesx.mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.norm</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">bayesx.tau</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.norm</span><span class="op">$</span><span class="va">variance</span>, <span class="st">"sample"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.mu</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,
-  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.mu</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.tau</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,
-  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.tau</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.mu</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.mu</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.tau</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">bayesx.tau</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p8_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 </div>
@@ -306,105 +306,124 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 </h3>
 <p>First, a model to the M&amp;Ms data set will be fitted:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">INLA</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Loading required package: Matrix</span></code></pre>
-<pre><code><span class="co">## Loading required package: sp</span></code></pre>
-<pre><code><span class="co">## Loading required package: parallel</span></code></pre>
-<pre><code><span class="co">## This is INLA_19.09.03 built 2022-03-31 08:59:33 UTC.</span>
-<span class="co">## See www.r-inla.org/contact-us for how to get help.</span>
-<span class="co">## To enable PARDISO sparse library; see inla.pardiso()</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">INLA</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Loading required package: Matrix</span></span></code></pre>
+<pre><code><span><span class="co">## Loading required package: sp</span></span></code></pre>
+<pre><code><span><span class="co">## Loading required package: parallel</span></span></code></pre>
+<pre><code><span><span class="co">## This is INLA_19.09.03 built 2022-07-10 17:36:15 UTC.</span></span>
+<span><span class="co">## See www.r-inla.org/contact-us for how to get help.</span></span>
+<span><span class="co">## To enable PARDISO sparse library; see inla.pardiso()</span></span></code></pre>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">inla.bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">red.bin</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"binomial"</span>,
-  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>red.bin <span class="op">=</span> <span class="va">red.bin</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.bin</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## Call:</span>
-<span class="co">##    "inla(formula = red.bin ~ 1, family = \"binomial\", data = list(red.bin </span>
-<span class="co">##    = red.bin))" </span>
-<span class="co">## Time used:</span>
-<span class="co">##     Pre = 2.02, Running = 0.61, Post = 0.0902, Total = 2.72 </span>
-<span class="co">## Fixed effects:</span>
-<span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span>
-<span class="co">## (Intercept) -1.34 0.239     -1.828   -1.334     -0.888 -1.321   0</span>
-<span class="co">## </span>
-<span class="co">## Expected number of effective parameters(stdev): 1.00(0.00)</span>
-<span class="co">## Number of equivalent replicates : 105.99 </span>
-<span class="co">## </span>
-<span class="co">## Marginal log-Likelihood:  -54.64</span></code></pre>
+<code class="sourceCode R"><span><span class="va">inla.bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">red.bin</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">"binomial"</span>,</span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>red.bin <span class="op">=</span> <span class="va">red.bin</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.bin</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 4 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">##    "inla(formula = red.bin ~ 1, family = \"binomial\", data = list(red.bin </span></span>
+<span><span class="co">##    = red.bin))" </span></span>
+<span><span class="co">## Time used:</span></span>
+<span><span class="co">##     Pre = 1.46, Running = 0.699, Post = 0.0992, Total = 2.26</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 7 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Fixed effects:</span></span>
+<span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
+<span><span class="co">## (Intercept) -1.34 0.239     -1.828   -1.334     -0.888 -1.321   0</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 3 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Expected number of effective parameters(stdev): 1.00(0.00)</span></span>
+<span><span class="co">## Number of equivalent replicates : 105.99</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Marginal log-Likelihood:  -54.64</span></span></code></pre>
 <p>The output shows summary statistics of the intercept, which is not the proportion. We need to back-transform the output but, in this case, we need to back-transform the marginal distribution of the intercept (because there are no samples from the posterior):</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">marg.theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/marginal.html" class="external-link">inla.tmarginal</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>, 
-  <span class="va">inla.bin</span><span class="op">$</span><span class="va">marginals.fixed</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">marg.theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/marginal.html" class="external-link">inla.tmarginal</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>, </span>
+<span>  <span class="va">inla.bin</span><span class="op">$</span><span class="va">marginals.fixed</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Here, function <code>inla.tmarginal</code> will take the posterior marginal of a parameter and compute the marginal of a transformation of this parameter. In this case, we have the marginal of <span class="math inline">\(\alpha\)</span> and we compute the marginal of the transformed value <span class="math inline">\(\theta = \textrm{expit}(\alpha) = 1 / (1 + \exp(-\alpha))\)</span>:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">marg.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">marg.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p8_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="poisson-model-1">Poisson model<a class="anchor" aria-label="anchor" href="#poisson-model-1"></a>
 </h3>
 <p>Next, the analysis of the <em>Game of Thrones</em> data set will be considered and a Poisson model will be fitted:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">inla.pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">Us</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="va">Us</span><span class="op">)</span>, 
-  family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.pois</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## Call:</span>
-<span class="co">##    "inla(formula = Us ~ 1, family = \"poisson\", data = list(Us = Us))" </span>
-<span class="co">## Time used:</span>
-<span class="co">##     Pre = 1.19, Running = 0.122, Post = 0.0867, Total = 1.4 </span>
-<span class="co">## Fixed effects:</span>
-<span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld</span>
-<span class="co">## (Intercept) 3.247 0.039      3.169    3.248      3.324 3.248   0</span>
-<span class="co">## </span>
-<span class="co">## Expected number of effective parameters(stdev): 1.00(0.00)</span>
-<span class="co">## Number of equivalent replicates : 24.91 </span>
-<span class="co">## </span>
-<span class="co">## Marginal log-Likelihood:  -68.95</span></code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">inla.pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">Us</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="va">Us</span><span class="op">)</span>, </span>
+<span>  family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.pois</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 4 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">##    "inla(formula = Us ~ 1, family = \"poisson\", data = list(Us = Us))" </span></span>
+<span><span class="co">## Time used:</span></span>
+<span><span class="co">##     Pre = 1.41, Running = 0.132, Post = 0.105, Total = 1.65</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 7 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Fixed effects:</span></span>
+<span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld</span></span>
+<span><span class="co">## (Intercept) 3.247 0.039      3.169    3.248      3.324 3.248   0</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 3 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Expected number of effective parameters(stdev): 1.00(0.00)</span></span>
+<span><span class="co">## Number of equivalent replicates : 24.91</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Marginal log-Likelihood:  -68.95</span></span></code></pre>
 <p>Again, in order to obtain the posterior marginal distribution of the mean <span class="math inline">\(\theta\)</span>, the marginal of <span class="math inline">\(\alpha\)</span> needs to be transformed. In this case it is a bit simpler since <span class="math inline">\(\theta = \exp(\alpha)\)</span>:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">marg.theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/marginal.html" class="external-link">inla.tmarginal</a></span> <span class="op">(</span><span class="va">exp</span>, <span class="va">inla.pois</span><span class="op">$</span><span class="va">marginals.fixed</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> </code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">marg.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">marg.theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/marginal.html" class="external-link">inla.tmarginal</a></span> <span class="op">(</span><span class="va">exp</span>, <span class="va">inla.pois</span><span class="op">$</span><span class="va">marginals.fixed</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> </span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">marg.theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p8_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="normal-model-1">Normal model<a class="anchor" aria-label="anchor" href="#normal-model-1"></a>
 </h3>
 <p>Finally, the heights data set will be considered to fit a Bayesian model using a Gaussian likelihood with <code>INLA</code>:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">inla.norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">heights</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>heights <span class="op">=</span> <span class="va">heights</span><span class="op">)</span>,
-  family <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.norm</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## Call:</span>
-<span class="co">##    "inla(formula = heights ~ 1, family = \"gaussian\", data = list(heights </span>
-<span class="co">##    = heights))" </span>
-<span class="co">## Time used:</span>
-<span class="co">##     Pre = 1.22, Running = 0.129, Post = 0.0908, Total = 1.44 </span>
-<span class="co">## Fixed effects:</span>
-<span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld</span>
-<span class="co">## (Intercept) 1.716 0.023       1.67    1.716      1.763 1.716   0</span>
-<span class="co">## </span>
-<span class="co">## Model hyperparameters:</span>
-<span class="co">##                                          mean    sd 0.025quant 0.5quant</span>
-<span class="co">## Precision for the Gaussian observations 64.59 16.41      36.55    63.20</span>
-<span class="co">##                                         0.975quant  mode</span>
-<span class="co">## Precision for the Gaussian observations     100.52 60.41</span>
-<span class="co">## </span>
-<span class="co">## Expected number of effective parameters(stdev): 1.01(0.003)</span>
-<span class="co">## Number of equivalent replicates : 29.66 </span>
-<span class="co">## </span>
-<span class="co">## Marginal log-Likelihood:  10.39</span></code></pre>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">inla.norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">heights</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>heights <span class="op">=</span> <span class="va">heights</span><span class="op">)</span>,</span>
+<span>  family <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.norm</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 4 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">##    "inla(formula = heights ~ 1, family = \"gaussian\", data = list(heights </span></span>
+<span><span class="co">##    = heights))" </span></span>
+<span><span class="co">## Time used:</span></span>
+<span><span class="co">##     Pre = 1.42, Running = 0.168, Post = 0.132, Total = 1.72</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 7 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Fixed effects:</span></span>
+<span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld</span></span>
+<span><span class="co">## (Intercept) 1.716 0.023       1.67    1.716      1.763 1.716   0</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 6 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Model hyperparameters:</span></span>
+<span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
+<span><span class="co">## Precision for the Gaussian observations 64.59 16.41      36.55    63.20</span></span>
+<span><span class="co">##                                         0.975quant  mode</span></span>
+<span><span class="co">## Precision for the Gaussian observations     100.52 60.41</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 3 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Expected number of effective parameters(stdev): 1.01(0.003)</span></span>
+<span><span class="co">## Number of equivalent replicates : 29.66</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
+<span><span class="co">## is.na(alist[[idx]]): 'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
+<pre><code><span><span class="co">## Marginal log-Likelihood:  10.39</span></span></code></pre>
 <p>As the mean <span class="math inline">\(\mu\)</span> is equal to the intercept <span class="math inline">\(\alpha\)</span>, there is no need to make any transformation. Also, <code>INLA</code> provides an approximation to the model precision, so both marginals can be plotted straight away:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">inla.norm</span><span class="op">$</span><span class="va">marginals.fixed</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">inla.norm</span><span class="op">$</span><span class="va">marginals.hyperpar</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,
-  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">400</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">inla.norm</span><span class="op">$</span><span class="va">marginals.fixed</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">inla.norm</span><span class="op">$</span><span class="va">marginals.hyperpar</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">400</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">tau</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p8_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 </div>
 </div>
@@ -427,7 +446,7 @@ y_i &amp; \sim &amp; N(\mu, \tau)\\
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

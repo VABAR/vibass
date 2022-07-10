@@ -135,7 +135,7 @@ y_i &amp; \sim &amp; Bi(N_i, \theta)\\
 \]</span></p>
 <p>You can use the following data set for this exercise:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">22</span>, <span class="fl">24</span><span class="op">)</span>, red <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">22</span>, <span class="fl">24</span><span class="op">)</span>, red <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>These data reproduce different counts of red M&amp;M’s in three different tubes, with <code>MMs</code>recording the total number of M&amp;M’s in the tube and <code>red</code> the number of red ones.</p>
 <p>Please check Practical 5 in case you need to remember the details of the implementation of the IS and M-H algorithms for this particular model. Also, you can take the <code>R</code> code from Practical 5 and modify it to complete the exercise above.</p>
 <div class="section level3">
@@ -189,9 +189,9 @@ y_i &amp; \sim &amp; Po(\theta)\\
 \]</span></p>
 <p>We will denote the observed values by <code>y</code> in the <code>R</code> code. The data can be loaded with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>,
-  <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">28</span><span class="op">)</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Us</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">25</span>,</span>
+<span>  <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">28</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Us</span></span></code></pre></div>
 <p>Again, please check Practical 5 if you need to recall the details of the implementation of the IS and M-H algorithms for this particular example. You can also use the <code>R</code> code from Practical 5 to develop the following exercises.</p>
 <div class="section level3">
 <h3 id="exercises-1">Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"></a>
@@ -251,7 +251,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
