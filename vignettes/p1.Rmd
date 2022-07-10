@@ -175,7 +175,7 @@ whose conditional probability function, expectation and variance are:
 - $Var(Y\mid \theta)=n \theta (1-\theta)$
 
 ```{r binomial-pdfs, fig.cap = cap, fig.width = 5, fig.height = 3, echo = FALSE}
-cap <- "Binomial probability function for two values of $\theta$ and $n=20$ observations."
+cap <- "Binomial probability function for two values of $\\theta$ and $n=20$ observations."
 theta_labels <- 
   tibble(
     theta = c("0.5", "0.2"),
@@ -232,15 +232,15 @@ with expectation and variance
 - E$(\theta)=\alpha_0 / (\alpha_0+\beta_0)$, 
 - Var$(\theta)= \alpha_0\,\beta_0 / [(\alpha_0+\beta_0)^2\,(\alpha_0+\beta_0+1)]$
 
-We will start by working with the non-informative prior distribution Be$(\alpha_0=0.5, \beta_0=0.5)$ whose prior expectation and standard deviation is E$(\theta)=0.5$ and DT$(\theta)=0.3535$, respectively. Its   graphic  is obtained via 
+We will start by working with the non-informative prior distribution Be$(\alpha_0=0.5, \beta_0=0.5)$ whose prior expectation and standard deviation is $\mathbb{E}(\theta)=0.5$ and $\mathbb{SD}(\theta)=0.3535$, respectively. Its graphic is obtained via 
 
 ```{r, fig.align='center', out.width="60%"}
-theta <- seq(0, 1, 0.01)
-prior <- dbeta(theta, 0.5, 0.5)
-plot(
-  theta, prior,
-  type="l", lwd=4, col="dodgerblue", xlim=c(0, 1), ylim=c(0, 5),
-  xlab=expression(paste("proportion of red candies ", theta ))
+curve(
+  dbeta(x, 0.5, 0.5),
+  col = "dodgerblue", lwd = 4,
+  xlim = c(0, 1), ylim = c(0, 5),
+  xlab = expression(paste("Proportion of red candies ", theta)),
+  ylab = 'prior'
 )
 ```
 
@@ -259,10 +259,12 @@ $$L(\theta \mid \mathcal D_1) = \binom{20}{4}\, \theta^4\,(1- \theta)^{16},$$
 ```{r, fig.align='center', out.width="60%"}
 r <- 4
 n <- 20
-theta <- seq(0, 1, 0.01)
-likelihood <- choose(n, r) * theta ^ r * (1 - theta) ^ (n - r)
-plot(theta, likelihood, type = "l", lwd = 4, col = "darkorange",  
-     xlab = expression(paste("proportion of red candies ", theta)))  
+curve(
+  choose(n, r) * x^r * (1 - x)^(n - r),
+  col = "darkorange", lwd = 4,
+  xlab = expression(paste("Proportion of red candies ", theta)),
+  ylab = 'likelihood'
+)
 ```
 
 ## The posterior distribution of $\theta$   
@@ -277,15 +279,17 @@ $$\pi(\theta \mid \mathcal{D_1})= \mbox{Be}(\alpha=4.5, \beta= 16.5) $$
 whose graphic is
 
 ```{r, fig.align='center', out.width="60%"}
-theta <- seq(0, 1, 0.01)
-posterior <- dbeta(theta, 4.5, 16.5)
-plot(theta, posterior, type = "l", lwd = 4, col = "darkgreen",
-     xlim = c(0, 1), ylim = c(0, 5), 
-     xlab = expression(paste("proportion of red candies ", theta)))
+curve(
+  dbeta(x, 4.5, 16.5),
+  col = "darkgreen", lwd = 4,
+  xlim = c(0, 1), ylim = c(0, 5), 
+  xlab = expression(paste("Proportion of red candies ", theta)),
+  ylab = 'posterior'
+)
 ```
 The posterior mean and posterior standard deviation of  the proportion of red candies is
 
-$$\mbox{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mbox{DT}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.$$
+$$\mathbb{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mathbb{SD}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.$$
 A 95$\%$ credible interval for $\theta$ is 
 ```{r}
 qbeta(c(0.025, 0.975), 4.5, 16.5)
@@ -295,7 +299,7 @@ and the posterior probability that the proportion of red candies is between 0.1 
 ```{r}
 pbeta(0.3, 4.5, 16.5) - pbeta(0.1, 4.5, 16.5)
 ```
-You can see these posterior characteristics in Figure 4 below 
+You can see these posterior summaries in the Figure below 
 
 ```{r posterior-summaries, fig.cap = cap, fig.width = 5, fig.height = 3, echo = FALSE}
 cap <- "Posterior summaries for $\\theta$."
@@ -381,25 +385,27 @@ $$P(Y^{\prime} = r^{\prime} \mid \mathcal{D}) = \binom{n^\prime}{r^\prime}\, \fr
 
 with expectation and variance,
 
-- E$(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha}{(\alpha+\beta)},$
-- Var$(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.$
+- $\mathbb{E}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha}{(\alpha+\beta)},$
+- $\mathbb{V}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.$
      
-Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag but before we are going to predict the number of red M$\&$M's we can record. The posterior  predictive distribution is a betabinomial distribution with parameters $\alpha=4.5$ and $\beta=16.5$,  that we pick from the posterior distribution $\pi(\theta \mid \mathcal D)$, and $n^{\prime}=10$, which is the size of the new experiment. 
+Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag but before we are going to predict the number of red M$\&$M's we can record. The posterior  predictive distribution is a beta-binomial distribution with parameters $\alpha=4.5$ and $\beta=16.5$, that we pick from the posterior distribution $\pi(\theta \mid \mathcal D)$, and $n^{\prime}=10$, which is the size of the new experiment. 
 
 ```{r, fig.align='center', out.width="60%"}
 library(extraDistr)
-x <- c(0:10)
-pred <- dbbinom(0:10, 10, 4.5, 16.5)
-plot(x, pred, type = "h", lwd = 2, col = "purple",
-     xlim = c(0, 10), ylim = c(0, 0.4),
-     xlab = "number of red candies", ylab = "probability")
+curve(
+  dbbinom(x, 10, 4.5, 16.5),
+  col = "purple", lwd = 4, type = 'h', n = 11,
+  xlim = c(0, 10), ylim = c(0, 0.4), 
+  xlab = expression(paste("Number of red candies")),
+  ylab = 'probability'
+)
 ```
 
 We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of  the number of red candies is this new sample is
 
-$$\mbox{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mbox{DT}(Y^{\prime} \mid \mathcal D)=1.5403.$$
+$$\mathbb{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mathbb{DT}(Y^{\prime} \mid \mathcal D)=1.5403.$$
  
-# Time to individual work
+# Time for individual work
  
 We propose below an individual exercise that pursues that we can consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session. You can code the exercise yourself in R using the examples above, or use the provided interactive application.
 
