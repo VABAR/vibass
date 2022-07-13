@@ -54,6 +54,24 @@ p2_server <- function(input, output, session) {
     # }
   })
 
+  contrasts_data <- reactive({
+    # contrasts_data <- function() {  # debug
+    samples() %>%
+      group_by(.data$color) %>%
+      mutate(id = row_number()) %>%
+      pivot_wider(
+        id_cols = "id",
+        names_from = "color",
+        values_from = "theta"
+      ) %>%
+      mutate(
+        diff = blue - .data$red,
+        ratio = .data$blue / .data$red,
+        logratio = log(.data$blue / .data$red)
+      )
+    # }
+  })
+
   output$posteriors <- renderPlot(
     theta_values %>%
       mutate(
@@ -122,16 +140,8 @@ p2_server <- function(input, output, session) {
   # Contrasts ---------------------------------------------------------------
 
   output$contrast_diff <- renderPlot(
-    samples() %>%
-      group_by(.data$color) %>%
-      mutate(id = row_number()) %>%
-      pivot_wider(
-        id_cols = "id",
-        names_from = "color",
-        values_from = "theta"
-      ) %>%
-      mutate(x = blue - .data$red) %>%
-      ggplot(aes(x)) +
+    contrasts_data() %>%
+      ggplot(aes(diff)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +
       plot_style +
@@ -140,16 +150,8 @@ p2_server <- function(input, output, session) {
   )
 
   output$contrast_ratio <- renderPlot(
-    samples() %>%
-      group_by(.data$color) %>%
-      mutate(id = row_number()) %>%
-      pivot_wider(
-        id_cols = "id",
-        names_from = "color",
-        values_from = "theta"
-      ) %>%
-      mutate(x = .data$blue / .data$red) %>%
-      ggplot(aes(x)) +
+    contrasts_data() %>%
+      ggplot(aes(ratio)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 1, colour = "darkgrey") +
       plot_style +
@@ -158,16 +160,8 @@ p2_server <- function(input, output, session) {
   )
 
   output$contrast_logratio <- renderPlot(
-    samples() %>%
-      group_by(.data$color) %>%
-      mutate(id = row_number()) %>%
-      pivot_wider(
-        id_cols = "id",
-        names_from = "color",
-        values_from = "theta"
-      ) %>%
-      mutate(x = log(.data$blue / .data$red)) %>%
-      ggplot(aes(x)) +
+    contrasts_data() %>%
+      ggplot(aes(logratio)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +
       plot_style +
