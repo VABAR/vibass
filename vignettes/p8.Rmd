@@ -13,7 +13,6 @@ vignette: >
   %\VignetteIndexEntry{Practical 8: Bayesian hierachical models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  %\VignetteDepends{INLA}
   %\VignetteDepends{R2BayesX}
 ---
 
@@ -38,16 +37,21 @@ In particular, the following two software packages will be considered:
 
 * `INLA`
 
-`BayesX` implements MCMC methods to obtain samples from the joint posterior.
-`INLA` is based on producing (accurate) approximations to the marginal
+`BayesX` (http://www.bayesx.org/) implements MCMC methods to obtain samples from
+the joint posterior and is more conveniently used from R using the package
+`R2BayesX`.
+
+`INLA` (https://www.r-inla.org/) is based on producing (accurate) approximations to the marginal
 distributions of the model parameters. Although this can be enough most of the
 time, making multivariate inference with `INLA` can be difficult or impossible.
 However, in many cases this is not needed and `INLA` can fit some classes of models in a
 fraction of the time it takes with MCMC.
 
-Both `BayesX` and `INLA` have a
+Both `R2BayesX` and `INLA` have a
 very simple interface to define models using a `formula` (in the same way as with `glm` and `gam`).
 
+While `R2BayesX` can be installed from CRAN, `INLA` is not on CRAN and needs to
+be installed from a specific repository.
 
 
 # `BayesX`
@@ -263,7 +267,24 @@ fitting models works in a very similar way.
 
 First, a model to the M&Ms data set will be fitted:
 
-```{r}
+```{r inla-available, echo = FALSE}
+inla_available <- require(INLA)
+```
+
+```{r message-if-inla-not-available, include = inla_available, echo = FALSE}
+if (!inla_available) {
+  cat(
+    "Sorry. INLA has not been installed correctly.",
+    "The code will be shown but not the results.",
+    "Please install INLA manually from",
+    "https://www.r-inla.org/download-install",
+    "and reinstall the package {vibass}."
+  )
+}
+```
+
+
+```{r eval = inla_available}
 library(INLA)
 inla.bin <- inla(red.bin ~ 1, family = "binomial",
   data = list(red.bin = red.bin))
@@ -275,7 +296,7 @@ the proportion. We need to back-transform the output but, in this case,
 we need to back-transform the marginal distribution of the intercept (because there
 are no samples from the posterior):
 
-```{r}
+```{r eval = inla_available}
 marg.theta <- inla.tmarginal(function(x) { 1 / (1 + exp(-x))}, 
   inla.bin$marginals.fixed[[1]])
 ```
@@ -284,7 +305,7 @@ parameter and compute the marginal of a transformation of this parameter.
 In this case, we have the marginal of $\alpha$ and we compute the marginal
 of the transformed value $\theta = \textrm{expit}(\alpha) = 1 / (1 + \exp(-\alpha))$:
 
-```{r fig = TRUE}
+```{r eval = inla_available, fig = TRUE}
 plot(marg.theta, type = "l", main = "Posterior density",
   xlab = expression(theta), ylab = "density")
 ```
@@ -296,7 +317,7 @@ plot(marg.theta, type = "l", main = "Posterior density",
 Next, the analysis of the *Game of Thrones* data set will be considered and 
 a Poisson model will be fitted:
 
-```{r}
+```{r eval = inla_available}
 inla.pois <- inla(Us ~ 1, data = list(Us = Us), 
   family = "poisson")
 summary(inla.pois)
@@ -308,12 +329,12 @@ the marginal of $\alpha$ needs to be transformed. In this case it is a bit
 simpler since $\theta = \exp(\alpha)$:
 
 
-```{r}
+```{r eval = inla_available}
 marg.theta <- inla.tmarginal (exp, inla.pois$marginals.fixed[[1]]) 
 ```
 
 
-```{r fig = TRUE}
+```{r eval = inla_available, fig = TRUE}
 plot(marg.theta, type = "l", main = "Posterior density",
   xlab = expression(theta), ylab = "density")
 ```
@@ -323,7 +344,7 @@ plot(marg.theta, type = "l", main = "Posterior density",
 Finally, the heights data set will be considered to fit a Bayesian model
 using a Gaussian likelihood with `INLA`:
 
-```{r}
+```{r eval = inla_available}
 inla.norm <- inla(heights ~ 1, data = list(heights = heights),
   family = "gaussian")
 summary(inla.norm)
@@ -333,7 +354,7 @@ As the mean $\mu$ is equal to the intercept $\alpha$, there is no need
 to make any transformation. Also, `INLA` provides an approximation
 to the model precision, so both marginals can be plotted straight away:
 
-```{r fig = TRUE}
+```{r eval = inla_available, fig = TRUE}
 par(mfrow = c(1, 2))
 plot(inla.norm$marginals.fixed[[1]], type = "l", main = "Posterior density",
   xlab = expression(mu), ylab = "density")
