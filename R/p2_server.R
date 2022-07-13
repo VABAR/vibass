@@ -3,7 +3,7 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import ggplot2 dplyr tibble tidyr
-#' @importFrom stats rbeta dbeta
+#' @importFrom stats rbeta dbeta var
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
 #' @noRd
@@ -141,7 +141,7 @@ p2_server <- function(input, output, session) {
 
   output$contrast_diff <- renderPlot(
     contrasts_data() %>%
-      ggplot(aes(diff)) +
+      ggplot(aes(.data$diff)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +
       plot_style +
@@ -149,9 +149,12 @@ p2_server <- function(input, output, session) {
       # + coord_cartesian(xlim = c(-1, 1) * .3)
   )
 
+  ## Avoid check note: "no visible binding for global variable 'iteration'
+  ## using the .data pronoun from rlang.
+  ## https://ggplot2.tidyverse.org/articles/ggplot2-in-packages.html
   output$contrast_ratio <- renderPlot(
     contrasts_data() %>%
-      ggplot(aes(ratio)) +
+      ggplot(aes(.data$ratio)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 1, colour = "darkgrey") +
       plot_style +
@@ -161,7 +164,7 @@ p2_server <- function(input, output, session) {
 
   output$contrast_logratio <- renderPlot(
     contrasts_data() %>%
-      ggplot(aes(logratio)) +
+      ggplot(aes(.data$logratio)) +
       geom_histogram(bins = 16) +
       geom_vline(xintercept = 0, colour = "darkgrey") +
       plot_style +
