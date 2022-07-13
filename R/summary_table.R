@@ -16,6 +16,7 @@
 #' @param prop1 Real.
 #' @param label Character. Name of the summarised variable.
 #' @param digits Integer. Number of decimal places to be used.
+#' @param ... Passed to knitr::kable().
 #'
 #' @return A knitr_kable object.
 #' @importFrom knitr kable

@@ -33,6 +33,8 @@ numeric xx. As from the output of the function \code{quantile}.}
 \item{label}{Character. Name of the summarised variable.}
 
 \item{digits}{Integer. Number of decimal places to be used.}
+
+\item{...}{Passed to knitr::kable().}
 }
 \value{
 A knitr_kable object.
