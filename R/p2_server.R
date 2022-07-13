@@ -74,7 +74,7 @@ p2_server <- function(input, output, session) {
       ) +
       plot_style +
       scale_colour_manual(values = mm_cols) +
-      labs(x = expression(.data$theta), y = NULL, color = NULL)
+      labs(x = expression(theta), y = NULL, color = NULL)
   )
 
   output$theta_b_dist <- renderUI({
