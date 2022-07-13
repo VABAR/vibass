@@ -137,33 +137,41 @@ Probability-scale transformations.
 </h2>
 <p>We return to the M&amp;M problem. We recall that the posterior distribution for the proportion <span class="math inline">\(\theta\)</span> of red candies in the population that we obtained in the first practice was</p>
 <p><span class="math display">\[\pi(\theta \mid \mathcal{D})= \mbox{Be}(\alpha=4.5, \beta= 16.5) \]</span></p>
-<p>whose graphic was </p>
+<p>whose graphic was</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"red"</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span>     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"proportion of red candies "</span>, <span class="va">theta</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"darkgreen"</span>, lwd <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>, </span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Proportion of red candies "</span>, <span class="va">theta</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">'posterior'</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-1-1.png" width="60%" style="display: block; margin: auto;"></p>
 <p>Let’s obtain the posterior distribution of <span class="math inline">\(\theta\)</span> on the odds scale, <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span> and we will leave the simulation of <span class="math inline">\(\pi(\mbox{log-odds}(\theta) \mid \mathcal D)\)</span> as individual work at the end of the practice.</p>
 <div class="section level3">
 <h3 id="computation-of-pimboxoddstheta-mid-mathcal-d">Computation of <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span><a class="anchor" aria-label="anchor" href="#computation-of-pimboxoddstheta-mid-mathcal-d"></a>
 </h3>
-<p>We could try to obtain the distribution a posteriori <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span> from using probabilistic tools but we will not choose that path. We will simulate it from a random sample of <span class="math inline">\(\pi( \theta \mid \mathcal D)\)</span> as follows: </p>
+<p>We could try to obtain the posterior distribution <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span> using probabilistic tools but we will not choose that path. Instead, let’s simulate it from a random sample of <span class="math inline">\(\pi( \theta \mid \mathcal D)\)</span> noting that:</p>
 <ul>
-<li>If <span class="math inline">\(\{\theta^{(1)}, \theta^{(2)}, \ldots, \theta^{(M)}\}\)</span> is a random sample from <span class="math inline">\(\pi(\theta \mid \mathcal D)\)</span> then <span class="math inline">\(\{\mbox{odds}(\theta^{(1)}), \mbox{odds}(\theta^{(2)}), \ldots, \mbox{odds}(\theta^{(M)})\}\)</span> is a random sample from <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span>. </li>
+<li>if <span class="math inline">\(\{\theta^{(1)}, \theta^{(2)}, \ldots, \theta^{(M)}\}\)</span> is a random sample from <span class="math inline">\(\pi(\theta \mid \mathcal D)\)</span> then <span class="math inline">\(\{\mbox{odds}(\theta^{(1)}), \mbox{odds}(\theta^{(2)}), \ldots, \mbox{odds}(\theta^{(M)})\}\)</span> is a random sample from <span class="math inline">\(\pi(\mbox{odds}(\theta) \mid \mathcal D)\)</span>.</li>
 </ul>
-<p>It is clear that the larger the simulated sample the better approximation to the target distribution. We will work with a sample size of <span class="math inline">\(M=10\,000\)</span> but everyone is free to use the size they want, or even to try different sizes to see how the simulated sample gets closer and closer to the real one when the size of the sample increases. Although it is not necessary, and only as an illustration, we also simulate <span class="math inline">\(\pi(\theta \mid \mathcal{D})= \mbox{Be}(\alpha=4.5, \beta= 16.5)\)</span>, and we will superimpose the posterior on the simulated sample. </p>
+<p>It is clear that the larger the simulated sample the better approximation to the target distribution. We will work with a sample size of <span class="math inline">\(M=10\,000\)</span> but everyone is free to use the size they want, or even to try different sizes to see how the simulated sample gets closer and closer to the real one when the size of the sample increases. We also compute the posterior <span class="math inline">\(\pi(\theta \mid \mathcal{D})= \text{Be}(\alpha=4.5, \beta= 16.5)\)</span> and plot it over the simulated sample, to show the match between the empirical and the theoretical distribution.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">theta.r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">theta.r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>  <span class="co"># random sample of values from the posterior</span></span>
+<span><span class="co">## Histogram of simulated values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">theta.r</span>, breaks <span class="op">=</span> <span class="fl">70</span>, freq<span class="op">=</span><span class="cn">FALSE</span>, col<span class="op">=</span><span class="st">"gray98"</span>, main<span class="op">=</span><span class="st">""</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span><span class="op">)</span>, </span>
-<span>     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"proportion of red candies "</span>, <span class="va">theta</span> <span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span></span>
-<span><span class="va">theta</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0.001</span><span class="op">)</span></span>
-<span><span class="va">posterior</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior</span>, col<span class="op">=</span><span class="st">"red"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">2.7</span><span class="op">)</span></span></code></pre></div>
+<span>     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Proportion of red candies "</span>, <span class="va">theta</span> <span class="op">)</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"darkgreen"</span>, lwd <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Proportion of red candies "</span>, <span class="va">theta</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">'posterior'</span>,</span>
+<span>  add <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-2-1.png" width="70%" style="display: block; margin: auto;"></p>
-<p>We then approximate the posterior distribution for the odds of <span class="math inline">\(\theta\)</span> </p>
+<p>We then approximate the posterior distribution of <span class="math inline">\(\text{odds}(\theta)\)</span> by transforming each sampled value of <span class="math inline">\(\theta\)</span>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">oddstheta.r</span> <span class="op">&lt;-</span> <span class="va">theta.r</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">theta.r</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">oddstheta.r</span> <span class="op">&lt;-</span> <span class="va">theta.r</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">theta.r</span><span class="op">)</span>  <span class="co"># random sample of odds</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">oddstheta.r</span>,</span>
 <span>     breaks <span class="op">=</span> <span class="fl">100</span>, freq<span class="op">=</span><span class="cn">FALSE</span>, col<span class="op">=</span><span class="st">"gray98"</span>, main<span class="op">=</span><span class="st">""</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1.5</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, </span>
 <span>     xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"odds of the proportion of red candies "</span>, <span class="va">theta</span> <span class="op">)</span><span class="op">)</span>,</span>
@@ -204,11 +212,11 @@ Probability-scale transformations.
 </tr>
 <tr class="odd">
 <td align="left">Q50</td>
-<td align="left">0.26</td>
+<td align="left">0.25</td>
 </tr>
 <tr class="even">
 <td align="left">Q95</td>
-<td align="left">0.6</td>
+<td align="left">0.59</td>
 </tr>
 <tr class="odd">
 <td align="left">IC95</td>
@@ -216,7 +224,7 @@ Probability-scale transformations.
 </tr>
 <tr class="even">
 <td align="left">Prop&gt;1</td>
-<td align="left">0.3%</td>
+<td align="left">0.2%</td>
 </tr>
 </tbody>
 </table>
@@ -232,7 +240,7 @@ Probability-scale transformations.
 </div>
 </center>
 
-<p>In the previous practice we have learned about the proportion of red M&amp;Ms but so far we do not know anything about the blue ones. Let’s imagine that we repeat the previous practice again but with the objective of learning about the proportion of blue candies we will call <span class="math inline">\(\theta_b\)</span> and that the resulting Bayesian learning process has been:</p>
+<p>In the previous practice we have learned about the proportion of red M&amp;Ms but so far we do not know anything about the blue ones. Let’s imagine that we repeat the previous practical again but with the objective of learning about the proportion of blue candies <span class="math inline">\(\theta_b\)</span> and that the resulting Bayesian learning process has been:</p>
 <ul>
 <li>Prior distribution: <span class="math inline">\(\pi(\theta_b)=\mbox{Be}(0.5, 0.5)\)</span>
 </li>
@@ -240,22 +248,26 @@ Probability-scale transformations.
 <li>Posterior distribution: <span class="math inline">\(\pi(\theta_b \mid \mathcal D_b)=\mbox{Be}(14.5, 36.5)\)</span>
 </li>
 </ul>
-<p>We denote <span class="math inline">\(\theta_r\)</span> from now on as the proportion of red candies. We plot the posterior distribution on the proportion on red candies and the one for the blue candies on the same graph. </p>
+<p>We denote <span class="math inline">\(\theta_r\)</span> the proportion of red candies from now on. We plot the posterior distributions of the proportion of red and blue candies the same graph.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="va">posterior.blue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">14.5</span>, <span class="fl">36.5</span><span class="op">)</span></span>
-<span><span class="va">posterior.red</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior.blue</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"dodgerblue1"</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">7</span><span class="op">)</span>,</span>
-<span>     xlab<span class="op">=</span><span class="st">"proportion of blue and red candies"</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">posterior.red</span>, col<span class="op">=</span><span class="st">"red"</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">2.7</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">14.5</span>, <span class="fl">36.5</span><span class="op">)</span>,   <span class="co"># Posterior proportion of blue candies</span></span>
+<span>  col <span class="op">=</span> <span class="st">"dodgerblue1"</span>, lwd <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Proportion of blue and red candies "</span>, <span class="va">theta</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">'posterior'</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span>,   <span class="co"># Posterior proportion of red candies</span></span>
+<span>  col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  add <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;"></p>
-
-<p>Visually, we observe that the proportion of blue candies is slightly higher than that of the red ones. Also, since the sample to obtain their distribution is larger than the one we considered for the red ones, their variability is slightly lower.</p>
-
-<p>We have separate information on each proportion through its posterior distribution. We would like to obtain a distribution that provides joint information from both quantities. Since the inferential processes, prior distribution, experiment, data and likelihood function, for both proportions are independent of each other we will have that the joint posterior distribution of both proportions are independent a posteriori.</p>
+<p>Visually, we observe that the proportion of blue candies is slightly higher than that of the red ones. Also, the posterior distribution of the proportion of blue candies is slightly narrower since the sample size used (<span class="math inline">\(n = 50\)</span>) is larger than for red candies (<span class="math inline">\(n = 20\)</span>). More <strong>information</strong> available implies increased <strong>certainty</strong> on the posterior inference.</p>
+<p>We have <strong>separate</strong> information about each proportion through their posterior distributions. We would like to obtain a distribution that provides <strong>joint information</strong> about both quantities. Since the inferential processes, prior distribution, experiment, data and likelihood function, for both proportions are <strong>independent</strong> of each other we will have that the joint posterior distribution of both proportions are independent a posteriori.</p>
 <p><span class="math display">\[\pi(\theta_r, \theta_b \mid \mathcal D_r, \mathcal D_b)= \mbox{Be}(\theta_r \mid 4.5, 16.5) \, \mbox{Be}(\theta_b \mid 14.5, 36.5),\]</span></p>
 <p>where <span class="math inline">\(\mathcal D_r\)</span> is from now on the data of the inferential process of the red M&amp;M’s.</p>
-<p>There are many proposal for comparing both proportions. The two most popular are possibly the risk difference, <span class="math inline">\(\theta_b - \theta_r\)</span> or <span class="math inline">\(\theta_r - \theta_b\)</span>, and the relative risk, <span class="math inline">\(\theta_b /\theta_r\)</span> or <span class="math inline">\(\theta_r / \theta_b\)</span>. We now focus on <span class="math inline">\(\theta_b - \theta_r\)</span>. Since <span class="math inline">\(\theta_b - \theta_r\)</span> is a function of <span class="math inline">\(\theta_b\)</span> and <span class="math inline">\(\theta_r\)</span>, it would make sense to consider the posterior distribution of its difference <span class="math inline">\(\pi(\theta_b - \theta_r \mid \mathcal D_b, \mathcal D_r)\)</span>. Such a distribution should not be analytical but we can simulate it in the following way: </p>
+<p>There are many alternative ways of comparing both proportions. The most popular are possibly the <em>risk difference</em>, <span class="math inline">\(\theta_b - \theta_r\)</span> or <span class="math inline">\(\theta_r - \theta_b\)</span>, and the <em>relative risk</em>, <span class="math inline">\(\theta_b /\theta_r\)</span> or <span class="math inline">\(\theta_r / \theta_b\)</span>. Let’s focus on <span class="math inline">\(\theta_b - \theta_r\)</span>. Since <span class="math inline">\(\theta_b - \theta_r\)</span> is a function of <span class="math inline">\(\theta_b\)</span> and <span class="math inline">\(\theta_r\)</span>, it would make sense to consider the posterior distribution of its difference <span class="math inline">\(\pi(\theta_b - \theta_r \mid \mathcal D_b, \mathcal D_r)\)</span>. Such a distribution is not analytical, but we can simulate it in the following way:</p>
 <ol style="list-style-type: decimal">
 <li>Simulate a random sample <span class="math inline">\(\{\theta_r^{(1)}, \theta_r^{(2)}, \ldots, \theta_r^{(M)} \}\)</span> from <span class="math inline">\(\pi(\theta_r \mid \mathcal D_r)=\mbox{Be}(\theta_r \mid 4.5, 16.5)\)</span>
 </li>
@@ -263,13 +275,14 @@ Probability-scale transformations.
 </li>
 <li>A random sample from <span class="math inline">\(\pi(\theta_b - \theta_r \mid \mathcal D_b, \mathcal D_r)\)</span> is <span class="math inline">\(\{\theta_b^{(1)}-\theta_r^{(1)}, \theta_b^{(2)}-\theta_r^{(2)}, \ldots, \theta_b^{(M)}-\theta_r^{(M)} \}\)</span>.</li>
 </ol>
-<p> We are going to graphically represent this distribution and to calculate approximately its main characteristics. </p>
+<p>We are going to graphically represent this distribution and to calculate approximately its main characteristics. </p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">theta.r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
 <span><span class="va">theta.b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">14.5</span>, <span class="fl">36.5</span><span class="op">)</span></span>
-<span><span class="va">theta.dif</span> <span class="op">&lt;-</span> <span class="va">theta.b</span><span class="op">-</span> <span class="va">theta.r</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">theta.dif</span>, breaks <span class="op">=</span> <span class="fl">70</span>, freq<span class="op">=</span><span class="cn">FALSE</span>, col<span class="op">=</span><span class="st">"gray98"</span>, main<span class="op">=</span><span class="st">""</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="op">+</span><span class="fl">0.5</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, </span>
-<span>     xlab<span class="op">=</span><span class="st">"proportion blue - proportion red"</span>, ylab<span class="op">=</span><span class="st">"posterior"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">theta.dif</span> <span class="op">&lt;-</span> <span class="va">theta.b</span> <span class="op">-</span> <span class="va">theta.r</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">theta.dif</span>, breaks <span class="op">=</span> <span class="fl">70</span>, freq <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="st">"gray98"</span>, main <span class="op">=</span> <span class="st">""</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="op">+</span><span class="fl">0.5</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="st">"Proportion blue - Proportion red"</span>, ylab <span class="op">=</span> <span class="st">"posterior"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p2_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summary_table.html">summary_table</a></span><span class="op">(</span></span>
@@ -304,7 +317,7 @@ Probability-scale transformations.
 </tr>
 <tr class="odd">
 <td align="left">Q50</td>
-<td align="left">0.08</td>
+<td align="left">0.07</td>
 </tr>
 <tr class="even">
 <td align="left">Q95</td>
@@ -316,7 +329,7 @@ Probability-scale transformations.
 </tr>
 <tr class="even">
 <td align="left">Prop&gt;0</td>
-<td align="left">74.9%</td>
+<td align="left">74.6%</td>
 </tr>
 </tbody>
 </table>
@@ -324,12 +337,27 @@ Probability-scale transformations.
 <div class="section level2">
 <h2 id="individual-work">Individual work<a class="anchor" aria-label="anchor" href="#individual-work"></a>
 </h2>
-<p>We will now work individually on the simulation procedure of the posterior distribution of a function of the quantity of interest and also the comparison of two groups through the relative risk. </p>
-<p></p>
+<p>We will now work individually on the simulation procedure of the posterior distribution of a function of the quantity of interest and also the comparison of two groups through the relative risk.</p>
 <ol style="list-style-type: decimal">
 <li><p>Compute the posterior distribution of the proportion of red M&amp;M’s in the log-odds scale as well as its main characteristics</p></li>
 <li><p>Compare the proportion of red and blue M&amp;M’s through the relative risk <span class="math inline">\(\theta_b/\theta_r\)</span>.</p></li>
-<li><p>It would be good if we could make a little reflection on the frequentist procedure to compare two proportions and on the differences with the Bayesian procedure.</p></li>
+<li>
+<p>It would be good if we could make a little reflection on the frequentist procedure to compare two proportions and on the differences with the Bayesian procedure.</p>
+<p>E.g. what does the result below tells you, and what is the relationship with what we have just done</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/prop.test.html" class="external-link">prop.test</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">4</span>, b <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">20</span>, b <span class="op">=</span> <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  c(r = 4, b = 14) out of c(r = 20, b = 50)</span></span>
+<span><span class="co">#&gt; X-squared = 0.15144, df = 1, p-value = 0.6972</span></span>
+<span><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  -0.3299894  0.1699894</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; prop 1 prop 2 </span></span>
+<span><span class="co">#&gt;   0.20   0.28</span></span></code></pre></div>
+</li>
 </ol>
 </div>
   </div>
