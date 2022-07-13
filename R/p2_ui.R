@@ -98,6 +98,21 @@ p2_ui <- function(request) {
         4,
         plotOutput("contrast_logratio", height = "200px")
       )
+    ),
+
+    fluidRow(
+      column(
+        4,
+        tableOutput("sumtable_diff")
+      ),
+      column(
+        4,
+        tableOutput("sumtable_ratio")
+      ),
+      column(
+        4,
+        tableOutput("sumtable_logratio")
+      )
     )
   )
 

@@ -34,7 +34,8 @@ summary_table <- function(
   prop0 = NULL,
   prop1 = NULL,
   label,
-  digits = 2
+  digits = 2,
+  ...
 ) {
 
   quantiles <- as.numeric(gsub("%", "", names(quant)))
@@ -66,5 +67,5 @@ summary_table <- function(
     data.frame() %>%
     rownames_to_column() %>%
     setNames(c("Summary", label)) %>%
-    kable()
+    kable(...)
 }

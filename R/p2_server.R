@@ -170,4 +170,45 @@ p2_server <- function(input, output, session) {
   )
 
 
+  # Summary tables ----------------------------------------------------------
+
+  output$sumtable_diff <- function() {
+    summary_table(
+      mean = mean(contrasts_data()$diff),
+      var = var(contrasts_data()$diff),
+      quant = quantile(contrasts_data()$diff, probs = c(0.05, 0.5, 0.95)),
+      ic95 = quantile(contrasts_data()$diff, probs = c(.025, 0.975)),
+      prop0 = mean(contrasts_data()$diff > 0),
+      label = "difference",
+      col.names = c("Sum.", "diff."),
+      format = "html"
+    )
+  }
+
+  output$sumtable_ratio <- function() {
+    summary_table(
+      mean = mean(contrasts_data()$ratio),
+      var = var(contrasts_data()$ratio),
+      quant = quantile(contrasts_data()$ratio, probs = c(0.05, 0.5, 0.95)),
+      ic95 = quantile(contrasts_data()$ratio, probs = c(.025, 0.975)),
+      prop1 = mean(contrasts_data()$ratio > 1),
+      label = "ratio",
+      col.names = c("Sum.", "ratio"),
+      format = "html"
+    )
+  }
+
+  output$sumtable_logratio <- function() {
+    summary_table(
+      mean = mean(contrasts_data()$logratio),
+      var = var(contrasts_data()$logratio),
+      quant = quantile(contrasts_data()$logratio, probs = c(0.05, 0.5, 0.95)),
+      ic95 = quantile(contrasts_data()$logratio, probs = c(.025, 0.975)),
+      prop0 = mean(contrasts_data()$logratio > 0),
+      label = "log-ratio",
+      col.names = c("Sum.", "log-ratio"),
+      format = "html",
+    )
+  }
+
 }
