@@ -12,7 +12,8 @@ summary_table(
   prop0 = NULL,
   prop1 = NULL,
   label,
-  digits = 2
+  digits = 2,
+  ...
 )
 }
 \arguments{
