@@ -34,15 +34,17 @@ from the posterior distribution when the normalizing constant is not known
 because
 
 $$
-\pi(\theta \mid y) \propto f(y\mid \theta) \pi(\theta) .
+\pi(\theta \mid \mathcal{D}) \propto f(\mathcal{D} \mid \theta) \pi(\theta) .
 $$
+where $\mathcal{D}$ represents the observed data, $f(\mathcal{D} \mid \theta)$
+the likelihood function and $\pi(\theta)$ the prior distribution on $\theta$.
 
-If $g(\cdot)$ is the sampling distribution, and $\{\theta^{(i)}\}_{i=1}^n$
+If $g(\cdot)$ is a sampling distribution, and $\{\theta^{(i)}\}_{i=1}^n$
 are $n$ samples from that distribution, then the importance weights are
 
 $$
-w_i = \frac{\pi(\theta^{(i)} \mid y)}{g(\theta^{(i)})} \propto 
-  \frac{f(y \mid \theta^{(i)}) \pi(\theta^{(i)})}{g(\theta^{(i)})} .
+w_m = \frac{\pi(\theta^{(m)} \mid \mathcal{D})}{g(\theta^{(m)})} \propto 
+  \frac{f(\mathcal{D} \mid \theta^{(m)}) \pi(\theta^{(m)})}{g(\theta^{(m)})} .
 $$
 \noindent
 When the normalizing constant in the posterior distribution is not known, the importance 
@@ -51,15 +53,15 @@ weights are re-scaled to sum to one.
 Hence, the posterior mean can be computed as
 
 $$
-\mu = \int \theta \pi(\theta \mid y) d\theta
-  \simeq \sum_{i=1}^n \theta^{(i)} w_i = \hat{\mu}.
+\mu = \int \theta \pi(\theta \mid \mathcal{D}) d\theta
+  \simeq \sum_{m=1}^n \theta^{(m)} w_m = \hat{\mu}.
 $$
 \noindent
 Similarly, the posterior variance can be computed as
 
 $$
-\sigma^2 = \int (\theta - \mu)^2 \pi(\theta \mid y) d\theta
-  \simeq \sum_{i=1}^n (\theta^{(i)})^2 w_i - (\hat{\mu})^2 .
+\sigma^2 = \int (\theta - \mu)^2 \pi(\theta \mid \mathcal{D}) d\theta
+  \simeq \sum_{m=1}^n (\theta^{(m)})^2 w_m - (\hat{\mu})^2 .
 $$
 
 
@@ -88,13 +90,13 @@ From the Bayesian model, we already know:
 
 * A prior distribution on the parameters of interest, i.e., $\pi(\theta)$.
 
-* The likelihood of the data $y$ given $\theta$, i.e, $f(y|\theta)$.
+* The likelihood of the data $\mathcal{D}$ given $\theta$, i.e, $f(\mathcal{D}|\theta)$.
 
 At step $i$, a new value is drawn from $q(\cdot|\theta^{(i)})$ and it
 is accepted with probability:
 
 $$
-\alpha = \min\left\{1, \frac{f(y|\theta^*)\pi(\theta^{*})q(\theta^{(i)}|\theta^{*})}{f(y|\theta^{(i)})\pi(\theta^{(i)})q(\theta^{*}|\theta^{(i)})}\right\}
+\alpha = \min\left\{1, \frac{f(\mathcal{D}|\theta^*)\pi(\theta^{*})q(\theta^{(i)}|\theta^{*})}{f(\mathcal{D}|\theta^{(i)})\pi(\theta^{(i)})q(\theta^{*}|\theta^{(i)})}\right\}
 $$
 
 
@@ -105,7 +107,7 @@ i.e., $\theta^{(i+1)} = \theta^{*}$. Otherwise we keep the previous value, so $\
 # Example: Binomial-Beta Model
 
 The first example that will be considered is based on the data set collected on
-the number of red M&M's in a tube with $N$ M&M's. The number of
+the number of red M&M's in tube $i$ with $n_i$ M&M's. The number of
 red M&M's obtained depends on the total number of M&M's extracted and the
 actual proportion of red ones $\theta$. Given the proportion $\theta$,
 the number of red M&M's obtained follows a Binomial
@@ -115,13 +117,13 @@ The model can be stated as follows:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Bi(N_i, \theta)\\
-\theta & \sim & Be(a, b)
+y_i \mid \theta & \sim & Bi(n_i, \theta)\\
+\theta & \sim & Be(\alpha, \beta)
 \end{array}
 $$
 to allow for multiple tubes $i$.
 
-In particular, we will consider a vague uniform prior in the $[0,1]$ interval, which corresponds to $a=b=1$.
+In particular, we will consider a vague uniform prior in the $[0,1]$ interval, which corresponds to $\alpha=\beta=1$.
 
 You can use the following data set for this exercise:
 
@@ -130,14 +132,14 @@ data <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
 ```
 
 These data reproduce different counts of red M&M's in three different
-tubes. Variable `MMs` records the total number of M&M's in the tube ($N_i$ in the model)
+tubes. Variable `MMs` records the total number of M&M's $n_i$ in tube $i$
 and `red` the actual number of red M&M's ($y_i$ in the model).
 
 ## Importance sampling
 
 Although the posterior distribution is known in closed form, IS can
 be used to estimate the posterior mean and variance. Given that
-the parameter is bounded, a uniform distribution in the interval $[0,1]$ will
+the parameter $\theta$ is bounded, a uniform distribution in the interval $[0,1]$ will
 be used. This is probably not very efficient (as it is likely not
 to be close to the actual posterior) but it will provide a straightforward simulation strategy.
 
@@ -190,8 +192,8 @@ post_var
 ```
 
 
-Finally, an estimate of the posterior density of the parameter can be 
-obtained by using *weighted* kernel density estimation:
+Finally, an estimate of the posterior density $\pi(\theta \mid \mathcal{D})$
+of the parameter can be obtained by using *weighted* kernel density estimation:
 
 
 ```{r fig = TRUE}
@@ -304,7 +306,7 @@ a sampling distribution is, it is possible to compute the
 *effective* sample size as follows:
 
 $$
-ESS = \frac{(\sum_{i=1}^n w_i)^2}{\sum_{i=1}^n w^2_i}.
+ESS = \frac{(\sum_{m=1}^n w_m)^2}{\sum_{m=1}^n w^2_m}.
 $$
 
 * Compute the effective sample size for the previous example.
@@ -441,12 +443,12 @@ a page of a book of Game of Thrones. The model can be stated as:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Po(\theta)\\
-\theta & \sim & Ga(a, b)
+y_i \mid \lambda & \sim & Po(\lambda)\\
+\lambda & \sim & Ga(\alpha, \beta)
 \end{array}
 $$
 
-In particular, the prior on $\theta$ will be a Gamma distribution with parameters
+In particular, the prior on $\lambda$ will be a Gamma distribution with parameters
 $0.01$ and $0.01$, which is centered at 1 and has a small precision (i.e.,
 large variance).
 
@@ -465,7 +467,7 @@ y <- data$Us
 Now the parameter of interest is not bounded, so the sampling distribution
 needs to be chosen with care. We will use a log-Normal distribution with mean 3
 and standard deviation equal to 0.5. This will ensure that all the sampled
-values are positive (because $\theta$ cannot take negative values) and that
+values are positive (because $\lambda$ cannot take negative values) and that
 the sample values are reasonable (i.e, they are not too small or too large).
 Note that this sampling distribution has been chosen having in mind
 the problem at hand and that it may not work well with other problems.
@@ -474,7 +476,7 @@ the problem at hand and that it may not work well with other problems.
 ```{r}
 n_simulations <- 10000
 set.seed(1)
-theta_sim <- rlnorm(n_simulations, 3, 0.5)
+lambda_sim <- rlnorm(n_simulations, 3, 0.5)
 ```
 
 Next, importance weights are computed in two steps, as in the previous example.
@@ -482,13 +484,13 @@ Note that now the likelihood, prior and sampling distribution are different
 from the ones in the binomial example.
 
 ```{r}
-# Log-Likelihood (for each value of theta_sim)
-loglik_pois <- sapply(theta_sim, function(THETA) {
-  sum(dpois(data$Us, THETA, log = TRUE))
+# Log-Likelihood (for each value of lambda_sim)
+loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
+  sum(dpois(data$Us, LAMBDA, log = TRUE))
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dlnorm(theta_sim, 3, 0.5)
+log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dlnorm(lambda_sim, 3, 0.5)
 
 # Re-scale weights to sum up to one
 log_ww <- log_ww - max(log_ww)
@@ -509,11 +511,11 @@ The posterior mean and variance can be computed as follows:
 
 ```{r}
 # Posterior mean
-post_mean <- sum(theta_sim * ww)
+post_mean <- sum(lambda_sim * ww)
 post_mean
 
 # Posterior variance
-post_var <- sum(theta_sim^2 * ww)- post_mean^2
+post_var <- sum(lambda_sim^2 * ww)- post_mean^2
 post_var
 ```
 
@@ -523,7 +525,7 @@ obtained by using *weighted* kernel density estimation:
 
 
 ```{r fig = TRUE}
-plot(density(theta_sim, weights = ww, bw = 0.5) , main = "Posterior density")
+plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density")
 curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
@@ -544,23 +546,23 @@ current value with precision 100.
 
 ```{r}
 #Proposal distribution: sampling
-rq <- function(theta) {
-  rlnorm(1, meanlog = log(theta), sdlog = sqrt(1 / 100))
+rq <- function(lambda) {
+  rlnorm(1, meanlog = log(lambda), sdlog = sqrt(1 / 100))
 }
 
 #Proposal distribution: log-density
-logdq <- function(new.theta, theta) {
-  dlnorm(new.theta, meanlog = log(theta), sdlog = sqrt(1 / 100), log = TRUE)
+logdq <- function(new.lambda, lambda) {
+  dlnorm(new.lambda, meanlog = log(lambda), sdlog = sqrt(1 / 100), log = TRUE)
 }
 
 #Prior distribution: Ga(0.01, 0.01)
-logprior <- function(theta) {
-  dgamma(theta, 0.01, 0.01, log = TRUE)
+logprior <- function(lambda) {
+  dgamma(lambda, 0.01, 0.01, log = TRUE)
 }
 
 #LogLikelihood
-loglik <- function(y, theta) {
-   res <- sum(dpois(y, theta, log = TRUE)) 
+loglik <- function(y, lambda) {
+   res <- sum(dpois(y, lambda, log = TRUE)) 
 }
 ```
 
@@ -573,27 +575,27 @@ M-H that we have used in the previous section.
 n.iter <- 40500
 
 #Simulations of the parameter
-theta <- rep(NA, n.iter)
+lambda <- rep(NA, n.iter)
 
 #Initial value
-theta[1] <- 30
+lambda[1] <- 30
 
 for(i in 2:n.iter) {
-  new.theta <- rq(theta[i - 1])
+  new.lambda <- rq(lambda[i - 1])
   
   #Log-Acceptance probability
-  logacc.prob <- loglik(y, new.theta) + logprior(new.theta) +
-    logdq(theta[i - 1], new.theta)
-  logacc.prob <- logacc.prob - loglik(y, theta[i - 1]) - logprior(theta[i - 1]) - 
-    logdq(new.theta, theta[i - 1])
+  logacc.prob <- loglik(y, new.lambda) + logprior(new.lambda) +
+    logdq(lambda[i - 1], new.lambda)
+  logacc.prob <- logacc.prob - loglik(y, lambda[i - 1]) - logprior(lambda[i - 1]) - 
+    logdq(new.lambda, lambda[i - 1])
   logacc.prob <- min(0, logacc.prob)#0 = log(1)
   
   if(log(runif(1)) < logacc.prob) {
     #Accept
-    theta[i] <- new.theta
+    lambda[i] <- new.lambda
   } else {
     #Reject
-    theta[i] <- theta[i - 1]
+    lambda[i] <- lambda[i - 1]
   }
 }
 ```
@@ -606,17 +608,17 @@ now:
 
 ```{r}
 #Remove burn-in
-theta <- theta[-c(1:500)]
+lambda <- lambda[-c(1:500)]
 
 #Thinning
-theta <- theta[seq(1, length(theta), by = 10)]
+lambda <- lambda[seq(1, length(lambda), by = 10)]
 
 #Summary statistics
-summary(theta)
+summary(lambda)
 
 par(mfrow = c(1, 2))
-plot(theta, type = "l", main = "MCMC samples", ylab = expression(theta))
-plot(density(theta), main = "Posterior density", xlab = expression(theta))
+plot(lambda, type = "l", main = "MCMC samples", ylab = expression(lambda))
+plot(density(lambda), main = "Posterior density", xlab = expression(lambda))
 ```
 
 
@@ -647,11 +649,11 @@ these differences appear?
 ```{r}
 n_simulations <- 10000
 set.seed(12)
-theta_sim <- rgamma(n_simulations,5,0.1)
-loglik_pois <- sapply(theta_sim, function(THETA) {
-  sum(dpois(data$Us, THETA, log = TRUE))
+lambda_sim <- rgamma(n_simulations,5,0.1)
+loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
+  sum(dpois(data$Us, LAMBDA, log = TRUE))
 })
-log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dgamma(theta_sim, 5, 0.1, log=TRUE)
+log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, 5, 0.1, log=TRUE)
 log_ww <- log_ww - max(log_ww)
 ww <- exp(log_ww)
 ww <- ww / sum(ww)
@@ -662,14 +664,14 @@ hist(ww, xlab = "Importance weights")
 ```
 
 ```{r}
-post_mean <- sum(theta_sim * ww)
+post_mean <- sum(lambda_sim * ww)
 post_mean
-post_var <- sum(theta_sim^2 * ww)- post_mean^2
+post_var <- sum(lambda_sim^2 * ww)- post_mean^2
 post_var
 ```
 
 ```{r fig = TRUE}
-plot(density(theta_sim, weights = ww, bw = 0.5), main = "Posterior density")
+plot(density(lambda_sim, weights = ww, bw = 0.5), main = "Posterior density")
 curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
@@ -688,11 +690,11 @@ this particular case is known in a closed form) as the sampling distribution.
 ```{r}
 n_simulations <- 10000
 set.seed(12)
-theta_sim <- rgamma(n_simulations, sum(data$Us) + 0.01, length(data$Us) + 0.01)
-loglik_pois <- sapply(theta_sim, function(THETA) {
-  sum(dpois(data$Us, THETA, log = TRUE))
+lambda_sim <- rgamma(n_simulations, sum(data$Us) + 0.01, length(data$Us) + 0.01)
+loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
+  sum(dpois(data$Us, LAMBDA, log = TRUE))
 })
-log_ww <- loglik_pois + dgamma(theta_sim, 0.01, 0.01, log = TRUE) - dgamma(theta_sim, sum(data$Us) + 0.01, length(data$Us) + 0.01, log=TRUE)
+log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, sum(data$Us) + 0.01, length(data$Us) + 0.01, log=TRUE)
 log_ww <- log_ww - max(log_ww)
 ww <- exp(log_ww)
 ww <- ww / sum(ww)
@@ -703,14 +705,14 @@ hist(ww, xlab = "Importance weights")
 ```
 
 ```{r}
-post_mean <- sum(theta_sim * ww)
+post_mean <- sum(lambda_sim * ww)
 post_mean
-post_var <- sum(theta_sim^2 * ww)- post_mean^2
+post_var <- sum(lambda_sim^2 * ww)- post_mean^2
 post_var
 ```
 
 ```{r fig = TRUE}
-plot(density(theta_sim, weights = ww, bw = 0.5) , main = "Posterior density")
+plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density")
 curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
@@ -724,10 +726,10 @@ n_simulations
 ### Non-conjugate prior
 
 Just as in the binomial example, non-conjugate priors can be used
-for the $\theta$ parameter. In this case, given that $\theta$ is positive,
+for the $\lambda$ parameter. In this case, given that $\lambda$ is positive,
 care must be taken when choosing the prior. For this exercise, try to use a
 log-Normal prior with mean 4 and standard deviation 1. This will
-provide a prior of $\theta$ as seen in the next plot:
+provide a prior of $\lambda$ as seen in the next plot:
 
 ```{r}
 xx <- seq(0, 1000, by = 1)
