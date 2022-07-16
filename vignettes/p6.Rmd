@@ -44,7 +44,7 @@ This model can be stated as:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & N(\mu, \tau)\\
+y_i \mid \mu,\tau & \sim & N(\mu, \tau)\\
 \mu & \sim & N(\mu_{\mu}, \tau_{\mu})\\
 \tau & \sim & Ga(\alpha, \beta)
 \end{array}
