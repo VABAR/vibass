@@ -46,7 +46,7 @@ $$
 \begin{array}{rcl}
 y_i & \sim & N(\mu, \tau)\\
 \mu & \sim & N(\mu_{\mu}, \tau_{\mu})\\
-\tau & \sim & Ga(a, b)
+\tau & \sim & Ga(\alpha, \beta)
 \end{array}
 $$
 
@@ -287,8 +287,8 @@ plot(density(sample.var), main = "Posterior density", xlab = "variance")
 
 The previous example can be regarded as a simple linear regression example in
 which the mean $\mu_i$ (of participant  $i$) is equal to an intercept term
-$\alpha$, i.e., $\mu_i = \alpha$. If a covariate $x_i$ is available, the model
-could be extended to consider a mean equal to $\mu_i = \alpha + \beta x_i$.
+$\beta_0$, i.e., $\mu_i = \beta_0$. If a covariate $x_i$ is available, the model
+could be extended to consider a mean equal to $\mu_i = \beta_0 + \beta_1 x_i$.
 
 We can consider the gender of the VIBASS participants as a covariate and
 add this information to the data set:
@@ -303,9 +303,9 @@ means that the participant is a man.  The resulting model is now:
 $$
 \begin{array}{rcl}
 y_i & \sim & N(\mu_i, \tau)\\
-\mu_i & = & \alpha + \beta x_i\\
-\alpha & \sim & N(0, 0.001)\\
-\beta & \sim & N(0, 0.001)\\
+\mu_i & = & \beta_0 + \beta_1 x_i\\
+\beta_0 & \sim & N(0, 0.001)\\
+\beta_1 & \sim & N(0, 0.001)\\
 \tau & \sim & Ga(0.01, 0.01)
 \end{array}
 $$
@@ -321,11 +321,11 @@ regression model with a single covariate.
 
 ### Importance-sampling
 
-This model can be fitted using IS by sampling values for $\theta =(\alpha, \beta,
+This model can be fitted using IS by sampling values for $\theta =(\beta_0, \beta_1,
 \tau)$. Values for these three model parameters can be sampled independently.
-For $\alpha$ a Normal distribution with mean `r round(mean(data$height), 2)` (the
+For $\beta_0$ a Normal distribution with mean `r round(mean(data$height), 2)` (the
 average height) and standard deviation $10$ (to have large variability) can be
-used to sample values, and values of $\beta$ can be sampled from a Normal with
+used to sample values, and values of $\beta_1$ can be sampled from a Normal with
 zero mean and standard deviation $10$.  Values for $\tau$ can be obtained using a
 log-Normal with mean $0$ and standard deviation $1.25$.
 
@@ -342,9 +342,9 @@ Do you think that inference is equally reliable for all three parameters?
 ### Metropolis-Hastings
 
 Similarly, this model can be fitted using the M-H algorithm. In this case, the
-proposal distribution needs to provide values of $\theta =(\alpha, \beta,
+proposal distribution needs to provide values of $\theta =(\beta_0, \beta_1,
 \tau)$. This can be done independently for each variable as in the example
-developed above. For each of $\alpha$ and $\beta$, the proposal distribution
+developed above. For each of $\beta_0$ and $\beta_1$, the proposal distribution
 can be a Normal distribution with mean the current value and precision
 10, while for $\tau$ exactly the same proposal as before can be used.
 
