@@ -129,9 +129,9 @@
 <p>This model can be stated as:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-y_i &amp; \sim &amp; N(\mu, \tau)\\
+y_i \mid \mu,\tau &amp; \sim &amp; N(\mu, \tau)\\
 \mu &amp; \sim &amp; N(\mu_{\mu}, \tau_{\mu})\\
-\tau &amp; \sim &amp; Ga(a, b)
+\tau &amp; \sim &amp; Ga(\alpha, \beta)
 \end{array}
 \]</span></p>
 <p><strong>Note that now the Normal distribution is expressed using precision rather than variance.</strong></p>
@@ -316,7 +316,7 @@ In fact, we will be sampling <span class="math inline">\(\mu\)</span> and <span 
 <div class="section level4">
 <h4 id="linear-models">Linear models<a class="anchor" aria-label="anchor" href="#linear-models"></a>
 </h4>
-<p>The previous example can be regarded as a simple linear regression example in which the mean <span class="math inline">\(\mu_i\)</span> (of participant <span class="math inline">\(i\)</span>) is equal to an intercept term <span class="math inline">\(\alpha\)</span>, i.e., <span class="math inline">\(\mu_i = \alpha\)</span>. If a covariate <span class="math inline">\(x_i\)</span> is available, the model could be extended to consider a mean equal to <span class="math inline">\(\mu_i = \alpha + \beta x_i\)</span>.</p>
+<p>The previous example can be regarded as a simple linear regression example in which the mean <span class="math inline">\(\mu_i\)</span> (of participant <span class="math inline">\(i\)</span>) is equal to an intercept term <span class="math inline">\(\beta_0\)</span>, i.e., <span class="math inline">\(\mu_i = \beta_0\)</span>. If a covariate <span class="math inline">\(x_i\)</span> is available, the model could be extended to consider a mean equal to <span class="math inline">\(\mu_i = \beta_0 + \beta_1 x_i\)</span>.</p>
 <p>We can consider the gender of the VIBASS participants as a covariate and add this information to the data set:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span><span class="op">$</span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">14</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -324,9 +324,9 @@ In fact, we will be sampling <span class="math inline">\(\mu\)</span> and <span 
 <p><span class="math display">\[
 \begin{array}{rcl}
 y_i &amp; \sim &amp; N(\mu_i, \tau)\\
-\mu_i &amp; = &amp; \alpha + \beta x_i\\
-\alpha &amp; \sim &amp; N(0, 0.001)\\
-\beta &amp; \sim &amp; N(0, 0.001)\\
+\mu_i &amp; = &amp; \beta_0 + \beta_1 x_i\\
+\beta_0 &amp; \sim &amp; N(0, 0.001)\\
+\beta_1 &amp; \sim &amp; N(0, 0.001)\\
 \tau &amp; \sim &amp; Ga(0.01, 0.01)
 \end{array}
 \]</span></p>
@@ -336,7 +336,7 @@ y_i &amp; \sim &amp; N(\mu_i, \tau)\\
 <div class="section level4">
 <h4 id="importance-sampling-1">Importance-sampling<a class="anchor" aria-label="anchor" href="#importance-sampling-1"></a>
 </h4>
-<p>This model can be fitted using IS by sampling values for <span class="math inline">\(\theta =(\alpha, \beta, \tau)\)</span>. Values for these three model parameters can be sampled independently. For <span class="math inline">\(\alpha\)</span> a Normal distribution with mean 1.71 (the average height) and standard deviation <span class="math inline">\(10\)</span> (to have large variability) can be used to sample values, and values of <span class="math inline">\(\beta\)</span> can be sampled from a Normal with zero mean and standard deviation <span class="math inline">\(10\)</span>. Values for <span class="math inline">\(\tau\)</span> can be obtained using a log-Normal with mean <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(1.25\)</span>.</p>
+<p>This model can be fitted using IS by sampling values for <span class="math inline">\(\theta =(\beta_0, \beta_1, \tau)\)</span>. Values for these three model parameters can be sampled independently. For <span class="math inline">\(\beta_0\)</span> a Normal distribution with mean 1.71 (the average height) and standard deviation <span class="math inline">\(10\)</span> (to have large variability) can be used to sample values, and values of <span class="math inline">\(\beta_1\)</span> can be sampled from a Normal with zero mean and standard deviation <span class="math inline">\(10\)</span>. Values for <span class="math inline">\(\tau\)</span> can be obtained using a log-Normal with mean <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(1.25\)</span>.</p>
 <ul>
 <li>Implement the IS algorithm to fit this model.</li>
 </ul>
@@ -414,7 +414,7 @@ y_i &amp; \sim &amp; N(\mu_i, \tau)\\
 <div class="section level4">
 <h4 id="metropolis-hastings-1">Metropolis-Hastings<a class="anchor" aria-label="anchor" href="#metropolis-hastings-1"></a>
 </h4>
-<p>Similarly, this model can be fitted using the M-H algorithm. In this case, the proposal distribution needs to provide values of <span class="math inline">\(\theta =(\alpha, \beta, \tau)\)</span>. This can be done independently for each variable as in the example developed above. For each of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, the proposal distribution can be a Normal distribution with mean the current value and precision 10, while for <span class="math inline">\(\tau\)</span> exactly the same proposal as before can be used.</p>
+<p>Similarly, this model can be fitted using the M-H algorithm. In this case, the proposal distribution needs to provide values of <span class="math inline">\(\theta =(\beta_0, \beta_1, \tau)\)</span>. This can be done independently for each variable as in the example developed above. For each of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, the proposal distribution can be a Normal distribution with mean the current value and precision 10, while for <span class="math inline">\(\tau\)</span> exactly the same proposal as before can be used.</p>
 <ul>
 <li>Implement the M-H algorithm to fit this model. You can make use of the code above.</li>
 </ul>
