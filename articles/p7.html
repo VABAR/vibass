@@ -125,11 +125,11 @@
 <div class="section level2">
 <h2 id="example-binomial-beta-model">Example: Binomial-Beta Model<a class="anchor" aria-label="anchor" href="#example-binomial-beta-model"></a>
 </h2>
-<p>This data set is described in detail in previous practicals; it concerns the recorded the number of red M&amp;M’s in a tube with <span class="math inline">\(N_i\)</span> M&amp;M’s for different tubes.</p>
+<p>This data set is described in detail in previous practicals; it concerns the recorded the number of red M&amp;M’s in tube <span class="math inline">\(i\)</span> with <span class="math inline">\(n_i\)</span> M&amp;M’s for different tubes.</p>
 <p>The model can be stated as follows:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-y_i &amp; \sim &amp; Bi(N_i, \theta)\\
+y_i \mid \theta &amp; \sim &amp; Bi(n_i, \theta)\\
 \theta &amp; \sim &amp; Be(1, 1)
 \end{array}
 \]</span></p>
@@ -148,17 +148,17 @@ y_i &amp; \sim &amp; Bi(N_i, \theta)\\
 <p><span class="math display">\[
 \begin{array}{rcl}
 y_i &amp; \sim &amp; Bi(\theta, n_i)\\
-\textrm{logit}(\theta) &amp; = &amp; \alpha\\
-\alpha &amp; \sim &amp; N(0, \tau_{\alpha} = 0.001)
+\textrm{logit}(\theta) &amp; = &amp; \beta_0\\
+\beta_0 &amp; \sim &amp; N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 \]</span></p>
-<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\alpha\)</span> in this case) via the logit link function. Hence, the model parameter is now <span class="math inline">\(\alpha\)</span>.</p>
-<p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\alpha\)</span> as the unique model parameter.</p>
+<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\beta_0\)</span> in this case) via the logit link function. Hence, the model parameter is now <span class="math inline">\(\beta_0\)</span>.</p>
+<p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\beta_0\)</span> as the unique model parameter.</p>
 </div>
 <div class="section level4">
 <h4 id="importance-sampling">Importance sampling<a class="anchor" aria-label="anchor" href="#importance-sampling"></a>
 </h4>
-<p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\alpha\)</span> need to be sampled. Given that <span class="math inline">\(\alpha\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logit of the average proportions of red M&amp;Ms in the sample (for example, -1.5).</p>
+<p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\beta_0\)</span> need to be sampled. Given that <span class="math inline">\(\beta_0\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logit of the average proportions of red M&amp;Ms in the sample (for example, -1.5).</p>
 <ul>
 <li><p>Implement the IS algorithm using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean -1.5 and precision 0.1.</p></li>
 <li><p>Compute the posterior mean and variance for both sets of results. Are they similar?</p></li>
@@ -168,10 +168,10 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 <div class="section level4">
 <h4 id="metropolis-hastings">Metropolis-Hastings<a class="anchor" aria-label="anchor" href="#metropolis-hastings"></a>
 </h4>
-<p>Similarly, the previous GLM can be fit using the M-H algorithm. Now, values of <span class="math inline">\(\alpha\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
+<p>Similarly, the previous GLM can be fit using the M-H algorithm. Now, values of <span class="math inline">\(\beta_0\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
 <ul>
 <li><p>Implement the M-H algorithm for this example.</p></li>
-<li><p>Compute the posterior mean and variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Compute the posterior mean and variance of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
 <li><p>Compare these results to those obtained with the IS algorithm.</p></li>
 </ul>
 </div>
@@ -203,17 +203,17 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <p><span class="math display">\[
 \begin{array}{rcl}
 y_i &amp; \sim &amp; Po(\theta)\\
-\log(\theta) &amp; = &amp; \alpha\\
-\alpha &amp; \sim &amp; N(0, \tau_{\alpha} = 0.001)
+\log(\theta) &amp; = &amp; \beta_0\\
+\beta_0 &amp; \sim &amp; N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 \]</span></p>
-<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\alpha\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\alpha\)</span>.</p>
-<p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\alpha\)</span> as the unique model parameter.</p>
+<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\beta_0\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\beta_0\)</span>.</p>
+<p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\beta_0\)</span> as the unique model parameter.</p>
 </div>
 <div class="section level4">
 <h4 id="importance-sampling-1">Importance sampling<a class="anchor" aria-label="anchor" href="#importance-sampling-1"></a>
 </h4>
-<p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\alpha\)</span> need to be sampled. Given that <span class="math inline">\(\alpha\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logarithm of the average number of u’s in the sample (for example, 3.25).</p>
+<p>In order to fit this model using the IS algorithm, values of <span class="math inline">\(\beta_0\)</span> need to be sampled. Given that <span class="math inline">\(\beta_0\)</span> is not bounded, we can use a Normal distribution with zero mean and precision 0.1. Alternatively, the mean of the sampling distribution can be set to a more reasonable value, close to the logarithm of the average number of u’s in the sample (for example, 3.25).</p>
 <ul>
 <li><p>Implement the IS using the two sampling distributions proposed above, i.e., a Normal with zero mean and precision 0.1 and a Normal with mean 3.25 and precision 0.1.</p></li>
 <li><p>Compute the posterior mean and variance for both sets of results.</p></li>
@@ -223,10 +223,10 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <div class="section level4">
 <h4 id="metropolis-hastings-1">Metropolis-Hastings<a class="anchor" aria-label="anchor" href="#metropolis-hastings-1"></a>
 </h4>
-<p>Again, the previous GLM can be fitted using the M-H algorithm. Now, values of <span class="math inline">\(\alpha\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
+<p>Again, the previous GLM can be fitted using the M-H algorithm. Now, values of <span class="math inline">\(\beta_0\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
 <ul>
 <li><p>Implement the M-H algorithm for this model.</p></li>
-<li><p>Compute the posterior mean and variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Compute the posterior mean and variance of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
 <li><p>Compare the results obtained now with those obtained with the I-S algorithm.</p></li>
 </ul>
 </div>
