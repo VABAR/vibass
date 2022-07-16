@@ -30,14 +30,14 @@ IS and M-H, please check the lecture notes or Practical 5.
 # Example: Binomial-Beta Model
 
 This data set is described in detail in previous practicals; it concerns
-the recorded the number of red M&M's in a tube with $N_i$ M&M's for
+the recorded the number of red M&M's in tube $i$ with $n_i$ M&M's for
 different tubes.
 
 The model can be stated as follows:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Bi(N_i, \theta)\\
+y_i \mid \theta & \sim & Bi(n_i, \theta)\\
 \theta & \sim & Be(1, 1)
 \end{array}
 $$
@@ -68,23 +68,23 @@ The current model can be expressed as a generalized linear model as follows:
 $$
 \begin{array}{rcl}
 y_i & \sim & Bi(\theta, n_i)\\
-\textrm{logit}(\theta) & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha} = 0.001)
+\textrm{logit}(\theta) & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 $$
 
 
 Note that now the model parameter $\theta$ is linked to a
-linear predictor ($\alpha$ in this case) via the logit link function.
-Hence, the model parameter is now $\alpha$.
+linear predictor ($\beta_0$ in this case) via the logit link function.
+Hence, the model parameter is now $\beta_0$.
 
-This GLM can be easily fitted using IS and M-H by treating $\alpha$
+This GLM can be easily fitted using IS and M-H by treating $\beta_0$
 as the unique model parameter.
 
 ### Importance sampling
 
-In order to fit this model using the IS algorithm, values of $\alpha$
-need to be sampled. Given that $\alpha$ is not bounded, we can use
+In order to fit this model using the IS algorithm, values of $\beta_0$
+need to be sampled. Given that $\beta_0$ is not bounded, we can use
 a Normal distribution with zero mean and precision 0.1. Alternatively,
 the mean of the sampling distribution can be set to a more reasonable
 value, close to the logit of the average proportions of red
@@ -96,18 +96,18 @@ M&Ms in the sample (for example, -1.5).
 n_simulations <- 10000
 set.seed(12)
 # The two proposed sampling distribution means - uncomment the one you want
-alpha_sim_mean <- 0
-#alpha_sim_mean <- -1.5
-alpha_sim <- rnorm(n_simulations,alpha_sim_mean,sqrt(1/0.1))
+beta_0_sim_mean <- 0
+#beta_0_sim_mean <- -1.5
+beta_0_sim <- rnorm(n_simulations,beta_0_sim_mean,sqrt(1/0.1))
 
-# Log-Likelihood (for each value of theta_sim/alpha_sim)
-loglik_binom <- sapply(alpha_sim, function(ALPHA) {
+# Log-Likelihood (for each value of theta_sim/beta_0_sim)
+loglik_binom <- sapply(beta_0_sim, function(ALPHA) {
   theta_sim <- plogis(ALPHA)
   sum(dbinom(data$red, data$MMs, theta_sim, log = TRUE))
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_binom + dnorm(alpha_sim, 0, sqrt(1/0.001), log = TRUE) - dnorm(alpha_sim,alpha_sim_mean,sqrt(1/0.1),log=TRUE)
+log_ww <- loglik_binom + dnorm(beta_0_sim, 0, sqrt(1/0.001), log = TRUE) - dnorm(beta_0_sim,beta_0_sim_mean,sqrt(1/0.1),log=TRUE)
 
 # Re-scale weights to sum to one
 log_ww <- log_ww - max(log_ww)
@@ -125,15 +125,15 @@ Are they similar?
 
 ```{r}
 # Posterior mean
-post_mean <- sum(alpha_sim * ww)
+post_mean <- sum(beta_0_sim * ww)
 post_mean 
 
 # Posterior variance
-post_var <- sum(alpha_sim^2 * ww)- post_mean^2
+post_var <- sum(beta_0_sim^2 * ww)- post_mean^2
 post_var
 
 # Posterior mean - on theta
-theta_sim <- plogis(alpha_sim)
+theta_sim <- plogis(beta_0_sim)
 post_mean <- sum(theta_sim * ww)
 post_mean 
 
@@ -143,7 +143,7 @@ post_var
 ```
 
 ```{r fig = TRUE}
-plot(density(alpha_sim, weights = ww, bw = 0.05), main = "Posterior density for alpha")
+plot(density(beta_0_sim, weights = ww, bw = 0.05), main = "Posterior density for beta_0")
 ```
 
 ```{r fig = TRUE}
@@ -166,7 +166,7 @@ n_simulations
 ### Metropolis-Hastings
 
 Similarly, the previous GLM can be fit using the M-H algorithm. Now, values
-of $\alpha$ are proposed, for which a Normal distribution centered at
+of $\beta_0$ are proposed, for which a Normal distribution centered at
 the current value and precision 0.1 can be used. However, the precision
 value can be tuned if proposed values are rejected too often or not
 rejected at all.
@@ -176,27 +176,27 @@ rejected at all.
 
 ```{r}
 #Proposal distribution: sampling
-rq <- function(alpha) {
-  res <- rnorm(1, alpha, sqrt(1 / 0.1)) #Sample alpha
+rq <- function(beta_0) {
+  res <- rnorm(1, beta_0, sqrt(1 / 0.1)) #Sample beta_0
 
   return(res)
 }
 
 #Proposal distribution: log-density
-logdq <- function(new.alpha, alpha) {
-  res <- dnorm(new.alpha, alpha, sd = sqrt(1 / 0.1), log = TRUE)
+logdq <- function(new.beta_0, beta_0) {
+  res <- dnorm(new.beta_0, beta_0, sd = sqrt(1 / 0.1), log = TRUE)
 }
 
 #Prior distribution
-logprior <- function(alpha) {
-  res <- dnorm(alpha, 0, sd = sqrt(1 / 0.001), log = TRUE) #alpha
+logprior <- function(beta_0) {
+  res <- dnorm(beta_0, 0, sd = sqrt(1 / 0.001), log = TRUE) #beta_0
 
   return(res)
 }
 
 #LogLikelihood
-loglik <- function(alpha) {
-  theta_sim <- plogis(alpha)
+loglik <- function(beta_0) {
+  theta_sim <- plogis(beta_0)
   sum(dbinom(data$red, data$MMs, theta_sim, log = TRUE))
 }
 ```
@@ -206,52 +206,52 @@ loglik <- function(alpha) {
 n.iter <- 40500
 
 #Simulations of the parameter
-alpha <- numeric(n.iter)
+beta_0 <- numeric(n.iter)
 
 #Initial value
-alpha[1] <- 0.0
+beta_0[1] <- 0.0
 
 for(i in 2:n.iter) {
-  new.alpha <- rq(alpha[i - 1])
+  new.beta_0 <- rq(beta_0[i - 1])
   
   #Log-Acceptance probability
-  logacc.prob <- loglik(new.alpha) + logprior(new.alpha) + logdq(alpha[i - 1], new.alpha)
-  logacc.prob <- logacc.prob - loglik(alpha[i - 1]) - logprior(alpha[i - 1]) - 
-    logdq(new.alpha, alpha[i - 1])
+  logacc.prob <- loglik(new.beta_0) + logprior(new.beta_0) + logdq(beta_0[i - 1], new.beta_0)
+  logacc.prob <- logacc.prob - loglik(beta_0[i - 1]) - logprior(beta_0[i - 1]) - 
+    logdq(new.beta_0, beta_0[i - 1])
   logacc.prob <- min(0, logacc.prob)#0 = log(1)
   
   if(log(runif(1)) < logacc.prob) {
     #Accept
-    alpha[i] <- new.alpha
+    beta_0[i] <- new.beta_0
   } else {
     #Reject
-    alpha[i] <- alpha[i - 1]
+    beta_0[i] <- beta_0[i - 1]
   }
 }
 ```
 
-* Compute the posterior mean and variance of $\alpha$ and $\theta$.
+* Compute the posterior mean and variance of $\beta_0$ and $\theta$.
 
 ```{r}
 #Remove burn-in
-alpha <- alpha[-c(1:500)]
+beta_0 <- beta_0[-c(1:500)]
 
 #Thinning
-alpha <- alpha[seq(1, length(alpha), by = 10)]
+beta_0 <- beta_0[seq(1, length(beta_0), by = 10)]
 
 #Summary statistics
-summary(alpha)
+summary(beta_0)
 
 #Summary statistics - on theta
-theta <- plogis(alpha)
+theta <- plogis(beta_0)
 summary(theta)
 
 par(mfrow = c(2, 2))
 #Alpha
-plot(alpha, type = "l", main = "MCMC samples",
-  ylab = expression(alpha))
-plot(density(alpha), main = "Posterior density",
-  xlab = expression(alpha))
+plot(beta_0, type = "l", main = "MCMC samples",
+  ylab = expression(beta_0))
+plot(density(beta_0), main = "Posterior density",
+  xlab = expression(beta_0))
 #Theta
 plot(theta, type = "l", main = "MCMC samples",
   ylab = expression(theta))
@@ -302,23 +302,23 @@ The current model can be expressed as a generalized linear model as follows:
 $$
 \begin{array}{rcl}
 y_i & \sim & Po(\theta)\\
-\log(\theta) & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha} = 0.001)
+\log(\theta) & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 $$
 
 
 Note that now the model parameter $\theta$ is linked to a
-linear predictor ($\alpha$ in this case) via the logarithm link function.
-Hence, the model parameter is now $\alpha$.
+linear predictor ($\beta_0$ in this case) via the logarithm link function.
+Hence, the model parameter is now $\beta_0$.
 
-This GLM can be easily fitted using IS and M-H by treating $\alpha$
+This GLM can be easily fitted using IS and M-H by treating $\beta_0$
 as the unique model parameter.
 
 ### Importance sampling
 
-In order to fit this model using the IS algorithm, values of $\alpha$
-need to be sampled. Given that $\alpha$ is not bounded, we can use
+In order to fit this model using the IS algorithm, values of $\beta_0$
+need to be sampled. Given that $\beta_0$ is not bounded, we can use
 a Normal distribution with zero mean and precision 0.1. Alternatively,
 the mean of the sampling distribution can be set to a more reasonable
 value, close to the logarithm of the average number of u's 
@@ -332,18 +332,18 @@ precision 0.1.
 n_simulations <- 10000
 set.seed(12)
 # The two proposed sampling distribution means - uncomment the one you want
-alpha_sim_mean <- 0
-#alpha_sim_mean <- 3.25
-alpha_sim <- rnorm(n_simulations,alpha_sim_mean,sqrt(1/0.1))
+beta_0_sim_mean <- 0
+#beta_0_sim_mean <- 3.25
+beta_0_sim <- rnorm(n_simulations,beta_0_sim_mean,sqrt(1/0.1))
 
-# Log-Likelihood (for each value of theta_sim/alpha_sim)
-loglik_pois <- sapply(alpha_sim, function(ALPHA) {
+# Log-Likelihood (for each value of theta_sim/beta_0_sim)
+loglik_pois <- sapply(beta_0_sim, function(ALPHA) {
   theta_sim <- exp(ALPHA)
   sum(dpois(y, theta_sim, log = TRUE))
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_pois + dnorm(alpha_sim, 0.0, sqrt(1/0.001), log = TRUE) - dnorm(alpha_sim, alpha_sim_mean, sqrt(1/0.1), log=TRUE)
+log_ww <- loglik_pois + dnorm(beta_0_sim, 0.0, sqrt(1/0.001), log = TRUE) - dnorm(beta_0_sim, beta_0_sim_mean, sqrt(1/0.1), log=TRUE)
 
 # Re-scale weights to sum to one
 log_ww <- log_ww - max(log_ww)
@@ -359,15 +359,15 @@ hist(ww, xlab = "Importance weights")
 
 ```{r}
 # Posterior mean
-post_mean <- sum(alpha_sim * ww)
+post_mean <- sum(beta_0_sim * ww)
 post_mean
 
 # Posterior variance
-post_var <- sum(alpha_sim^2 * ww)- post_mean^2
+post_var <- sum(beta_0_sim^2 * ww)- post_mean^2
 post_var
 
 # Posterior mean - on theta
-theta_sim <- exp(alpha_sim)
+theta_sim <- exp(beta_0_sim)
 post_mean <- sum(theta_sim * ww)
 post_mean
 
@@ -388,7 +388,7 @@ n_simulations
 ### Metropolis-Hastings
 
 Again, the previous GLM can be fitted using the M-H algorithm. Now, values
-of $\alpha$ are proposed, for which a Normal distribution centered at
+of $\beta_0$ are proposed, for which a Normal distribution centered at
 the current value and precision 0.1 can be used. However, the precision
 value can be tuned if proposed values are rejected too often or not
 rejected at all.
@@ -398,27 +398,27 @@ rejected at all.
 
 ```{r}
 #Proposal distribution: sampling
-rq <- function(alpha) {
-  res <- rnorm(1, alpha, sqrt(1 / 0.1)) #Sample alpha
+rq <- function(beta_0) {
+  res <- rnorm(1, beta_0, sqrt(1 / 0.1)) #Sample beta_0
 
   return(res)
 }
 
 #Proposal distribution: log-density
-logdq <- function(new.alpha, alpha) {
-  res <- dnorm(new.alpha, alpha, sd = sqrt(1 / 0.1), log = TRUE)
+logdq <- function(new.beta_0, beta_0) {
+  res <- dnorm(new.beta_0, beta_0, sd = sqrt(1 / 0.1), log = TRUE)
 }
 
 #Prior distribution
-logprior <- function(alpha) {
-  res <- dnorm(alpha, 0, sd = sqrt(1 / 0.001), log = TRUE) #alpha
+logprior <- function(beta_0) {
+  res <- dnorm(beta_0, 0, sd = sqrt(1 / 0.001), log = TRUE) #beta_0
 
   return(res)
 }
 
 #LogLikelihood
-loglik <- function(y,alpha) {
-  theta_sim <- exp(alpha)
+loglik <- function(y,beta_0) {
+  theta_sim <- exp(beta_0)
   sum(dpois(y, theta_sim, log = TRUE))
 }
 ```
@@ -428,54 +428,54 @@ loglik <- function(y,alpha) {
 n.iter <- 40500
 
 #Simulations of the parameter
-alpha <- numeric(n.iter)
+beta_0 <- numeric(n.iter)
 
 #Initial value
-alpha[1] <- 0.0
+beta_0[1] <- 0.0
 
 for(i in 2:n.iter) {
-  new.alpha <- rq(alpha[i - 1])
+  new.beta_0 <- rq(beta_0[i - 1])
   
   #Log-Acceptance probability
-  logacc.prob <- loglik(y,new.alpha) + logprior(new.alpha) + logdq(alpha[i - 1], new.alpha)
-  logacc.prob <- logacc.prob - loglik(y,alpha[i - 1]) - logprior(alpha[i - 1]) - 
-    logdq(new.alpha, alpha[i - 1])
+  logacc.prob <- loglik(y,new.beta_0) + logprior(new.beta_0) + logdq(beta_0[i - 1], new.beta_0)
+  logacc.prob <- logacc.prob - loglik(y,beta_0[i - 1]) - logprior(beta_0[i - 1]) - 
+    logdq(new.beta_0, beta_0[i - 1])
   logacc.prob <- min(0, logacc.prob)#0 = log(1)
   
   if(log(runif(1)) < logacc.prob) {
     #Accept
-    alpha[i] <- new.alpha
+    beta_0[i] <- new.beta_0
   } else {
     #Reject
-    alpha[i] <- alpha[i - 1]
+    beta_0[i] <- beta_0[i - 1]
   }
 }
 ```
 
-* Compute the posterior mean and variance of $\alpha$ and $\theta$.
+* Compute the posterior mean and variance of $\beta_0$ and $\theta$.
 
 ```{r}
 #Remove burn-in
-alpha <- alpha[-c(1:500)]
+beta_0 <- beta_0[-c(1:500)]
 
 #Thinning
-alpha <- alpha[seq(1, length(alpha), by = 10)]
+beta_0 <- beta_0[seq(1, length(beta_0), by = 10)]
 
 #Summary statistics
-summary(alpha)
+summary(beta_0)
 
 #Summary statistics - on theta
-theta <- exp(alpha)
+theta <- exp(beta_0)
 summary(theta)
 #Variance of estimate?
 var(theta)
 
 par(mfrow = c(2, 2))
 #Alpha
-plot(alpha, type = "l", main = "MCMC samples",
-  ylab = expression(alpha))
-plot(density(alpha), main = "Posterior density",
-  xlab = expression(alpha))
+plot(beta_0, type = "l", main = "MCMC samples",
+  ylab = expression(beta_0))
+plot(density(beta_0), main = "Posterior density",
+  xlab = expression(beta_0))
 #Theta
 plot(theta, type = "l", main = "MCMC samples",
   ylab = expression(theta))

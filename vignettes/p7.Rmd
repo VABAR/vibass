@@ -30,14 +30,14 @@ IS and M-H, please check the lecture notes or Practical 5.
 # Example: Binomial-Beta Model
 
 This data set is described in detail in previous practicals; it concerns
-the recorded the number of red M&M's in a tube with $N_i$ M&M's for
+the recorded the number of red M&M's in tube $i$ with $n_i$ M&M's for
 different tubes.
 
 The model can be stated as follows:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Bi(N_i, \theta)\\
+y_i \mid \theta & \sim & Bi(n_i, \theta)\\
 \theta & \sim & Be(1, 1)
 \end{array}
 $$
@@ -68,23 +68,23 @@ The current model can be expressed as a generalized linear model as follows:
 $$
 \begin{array}{rcl}
 y_i & \sim & Bi(\theta, n_i)\\
-\textrm{logit}(\theta) & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha} = 0.001)
+\textrm{logit}(\theta) & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 $$
 
 
 Note that now the model parameter $\theta$ is linked to a
-linear predictor ($\alpha$ in this case) via the logit link function.
-Hence, the model parameter is now $\alpha$.
+linear predictor ($\beta_0$ in this case) via the logit link function.
+Hence, the model parameter is now $\beta_0$.
 
-This GLM can be easily fitted using IS and M-H by treating $\alpha$
+This GLM can be easily fitted using IS and M-H by treating $\beta_0$
 as the unique model parameter.
 
 ### Importance sampling
 
-In order to fit this model using the IS algorithm, values of $\alpha$
-need to be sampled. Given that $\alpha$ is not bounded, we can use
+In order to fit this model using the IS algorithm, values of $\beta_0$
+need to be sampled. Given that $\beta_0$ is not bounded, we can use
 a Normal distribution with zero mean and precision 0.1. Alternatively,
 the mean of the sampling distribution can be set to a more reasonable
 value, close to the logit of the average proportions of red
@@ -103,7 +103,7 @@ sampling distributions. What do you find? Why do you think that this happens?
 ### Metropolis-Hastings
 
 Similarly, the previous GLM can be fit using the M-H algorithm. Now, values
-of $\alpha$ are proposed, for which a Normal distribution centered at
+of $\beta_0$ are proposed, for which a Normal distribution centered at
 the current value and precision 0.1 can be used. However, the precision
 value can be tuned if proposed values are rejected too often or not
 rejected at all.
@@ -111,7 +111,7 @@ rejected at all.
 
 * Implement the M-H algorithm for this example.
 
-* Compute the posterior mean and variance of $\alpha$ and $\theta$.
+* Compute the posterior mean and variance of $\beta_0$ and $\theta$.
 
 * Compare these results to those obtained with the IS algorithm.
 
@@ -154,23 +154,23 @@ The current model can be expressed as a generalized linear model as follows:
 $$
 \begin{array}{rcl}
 y_i & \sim & Po(\theta)\\
-\log(\theta) & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha} = 0.001)
+\log(\theta) & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 $$
 
 
 Note that now the model parameter $\theta$ is linked to a
-linear predictor ($\alpha$ in this case) via the logarithm link function.
-Hence, the model parameter is now $\alpha$.
+linear predictor ($\beta_0$ in this case) via the logarithm link function.
+Hence, the model parameter is now $\beta_0$.
 
-This GLM can be easily fitted using IS and M-H by treating $\alpha$
+This GLM can be easily fitted using IS and M-H by treating $\beta_0$
 as the unique model parameter.
 
 ### Importance sampling
 
-In order to fit this model using the IS algorithm, values of $\alpha$
-need to be sampled. Given that $\alpha$ is not bounded, we can use
+In order to fit this model using the IS algorithm, values of $\beta_0$
+need to be sampled. Given that $\beta_0$ is not bounded, we can use
 a Normal distribution with zero mean and precision 0.1. Alternatively,
 the mean of the sampling distribution can be set to a more reasonable
 value, close to the logarithm of the average number of u's 
@@ -190,7 +190,7 @@ sampling distributions. What do you find? Why do you think that this happens?
 ### Metropolis-Hastings
 
 Again, the previous GLM can be fitted using the M-H algorithm. Now, values
-of $\alpha$ are proposed, for which a Normal distribution centered at
+of $\beta_0$ are proposed, for which a Normal distribution centered at
 the current value and precision 0.1 can be used. However, the precision
 value can be tuned if proposed values are rejected too often or not
 rejected at all.
@@ -198,7 +198,7 @@ rejected at all.
 
 * Implement the M-H algorithm for this model.
 
-* Compute the posterior mean and variance of $\alpha$ and $\theta$.
+* Compute the posterior mean and variance of $\beta_0$ and $\theta$.
 
 * Compare the results obtained now with those obtained with the I-S algorithm.
 
