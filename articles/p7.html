@@ -183,8 +183,8 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 <p>The second example will be based on the <em>Game of Thrones</em> data set, which has also been described in previous practicals. Remember that this is made of the observed number of u’s on a page of a book of Game of Thrones. The model can be stated as:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-y_i &amp; \sim &amp; Po(\theta)\\
-\theta &amp; \sim &amp; Ga(0.01, 0.01)
+y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
+\lambda &amp; \sim &amp; Ga(0.01, 0.01)
 \end{array}
 \]</span></p>
 <p>We will denote the observed values by <code>y</code> in the <code>R</code> code. The data can be loaded with:</p>
@@ -202,12 +202,12 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <p>The current model can be expressed as a generalized linear model as follows:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-y_i &amp; \sim &amp; Po(\theta)\\
-\log(\theta) &amp; = &amp; \beta_0\\
+y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
+\log(\lambda) &amp; = &amp; \beta_0\\
 \beta_0 &amp; \sim &amp; N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 \]</span></p>
-<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\beta_0\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\beta_0\)</span>.</p>
+<p>Note that now the model parameter <span class="math inline">\(\lambda\)</span> is linked to a linear predictor (<span class="math inline">\(\beta_0\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\beta_0\)</span>.</p>
 <p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\beta_0\)</span> as the unique model parameter.</p>
 </div>
 <div class="section level4">
@@ -226,7 +226,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <p>Again, the previous GLM can be fitted using the M-H algorithm. Now, values of <span class="math inline">\(\beta_0\)</span> are proposed, for which a Normal distribution centered at the current value and precision 0.1 can be used. However, the precision value can be tuned if proposed values are rejected too often or not rejected at all.</p>
 <ul>
 <li><p>Implement the M-H algorithm for this model.</p></li>
-<li><p>Compute the posterior mean and variance of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Compute the posterior mean and variance of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\lambda\)</span>.</p></li>
 <li><p>Compare the results obtained now with those obtained with the I-S algorithm.</p></li>
 </ul>
 </div>

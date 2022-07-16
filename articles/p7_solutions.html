@@ -171,8 +171,8 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 <span><span class="va">beta_0_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>,<span class="va">beta_0_sim_mean</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Log-Likelihood (for each value of theta_sim/beta_0_sim)</span></span>
-<span><span class="va">loglik_binom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">beta_0_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ALPHA</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="va">ALPHA</span><span class="op">)</span></span>
+<span><span class="va">loglik_binom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">beta_0_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">BETA0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="va">BETA0</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">dbinom</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">red</span>, <span class="va">data</span><span class="op">$</span><span class="va">MMs</span>, <span class="va">theta_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
@@ -335,8 +335,8 @@ y_i &amp; \sim &amp; Bi(\theta, n_i)\\
 <p>The second example will be based on the <em>Game of Thrones</em> data set, which has also been described in previous practicals. Remember that this is made of the observed number of u’s on a page of a book of Game of Thrones. The model can be stated as:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-y_i &amp; \sim &amp; Po(\theta)\\
-\theta &amp; \sim &amp; Ga(0.01, 0.01)
+y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
+\lambda &amp; \sim &amp; Ga(0.01, 0.01)
 \end{array}
 \]</span></p>
 <p>We will denote the observed values by <code>y</code> in the <code>R</code> code. The data can be loaded with:</p>
@@ -354,12 +354,12 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <p>The current model can be expressed as a generalized linear model as follows:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-y_i &amp; \sim &amp; Po(\theta)\\
-\log(\theta) &amp; = &amp; \beta_0\\
+y_i \mid \lambda&amp; \sim &amp; Po(\lambda)\\
+\log(\lambda) &amp; = &amp; \beta_0\\
 \beta_0 &amp; \sim &amp; N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 \]</span></p>
-<p>Note that now the model parameter <span class="math inline">\(\theta\)</span> is linked to a linear predictor (<span class="math inline">\(\beta_0\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\beta_0\)</span>.</p>
+<p>Note that now the model parameter <span class="math inline">\(\lambda\)</span> is linked to a linear predictor (<span class="math inline">\(\beta_0\)</span> in this case) via the logarithm link function. Hence, the model parameter is now <span class="math inline">\(\beta_0\)</span>.</p>
 <p>This GLM can be easily fitted using IS and M-H by treating <span class="math inline">\(\beta_0\)</span> as the unique model parameter.</p>
 </div>
 <div class="section level4">
@@ -377,10 +377,10 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <span><span class="co">#beta_0_sim_mean &lt;- 3.25</span></span>
 <span><span class="va">beta_0_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>,<span class="va">beta_0_sim_mean</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Log-Likelihood (for each value of theta_sim/beta_0_sim)</span></span>
-<span><span class="va">loglik_pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">beta_0_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ALPHA</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">ALPHA</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">theta_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Log-Likelihood (for each value of lambda_sim/beta_0_sim)</span></span>
+<span><span class="va">loglik_pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">beta_0_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">BETA0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">BETA0</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">lambda_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Log-weights: log-lik + log-prior - log-sampling_distr</span></span>
@@ -407,14 +407,14 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <span><span class="va">post_var</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.0013562</span></span></code></pre>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Posterior mean - on theta</span></span>
-<span><span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta_0_sim</span><span class="op">)</span></span>
-<span><span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Posterior mean - on lambda </span></span>
+<span><span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta_0_sim</span><span class="op">)</span></span>
+<span><span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lambda_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span></span>
 <span><span class="va">post_mean</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 25.6977</span></span></code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Posterior variance - on theta</span></span>
-<span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span></span>
+<code class="sourceCode R"><span><span class="co"># Posterior variance - on lambda</span></span>
+<span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lambda_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">post_var</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.8957991</span></span></code></pre>
 <ul>
@@ -456,8 +456,8 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <span></span>
 <span><span class="co">#LogLikelihood</span></span>
 <span><span class="va">loglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>,<span class="va">beta_0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta_0</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">theta_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta_0</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">lambda_sim</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Number of iterations</span></span>
@@ -487,7 +487,7 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <ul>
-<li>Compute the posterior mean and variance of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\theta\)</span>.</li>
+<li>Compute the posterior mean and variance of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\lambda\)</span>.</li>
 </ul>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Remove burn-in</span></span>
@@ -501,14 +501,14 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##   3.113   3.219   3.247   3.248   3.275   3.391</span></span></code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Summary statistics - on theta</span></span>
-<span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta_0</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#Summary statistics - on lambda</span></span>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta_0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##   22.49   25.00   25.71   25.75   26.45   29.69</span></span></code></pre>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Variance of estimate?</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1.002</span></span></code></pre>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
@@ -518,15 +518,15 @@ y_i &amp; \sim &amp; Po(\theta)\\
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">beta_0</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">beta_0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#Theta</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">theta</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,</span>
-<span>  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
-<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lambda</span>, type <span class="op">=</span> <span class="st">"l"</span>, main <span class="op">=</span> <span class="st">"MCMC samples"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p7_solutions_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <ul>
 <li>Compare the results obtained now with those obtained with the I-S algorithm.</li>
 </ul>
-<p>Again similar for this simple example. The variance of the estimate for <span class="math inline">\(\theta\)</span> is a little larger, perhaps because the M-H has explored the posterior distribution more efficiently.</p>
+<p>Again similar for this simple example. The variance of the estimate for <span class="math inline">\(\lambda\)</span> is a little larger, perhaps because the M-H has explored the posterior distribution more efficiently.</p>
 </div>
 </div>
 </div>
