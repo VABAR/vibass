@@ -66,15 +66,15 @@ as $0$ or $1$ and the model becomes:
 
 $$
 \begin{array}{rcl}
-y_{ij} & \sim & Bi(1,\theta)\\
-\textrm{logit}(\theta) & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha})
+y_{ij} \mid \theta & \sim & Bi(1,\theta)\\
+\textrm{logit}(\theta) & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0})
 \end{array}
 $$
 
 Note that now the probability $\theta$ is not modeled directly but that its logit
 depends on a linear predictor, which is made of a single intercept term
-$\alpha$. This term is assigned a (vague) Gaussian prior.
+$\beta_0$. This term is assigned a (vague) Gaussian prior.
 
 You can use the data from the proportion of red M&Ms obtained
 before:
@@ -107,10 +107,10 @@ summary(bayesx.bin)
 ```
 
 
-Note that the output shows the summary of the intercept term $\alpha$ and not of
+Note that the output shows the summary of the intercept term $\beta_0$ and not of
 $\theta$. In this simple case, we can obtain a sample from the posterior
 of $\theta$ by back-transforming the samples of the intercept term, i.e.,
-$\theta = \textrm{expit}(\alpha) = 1/(1 + \exp(-\alpha))$.
+$\theta = \textrm{expit}(\beta_0) = 1/(1 + \exp(-\beta_0))$.
 
 ```{r}
 bayesx.theta <- 1/(1 + exp(-attr(bayesx.bin$fixed.effects, "sample")[,1]))
@@ -135,17 +135,17 @@ a slightly different model will be fitted:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Po(\theta)\\
-\log(\theta) & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha})
+y_i \mid \lambda & \sim & Po(\lambda)\\
+\log(\lambda) & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0})
 \end{array}
 $$
 
-In BayesX, $\tau_{\alpha}$ is assigned a Gamma prior with parameters 0.001
+In BayesX, $\tau_{\beta_0}$ is assigned a Gamma prior with parameters 0.001
 and 0.001, but we will ignore that for now.
 
 This is often called a *Poisson model* or *log-linear model* because the
-logarithm of the mean (i.e., $\theta$) is modeled on a vector of covariates.
+logarithm of the mean (i.e., $\lambda$) is modeled on a vector of covariates.
 In this case the linear predictor is made up of a single intercept term, which
 is assigned a Gaussian prior. 
 
@@ -164,24 +164,24 @@ bayesx.pois <- bayesx(Us ~ 1, family = "poisson", method = "MCMC")
 summary(bayesx.pois)
 ```
 
-Note that the output shows the summary of the intercept term $\alpha$ and not of
-$\theta$. In this simple case, we can obtain a sample from the posterior
-of $\theta$ by back-transforming the samples of the intercept term, i.e., 
-$\theta = \exp(\alpha)$.
+Note that the output shows the summary of the intercept term $\beta_0$ and not of
+$\lambda$. In this simple case, we can obtain a sample from the posterior
+of $\lambda$ by back-transforming the samples of the intercept term, i.e., 
+$\lambda = \exp(\beta_0)$.
 
 ```{r results = "hide"}
-bayesx.theta <- exp(attr(bayesx.pois$fixed.effects, "sample")[,1])
+bayesx.lambda <- exp(attr(bayesx.pois$fixed.effects, "sample")[,1])
 ```
 
 ```{r}
-summary(bayesx.theta)
+summary(bayesx.lambda)
 ```
 
 ```{r fig = TRUE}
 par(mfrow = c(1, 2))
 
-plot(bayesx.theta, type = "l", main = "MCMC samples", ylab = expression(theta))
-plot(density(bayesx.theta), main = "Posterior density", xlab = expression(theta))
+plot(bayesx.lambda, type = "l", main = "MCMC samples", ylab = expression(lambda))
+plot(density(bayesx.lambda), main = "Posterior density", xlab = expression(lambda))
 ```
 
 ## Normal model 
@@ -192,9 +192,9 @@ model that will be considered is:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & N(\mu, \tau)\\
-\mu & = & \alpha\\
-\alpha & \sim & N(0, \tau_{\alpha})\\
+y_i \mid \mu, \tau& \sim & N(\mu, \tau)\\
+\mu & = & \beta_0\\
+\beta_0 & \sim & N(0, \tau_{\beta_0})\\
 \tau & \sim & Ga(0.001, 0.001)
 \end{array}
 $$
@@ -224,7 +224,7 @@ bayesx.norm <- bayesx(heights ~ 1, family = "gaussian", method = "MCMC")
 summary(bayesx.norm)
 ```
 
-In this case, mean $\mu$ is equal to $\alpha$, so there is no need
+In this case, mean $\mu$ is equal to $\beta_0$, so there is no need
 to make any transformation. However, `BayesX` reports the variance, so we
 need to take the inverse of the samples in order to estimate the precision:
 
@@ -302,8 +302,8 @@ marg.theta <- inla.tmarginal(function(x) { 1 / (1 + exp(-x))},
 ```
 Here, function `inla.tmarginal` will take the posterior marginal of a
 parameter and compute the marginal of a transformation of this parameter.
-In this case, we have the marginal of $\alpha$ and we compute the marginal
-of the transformed value $\theta = \textrm{expit}(\alpha) = 1 / (1 + \exp(-\alpha))$:
+In this case, we have the marginal of $\beta_0$ and we compute the marginal
+of the transformed value $\theta = \textrm{expit}(\beta_0) = 1 / (1 + \exp(-\beta_0))$:
 
 ```{r eval = inla_available, fig = TRUE}
 plot(marg.theta, type = "l", main = "Posterior density",
@@ -324,19 +324,19 @@ summary(inla.pois)
 ```
 
 Again, in order to obtain the posterior marginal distribution of the mean
-$\theta$,
-the marginal of $\alpha$ needs to be transformed. In this case it is a bit
-simpler since $\theta = \exp(\alpha)$:
+$\lambda$,
+the marginal of $\beta_0$ needs to be transformed. In this case it is a bit
+simpler since $\lambda = \exp(\beta_0)$:
 
 
 ```{r eval = inla_available}
-marg.theta <- inla.tmarginal (exp, inla.pois$marginals.fixed[[1]]) 
+marg.lambda <- inla.tmarginal (exp, inla.pois$marginals.fixed[[1]]) 
 ```
 
 
 ```{r eval = inla_available, fig = TRUE}
-plot(marg.theta, type = "l", main = "Posterior density",
-  xlab = expression(theta), ylab = "density")
+plot(marg.lambda, type = "l", main = "Posterior density",
+  xlab = expression(lambda), ylab = "density")
 ```
 
 ## Normal model
@@ -350,7 +350,7 @@ inla.norm <- inla(heights ~ 1, data = list(heights = heights),
 summary(inla.norm)
 ```
 
-As the mean $\mu$ is equal to the intercept $\alpha$, there is no need
+As the mean $\mu$ is equal to the intercept $\beta_0$, there is no need
 to make any transformation. Also, `INLA` provides an approximation
 to the model precision, so both marginals can be plotted straight away:
 
