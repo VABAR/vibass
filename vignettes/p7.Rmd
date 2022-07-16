@@ -125,8 +125,8 @@ a page of a book of Game of Thrones. The model can be stated as:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Po(\theta)\\
-\theta & \sim & Ga(0.01, 0.01)
+y_i \mid \lambda & \sim & Po(\lambda)\\
+\lambda & \sim & Ga(0.01, 0.01)
 \end{array}
 $$
 
@@ -153,14 +153,14 @@ The current model can be expressed as a generalized linear model as follows:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Po(\theta)\\
-\log(\theta) & = & \beta_0\\
+y_i \mid \lambda & \sim & Po(\lambda)\\
+\log(\lambda) & = & \beta_0\\
 \beta_0 & \sim & N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 $$
 
 
-Note that now the model parameter $\theta$ is linked to a
+Note that now the model parameter $\lambda$ is linked to a
 linear predictor ($\beta_0$ in this case) via the logarithm link function.
 Hence, the model parameter is now $\beta_0$.
 
@@ -198,7 +198,7 @@ rejected at all.
 
 * Implement the M-H algorithm for this model.
 
-* Compute the posterior mean and variance of $\beta_0$ and $\theta$.
+* Compute the posterior mean and variance of $\beta_0$ and $\lambda$.
 
 * Compare the results obtained now with those obtained with the I-S algorithm.
 

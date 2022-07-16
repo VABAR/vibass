@@ -101,8 +101,8 @@ beta_0_sim_mean <- 0
 beta_0_sim <- rnorm(n_simulations,beta_0_sim_mean,sqrt(1/0.1))
 
 # Log-Likelihood (for each value of theta_sim/beta_0_sim)
-loglik_binom <- sapply(beta_0_sim, function(ALPHA) {
-  theta_sim <- plogis(ALPHA)
+loglik_binom <- sapply(beta_0_sim, function(BETA0) {
+  theta_sim <- plogis(BETA0)
   sum(dbinom(data$red, data$MMs, theta_sim, log = TRUE))
 })
 
@@ -273,8 +273,8 @@ a page of a book of Game of Thrones. The model can be stated as:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Po(\theta)\\
-\theta & \sim & Ga(0.01, 0.01)
+y_i \mid \lambda & \sim & Po(\lambda)\\
+\lambda & \sim & Ga(0.01, 0.01)
 \end{array}
 $$
 
@@ -301,14 +301,14 @@ The current model can be expressed as a generalized linear model as follows:
 
 $$
 \begin{array}{rcl}
-y_i & \sim & Po(\theta)\\
-\log(\theta) & = & \beta_0\\
+y_i \mid \lambda& \sim & Po(\lambda)\\
+\log(\lambda) & = & \beta_0\\
 \beta_0 & \sim & N(0, \tau_{\beta_0} = 0.001)
 \end{array}
 $$
 
 
-Note that now the model parameter $\theta$ is linked to a
+Note that now the model parameter $\lambda$ is linked to a
 linear predictor ($\beta_0$ in this case) via the logarithm link function.
 Hence, the model parameter is now $\beta_0$.
 
@@ -336,10 +336,10 @@ beta_0_sim_mean <- 0
 #beta_0_sim_mean <- 3.25
 beta_0_sim <- rnorm(n_simulations,beta_0_sim_mean,sqrt(1/0.1))
 
-# Log-Likelihood (for each value of theta_sim/beta_0_sim)
-loglik_pois <- sapply(beta_0_sim, function(ALPHA) {
-  theta_sim <- exp(ALPHA)
-  sum(dpois(y, theta_sim, log = TRUE))
+# Log-Likelihood (for each value of lambda_sim/beta_0_sim)
+loglik_pois <- sapply(beta_0_sim, function(BETA0) {
+  lambda_sim <- exp(BETA0)
+  sum(dpois(y, lambda_sim, log = TRUE))
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
@@ -366,13 +366,13 @@ post_mean
 post_var <- sum(beta_0_sim^2 * ww)- post_mean^2
 post_var
 
-# Posterior mean - on theta
-theta_sim <- exp(beta_0_sim)
-post_mean <- sum(theta_sim * ww)
+# Posterior mean - on lambda 
+lambda_sim <- exp(beta_0_sim)
+post_mean <- sum(lambda_sim * ww)
 post_mean
 
-# Posterior variance - on theta
-post_var <- sum(theta_sim^2 * ww)- post_mean^2
+# Posterior variance - on lambda
+post_var <- sum(lambda_sim^2 * ww)- post_mean^2
 post_var
 ```
 
@@ -418,8 +418,8 @@ logprior <- function(beta_0) {
 
 #LogLikelihood
 loglik <- function(y,beta_0) {
-  theta_sim <- exp(beta_0)
-  sum(dpois(y, theta_sim, log = TRUE))
+  lambda_sim <- exp(beta_0)
+  sum(dpois(y, lambda_sim, log = TRUE))
 }
 ```
 
@@ -452,7 +452,7 @@ for(i in 2:n.iter) {
 }
 ```
 
-* Compute the posterior mean and variance of $\beta_0$ and $\theta$.
+* Compute the posterior mean and variance of $\beta_0$ and $\lambda$.
 
 ```{r}
 #Remove burn-in
@@ -464,11 +464,11 @@ beta_0 <- beta_0[seq(1, length(beta_0), by = 10)]
 #Summary statistics
 summary(beta_0)
 
-#Summary statistics - on theta
-theta <- exp(beta_0)
-summary(theta)
+#Summary statistics - on lambda
+lambda <- exp(beta_0)
+summary(lambda)
 #Variance of estimate?
-var(theta)
+var(lambda)
 
 par(mfrow = c(2, 2))
 #Alpha
@@ -477,13 +477,13 @@ plot(beta_0, type = "l", main = "MCMC samples",
 plot(density(beta_0), main = "Posterior density",
   xlab = expression(beta_0))
 #Theta
-plot(theta, type = "l", main = "MCMC samples",
-  ylab = expression(theta))
-plot(density(theta), main = "Posterior density",
-  xlab = expression(theta))
+plot(lambda, type = "l", main = "MCMC samples",
+  ylab = expression(lambda))
+plot(density(lambda), main = "Posterior density",
+  xlab = expression(lambda))
 ```
 
 * Compare the results obtained now with those obtained with the I-S algorithm.
 
-Again similar for this simple example. The variance of the estimate for $\theta$ is a little larger, perhaps because the M-H has explored the posterior distribution more efficiently.
+Again similar for this simple example. The variance of the estimate for $\lambda$ is a little larger, perhaps because the M-H has explored the posterior distribution more efficiently.
 
