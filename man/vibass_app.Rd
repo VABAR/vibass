@@ -4,10 +4,11 @@
 \alias{vibass_app}
 \title{VIBASS interactive apps.}
 \usage{
-vibass_app(x = 1)
+vibass_app(x = NULL)
 }
 \arguments{
-\item{x}{integer or character interpretable as integer. 1--3. Practical id.}
+\item{x}{integer or character interpretable as integer. See
+[get_available_apps()] for valid options.}
 }
 \description{
 Launches the Shiny interactive applications for the practicals.
