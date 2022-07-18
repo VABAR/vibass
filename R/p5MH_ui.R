@@ -16,7 +16,7 @@ p5MH_ui <- function(request) {
           strong("Prior"),
           style = paste0(
             "color:",
-            cols[cols$target == "prior", "hex"]
+            cols2MH[cols2MH$target == "prior", "hex"]
           )
         ),
         "$$\\theta \\sim \\text{Be}(\\alpha_0,\\, \\beta_0)$$",
@@ -33,7 +33,7 @@ p5MH_ui <- function(request) {
           strong("Likelihood"),
           style = paste0(
             "color:",
-            cols[cols$target == "likelihood", "hex"]
+            cols2MH[cols2MH$target == "likelihood", "hex"]
           )
         ),
         "$$L(\\theta \\mid \\mathcal D) = \\Pi_{i=1}^3 P(Y=r_i \\mid \\theta,\\, n_i)$$",
@@ -52,7 +52,7 @@ p5MH_ui <- function(request) {
           strong("Posterior"),
           style = paste0(
             "color:",
-            cols[cols$target == "posterior", "hex"]
+            cols2MH[cols2MH$target == "posterior", "hex"]
           )
         ),
         "$$\\theta \\mid r \\sim \\text{Be}(\\alpha_0 + \\sum_{i=1}^3 r_i,\\, \\beta_0 + \\sum_{i=1}^3 (n_i - r_i))$$",
@@ -69,12 +69,12 @@ p5MH_ui <- function(request) {
           strong("Proposal distribution"),
           style = paste0(
             "color:",
-            cols[cols$target == "predictive", "hex"]
+            cols2MH[cols2MH$target == "posterior_MH", "hex"]
           )
         ),
         "$$\\theta \\sim \\text{Be}(\\alpha_0^{'}\\, \\beta^{'}_0 )$$",
         br(),
-        "This distribution will be used to obtain values of $\\theta$.",
+        "This distribution will be used to propose new values of $\\theta$.",
         br(),
         "Note that these values can be accepted or rejected. Check ",
         strong("% accepted"), " in the summary table for the proportion of accepted values."
