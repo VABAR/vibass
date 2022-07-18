@@ -17,7 +17,9 @@ values <-  reactiveValues(theta_sim = NA, accepted = NA, density = NA, LL = NA,
 
 # Add colours
 #cols <- rbind(cols, c("IS posterior", "black", "#000000"))
-cols2 <- rbind(cols, c("m-h posterior", "black", "#000000"))
+cols2MH <- cols
+cols2MH[4, ] <- c("posterior_MH", "firebrick1", "#FF3030")
+
 
 
 
@@ -117,7 +119,7 @@ p5MH_server <- function(input, output, session) {
   plot_style <- list(
     # labs(x = expression(theta), y = NULL, color = NULL),
     scale_color_manual(
-      values = setNames(cols2$name, cols2$target)
+      values = setNames(cols2MH$name, cols2MH$target)
     ),
     theme_minimal(),
     theme(
@@ -184,7 +186,7 @@ p5MH_server <- function(input, output, session) {
         prior = dbeta(.data$x, input$a0, input$b0),
         likelihood = dbeta(.data$x, 1 + sum(data$red), 1 + sum(data$MMs) - sum(data$red)),
         posterior = dbeta(.data$x, input$a0 + sum(data$red), input$b0 + sum(data$MMs) - sum(data$red)),
-        "m-h posterior" = values$density$y
+        "posterior_MH" = values$density$y
       ) %>%
       pivot_longer(
         cols = -.data$x,
