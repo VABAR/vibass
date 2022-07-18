@@ -132,7 +132,7 @@ p5MH_server <- function(input, output, session) {
   dist_summaries <- reactive({
     MH()
     tibble(
-      "-" = c("Prior", "Posterior", Posterior (M-H)")
+      "-" = c("Prior", "Posterior", "Posterior (M-H)")
       ,
       Mean = c(
         mean_beta(input$a0, input$b0),
