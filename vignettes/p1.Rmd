@@ -157,7 +157,7 @@ For those of us who physically have the bag of M$\&$M's, the most appropriate ex
 In case you are online or you don't want to carry out the experiment physically you can use the following result of the experiment:
 
 ```{r}
-data <- data.frame(MMs = 20, red = 4) 
+mm_sample <- data.frame(n = 20, r = 4) 
 ```
 
 
@@ -257,8 +257,8 @@ $$L(\theta \mid \mathcal D_1) = \binom{20}{4}\, \theta^4\,(1- \theta)^{16},$$
 
 
 ```{r, fig.align='center', out.width="60%"}
-r <- 4
-n <- 20
+r <- mm_sample$r
+n <- mm_sample$n
 curve(
   choose(n, r) * x^r * (1 - x)^(n - r),
   col = "darkorange", lwd = 4,
@@ -280,14 +280,15 @@ whose graphic is
 
 ```{r, fig.align='center', out.width="60%"}
 curve(
-  dbeta(x, 4.5, 16.5),
+  dbeta(x, mm_sample$r + 0.5, mm_sample$n - mm_sample$r + 0.5),
   col = "darkgreen", lwd = 4,
   xlim = c(0, 1), ylim = c(0, 5), 
   xlab = expression(paste("Proportion of red candies ", theta)),
   ylab = 'posterior'
 )
 ```
-The posterior mean and posterior standard deviation of  the proportion of red candies is
+The posterior mean and posterior standard deviation of the proportion of red
+candies is
 
 $$\mathbb{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mathbb{SD}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.$$
 A 95$\%$ credible interval for $\theta$ is 
@@ -393,7 +394,7 @@ Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from
 ```{r, fig.align='center', out.width="60%"}
 library(extraDistr)
 curve(
-  dbbinom(x, 10, 4.5, 16.5),
+  dbbinom(x, size = 10, mm_sample$r + 0.5, mm_sample$n - mm_sample$r + 0.5),
   col = "purple", lwd = 4, type = 'h', n = 11,
   xlim = c(0, 10), ylim = c(0, 0.4), 
   xlab = expression(paste("Number of red candies")),
