@@ -17,7 +17,8 @@ values <-  reactiveValues(theta_sim = NA, ww = NA, density = NA, LL = NA,
 
 # Add colours
 #cols <- rbind(cols, c("IS posterior", "black", "#000000"))
-cols2 <- rbind(cols, c("is posterior", "black", "#000000"))
+cols2IS <- cols
+cols2IS[4, ] <- c("posterior_IS", "firebrick1", "#FF3030")
 
 p5IS_server <- function(input, output, session) {
 
@@ -62,7 +63,7 @@ p5IS_server <- function(input, output, session) {
   plot_style <- list(
     # labs(x = expression(theta), y = NULL, color = NULL),
     scale_color_manual(
-      values = setNames(cols2$name, cols2$target)
+      values = setNames(cols2IS$name, cols2IS$target)
     ),
     theme_minimal(),
     theme(
@@ -75,7 +76,7 @@ p5IS_server <- function(input, output, session) {
   dist_summaries <- reactive({
     IS()
     tibble(
-      "-" = c("Prior", "Posterior", "IS posterior")
+      "-" = c("Prior", "Posterior", "Posterior (IS)")
       ,
       Mean = c(
         mean_beta(input$a0, input$b0),
@@ -129,7 +130,7 @@ p5IS_server <- function(input, output, session) {
         prior = dbeta(.data$x, input$a0, input$b0),
         likelihood = dbeta(.data$x, 1 + sum(data$red), 1 + sum(data$MMs - data$red)),
         posterior = dbeta(.data$x, input$a0 + sum(data$red), input$b0 + sum(data$MMs - data$red)),
-        "is posterior" = values$density$y
+        posterior_IS = values$density$y
       ) %>%
       pivot_longer(
         cols = -.data$x,

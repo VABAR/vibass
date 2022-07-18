@@ -16,7 +16,7 @@ p5IS_ui <- function(request) {
           strong("Prior"),
           style = paste0(
             "color:",
-            cols[cols$target == "prior", "hex"]
+            cols2IS[cols2IS$target == "prior", "hex"]
           )
         ),
         "$$\\theta \\sim \\text{Be}(\\alpha_0,\\, \\beta_0)$$",
@@ -33,7 +33,7 @@ p5IS_ui <- function(request) {
           strong("Likelihood"),
           style = paste0(
             "color:",
-            cols[cols$target == "likelihood", "hex"]
+            cols2IS[cols2IS$target == "likelihood", "hex"]
           )
         ),
         "$$L(\\theta \\mid \\mathcal D) = \\Pi_{i=1}^3 P(Y=r_i \\mid \\theta,\\, n_i)$$",
@@ -52,7 +52,7 @@ p5IS_ui <- function(request) {
           strong("Posterior"),
           style = paste0(
             "color:",
-            cols[cols$target == "posterior", "hex"]
+            cols2IS[cols2IS$target == "posterior", "hex"]
           )
         ),
         "$$\\theta \\mid r \\sim \\text{Be}(\\alpha_0 + \\sum_{i=1}^3 r_i,\\, \\beta_0 + \\sum_{i=1}^3 (n_i - r_i))$$",
@@ -69,7 +69,7 @@ p5IS_ui <- function(request) {
           strong("Sampling distribution"),
           style = paste0(
             "color:",
-            cols[cols$target == "predictive", "hex"]
+            cols2IS[cols2IS$target == "posterior_IS", "hex"]
           )
         ),
         "$$\\theta \\sim \\text{Be}(\\alpha_0^{'}\\, \\beta^{'}_0 )$$",
