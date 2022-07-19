@@ -353,29 +353,13 @@ y_i &amp; \sim &amp; N(\mu_i, \tau)\\
 <span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fl">1.71</span>, <span class="fl">10</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fl">10</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">3</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fl">1.25</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span></span>
 <span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span></span>
-<span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="va">ww</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span>
-<span><span class="va">lmfit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">height</span> <span class="op">~</span> <span class="va">gender</span>,data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lmfit</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; lm(formula = height ~ gender, data = data)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residuals:</span></span>
-<span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
-<span><span class="co">#&gt; -0.11571 -0.05571 -0.01000  0.05429  0.15429 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Coefficients:</span></span>
-<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; (Intercept)  1.76571    0.01878  94.012  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; gender      -0.10571    0.02612  -4.048  0.00039 ***</span></span>
-<span><span class="co">#&gt; ---</span></span>
-<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residual standard error: 0.07028 on 27 degrees of freedom</span></span>
-<span><span class="co">#&gt; Multiple R-squared:  0.3777, Adjusted R-squared:  0.3546 </span></span>
-<span><span class="co">#&gt; F-statistic: 16.39 on 1 and 27 DF,  p-value: 0.0003897</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">ww</span>, xlab <span class="op">=</span> <span class="st">"Importance weights"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="va">ww</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<p>To compare with the Bayesian estimates we can fit a linear model using the <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function:</p>
+<p>{r} # Fit standard linear model for comparison lmfit &lt;- lm(height ~ gender,data = data) summary(lmfit)</p>
+<pre><code>
+
+```r
+hist(ww, xlab = "Importance weights")</code></pre>
 <p><img src="p6_solutions_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <ul>
 <li>Compute estimates of the posterior mean and variance of the three model parameters.</li>
