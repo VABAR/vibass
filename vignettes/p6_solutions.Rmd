@@ -346,6 +346,12 @@ log_ww <- log_ww - dnorm(theta_sim[, 1], 1.71, 10, log = TRUE) - dnorm(theta_sim
 log_ww <- log_ww - max(log_ww)
 ww <- exp(log_ww)
 ww <- ww / sum(ww)
+```
+
+To compare with the Bayesian estimates we can fit a linear model using the `lm()` function:
+
+{r}
+# Fit standard linear model for comparison 
 lmfit <- lm(height ~ gender,data = data)
 summary(lmfit)
 ```
