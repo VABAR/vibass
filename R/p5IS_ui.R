@@ -72,7 +72,7 @@ p5IS_ui <- function(request) {
             cols2IS[cols2IS$target == "posterior_IS", "hex"]
           )
         ),
-        "$$\\theta \\sim \\text{Be}(\\alpha_0^{'}\\, \\beta^{'}_0 )$$",
+        "$$\\theta \\sim \\text{Be}(\\alpha_0^{'},\\, \\beta^{'}_0 )$$",
         br(),
         "This distribution will be used to obtain values of $\\theta$.",
         br(),

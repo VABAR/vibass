@@ -72,7 +72,7 @@ p5MH_ui <- function(request) {
             cols2MH[cols2MH$target == "posterior_MH", "hex"]
           )
         ),
-        "$$\\theta \\sim \\text{Be}(\\alpha_0^{'}\\, \\beta^{'}_0 )$$",
+        "$$\\theta \\sim \\text{Be}(\\alpha_0^{'},\\, \\beta^{'}_0 )$$",
         br(),
         "This distribution will be used to propose new values of $\\theta$.",
         br(),
