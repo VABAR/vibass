@@ -320,7 +320,20 @@ $$
 
 * Compute the effective sample size for the previous example.
 How is this related to the number of IS samples (`n_simulations`)?
- 
+
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    ESS <- function(ww){
+      (sum(ww)^2)/sum(ww^2)
+    }
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
+
+
 * Use a different sampling distribution and check how sampling weights, ESS and
 point estimates differ from those in the current example. For
 example, a $\text{Be}(20,\, 10)$ will put more mass on high values of $\theta$, unlike
@@ -328,14 +341,94 @@ the actual posterior distribution. What differences do you find with
 the example presented here using a uniform sampling distribution? Why
 do you think that these differences appear?
 
+
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    n_simulations <- 10000
+    set.seed(12)
+    theta_sim <- rbeta(n_simulations, 20, 10)
+    loglik_binom <- sapply(theta_sim, function(THETA) {
+      sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
+    })
+    log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - dbeta(theta_sim, 20, 10, log = TRUE)
+    log_ww <- log_ww - max(log_ww)
+    ww <- exp(log_ww)
+    ww <- ww / sum(ww)
+    ```
+    
+    ```{r fig = TRUE}
+    hist(ww, xlab = "Importance weights")
+    ```
+    
+    ```{r}
+    (post_mean <- sum(theta_sim * ww))
+    (post_var <- sum(theta_sim^2 * ww)- post_mean^2)
+    ```
+    
+    ```{r fig = TRUE}
+    plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
+    curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+    ```
+    
+    ```{r}
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
+
+
+
 ### Sampling from the actual posterior
 
 Use the posterior distribution (which for this particular case is known in a
 closed form) as the sampling distribution.
 
 * What is the distribution of the importance weights now?
+    
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    n_simulations <- 10000
+    set.seed(12)
+    theta_sim <- rbeta(n_simulations, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1)
+    loglik_binom <- sapply(theta_sim, function(THETA) {
+      sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
+    })
+    log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - dbeta(theta_sim, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1, log = TRUE)
+    log_ww <- log_ww - max(log_ww)
+    ww <- exp(log_ww)
+    ww <- ww / sum(ww)
+    ```
+    
+    ```{r fig = TRUE}
+    hist(ww, xlab = "Importance weights")
+    ```
+    
+    ```{r}
+    (post_mean <- sum(theta_sim * ww))
+    (post_var <- sum(theta_sim^2 * ww)- post_mean^2)
+    ```
+    
+    ```{r fig = TRUE}
+    plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
+    curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+    ```
+    
+    </details>
+
 
 * Compute the effective sample size. How large is it? Why do you think this happens?
+    
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
 
 
 ### Non-conjugate prior
@@ -573,6 +666,15 @@ now assess the impact of the sampling distribution on the inference process.
 * Compute the effective sample size for the previous example.
 How is this related to the number of IS samples (`n_simulations`)?
 
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
+
 
 * Use a different sampling distribution and check how sampling weights, ESS and
 point estimates differ from those in the current example. For example, a
@@ -580,15 +682,96 @@ $\text{Ga}(5,\, 0.1)$ will put a higher mass on values around $40$, unlike the
 actual posterior distribution. What differences do you find with the example
 presented here using a uniform sampling distribution? Why do you think that
 these differences appear?
+    
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    n_simulations <- 10000
+    set.seed(12)
+    lambda_sim <- rgamma(n_simulations,5,0.1)
+    loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
+      sum(dpois(data$Us, LAMBDA, log = TRUE))
+    })
+    log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, 5, 0.1, log=TRUE)
+    log_ww <- log_ww - max(log_ww)
+    ww <- exp(log_ww)
+    ww <- ww / sum(ww)
+    ```
+    
+    ```{r fig = TRUE}
+    hist(ww, xlab = "Importance weights")
+    ```
+    
+    ```{r}
+    post_mean <- sum(lambda_sim * ww)
+    post_mean
+    post_var <- sum(lambda_sim^2 * ww)- post_mean^2
+    post_var
+    ```
+    
+    ```{r fig = TRUE}
+    plot(density(lambda_sim, weights = ww, bw = 0.5), main = "Posterior density")
+    curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+    ```
+    
+    ```{r}
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
+
 
 ### Sampling from the actual posterior
 
 Use the posterior distribution (which for this particular case is known in a
 closed form) as the sampling distribution.
 
-  * How large are the weights now?
+* What is the distribution of the importance weights now?
+    
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    n_simulations <- 10000
+    set.seed(12)
+    lambda_sim <- rgamma(n_simulations, sum(data$Us) + 0.01, length(data$Us) + 0.01)
+    loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
+      sum(dpois(data$Us, LAMBDA, log = TRUE))
+    })
+    log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, sum(data$Us) + 0.01, length(data$Us) + 0.01, log=TRUE)
+    log_ww <- log_ww - max(log_ww)
+    ww <- exp(log_ww)
+    ww <- ww / sum(ww)
+    ```
+    
+    ```{r fig = TRUE}
+    hist(ww, xlab = "Importance weights")
+    ```
+    
+    ```{r}
+    (post_mean <- sum(lambda_sim * ww))
+    (post_var <- sum(lambda_sim^2 * ww)- post_mean^2)
+    ```
+    
+    ```{r fig = TRUE}
+    plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density")
+    curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+    ```
+    
+    </details>
 
-  * Compute the effective sample size. How large is it? Why do you think this happens?
+
+* Compute the effective sample size. How large is it? Why do you think this happens?
+
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
+
 
 
 ### Non-conjugate prior
