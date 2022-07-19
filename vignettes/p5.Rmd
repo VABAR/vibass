@@ -34,7 +34,7 @@ from the posterior distribution when the normalizing constant is not known
 because
 
 $$
-\pi(\theta \mid \mathcal{D}) \propto f(\mathcal{D} \mid \theta) \pi(\theta) ,
+\pi(\theta \mid \mathcal{D}) \propto f(\mathcal{D} \mid \theta) \pi(\theta),
 $$
 where $\mathcal{D}$ represents the observed data, $f(\mathcal{D} \mid \theta)$
 the likelihood function and $\pi(\theta)$ the prior distribution on $\theta$.
@@ -44,7 +44,7 @@ are $n$ samples from that distribution, then the importance weights are
 
 $$
 w_m = \frac{\pi(\theta^{(m)} \mid \mathcal{D})}{g(\theta^{(m)})} \propto 
-  \frac{f(\mathcal{D} \mid \theta^{(m)}) \pi(\theta^{(m)})}{g(\theta^{(m)})} .
+  \frac{f(\mathcal{D} \mid \theta^{(m)})\, \pi(\theta^{(m)})}{g(\theta^{(m)})} .
 $$
 \noindent
 When the normalizing constant in the posterior distribution is not known, the importance 
@@ -53,15 +53,15 @@ weights are re-scaled to sum to one.
 Hence, the posterior mean can be computed as
 
 $$
-\mu = \int \theta \pi(\theta \mid \mathcal{D}) d\theta
-  \simeq \sum_{m=1}^n \theta^{(m)} w_m = \hat{\mu}.
+\mu = \int \theta\, \pi(\theta \mid \mathcal{D}) \mathop{d\theta}
+  \simeq \sum_{m=1}^n \theta^{(m)}\, w_m = \hat{\mu}.
 $$
 \noindent
 Similarly, the posterior variance can be computed as
 
 $$
-\sigma^2 = \int (\theta - \mu)^2 \pi(\theta \mid \mathcal{D}) d\theta
-  \simeq \sum_{m=1}^n (\theta^{(m)})^2 w_m - (\hat{\mu})^2 .
+\sigma^2 = \int (\theta - \mu)^2\, \pi(\theta \mid \mathcal{D}) \mathop{d\theta}
+  \simeq \sum_{m=1}^n (\theta^{(m)})^2\, w_m - \hat{\mu}^2 .
 $$
 
 
@@ -82,21 +82,21 @@ current iteration.
 Hence, in order to code the M-H algorithm for a set of parameters $\theta$ we need to define:
 
 * A function to draw observations from the proposal distribution, given
-its current state. This will be denoted by $q(\cdot|\cdot)$, so that
+its current state. This will be denoted by $q(\cdot\mid\cdot)$, so that
 the density of a new proposal $\theta^*$ given a current state 
-$\theta^{(i)}$ is given by $q(\theta^*|\theta^{(i)})$.
+$\theta^{(i)}$ is given by $q(\theta^*\mid\theta^{(i)})$.
 
 From the Bayesian model, we already know:
 
 * A prior distribution on the parameters of interest, i.e., $\pi(\theta)$.
 
-* The likelihood of the data $\mathcal{D}$ given $\theta$, i.e, $f(\mathcal{D}|\theta)$.
+* The likelihood of the data $\mathcal{D}$ given $\theta$, i.e, $f(\mathcal{D}\mid\theta)$.
 
-At step $i$, a new value is drawn from $q(\cdot|\theta^{(i)})$ and it
+At step $i$, a new value is drawn from $q(\cdot\mid\theta^{(i)})$ and it
 is accepted with probability:
 
 $$
-\alpha = \min\left\{1, \frac{f(\mathcal{D}|\theta^*)\pi(\theta^{*})q(\theta^{(i)}|\theta^{*})}{f(\mathcal{D}|\theta^{(i)})\pi(\theta^{(i)})q(\theta^{*}|\theta^{(i)})}\right\}
+\alpha = \min\left\{1, \frac{f(\mathcal{D}\mid\theta^*)\,\pi(\theta^{*})\,q(\theta^{(i)}\mid\theta^{*})}{f(\mathcal{D}\mid\theta^{(i)})\,\pi(\theta^{(i)})\,q(\theta^{*}\mid\theta^{(i)})}\right\}
 $$
 
 
@@ -117,8 +117,8 @@ The model can be stated as follows:
 
 $$
 \begin{array}{rcl}
-y_i \mid \theta & \sim & Bi(n_i, \theta)\\
-\theta & \sim & Be(\alpha, \beta)
+y_i \mid \theta & \sim & \text{Bi}(n_i,\, \theta)\\
+\theta & \sim & \text{Be}(\alpha,\, \beta)
 \end{array}
 $$
 to allow for multiple tubes $i$.
@@ -159,7 +159,7 @@ loglik_binom <- sapply(theta_sim, function(THETA) {
   sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
 })
 
-# Log-weights: log-lik + log-prior - log-sampling_ditr
+# Log-weights: log-lik + log-prior - log-sampling_distr
 log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - log(1)
 
 # Re-scale weights to sum up to one
@@ -204,6 +204,15 @@ curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, ad
 Note that the value of the bandwidth used (argument `bw`) has been set manually
 so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.
 
+Similarly, a sample from the posterior distribution can be obtained by 
+resampling the original values of theta with their corresponding weights.
+
+```{r}
+post_theta_sim <- sample(theta_sim, prob = ww, replace = TRUE)
+hist(post_theta_sim, freq = FALSE)
+curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+```
+
 
 ## Metropolis-Hastings
 
@@ -217,22 +226,22 @@ First of all, we will define the proposal distribution, prior
 and likelihood of the model:
 
 ```{r}
-#Proposal distribution: sampling
+# Proposal distribution: sampling
 rq <- function() {
   runif(1)
 }
 
-#Proposal distribution: log-density
+# Proposal distribution: log-density
 logdq <- function(x) {
   dunif(x, log = TRUE)
 }
 
-#Prior distribution: Beta(1, 1)
+# Prior distribution: Beta(1, 1), log-density
 logprior <- function(theta) {
   dbeta(theta, 1, 1, log = TRUE)
 }
 
-#Log-Likelihood
+# Log-Likelihood
 loglik <- function(y, theta, N) {
    res <- sum(dbinom(y, N, theta, log = TRUE)) 
 }
@@ -240,36 +249,36 @@ loglik <- function(y, theta, N) {
 
 Note that all densities and the likelihood are computed on the log-scale.
 
-Next, the implementation of the M-H algorithms is as follows:
+Next, an implementation of the M-H algorithms is as follows:
 
 ```{r}
-#Number of iterations
+# Number of iterations
 n.iter <- 40500
 
-#Simulations of the parameter
+# Simulations of the parameter
 theta <- rep(NA, n.iter)
 
-#Initial value
+# Initial value
 theta[1] <- 0.5
 
-#Data
+# Data
 y <- data$red
 N <- data$MMs
 
 for(i in 2:n.iter) {
   new.theta <- rq()
 
-  #Log-Acceptance probability
+  # Log-Acceptance probability
   logacc.prob <- loglik(y, new.theta, N) + logprior(new.theta) + logdq(theta[i - 1])
   logacc.prob <- logacc.prob - loglik(y, theta[i - 1], N) - logprior(theta[i - 1]) - 
     logdq(new.theta)
   logacc.prob <- min(0, logacc.prob) # Note that 0 = log(1)
 
   if(log(runif(1)) < logacc.prob) {
-    #Accept
+    # Accept
     theta[i] <- new.theta
   } else {
-    #Reject
+    # Reject
     theta[i] <- theta[i - 1]
   }
 }
@@ -278,16 +287,16 @@ for(i in 2:n.iter) {
 
 We will remove the first 500 iterations as burn-in, and thin the simulations
 to keep one in 10 to reduce autocorrelation. After that,  we will compute summary statistics
-and display a density of the simulations:
+and display a density of the simulations.
 
 ```{r}
-#Remove burn-in
+# Remove burn-in
 theta <- theta[-c(1:500)]
 
-#Thinning
+# Thinning
 theta <- theta[seq(1, length(theta), by = 10)]
 
-#Summary statistics
+# Summary statistics
 summary(theta)
 
 par(mfrow = c(1, 2))
@@ -306,27 +315,27 @@ a sampling distribution is, it is possible to compute the
 *effective* sample size as follows:
 
 $$
-ESS = \frac{(\sum_{m=1}^n w_m)^2}{\sum_{m=1}^n w^2_m}.
+\text{ESS} = \frac{(\sum_{m=1}^n w_m)^2}{\sum_{m=1}^n w^2_m}.
 $$
 
 * Compute the effective sample size for the previous example.
 How is this related to the number of IS samples (`n_simulations`)?
-
+ 
 * Use a different sampling distribution and check how sampling weights, ESS and
 point estimates differ from those in the current example. For
-example, a Beta(20, 10) will put more mass on high values of $\theta$, unlike
+example, a $\text{Be}(20,\, 10)$ will put more mass on high values of $\theta$, unlike
 the actual posterior distribution. What differences do you find with
 the example presented here using a uniform sampling distribution? Why
 do you think that these differences appear?
 
 ### Sampling from the actual posterior
 
-Use the posterior distribution (which for
-this particular case is known in a closed form) as the sampling distribution.
+Use the posterior distribution (which for this particular case is known in a
+closed form) as the sampling distribution.
 
-  * What is the distribution of the importance weights now?
+* What is the distribution of the importance weights now?
 
-  * Compute the effective sample size. How large is it? Why do you think this happens?
+* Compute the effective sample size. How large is it? Why do you think this happens?
 
 
 ### Non-conjugate prior
@@ -338,21 +347,19 @@ As an exercise, try to obtain the posterior density of the same
 model with the following non-conjugate prior:
 
 $$
-\pi(\theta) \propto (1-\theta)^2;\ \theta\in[0,1].
+\pi(\theta) \propto (1-\theta)^2,\quad \theta\in[0,1].
 $$
 
 This prior has the following shape:
 
 ```{r}
-xx <- seq(0, 1, by = 0.01)
-plot(xx, (1 - xx)^2, type = "l", xlab = expression(theta),
-  ylab = expression(theta^2))
+curve((1-x)^2, xlab = expression(theta), ylab = NA, yaxt = 'n', bty = 'n')
 ```
 
-The interpretation of this prior is that higher values are favoured over smaller values, i.e., our prior information is that the parameter is more
+The interpretation of this prior is that smaller values are favoured over higher values, i.e., our prior information is that the parameter is more
 likely to have values close to 0 than values close to 1.
 
-Note that the prior is specified up to a normalizing constant (which in
+Note that the prior is specified up to a normalising constant (which in
 this case is not difficult to compute). However, this constant is not
 needed to implement both IS and M-H. In the case of IS, the constant will
 cancel when the weights are re-scaled to sum to one and in the case of
@@ -368,13 +375,13 @@ a page of a book of Game of Thrones. The model can be stated as:
 
 $$
 \begin{array}{rcl}
-y_i \mid \lambda & \sim & Po(\lambda)\\
-\lambda & \sim & Ga(\alpha, \beta)
+y_i \mid \lambda & \sim & \text{Po}(\lambda)\\
+\lambda & \sim & \text{Ga}(\alpha,\, \beta)
 \end{array}
 $$
 
 In particular, the prior on $\lambda$ will be a Gamma distribution with parameters
-$0.01$ and $0.01$, which is centered at 1 and has a small precision (i.e.,
+$0.01$ and $0.01$, which is centred at 1 and has a small precision (i.e.,
 large variance).
 
 
@@ -389,13 +396,13 @@ y <- data$Us
 
 ## Importance sampling
 
-Now the parameter of interest is not bounded, so the sampling distribution
-needs to be chosen with care. We will use a log-Normal distribution with mean 3
-and standard deviation equal to 0.5. This will ensure that all the sampled
-values are positive (because $\lambda$ cannot take negative values) and that
-the sample values are reasonable (i.e, they are not too small or too large).
-Note that this sampling distribution has been chosen having in mind
-the problem at hand and that it may not work well with other problems.
+Now the parameter of interest is not bounded, so the sampling distribution needs
+to be chosen with care. We will use a log-Normal distribution with mean 3 and
+standard deviation equal to 0.5 in the log scale. This will ensure that all the
+sampled values are positive (because $\lambda$ cannot take negative values) and
+that the sample values are reasonable (i.e, they are not too small or too
+large). Note that this sampling distribution has been chosen having in mind the
+problem at hand and that it may not work well with other problems.
 
 
 ```{r}
@@ -436,12 +443,10 @@ The posterior mean and variance can be computed as follows:
 
 ```{r}
 # Posterior mean
-post_mean <- sum(lambda_sim * ww)
-post_mean
+(post_mean <- sum(lambda_sim * ww))
 
 # Posterior variance
-post_var <- sum(lambda_sim^2 * ww)- post_mean^2
-post_var
+(post_var <- sum(lambda_sim^2 * ww)- post_mean^2)
 ```
 
 
@@ -457,6 +462,15 @@ curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRU
 Note that the value of the bandwidth used (argument `bw`) has been set manually
 so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.
 
+Similarly, a sample from the posterior distribution can be obtained by 
+resampling the original values of theta with their corresponding weights.
+
+```{r}
+post_lambda_sim <- sample(lambda_sim, prob = ww, replace = TRUE)
+hist(post_lambda_sim, freq = FALSE)
+curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+```
+
 
 
 
@@ -464,28 +478,28 @@ so that both curves will match (as the default bandwidth provided a slightly dif
 ## Metropolis-Hastings
 
 Similarly to the previous example, we will set the proposal distribution, as
-the model has been fully defined above.  In this case, the proposal
-distribution is a log-Normal distribution centered at the logarithm of the
-current value with precision 100.
+the model has been fully defined above. 
+In this case, the proposal distribution is a log-Normal distribution centred at
+the logarithm of the current value with precision $100$.
 
 
 ```{r}
-#Proposal distribution: sampling
+# Proposal distribution: sampling
 rq <- function(lambda) {
   rlnorm(1, meanlog = log(lambda), sdlog = sqrt(1 / 100))
 }
 
-#Proposal distribution: log-density
+# Proposal distribution: log-density
 logdq <- function(new.lambda, lambda) {
   dlnorm(new.lambda, meanlog = log(lambda), sdlog = sqrt(1 / 100), log = TRUE)
 }
 
-#Prior distribution: Ga(0.01, 0.01)
+# Prior distribution: Ga(0.01, 0.01)
 logprior <- function(lambda) {
   dgamma(lambda, 0.01, 0.01, log = TRUE)
 }
 
-#LogLikelihood
+# LogLikelihood
 loglik <- function(y, lambda) {
    res <- sum(dpois(y, lambda, log = TRUE)) 
 }
@@ -496,19 +510,19 @@ With these definitions we can actually use the same implementation of the
 M-H that we have used in the previous section.
  
 ```{r}
-#Number of iterations
+# Number of iterations
 n.iter <- 40500
 
-#Simulations of the parameter
+# Simulations of the parameter
 lambda <- rep(NA, n.iter)
 
-#Initial value
+# Initial value
 lambda[1] <- 30
 
 for(i in 2:n.iter) {
   new.lambda <- rq(lambda[i - 1])
   
-  #Log-Acceptance probability
+  # Log-Acceptance probability
   logacc.prob <- loglik(y, new.lambda) + logprior(new.lambda) +
     logdq(lambda[i - 1], new.lambda)
   logacc.prob <- logacc.prob - loglik(y, lambda[i - 1]) - logprior(lambda[i - 1]) - 
@@ -516,10 +530,10 @@ for(i in 2:n.iter) {
   logacc.prob <- min(0, logacc.prob)#0 = log(1)
   
   if(log(runif(1)) < logacc.prob) {
-    #Accept
+    # Accept
     lambda[i] <- new.lambda
   } else {
-    #Reject
+    # Reject
     lambda[i] <- lambda[i - 1]
   }
 }
@@ -532,13 +546,13 @@ now:
 
 
 ```{r}
-#Remove burn-in
+# Remove burn-in
 lambda <- lambda[-c(1:500)]
 
-#Thinning
+# Thinning
 lambda <- lambda[seq(1, length(lambda), by = 10)]
 
-#Summary statistics
+# Summary statistics
 summary(lambda)
 
 par(mfrow = c(1, 2))
@@ -562,7 +576,7 @@ How is this related to the number of IS samples (`n_simulations`)?
 
 * Use a different sampling distribution and check how sampling weights, ESS and
 point estimates differ from those in the current example. For example, a
-Ga(5, 0.1) will put a higher mass on values around 40, unlike the
+$\text{Ga}(5,\, 0.1)$ will put a higher mass on values around $40$, unlike the
 actual posterior distribution. What differences do you find with the example
 presented here using a uniform sampling distribution? Why do you think that
 these differences appear?
@@ -586,8 +600,12 @@ log-Normal prior with mean 4 and standard deviation 1. This will
 provide a prior of $\lambda$ as seen in the next plot:
 
 ```{r}
-xx <- seq(0, 1000, by = 1)
-plot(xx, dlnorm(xx, 4, 1), type = "l")
+curve(
+  dlnorm(x, 4, 1),
+  xlim = c(0, 600), n = 1e3,
+  xlab = expression(lambda), ylab = NA,
+  yaxt = 'n', bty = 'n'
+)
 ```
 
 Hence, with this prior small values of the average number of u's are
