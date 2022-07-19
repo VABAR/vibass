@@ -62,13 +62,13 @@ barplot(table.udata, col="gray89", xlab="Number of letters u in a page")
 
 let $Y$ the random variable that describes the number of u's in a page of the novel *A Game of Thrones*. We consider in this practice that, given $\lambda$, the distribution of the number of u's is Poisson with parameter $\lambda$ 
 
-$$Y \mid \lambda \sim \mbox{Po}(\lambda),$$
+$$Y \mid \lambda \sim \text{Po}(\lambda),$$
  
 whose conditional probability function, expectation and variance is: 
 
-- $P(Y=y \mid \lambda)= \frac{\lambda^y\, \mbox{e}^{-\lambda}}{y!}, \,\,y=0,1,\ldots$ 
-- E$(Y\mid \lambda)= \lambda$, 
-- Var$(Y\mid \lambda)=\lambda.$
+- $P(Y=y \mid \lambda)= \frac{\lambda^y\, e^{-\lambda}}{y!}, \;y=0,1,\ldots$ 
+- $\mathbb{E}(Y\mid \lambda) = \lambda$, 
+- $\mathbb{V}(Y\mid \lambda) = \lambda.$
 
 
 
@@ -79,17 +79,17 @@ We know that this distribution is not exactly Poisson because the number of u's 
 
 Recall that the gamma distribution is conjugate with respect to the Poisson probability model. If we elicit a prior gamma distribution Ga$(\alpha_0, \beta_0)$ for $\lambda$, its density is 
 
-$$\pi(\lambda)=\frac{ \beta_0^{\alpha_0}}{\Gamma(\alpha_0) }\, \lambda^{(\alpha_0-1)}\,\mbox{e} ^{-\lambda\,\beta_0}, \,\, \lambda>0$$
+$$\pi(\lambda)=\frac{ \beta_0^{\alpha_0}}{\Gamma(\alpha_0) }\, \lambda^{(\alpha_0-1)}\, e^{-\lambda\,\beta_0}, \,\, \lambda>0$$
 with expectation and variance
 
-- E$(\lambda)=\alpha_0 / \beta_0$, 
-- Var$(\lambda)= \alpha_0 / \beta_0^2.$
+- $\mathbb{E}(\lambda)=\alpha_0 / \beta_0$, 
+- $\mathbb{V}(\lambda)= \alpha_0 / \beta_0^2.$
 
 We are going to work with two different prior distributions to learn a bit more about this Bayesian inferential process. We will work with a non-informative prior distribution (Prior 1) and with the prior distribution (Prior 2) provided by a friend of ours, Joan, who has read all of George R. R. Martin's books. 
 
 \begin{align*}
-\mbox{Prior 1: }& \pi_1(\lambda) \propto\lambda^{-1/2}\\
-\mbox{Joan, Prior 2: }& \pi_2(\lambda)=\mbox{Ga}(\alpha_0=105.8, \beta_0=4.6).
+\text{Prior 1: }& \pi_1(\lambda) \propto\lambda^{-1/2}\\
+\text{Joan, Prior 2: }& \pi_2(\lambda)=\text{Ga}(\alpha_0=105.8, \beta_0=4.6).
 \end{align*}
 
 The non-informative prior distribution is intended to be a neutral distribution that leaves the data in the spotlight. Let's try to understand what Joan's views are that he has expressed through his prior distribution. To do so, we  calculate the mean and standard deviation and graphically represent this prior. 
@@ -102,7 +102,7 @@ plot(lambda, prior2, type="l", lwd=4, col="dodgerblue", xlim=c(15,35), ylim=c(0,
 ```
 
 According to Joan, the prior expectation and variance of $\lambda$ is 
-$$\mbox{E}(\lambda)=105.8/4.6= 23, \,\,\mbox{DT}{(\lambda)}= \sqrt(105.8/4.6^2)=2.236 \,\,\mbox{letters u}$$
+$$\mathbb{E}(\lambda)=105.8/4.6= 23, \,\,\mathbb{SD}{(\lambda)}= \sqrt(105.8/4.6^2)=2.236 \,\,\text{letters u}$$
 and the prior probability that $\lambda$ is less than 20, 23, 25, 30 and 35 is:
 ```{r}
 pgamma(c(20, 23, 25, 30, 35), 105.8, 4.6)
@@ -113,12 +113,12 @@ The likelihood of $\lambda$ is a function of $\lambda$ whose construction needs 
 
 \begin{align*}
 L(\lambda \mid \mathcal D)=& P(Y_1=y_1, Y_2=y_2, \ldots, Y_n=y_n \mid \lambda)\\
-=& \prod_{i=1}^{n}\, P(Y_i=y_i \mid \lambda) = \frac{\lambda^{\sum y_i}\mbox{e}^{-n \lambda}}{\prod_{i=1}^{n}\, y_i!}
+=& \prod_{i=1}^{n}\, P(Y_i=y_i \mid \lambda) = \frac{\lambda^{\sum y_i}\, e^{-n \lambda}}{\prod_{i=1}^{n}\, y_i!}
 \end{align*}
 where $Y_i$ represents the random Poisson variable that describes the number of u's in the page $i$ and $y_i$ is observed value. In our case, we have sampled $n=25$ pages and have registered $\sum y_i= 643$ u's, and consequently, the likelihood function is
 
 \begin{align*}
-L(\lambda \mid \mathcal D)\propto & \lambda^{643}\mbox{e}^{-25 \lambda}
+L(\lambda \mid \mathcal D)\propto & \lambda^{643}\, e^{-25\, \lambda}
 \end{align*}
 
 ```{r, fig.align='center', out.width="60%"}
@@ -133,12 +133,12 @@ plot(lambda, like, type="l", lwd=4, col="darkorange",
 The posterior distribution of $\lambda$ for both priors 1 and 2 is a gamma distribution with parameters
 
 \begin{align*}
-\mbox{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(\alpha = 643+0.5= 643.5 , \beta =25 )\\
-\mbox{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\mbox{Ga}(\alpha = 643+105.8=748.8, \beta =25+4.6=29.6 )
+\text{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\text{Ga}(\alpha = 643+0.5= 643.5 , \beta =25 )\\
+\text{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\text{Ga}(\alpha = 643+105.8=748.8, \beta =25+4.6=29.6 )
 \end{align*}
 
-Next, we plot on the same graph the informative prior distribution $\mbox{Ga}(\alpha_0=105.8, \beta_0=4.6)$ from Joan (in blue) and the two posterior distributions, 
-$\pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(\alpha = 643.5, \beta =25 )$ in dark green and $\pi_2(\lambda \mid \mathcal D)=\mbox{Ga}(\alpha = 748.8, \beta =29.6)$ in light green. 
+Next, we plot on the same graph the informative prior distribution $\text{Ga}(\alpha_0=105.8, \beta_0=4.6)$ from Joan (in blue) and the two posterior distributions, 
+$\pi_1(\lambda \mid \mathcal D) =\text{Ga}(\alpha = 643.5, \beta =25 )$ in dark green and $\pi_2(\lambda \mid \mathcal D)=\text{Ga}(\alpha = 748.8, \beta =29.6)$ in light green. 
 
 ```{r, fig.align='center', out.width="60%"}
 lambda<-seq(15,35,0.01)
@@ -154,8 +154,8 @@ lines(lambda, prior2, type="l", lwd=4, col="dodgerblue")
 Interestingly, the two posterior distributions are quite similar despite the fact that the informative prior distribution is compatible with smaller lambda values than indicated by the data.
 The posterior mean and standard deviation of $\lambda$ according to each posterior distributions is
 \begin{align*}
-\mbox{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\mbox{Ga}(643.5, 25 ), \,\,\mbox{E} (\lambda \mid \mathcal D)=25.74, \,\,\mbox{DT}(\lambda \mid \mathcal D)=1.0147 \mbox{ letters u} \\
-\mbox{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\mbox{Ga}(748.8, 29.6 ), \,\,\mbox{E} (\lambda \mid \mathcal D)=25.30, \,\,\mbox{DT}(\lambda \mid \mathcal D)=0.9245 \mbox{ letters u}
+\text{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\text{Ga}(643.5, 25 ), \,\,\mathbb{E} (\lambda \mid \mathcal D)=25.74, \,\,\mathbb{SD}(\lambda \mid \mathcal D)=1.0147 \text{ letters u} \\
+\text{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\text{Ga}(748.8, 29.6 ), \,\,\mathbb{E} (\lambda \mid \mathcal D)=25.30, \,\,\mathbb{SD}(\lambda \mid \mathcal D)=0.9245 \text{ letters u}
 \end{align*}
 
 A 95$\%$ credible interval for $\lambda$ according to posteriors 1 and 2 is 
@@ -178,7 +178,7 @@ Remember that the posterior predictive distribution for the result of a new obse
 \begin{align*}
 P(Y_{n+1}&=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \frac{\Gamma(r+\alpha)}{r!}\,\frac{1}{(\beta+1)^{(r+\alpha)}}, \,r=0,1,2,\ldots, \nonumber \\
 \end{align*}
-where E$(Y_{n+1}\mid \mathcal D) = \alpha/\beta$ and Var$(Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))$.
+where $\mathbb{E}(Y_{n+1}\mid \mathcal D) = \alpha/\beta$ and $\mathbb{V}(Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))$.
 
 Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is $\text{GaPo}(643.5,\, 25, 1)$ if we work in the framework of the posterior 1 or $\text{GaPo}(748.8,\, 29.6, 1)$ if we work in the framework of the posterior 2.
 Now we represent both predictive distributions
@@ -196,8 +196,8 @@ plot(x,pred2,type="h",xlim=c(10,40),ylim=c(0,0.1),lwd=2,col="purple", ylab="prob
 The graphs of both distributions are visually almost identical. The mean and standard deviation are
 
 \begin{align*}
-\mbox{Predictive 1: }& \mbox{GaPo}(643.5, 25, 1 ), \,\, \mbox{E}(Y_{26} \mid \mathcal D)=25.74, \,\,DT(Y_{26} \mid \mathcal{D})=5.17 \mbox{ letters u}\\
-\mbox{Predictive 2: }& \mbox{GaPo}(748.8, 29.6, 1), \,\, \mbox{E}(Y_{26} \mid \mathcal D)=25.30, , \,\,DT(Y_{26} \mid \mathcal{D})=5.11 \mbox{ letters u}
+\text{Predictive 1: }& \text{GaPo}(643.5, 25, 1 ), \,\, \mathbb{E}(Y_{26} \mid \mathcal D)=25.74, \,\,SD(Y_{26} \mid \mathcal{D})=5.17 \text{ letters u}\\
+\text{Predictive 2: }& \text{GaPo}(748.8, 29.6, 1), \,\, \mathbb{E}(Y_{26} \mid \mathcal D)=25.30, , \,\,SD(Y_{26} \mid \mathcal{D})=5.11 \text{ letters u}
 \end{align*}
 
 It is important to note the large variability associated with the prediction process relative to the estimation process. This characteristic of the estimation and prediction processes is general to all inferential processes and statistical methodologies. 
@@ -212,7 +212,7 @@ We propose below an individual exercise that pursues to consolidate the basic co
 
 You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel *A Game of Thrones* and you have thought to ask her opinion about the number of u's in the novel. Her prior distribution for $\lambda$ is very different from that of your other friend Joan. It is Ga(90, 3) and we will call it prior 3.
 \begin{align*}
-\mbox{Tauriel, Prior 3: } & \pi_3(\lambda) = \mbox{Ga}(90,3) 
+\text{Tauriel, Prior 3: } & \pi_3(\lambda) = \text{Ga}(90,3) 
 \end{align*}
 
 1. How different are your two friends' opinions on $\lambda$? A good idea to answer this question would be to plot both densities and calculate the mean, standard deviation and some relevant probabilities from the subsequent prior distributions.
