@@ -194,7 +194,7 @@ logdq <- function(new.theta, theta) {
 
 #Prior distribution
 logprior <- function(theta) {
-  res <- dnorm(theta[1], 0, sd = sqrt(1 / 0.001), log = TRUE) #Mu
+  res <- dnorm(theta[1], 1.75, sd = sqrt(1 / 0.001), log = TRUE) #Mu
   res <- res + dgamma(theta[2], 0.01, 0.01, log = TRUE) #Tau
 
   return(res)
