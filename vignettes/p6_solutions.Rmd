@@ -358,14 +358,14 @@ hist(ww, xlab = "Importance weights")
 model parameters.
 
 ```{r}
-post_mean_alpha <- sum(theta_sim[, 1] * ww)
-post_mean_alpha
-post_var_alpha <- sum(theta_sim[, 1]^2 * ww)- post_mean_alpha^2
-post_var_alpha
-post_mean_beta <- sum(theta_sim[, 2] * ww)
-post_mean_beta
-post_var_beta <- sum(theta_sim[, 2]^2 * ww)- post_mean_beta^2
-post_var_beta
+post_mean_beta0 <- sum(theta_sim[, 1] * ww)
+post_mean_beta0
+post_var_beta0 <- sum(theta_sim[, 1]^2 * ww)- post_mean_beta0^2
+post_var_beta0
+post_mean_beta1 <- sum(theta_sim[, 2] * ww)
+post_mean_beta1
+post_var_beta1 <- sum(theta_sim[, 2]^2 * ww)- post_mean_beta1^2
+post_var_beta1
 post_mean_tau <- sum(theta_sim[, 3] * ww)
 post_mean_tau
 post_var_tau <- sum(theta_sim[, 3]^2 * ww)- post_mean_tau^2
@@ -401,8 +401,8 @@ above.
 rq <- function(theta) {
   res <- c(NA, NA)  
 
-  res[1] <- rnorm(1, theta[1], sd = sqrt(1 / 10)) #Sample alpha
-  res[2] <- rnorm(1, theta[2], sd = sqrt(1 / 10)) #Sample beta
+  res[1] <- rnorm(1, theta[1], sd = sqrt(1 / 10)) #Sample beta0
+  res[2] <- rnorm(1, theta[2], sd = sqrt(1 / 10)) #Sample beta1
   res[3] <- rlnorm(1, meanlog = log(theta[3]), sdlog = sqrt(1 / 10)) #Sample tau
 
   return(res)
@@ -410,16 +410,16 @@ rq <- function(theta) {
 
 #Proposal distribution: log-density
 logdq <- function(new.theta, theta) {
-  res <- dnorm(new.theta[1], theta[1], sd = sqrt(1 / 10), log = TRUE) #Alpha
-  res <- res + dnorm(new.theta[2], theta[2], sd = sqrt(1 / 10), log = TRUE) #Beta
+  res <- dnorm(new.theta[1], theta[1], sd = sqrt(1 / 10), log = TRUE) #beta0
+  res <- res + dnorm(new.theta[2], theta[2], sd = sqrt(1 / 10), log = TRUE) #beta1
   res <-  res + 
     dlnorm(new.theta[3], meanlog = log(theta[3]), sdlog = sqrt(1 / 10), log = TRUE) #Tau
 }
 
 #Prior distribution
 logprior <- function(theta) {
-  res <- dnorm(theta[1], 0, sd = sqrt(1 / 0.001), log = TRUE) #alpha
-  res <- dnorm(theta[2], 0, sd = sqrt(1 / 0.001), log = TRUE) #beta
+  res <- dnorm(theta[1], 0, sd = sqrt(1 / 0.001), log = TRUE) #beta0
+  res <- dnorm(theta[2], 0, sd = sqrt(1 / 0.001), log = TRUE) #beta1
   res <- res + dgamma(theta[3], 0.01, 0.01, log = TRUE) #Tau
 
   return(res)
@@ -479,16 +479,16 @@ theta <- do.call(rbind, theta)
 apply(theta, 2, summary)
 
 par(mfrow = c(2, 3))
-#Alpha
+#beta0
 plot(theta[, 1], type = "l", main = "MCMC samples",
-  ylab = expression(alpha))
+  ylab = expression(beta[0]))
 plot(density(theta[, 1]), main = "Posterior density",
-  xlab = expression(alpha))
-#Beta
+  xlab = expression(beta[0]))
+#beta1
 plot(theta[, 2], type = "l", main = "MCMC samples",
-  ylab = expression(beta))
+  ylab = expression(beta[1]))
 plot(density(theta[, 2]), main = "Posterior density",
-  xlab = expression(beta))
+  xlab = expression(beta[1]))
 #Precision
 plot(theta[, 3], type = "l", main = "MCMC samples", ylab = expression(tau))
 plot(density(theta[, 3]), main = "Posterior density", 
