@@ -74,7 +74,7 @@ In this example we have to make inference on two parameters, i.e.
 $\theta = (\mu, \tau)$. Hence, the sampling distribution will be a bivariate
 distribution.  In fact, we will be sampling $\mu$ and $\tau$ independently
 of each other. Values of $\mu$ will be sampled using a log-Normal
-distribution centered at 1.75 and with standard deviation 0.5, and values of
+distribution centered at 0 and with standard deviation 0.5, and values of
 $\tau$ will be proposed using a log-Normal distribution with mean 0 and
 standard deviation 1.25.
 
@@ -99,7 +99,7 @@ loglik_biv <- apply(theta_sim, 1, function(THETA) {
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_biv + dnorm(theta_sim[, 1], 1.75, sqrt(1 / 1000), log = TRUE) +
+log_ww <- loglik_biv + dnorm(theta_sim[, 1], 0, sqrt(1 / 0.001), log = TRUE) +
   dgamma(theta_sim[, 2], 0.01, 0.01, log = TRUE)
 log_ww <- log_ww - dlnorm(theta_sim[, 1], 0, 0.5, log = TRUE) - dlnorm(theta_sim[, 2], 0, 1.25, log = TRUE)
   
