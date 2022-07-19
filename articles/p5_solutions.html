@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.26</span>
       </span>
     </div>
 
@@ -451,7 +451,7 @@ y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Log-weights: log-lik + log-prior - log-sampling_distr</span></span>
-<span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_pois</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">lambda_sim</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">lambda_sim</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_pois</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">lambda_sim</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">lambda_sim</span>, <span class="fl">3</span>, <span class="fl">0.5</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Re-scale weights to sum up to one</span></span>
 <span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span></span>
@@ -466,12 +466,12 @@ y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
 <code class="sourceCode R"><span><span class="co"># Posterior mean</span></span>
 <span><span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lambda_sim</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span></span>
 <span><span class="va">post_mean</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 25.64101</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 25.71561</span></span></code></pre>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Posterior variance</span></span>
 <span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lambda_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">post_var</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 0.9941769</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 0.9987383</span></span></code></pre>
 <p>Finally, an estimate of the posterior density of the parameter can be obtained by using <em>weighted</em> kernel density estimation:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">lambda_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> , main <span class="op">=</span> <span class="st">"Posterior density"</span><span class="op">)</span></span>
@@ -562,7 +562,7 @@ y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
 </ul>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 945.0016</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 941.928</span></span></code></pre>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 10000</span></span></code></pre>
@@ -677,7 +677,7 @@ y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

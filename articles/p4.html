@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.26</span>
       </span>
     </div>
 
@@ -217,7 +217,7 @@ Some VIBASS’ participants.
 <li><span class="math inline">\(\text{Var}(\mu)= \sigma_0.\)</span></li>
 </ul>
 <p>We are going to work with a prior distribution based on the information from two of the VIBASS lecturers. This prior distribution is</p>
-<p><span class="math display">\[\pi(\mu) = \mathcal{N}(\mu_0=1.70, \sigma_0=0.07).\]</span></p>
+<p><span class="math display">\[\pi(\mu) = \mathcal{N}(\mu_0=1.70,\, \sigma_0=0.07).\]</span></p>
 <p>On the basis of this distribution these two teachers think that the mean of the height of women VIBASS participants is centred on <span class="math inline">\(1.70\)</span> m with a standard deviation of <span class="math inline">\(0.07\)</span> m. According to it, we can compute the following percentile and probabilities</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span></span>
@@ -453,14 +453,14 @@ Posterior (green) distribution for the mean height.
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span></span>
-<span><span class="co">#&gt; 0.0009563 0.0026446 0.0034052 0.0037730 0.0044732 0.0363339</span></span>
+<span><span class="co">#&gt; 0.0009603 0.0026705 0.0034262 0.0038125 0.0044983 0.0279559</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2.785373e-06</span></span>
+<span><span class="co">#&gt; [1] 2.895201e-06</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.001668944</span></span>
+<span><span class="co">#&gt; [1] 0.001701529</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        0.5%       99.5% </span></span>
-<span><span class="co">#&gt; 0.001465445 0.010958680</span></span></code></pre></div>
+<span><span class="co">#&gt; 0.001477023 0.011131003</span></span></code></pre></div>
 <p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid \mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
 </div>
 </div>
@@ -502,7 +502,7 @@ Posterior (green) distribution for the mean height.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
