@@ -144,7 +144,7 @@ y_i \mid \mu,\tau &amp; \sim &amp; N(\mu, \tau)\\
 <div class="section level3">
 <h3 id="importance-sampling">Importance sampling<a class="anchor" aria-label="anchor" href="#importance-sampling"></a>
 </h3>
-<p>In this example we have to make inference on two parameters, i.e. <span class="math inline">\(\theta = (\mu, \tau)\)</span>. Hence, the sampling distribution will be a bivariate distribution. In fact, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently of each other. Values of <span class="math inline">\(\mu\)</span> will be sampled using a log-Normal distribution centered at 0 and with standard deviation 0.5, and values of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean 0 and standard deviation 1.25.</p>
+<p>In this example we have to make inference on two parameters, i.e. <span class="math inline">\(\theta = (\mu, \tau)\)</span>. Hence, the sampling distribution will be a bivariate distribution. In fact, we will be sampling <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> independently of each other. Values of <span class="math inline">\(\mu\)</span> will be sampled using a log-Normal distribution centered at 1.75 and with standard deviation 0.5, and values of <span class="math inline">\(\tau\)</span> will be proposed using a log-Normal distribution with mean 0 and standard deviation 1.25.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># We increase the number of simulations in this example</span></span>
 <span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">40000</span></span>
@@ -161,7 +161,7 @@ y_i \mid \mu,\tau &amp; \sim &amp; N(\mu, \tau)\\
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Log-weights: log-lik + log-prior - log-sampling_distr</span></span>
-<span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_biv</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">loglik_biv</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fl">1.75</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="fl">0</span>, <span class="fl">1.25</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  </span>
@@ -179,22 +179,22 @@ y_i \mid \mu,\tau &amp; \sim &amp; N(\mu, \tau)\\
 <code class="sourceCode R"><span><span class="co"># Posterior mean (mu)</span></span>
 <span><span class="va">post_mean_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span></span>
 <span><span class="va">post_mean_mu</span></span>
-<span><span class="co">#&gt; [1] 0.1108179</span></span>
+<span><span class="co">#&gt; [1] 1.701065</span></span>
 <span></span>
 <span><span class="co"># Posterior variance (mu)</span></span>
 <span><span class="va">post_var_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean_mu</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">post_var_mu</span></span>
-<span><span class="co">#&gt; [1] 4.408344e-06</span></span>
+<span><span class="co">#&gt; [1] 0.0001628998</span></span>
 <span></span>
 <span><span class="co"># Posterior mean (tau)</span></span>
 <span><span class="va">post_mean_tau</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span></span>
 <span><span class="va">post_mean_tau</span> </span>
-<span><span class="co">#&gt; [1] 0.1557702</span></span>
+<span><span class="co">#&gt; [1] 55.14247</span></span>
 <span></span>
 <span><span class="co"># Posterior variance (tau)</span></span>
 <span><span class="va">post_var_tau</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean_tau</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">post_var_tau</span></span>
-<span><span class="co">#&gt; [1] 0.00110135</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 31.34889</span></span></code></pre></div>
 <p>Finally, an estimate of the posterior density of each parameter can be obtained by using <em>weighted</em> kernel density estimation:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
