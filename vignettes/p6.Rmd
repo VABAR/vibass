@@ -53,7 +53,7 @@ $$
 **Note that now the Normal distribution is expressed using precision rather than variance.**
 
 The parameters for the priors are as follows. For the prior on $\mu$, we will
-use a Gaussian distribution with mean $\mu_{\mu} = 0$ 
+use a Gaussian distribution with mean $\mu_{\mu} = 1.75$ 
 and precision $\tau_{\mu} = 0.001$. For the prior on $\tau$, a Gamma with
 parameters $0.01$ and $0.01$ will be used, as this provides a vague prior
 due to a small precision (and hence a large variance).
@@ -99,7 +99,7 @@ loglik_biv <- apply(theta_sim, 1, function(THETA) {
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_biv + dnorm(theta_sim[, 1], 0, sqrt(1 / 1000), log = TRUE) +
+log_ww <- loglik_biv + dnorm(theta_sim[, 1], 1.75, sqrt(1 / 1000), log = TRUE) +
   dgamma(theta_sim[, 2], 0.01, 0.01, log = TRUE)
 log_ww <- log_ww - dlnorm(theta_sim[, 1], 0, 0.5, log = TRUE) - dlnorm(theta_sim[, 2], 0, 1.25, log = TRUE)
   
