@@ -104,7 +104,7 @@ with prior mean and and variance
 We are going to work with a prior distribution based on the information from two of the VIBASS lecturers. 
 This prior distribution is 
 
-$$\pi(\mu) = \mathcal{N}(\mu_0=1.70, \sigma_0=0.07).$$
+$$\pi(\mu) = \mathcal{N}(\mu_0=1.70,\, \sigma_0=0.07).$$
 
 On the basis of this distribution these two teachers think that the mean of the height of women VIBASS participants is centred on $1.70$ m with a standard deviation of $0.07$ m.
 According to it, we can compute the following percentile and probabilities 
