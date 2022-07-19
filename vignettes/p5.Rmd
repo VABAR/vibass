@@ -415,7 +415,7 @@ loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_ditr
-log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dlnorm(lambda_sim, 3, 0.5)
+log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dlnorm(lambda_sim, 3, 0.5, log = TRUE)
 
 # Re-scale weights to sum up to one
 log_ww <- log_ww - max(log_ww)

@@ -99,9 +99,9 @@ loglik_biv <- apply(theta_sim, 1, function(THETA) {
 })
 
 # Log-weights: log-lik + log-prior - log-sampling_distr
-log_ww <- loglik_biv + dnorm(theta_sim[, 1], 0, sqrt(1 / 1000)) +
-  dgamma(theta_sim[, 2], 0.01, 0.01)
-log_ww <- log_ww - dlnorm(theta_sim[, 1], 0, 0.5) - dlnorm(theta_sim[, 2], 0, 1.25)
+log_ww <- loglik_biv + dnorm(theta_sim[, 1], 0, sqrt(1 / 1000), log = TRUE) +
+  dgamma(theta_sim[, 2], 0.01, 0.01, log = TRUE)
+log_ww <- log_ww - dlnorm(theta_sim[, 1], 0, 0.5, log = TRUE) - dlnorm(theta_sim[, 2], 0, 1.25, log = TRUE)
   
 
 # Re-scale weights to sum to one
@@ -341,12 +341,12 @@ theta_sim <- cbind(rnorm(n_simulations, 1.71, 10),
 loglik_biv <- apply(theta_sim, 1, function(THETA) {
   sum(dnorm(data$height, THETA[1]+THETA[2]*data$gender, sqrt(1 / THETA[3]), log = TRUE))
 })
-log_ww <- loglik_biv + dnorm(theta_sim[, 1],0,sqrt(1/0.001)) + dnorm(theta_sim[,2], 0, sqrt(1/0.001)) + dgamma(theta_sim[, 3], 0.01, 0.01)
-log_ww <- log_ww - dnorm(theta_sim[, 1], 1.71, 10) - dnorm(theta_sim[, 2], 0, 10) - dlnorm(theta_sim[, 3], 0, 1.25)
+log_ww <- loglik_biv + dnorm(theta_sim[, 1],0,sqrt(1/0.001), log = TRUE) + dnorm(theta_sim[,2], 0, sqrt(1/0.001), log = TRUE) + dgamma(theta_sim[, 3], 0.01, 0.01, log = TRUE)
+log_ww <- log_ww - dnorm(theta_sim[, 1], 1.71, 10, log = TRUE) - dnorm(theta_sim[, 2], 0, 10, log = TRUE) - dlnorm(theta_sim[, 3], 0, 1.25, log = TRUE)
 log_ww <- log_ww - max(log_ww)
 ww <- exp(log_ww)
 ww <- ww / sum(ww)
-lmfit <- lm(height~gender,data=data)
+lmfit <- lm(height ~ gender,data = data)
 summary(lmfit)
 ```
 
