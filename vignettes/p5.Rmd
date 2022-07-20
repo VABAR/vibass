@@ -458,7 +458,116 @@ needed to implement both IS and M-H. In the case of IS, the constant will
 cancel when the weights are re-scaled to sum to one and in the case of
 the M-H the constant will cancel when the acceptance ratio is computed.
 
+* Use IS to compute and plot the weights using this non-conjugate distribution, using them to estimate the posterior mean and variance. Finally, show the posterior density estimate.
 
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    n_simulations <- 10000
+    set.seed(12)
+    theta_sim <- rbeta(n_simulations,20,10)
+    loglik_binom <- sapply(theta_sim, function(THETA) {
+      sum(dbinom(data$red, data$MMs, THETA, log = TRUE))
+    })
+    log_ww <- loglik_binom + 2*log(1-theta_sim) - dbeta(theta_sim, 20, 10, log = TRUE)
+    log_ww <- log_ww - max(log_ww)
+    ww <- exp(log_ww)
+    ww <- ww / sum(ww)
+    ```
+
+    ```{r fig = TRUE}
+    hist(ww, xlab = "Importance weights")
+    ```
+    
+    ```{r}
+    (post_mean <- sum(theta_sim * ww))
+    (post_var <- sum(theta_sim^2 * ww)- post_mean^2)
+    ```
+    
+    ```{r fig = TRUE}
+    plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
+    curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+    ```
+    
+    </details>
+
+* Use MH to produce the posterior density estimate.
+
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    # Proposal distribution: sampling
+    rq <- function() {
+      runif(1)
+    }
+
+    # Proposal distribution: log-density
+    logdq <- function(x) {
+      dunif(x, log = TRUE)
+    }
+
+    # Prior distribution: (1-theta)^2, log-density
+    logprior <- function(theta) {
+      2*log(1-theta)
+    }
+
+    # Log-Likelihood
+    loglik <- function(y, theta, N) {
+    res <- sum(dbinom(y, N, theta, log = TRUE))
+    }
+    ```
+
+    ```{r}
+    # Number of iterations
+    n.iter <- 40500
+
+    # Simulations of the parameter
+    theta <- rep(NA, n.iter)
+
+    # Initial value
+    theta[1] <- 0.5
+
+    # Data
+    y <- data$red
+    N <- data$MMs
+
+    for(i in 2:n.iter) {
+      new.theta <- rq()
+
+      # Log-Acceptance probability
+      logacc.prob <- loglik(y, new.theta, N) + logprior(new.theta) + logdq(theta[i - 1])
+      logacc.prob <- logacc.prob - loglik(y, theta[i - 1], N) - logprior(theta[i - 1]) - 
+      logdq(new.theta)
+      logacc.prob <- min(0, logacc.prob) # Note that 0 = log(1)
+
+      if(log(runif(1)) < logacc.prob) {
+        # Accept
+        theta[i] <- new.theta
+      } else {
+        # Reject
+        theta[i] <- theta[i - 1]
+      }
+    }
+    ```
+
+    ```{r}
+    # Remove burn-in
+    theta <- theta[-c(1:500)]
+
+    # Thinning
+    theta <- theta[seq(1, length(theta), by = 10)]
+
+    # Summary statistics
+    summary(theta)
+    ```
+
+    ```{r fig = TRUE}
+    par(mfrow = c(1, 2))
+    plot(theta, type = "l", main = "MCMC samples", ylab = expression(theta))
+    plot(density(theta), main = "Posterior density", xlab = expression(theta))
+    ```
+    
+    </details>
 
 # Example: Poisson-Gamma Model
 
