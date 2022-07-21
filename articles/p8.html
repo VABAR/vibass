@@ -172,7 +172,7 @@ y_{ij} \mid \theta &amp; \sim &amp; Bi(1,\theta)\\
 <span><span class="co">## </span></span>
 <span><span class="co">## Parametric coefficients:</span></span>
 <span><span class="co">##                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">## (Intercept) -1.3551  0.2400 -1.8444 -1.3545 -0.9017</span></span>
+<span><span class="co">## (Intercept) -1.3493  0.2372 -1.8190 -1.3446 -0.9229</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## family = binomial  method = MCMC  N = 106  iterations = 12000  </span></span>
 <span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
@@ -181,7 +181,7 @@ y_{ij} \mid \theta &amp; \sim &amp; Bi(1,\theta)\\
 <code class="sourceCode R"><span><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">##  0.1092  0.1806  0.2051  0.2078  0.2330  0.3788</span></span></code></pre>
+<span><span class="co">##  0.1096  0.1817  0.2068  0.2087  0.2356  0.3324</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -219,7 +219,7 @@ y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
 <span><span class="co">## </span></span>
 <span><span class="co">## Parametric coefficients:</span></span>
 <span><span class="co">##               Mean     Sd   2.5%    50%  97.5%</span></span>
-<span><span class="co">## (Intercept) 3.2468 0.0397 3.1682 3.2473 3.3246</span></span>
+<span><span class="co">## (Intercept) 3.2484 0.0420 3.1676 3.2496 3.3283</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## family = poisson  method = MCMC  N = 25  iterations = 12000  </span></span>
 <span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
@@ -229,7 +229,7 @@ y_i \mid \lambda &amp; \sim &amp; Po(\lambda)\\
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.lambda</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">##   22.95   25.03   25.72   25.73   26.43   28.82</span></span></code></pre>
+<span><span class="co">##   22.34   25.00   25.78   25.77   26.50   30.51</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -268,11 +268,11 @@ y_i \mid \mu, \tau&amp; \sim &amp; N(\mu, \tau)\\
 <span><span class="co">## </span></span>
 <span><span class="co">## Parametric coefficients:</span></span>
 <span><span class="co">##               Mean     Sd   2.5%    50%  97.5%</span></span>
-<span><span class="co">## (Intercept) 1.7151 0.0240 1.6672 1.7148 1.7633</span></span>
+<span><span class="co">## (Intercept) 1.7159 0.0244 1.6687 1.7162 1.7634</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## Scale estimate:</span></span>
 <span><span class="co">##          Mean     Sd   2.5%    50%  97.5%</span></span>
-<span><span class="co">## Sigma2 0.0176 0.0047 0.0107 0.0170 0.0297</span></span>
+<span><span class="co">## Sigma2 0.0179 0.0049 0.0106 0.0171 0.0305</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## family = gaussian  method = MCMC  N = 30  iterations = 12000  </span></span>
 <span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
@@ -323,7 +323,7 @@ y_i \mid \mu, \tau&amp; \sim &amp; N(\mu, \tau)\\
 <span><span class="co">##    "inla(formula = red.bin ~ 1, family = \"binomial\", data = list(red.bin </span></span>
 <span><span class="co">##    = red.bin))" </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 7.88, Running = 1.69, Post = 0.105, Total = 9.68</span></span></code></pre>
+<span><span class="co">##     Pre = 10.7, Running = 2.59, Post = 0.0994, Total = 13.4</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
 <span><span class="co">## is.na(alist[[idx]]): 'length(x) = 7 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
 <pre><code><span><span class="co">## Fixed effects:</span></span>
@@ -360,7 +360,7 @@ y_i \mid \mu, \tau&amp; \sim &amp; N(\mu, \tau)\\
 <span><span class="co">## Call:</span></span>
 <span><span class="co">##    "inla(formula = Us ~ 1, family = \"poisson\", data = list(Us = Us))" </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 7.13, Running = 0.467, Post = 0.109, Total = 7.71</span></span></code></pre>
+<span><span class="co">##     Pre = 8.66, Running = 1.98, Post = 0.0995, Total = 10.7</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
 <span><span class="co">## is.na(alist[[idx]]): 'length(x) = 7 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
 <pre><code><span><span class="co">## Fixed effects:</span></span>
@@ -396,7 +396,7 @@ y_i \mid \mu, \tau&amp; \sim &amp; N(\mu, \tau)\\
 <span><span class="co">##    "inla(formula = heights ~ 1, family = \"gaussian\", data = list(heights </span></span>
 <span><span class="co">##    = heights))" </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 6.83, Running = 1.35, Post = 0.115, Total = 8.29</span></span></code></pre>
+<span><span class="co">##     Pre = 10.5, Running = 2.99, Post = 0.111, Total = 13.6</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in length(alist[[idx]]) &gt; 0 &amp;&amp; !is.null(alist[[idx]]) &amp;&amp; !</span></span>
 <span><span class="co">## is.na(alist[[idx]]): 'length(x) = 7 &gt; 1' in coercion to 'logical(1)'</span></span></code></pre>
 <pre><code><span><span class="co">## Fixed effects:</span></span>
@@ -440,7 +440,7 @@ y_i \mid \mu, \tau&amp; \sim &amp; N(\mu, \tau)\\
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by VIBASS4, Facundo Muñoz.</p>
+<p>Developed by VIBASS5, Facundo Muñoz.</p>
 </div>
 
 <div class="pkgdown">
