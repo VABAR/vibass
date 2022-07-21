@@ -454,11 +454,11 @@ likely to have values close to 0 than values close to 1.
 
 Note that the prior is specified up to a normalising constant (which in
 this case is not difficult to compute). However, this constant is not
-needed to implement both IS and M-H. In the case of IS, the constant will
+needed to implement both the IS and M-H algorithms. In the case of IS, the constant will
 cancel when the weights are re-scaled to sum to one and in the case of
-the M-H the constant will cancel when the acceptance ratio is computed.
+the M-H algorithm the constant will cancel when the acceptance ratio is computed.
 
-* Use IS to compute and plot the weights using this non-conjugate distribution, using them to estimate the posterior mean and variance. Finally, show the posterior density estimate.
+* Use the IS algorithm to compute and plot the weights using this non-conjugate distribution, using them to estimate the posterior mean and variance. Finally, show the posterior density estimate.
 
     <details><summary>Solution</summary>
     
@@ -491,7 +491,7 @@ the M-H the constant will cancel when the acceptance ratio is computed.
     
     </details>
 
-* Use MH to produce the posterior density estimate.
+* Use the M-H algorithm to produce the posterior density estimate.
 
     <details><summary>Solution</summary>
     
@@ -657,7 +657,7 @@ obtained by using *weighted* kernel density estimation:
 
 
 ```{r fig = TRUE}
-plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density")
+plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density", xlim = c(10,40))
 curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
@@ -819,7 +819,7 @@ these differences appear?
     ```
     
     ```{r fig = TRUE}
-    plot(density(lambda_sim, weights = ww, bw = 0.5), main = "Posterior density")
+    plot(density(lambda_sim, weights = ww, bw = 0.5), main = "Posterior density", xlim = c(10,40))
     curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
@@ -903,5 +903,129 @@ curve(
 Hence, with this prior small values of the average number of u's are
 given a higher prior density.
 
-A model with this prior can be estimated using IS and M-H algorithms.
+Parameter estimates for a model with this prior can be obtained using IS and M-H algorithms.
 
+* Fit the model with the non-conjugate prior using the IS algorithm.
+    
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    n_simulations <- 10000
+    set.seed(1)
+    lambda_sim <- rlnorm(n_simulations, 3, 0.5)
+    ```
+    
+    ```{r}
+    # Log-Likelihood (for each value of lambda_sim)
+    loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
+      sum(dpois(data$Us, LAMBDA, log = TRUE))
+    })
+
+    # Log-weights: log-lik + log-prior - log-sampling_ditr
+    log_ww <- loglik_pois + dlnorm(lambda_sim, 4, 1, log = TRUE) - dlnorm(lambda_sim, 3, 0.5, log = TRUE)
+
+    # Re-scale weights to sum up to one
+    log_ww <- log_ww - max(log_ww)
+    ww <- exp(log_ww)
+    ww <- ww / sum(ww)
+    ```
+    
+    ```{r fig = TRUE}
+    hist(ww, xlab = "Importance weights")
+    ```
+    
+    ```{r}
+    # Posterior mean
+    (post_mean <- sum(lambda_sim * ww))
+    # Posterior variance
+    (post_var <- sum(lambda_sim^2 * ww)- post_mean^2)
+    ```
+    
+    ```{r fig = TRUE}
+    plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density", xlim = c(10,40))
+    curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+    ```
+    
+    ```{r}
+    ESS <- function(ww){
+      (sum(ww)^2)/sum(ww^2)
+    }
+    ESS(ww)
+    n_simulations
+    ```
+    
+    </details>
+    
+* Fit the model with the non-conjugate prior using the M-H algorithm.
+    
+    <details><summary>Solution</summary>
+
+    ```{r}
+    # Proposal distribution: sampling
+    rq <- function(lambda) {
+      rlnorm(1, meanlog = log(lambda), sdlog = sqrt(1 / 100))
+    }
+
+    # Proposal distribution: log-density
+    logdq <- function(new.lambda, lambda) {
+      dlnorm(new.lambda, meanlog = log(lambda), sdlog = sqrt(1 / 100), log = TRUE)
+    }
+
+    # Prior distribution: Log Normal(4,1)
+    logprior <- function(lambda) {
+      dlnorm(lambda_sim, 4, 1, log = TRUE)
+    }
+
+    # LogLikelihood
+    loglik <- function(y, lambda) {
+      res <- sum(dpois(y, lambda, log = TRUE)) 
+    }
+    ```
+    
+    ```{r}
+    # Number of iterations
+    n.iter <- 40500
+
+    # Simulations of the parameter
+    lambda <- rep(NA, n.iter)
+
+    # Initial value
+    lambda[1] <- 30
+
+    for(i in 2:n.iter) {
+      new.lambda <- rq(lambda[i - 1])
+  
+      # Log-Acceptance probability
+      logacc.prob <- loglik(y, new.lambda) + logprior(new.lambda) +
+        logdq(lambda[i - 1], new.lambda)
+      logacc.prob <- logacc.prob - loglik(y, lambda[i - 1]) - logprior(lambda[i - 1]) - logdq(new.lambda, lambda[i - 1])
+      logacc.prob <- min(0, logacc.prob)#0 = log(1)
+  
+      if(log(runif(1)) < logacc.prob) {
+        # Accept
+        lambda[i] <- new.lambda
+      } else {
+        # Reject
+        lambda[i] <- lambda[i - 1]
+      }
+    }
+    ```
+    
+    ```{r}
+    # Remove burn-in
+    lambda <- lambda[-c(1:500)]
+
+    # Thinning
+    lambda <- lambda[seq(1, length(lambda), by = 10)]
+
+    # Summary statistics
+    summary(lambda)
+    ```
+    
+    ```{r fig = TRUE}
+    par(mfrow = c(1, 2))
+    plot(lambda, type = "l", main = "MCMC samples", ylab = expression(lambda))
+    plot(density(lambda), main = "Posterior density", xlab = expression(lambda))
+    ```
+    
+    </details>
