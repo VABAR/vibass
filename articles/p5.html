@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.33</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.34</span>
       </span>
     </div>
 
@@ -120,8 +120,7 @@
 \pi(\theta \mid \mathbf{y}) \propto L(\theta \mid \mathbf{y}) \pi(\theta),
 \]</span> where <span class="math inline">\(\mathbf{y}\)</span> represents the observed data, <span class="math inline">\(L(\theta \mid \mathbf{y})\)</span> the likelihood function and <span class="math inline">\(\pi(\theta)\)</span> the prior distribution on <span class="math inline">\(\theta\)</span>.</p>
 <p>If <span class="math inline">\(g(\cdot)\)</span> is a proposal distribution, and <span class="math inline">\(\{\theta^{(m)}\}_{m=1}^M\)</span> are <span class="math inline">\(M\)</span> samples from that distribution, then the importance weights are <span class="math display">\[
-w_m = \frac{\pi(\theta^{(m)} \mid \mathbf{y})}{g(\theta^{(m)})} \propto 
-  \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
+w_m = \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
   {g(\theta^{(m)})} .
 \]</span>  When the normalizing constant in the posterior distribution is not known, the importance weights are re-scaled to sum to one.</p>
 <p>Hence, the posterior mean can be computed as <span class="math display">\[
