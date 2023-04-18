@@ -44,8 +44,7 @@ $\pi(\theta)$ the prior distribution on $\theta$.
 If $g(\cdot)$ is a proposal distribution, and $\{\theta^{(m)}\}_{m=1}^M$
 are $M$ samples from that distribution, then the importance weights are
 $$
-w_m = \frac{\pi(\theta^{(m)} \mid \mathbf{y})}{g(\theta^{(m)})} \propto 
-  \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
+w_m = \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
   {g(\theta^{(m)})} .
 $$
 \noindent
