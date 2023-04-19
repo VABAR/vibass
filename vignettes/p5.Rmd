@@ -1437,7 +1437,8 @@ on the estimate of the regression intercept afterwards.
     apply(results2[,-1],2,sd)
     apply(results2[,-1],2,quantile,probs=c(0.025,0.975))
     
-    # Kernel density plots for beta0, beta1 and the residual stanard deviation
+    # Kernel density plots for beta0, beta1 and the residual standard
+    # deviation
     plot(density(results2$beta0, bw = 0.25),
          main = "Posterior density for beta0")
     plot(density(results2$beta0, bw = 0.25),
