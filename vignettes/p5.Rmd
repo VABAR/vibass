@@ -181,7 +181,7 @@ ww <- ww / sum(ww)
 ```
 
 
-Importance weights can be summarized using a histogram (see below).
+The importance weights can be summarized using a histogram (see below).
 The distribution of weights shows that most samples are far from the
 regions of high posterior density.
 
@@ -675,7 +675,7 @@ ww <- ww / sum(ww)
 ```
 
 
-Importance weights can be summarized using a histogram:
+The importance weights can be summarized using a histogram:
 
 
 ```{r fig = TRUE}
@@ -1073,3 +1073,383 @@ Parameter estimates for a model with this prior can be obtained using IS and M-H
     ```
     
     </details>
+    
+# Gibbs Sampling
+
+As we have seen in the theory session, Gibbs Sampling is an MCMC method
+which allows us to estimate one parameter at a time. This is very useful
+for models which have lots of parameters, as in a sense it reduces a
+very large multidimensional inference problem to a set of single
+dimension problems.
+
+To recap, in order to generate a random sample from the joint density
+$\pi\left(\mathbf{\theta}\right)=
+\pi\left(\theta_1,\theta_2,\ldots,\theta_d\right)$ for a model with
+$d$ parameters, we use the following algorithm:
+
+1. Start with an initial set
+$\mathbf{\theta}^{(0)}=
+\left(\theta_1^{(0)},\theta_2^{(0)},\ldots,\theta_d^{(0)}\right)$
+2. Generate $\theta_1^{(1)}$ from the conditional distribution 
+$\theta_1 \mid \left(\theta_2^{(0)},\ldots,\theta_d^{(0)}\right)$
+3. Generate $\theta_2^{(1)}$ from the conditional distribution
+$\theta_2 \mid \left(\theta_1^{(1)},\theta_3^{(0)},\ldots,\theta_d^{(0)}\right)$
+4.  $\quad\quad\cdots$
+5. Generate $\theta_d^{(1)}$ from the conditional distribution
+$\theta_d \mid \left(\theta_1^{(1)},\theta_2^{(1)},\ldots,\theta_{d-1}^{(1)}\right)$
+6. Iterate from Step 2.
+
+With Gibbs Sampling, we typically discard the initial simulations
+(the ``burn-in`` period), while the algorithm converges to the actual
+joint distribution, thus removing the dependence on the initial set
+of parameter values.
+
+As with the other MCMC algorithms, the resulting simulations form a
+random sample from the posterior distribution.
+
+# Example: Simple Linear Regression
+
+We will illustrate the use of Gibbs Sampling on a simple linear
+regression model. Recall that we saw yesterday that we can obtain an
+analytical solution for a Bayesian linear regression, but that more
+complex models require a simulation approach.
+
+The approach we take here for Gibbs Sampling on a simple linear
+regression model is very easily generalised to more complex models,
+the key is that whatever your model looks like, you update one
+parameter at a time, using the conditional distribution of that
+parameter given the current values of all the other parameters.
+
+The simple linear regression model we will analyse here is a reduced
+version of the general linear regression model we saw yesterday:
+$$
+y_i = \beta_0+\beta_1x_i+\epsilon_i
+$$
+for response variable $\mathbf{y}=\left(y_1,y_2,\ldots,y_n\right)$,
+explanatory variable $\mathbf{x}=\left(x_1,x_2,\ldots,x_n\right)$ and
+residual vector $\mathbf{\epsilon}=
+\left(\epsilon_1,\epsilon_2,\ldots,\epsilon_n\right)$ for a sample of
+size $n$, where $\beta_0$ is the regression intercept,
+$\beta_1$ is the regresssion slope, and where the
+$\epsilon_i$ are independent with
+$\epsilon_i\sim N\left(0,\sigma^2\right)$ $\forall i=1,2,\ldots,n$. For
+convenience, we refer to the combined set of $\mathbf{y}$ and
+$\mathbf{x}$ data as $\mathcal{D}$. We also define
+$\hat{\mathbf{y}}$ to be the fitted response vector (from the
+regression equation) using the current values of the parameters
+$\beta_0$, $\beta_1$ and $\tau$ from the Gibbs Sampling simulations.
+
+For Bayesian inference, it is simpler to work with precisions $\tau$
+rather than with variances $\sigma^2$ (remember that
+$\tau=\frac{1}{\sigma^2}$. Given priors
+$$
+\begin{align*}
+\pi(\tau) &= \textrm{Ga}\left(\alpha, \beta\right), \\
+\pi(\beta_0) &= N\left(\mu_{\beta_0}, \tau_{\beta_0}\right), \quad\textrm{and} \\
+\pi(\beta_1) &= N\left(\mu_{\beta_1}, \tau_{\beta_1}\right)
+\end{align*}
+$$
+then by combining with the likelihood we can derive the full conditional distributions for each parameter. For $\tau$, we have
+$$
+\begin{align*}
+\pi\left(\tau|\mathcal{D}, \beta_0, \beta_1\right) &\propto
+\pi(\tau)\prod_{i=1}^nL\left(y_i|\hat{y_i}\right), \\
+&= \tau^{\alpha-1}e^{-\beta\tau}
+\tau^{\frac{n}{2}}\exp\left\{-
+\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\}, \\
+&= \tau^{\alpha-1 + \frac{n}{2}}\exp\left\{-\beta\tau-
+\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\},\\
+\textrm{so} \quad \tau|\mathcal{D}, \beta_0, \beta_1 &\sim
+\textrm{Ga}\left(\alpha+\frac{n}{2},
+\beta +\frac{1}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right).
+\end{align*}
+$$
+For $\beta_0$ we will need to expand $\hat{y}_i=\beta_0+\beta_1x_i$,
+and then we have
+$$
+\begin{align*}
+p(\beta_0|\mathcal{D}, \beta_1, \tau) &\propto
+\pi(\beta_0)\prod_{i=1}^nL\left(y_i|\hat{y_i}\right), \\
+&= \tau_{\beta_0}^{\frac{1}{2}}\exp\left\{-
+\frac{\tau_{\beta_0}}{2}(\beta_0-\mu_{\beta_0})^2\right\}\tau^\frac{n}{2}
+\exp\left\{-\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\}, \\
+&\propto \exp\left\{-\frac{\tau_{\beta_0}}{2}(\beta_0-\mu_{\beta_0})^2-
+\frac{\tau}{2}\sum_{i=1}^n(y_i-\beta_0-x_i \beta_1)^2\right\}, \\
+&= \exp \left\{ -\frac{1}{2}\left(\beta_0^2(\tau_{\beta_0} + n\tau) +
+\beta_0\left(-2\tau_{\beta_0}\mu_{\beta_0} - 2\tau\sum_{i=1}^n 
+(y_i - x_i\beta_1)\right) \right) + C \right\}, \\
+\textrm{so} \quad \beta_0|\mathcal{D}, \beta_1, \tau &\sim
+\mathcal{N}\left((\tau_{\beta_0} + n\tau)^{-1}
+\left(\tau_{\beta_0}\mu_{\beta_0} + \tau\sum_{i=1}^n (y_i - x_i\beta_1)\right),
+\tau_{\beta_0} + n\tau\right).
+\end{align*}
+$$
+
+In the above, $C$ represents a quantity that is constant with respect to $\beta_0$ and hence can be ignored. Finally, for $\beta_1$ we have
+$$
+\begin{align*}
+p(\beta_1|\mathcal{D}, \beta_0, \tau) &\propto
+\pi(\beta_1)\prod_{i=1}^nL\left(y_i|\hat{y_i}\right), \\
+&= \tau_{\beta_1}^{\frac{1}{2}}\exp\left\{-
+\frac{\tau_{\beta_1}}{2}(\beta_1-\mu_{\beta_1})^2\right\}\tau^\frac{n}{2}
+\exp\left\{-\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\}, \\
+&\propto \exp\left\{-\frac{\tau_{\beta_1}}{2}(\beta_1-\mu_{\beta_1})^2-
+\frac{\tau}{2}\sum_{i=1}^n(y_i-\beta_0-x_i \beta_1)^2\right\}, \\
+&= \exp \left\{ -\frac{1}{2}\left(\beta_1^2\left(\tau_{\beta_1} + 
+\tau\sum_{i=1}^n x_i^2\right) +
+\beta_1\left(-2\tau_{\beta_1}\mu_{\beta_1} - 2\tau\sum_{i=1}^n 
+(y_i - \beta_0)x_i\right) \right) + C \right\}, \\
+\textrm{so} \quad \beta_1|\mathcal{D}, \beta_0, \tau
+&\sim N\left((\tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2)^{-1}
+\left(\tau_{\beta_1}\mu_{\beta_1} + \tau\sum_{i=1}^n (y_i - \beta_0)x_i\right),
+\tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2\right).
+\end{align*}
+$$
+This gives us an easy way to run Gibbs Sampling for linear regression; we have
+standard distributions as full conditionals and there are standard functions in R
+to obtain the simulations. We shall do this now for an example in ecology, looking
+at the relationship between water pollution and mayfly size.
+
+The data are as follows:
+
+- `length` - the length of a mayfly in mm;
+
+- `BOD` - biological oxygen demand in mg of oxygen per litre, effectively a
+measure of organic pollution (since more organic pollution requires more oxygen
+to break it down).
+
+The data can be read into R:
+```{r}
+# Read in data
+BOD <- c(200,180,135,120,110,120,95,168,180,195,158,145,140,145,165,187,
+         190,157,90,235,200,55,87,97,95)
+mayfly.length <- c(20,21,22,23,21,20,19,16,15,14,21,21,21,20,19,18,17,19,21,13,
+            16,25,24,23,22)
+# Create data frame for the Gibbs Sampling, needs x and y
+Data <- data.frame(x=BOD,y=mayfly.length)
+```
+
+We provide here some simple functions for running the analysis by Gibbs
+Sampling, using the full conditionals derived above. The functions assume
+you have a data frame with two columns, the response `y` and the covariate
+`x`.
+
+```{r}
+# Function to update tau, the precision
+sample_tau <- function(data, beta0, beta1, alphatau, betatau) {
+  rgamma(1,
+    shape = alphatau+ nrow(data) / 2,
+    rate = betatau+ 0.5 * sum((data$y - (beta0 + data$x*beta1))^2)
+  )
+}
+
+# Function to update beta0, the regression intercept
+sample_beta0 <- function(data, beta1, tau, mu0, tau0) {
+  prec <- tau0 + tau * nrow(data)
+  mean <- (tau0*mu0 + tau * sum(data$y - data$x*beta1)) / prec
+  rnorm(1, mean = mean, sd = 1 / sqrt(prec))
+}
+
+# Function to update beta1, the regression slope
+sample_beta1 <- function(data, beta0, tau, mu1, tau1) {
+  prec <- tau1 + tau * sum(data$x * data$x)
+  mean <- (tau1*mu1 + tau * sum((data$y - beta0) * data$x)) / prec
+  rnorm(1, mean = mean, sd = 1 / sqrt(prec))
+}
+
+# Function to run the Gibbs Sampling, where you specify the number of
+# simulations `m`, the starting values for each of the three regression
+# parameters (`tau_start` etc), and the parameters for the prior
+# distributions of tau, beta0 and beta1
+gibbs_sample <- function(data,
+                         tau_start,
+                         beta0_start,
+                         beta1_start,
+                         m,
+                         alpha_tau,
+                         beta_tau,
+                         mu_beta0,
+                         tau_beta0,
+                         mu_beta1,
+                         tau_beta1) {
+  tau <- numeric(m)
+  beta0 <- numeric(m)
+  beta1 <- numeric(m)
+  tau[1] <- tau_start
+  beta0[1] <- beta0_start
+  beta1[1] <- beta1_start
+  
+  for (i in 2:m) {
+    tau[i] <-
+      sample_tau(data, beta0[i-1], beta1[i-1], alpha_tau, beta_tau)
+    beta0[i] <-
+      sample_beta0(data, beta1[i-1], tau[i], mu_beta0, tau_beta0)
+    beta1[i] <-
+	sample_beta1(data, beta0[i], tau[i], mu_beta1, tau_beta1)
+  }
+  
+  Iteration <- 1:m
+  data.frame(Iteration,beta0,beta1,tau)
+}
+```
+
+## Exercises
+
+We will use Gibbs Sampling to fit a Bayesian Linear Regression model to the
+mayfly data. We will use the following prior distributions for the regression
+parameters:
+$$
+\begin{align*}
+\pi(\tau) &= \textrm{Ga}\left(1, 1\right), \\
+\pi(\beta_0) &= N\left(0, 0.0001\right), \quad\textrm{and} \\
+\pi(\beta_1) &= N\left(0, 0.0001\right).
+\end{align*}
+$$
+We will set the initial values of all parameters to 1, i.e. $\beta_0^{(0)}=\beta_1^{(0)}=\tau^{(0)}=1$.
+
+### Data exploration
+
+- Investigate the data to see whether a linear regression model would be
+sensible. [Hint: a scatterplot and a correlation coefficient could be helpful.]
+
+    <details><summary>Solution</summary>
+
+    ```{r fig = TRUE}
+    # Scatterplot
+    plot(BOD,mayfly.length)
+    # Correlation with hypothesis test
+    cor.test(BOD,mayfly.length)
+    ``` 
+
+    </details>
+    
+- Run a frequentist simple linear regression using the `lm` function in R; this
+will be useful for comparison with our Bayesian analysis.
+
+    <details><summary>Solution</summary>
+
+    ```{r}
+    # Linear Regression using lm()
+    linreg <- lm(mayfly.length~BOD,data=Data)
+    summary(linreg)
+    ``` 
+
+    </details>
+
+### Running the Gibbs Sampler
+
+- Use the code above to fit a Bayesian simple linear regression using `length`
+as the response variable. Ensure you have a burn-in period so that the initial
+simulations are discarded. Use the output from `gibbs_sample` to estimate the
+regression parameters (with uncertainty measures). Also plot the estimates of
+the posterior distributions.
+
+    <details><summary>Solution</summary>
+
+    ```{r fig = TRUE}
+    # Bayesian Linear Regression using a Gibbs Sampler
+    
+    # Set the number of iterations of the Gibbs Sampler - including how many to
+    # discard as the burn-in
+    m.burnin <- 500
+    m.keep <- 1000
+    m <- m.burnin + m.keep
+    
+    # Obtain the samples
+    results1 <- gibbs_sample(Data,1,1,1,m,1,1,0,0.0001,0,0.0001)
+    # Remove the burn-in
+    results1 <- results1[-(1:m.burnin),]
+    # Add variance and standard deviation columns
+    results1$Variance <- 1/results1$tau
+    results1$StdDev <- sqrt(results1$Variance)
+    # Estimates are the column means
+    apply(results1[,-1],2,mean)
+    # Also look at uncertainty
+    apply(results1[,-1],2,sd)
+    apply(results1[,-1],2,quantile,probs=c(0.025,0.975))
+    
+    # Kernel density plots for beta0, beta1 and the residual stanard deviation
+    plot(density(results1$beta0, bw = 0.25),
+         main = "Posterior density for beta0")
+    plot(density(results1$beta0, bw = 0.25),
+         main = "Posterior density for beta1")
+    plot(density(results1$StdDev, bw = 0.05),
+         main = "Posterior density for StdDev")
+    ``` 
+
+    </details>
+
+- Use the function `ts.plot()` to view the autocorrelation in the Gibbs
+sampling simulation chain. Is there any visual evidence of autocorrelation, or
+do the samples look independent?
+
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # Plot sampled series
+    ts.plot(results1$beta0,ylab="beta0",xlab="Iteration")
+    ts.plot(results1$beta1,ylab="beta0",xlab="Iteration")
+    ts.plot(results1$StdDev,ylab="sigma",xlab="Iteration")
+    ```
+
+    </details>
+
+- How do the results compare with the frequentist output?
+
+### Reducing the autocorrelation by mean-centering the covariate
+
+- One method for reducing the autocorrelation in the sampling chains for
+regression parameters is to mean centre the covariate(s); this works because
+it reduces any dependence between the regression intercept and slope(s). Do
+this for the current example, noting that you will need to make a correction
+on the estimate of the regression intercept afterwards.
+
+    <details><summary>Solution</summary>
+
+    ```{r fig = TRUE}
+    # Mean-centre the x covariate
+    DataC <- Data
+    meanx <- mean(DataC$x)
+    DataC$x <- DataC$x-meanx
+    
+    # Bayesian Linear Regression using a Gibbs Sampler
+    
+    # Set the number of iterations of the Gibbs Sampler - including how many to
+    # discard as the burn-in
+    m.burnin <- 500
+    m.keep <- 1000
+    m <- m.burnin + m.keep
+    
+    # Obtain the samples
+    results2 <- gibbs_sample(DataC,1,1,1,m,1,1,0,0.0001,0,0.0001)
+    # Remove the burn-in
+    results2 <- results2[-(1:m.burnin),]
+    
+    # Correct the effect of the mean-centering on the intercept
+    results2$beta0 <- results2$beta0 - meanx*results2$beta1
+    
+    # Add variance and standard deviation columns
+    results2$Variance <- 1/results2$tau
+    results2$StdDev <- sqrt(results2$Variance)
+    # Estimates are the column means
+    apply(results2[,-1],2,mean)
+    # Also look at uncertainty
+    apply(results2[,-1],2,sd)
+    apply(results2[,-1],2,quantile,probs=c(0.025,0.975))
+    
+    # Kernel density plots for beta0, beta1 and the residual stanard deviation
+    plot(density(results2$beta0, bw = 0.25),
+         main = "Posterior density for beta0")
+    plot(density(results2$beta0, bw = 0.25),
+         main = "Posterior density for beta1")
+    plot(density(results2$StdDev, bw = 0.05),
+         main = "Posterior density for StdDev")
+    
+    # Plot sampled series
+    ts.plot(results2$beta0,ylab="beta0",xlab="Iteration")
+    ts.plot(results2$beta1,ylab="beta0",xlab="Iteration")
+    ts.plot(results2$StdDev,ylab="sigma",xlab="Iteration")
+    ```
+    
+    </details>
+
