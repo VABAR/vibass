@@ -1,5 +1,5 @@
 ---
-title: 'Practical 5: Numerical approaches'
+title: 'Practical 5: Numerical approaces'
 author: "VIBASS"
 date: "July 2023"
 output:
@@ -44,24 +44,28 @@ $\pi(\theta)$ the prior distribution on $\theta$.
 If $g(\cdot)$ is a proposal distribution, and $\{\theta^{(m)}\}_{m=1}^M$
 are $M$ samples from that distribution, then the importance weights are
 $$
-w_m = \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
+w(\theta^{(m)}) = \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
   {g(\theta^{(m)})} .
 $$
 \noindent
 When the normalizing constant in the posterior distribution is not
-known, the importance weights are re-scaled to sum to one.
+known, the importance weights are rescaled to sum to one. Note that this
+rescaling is done by the denominator in the expression at point 2 on
+slide 9/22 of the Numerical Approaches slides you have just seen. In practice,
+rescaling removes the need for the denominator and simplifies the
+calculations throughout (we do it once, rather than every time).
 
 Hence, the posterior mean can be computed as
 $$
 E\left(\theta \mid \mathbf{y}\right) = \mu = \int \theta\, \pi(\theta \mid \mathbf{y}) \mathop{d\theta}
-  \simeq \sum_{m=1}^M \theta^{(m)}\, w_m = \hat{\mu}.
+  \simeq \sum_{m=1}^M \theta^{(m)}\, w(\theta^{(m)}) = \hat{\mu}.
 $$
 \noindent
 Similarly, the posterior variance can be computed as
 $$
 \mbox{Var}\left(\theta \mid \mathbf{y}\right) = 
 \sigma^2 = \int (\theta - \mu)^2\, \pi(\theta \mid \mathbf{y}) \mathop{d\theta}
-  \simeq \sum_{m=1}^M (\theta^{(m)})^2\, w_m - \hat{\mu}^2 .
+  \simeq \sum_{m=1}^M (\theta^{(m)})^2\, w(\theta^{(m)}) - \hat{\mu}^2 .
 $$
 
 
@@ -104,7 +108,7 @@ $$
 \alpha = \min\left\{1,
 \frac{L(\theta^*\mid\mathbf{y})\,\pi(\theta^{*})\,q(\theta^{(m)}
 \mid\theta^{*})}
-{L(\theta^{m}\mid\mathbf{y})\,\pi(\theta^{(m)})\,q(\theta^{*}
+{L(\theta^{(m)}\mid\mathbf{y})\,\pi(\theta^{(m)})\,q(\theta^{*}
 \mid\theta^{(m)})}\right\}
 $$
 
@@ -127,7 +131,7 @@ follows a Binomial distribution. Because $\theta$ takes values between
 The model can be stated as follows:
 $$
 \begin{array}{rcl}
-y_i \mid \theta & \sim & \text{Bi}(n_i,\, \theta)\\
+Y_i \mid \theta & \sim & \text{Bi}(n_i,\, \theta)\\
 \theta & \sim & \text{Be}(\alpha,\, \beta)
 \end{array}
 $$
@@ -138,7 +142,7 @@ In particular, we will consider a vague uniform prior in the $[0,1]$ interval, w
 You can use the following data set for this exercise:
 
 ```{r eval = TRUE}
-data <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
+mmdata <- data.frame(MMs = c(20, 22, 24), red = c(5, 8, 9))
 ```
 
 These data reproduce different counts of red M&M's in three different
@@ -167,7 +171,7 @@ Secondly, weights are re-scaled to sum to one.
 ```{r}
 # Log-Likelihood (for each value of theta_sim)
 loglik_binom <- sapply(theta_sim, function(theta) {
-  sum(dbinom(data$red, data$MMs, theta, log = TRUE))
+  sum(dbinom(mmdata$red, mmdata$MMs, theta, log = TRUE))
 })
 
 # Log-weights: log-lik + log-prior - log-proposal_distribution
@@ -209,9 +213,9 @@ of the parameter can be obtained by using *weighted* kernel density
 estimation.
 
 \hline
-\textbf{Aside: weighted kernel density estimation} Standard kernel
+**Aside: weighted kernel density estimation** Standard kernel
 density estimation is a way of producing a non-parametric estimate of
-the distribution of a continuous quantity given a sample. A ``kernel``
+the distribution of a continuous quantity given a sample. A *kernel*
 function is selected (typically a Normal density), and one of these is
 placed centred on each sample point. The sum of these functions produces
 the kernel density estimate (after scaling - dividing by the number of
@@ -221,13 +225,13 @@ unweighted forms of kernel density estimation, the key parameter
 controlling the smoothness of the resulting density estimate is the
 *bandwidth* (equivalent to the standard deviation if using a Normal
 kernel function); larger values give smoother density estimates, and
-smaller values give ``noisier`` densities.
+smaller values give *noisier* densities.
 \hline
 
 ```{r fig = TRUE}
 plot(density(theta_sim, weights = ww, bw = 0.01),
      main = "Posterior density")
-curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1),
+curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1),
       lty = 2, add = TRUE)
 ```
 
@@ -242,7 +246,7 @@ resampling the original values of theta with their corresponding weights.
 ```{r}
 post_theta_sim <- sample(theta_sim, prob = ww, replace = TRUE)
 hist(post_theta_sim, freq = FALSE)
-curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1),
+curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1),
       lty = 2, add = TRUE)
 ```
 
@@ -283,7 +287,7 @@ loglik <- function(y, theta, N) {
 
 Note that all densities and the likelihood are computed on the log-scale.
 
-Next, an implementation of the M-H algorithms is as follows:
+Next, an implementation of the M-H algorithm is as follows:
 
 ```{r}
 # Number of iterations
@@ -296,8 +300,8 @@ theta <- rep(NA, n.iter)
 theta[1] <- 0.5
 
 # Data
-y <- data$red
-N <- data$MMs
+y <- mmdata$red
+N <- mmdata$MMs
 
 for(i in 2:n.iter) {
   new.theta <- rq()
@@ -318,9 +322,17 @@ for(i in 2:n.iter) {
 }
 ```
 
+The simulations we have generated are not independent of one another; each
+is dependent on the previous one. This has two consequences: the chain is
+dependent on the initial, starting value of the parameter(s); and the sampling
+chain itself will exhibit *autocorrelation*.
 
-We will remove the first 500 iterations as burn-in, and thin the
-simulations to keep one in 10 to reduce autocorrelation.
+For this reason, we will remove the first 500 iterations to reduce the 
+dependence of the sampling on the starting value; and we will keep only every
+10^th^ simulation to reduce the autocorrelation in the sampled series.
+The 500 iterations we discard are known as the **burn-in** sample, and
+the process of keeping only every 10^th^ value is called **thinning**.
+
 After that, we will compute summary statistics
 and display a density of the simulations.
 
@@ -350,7 +362,7 @@ a proposal distribution is, it is possible to compute the
 *effective* sample size as follows:
 
 $$
-\text{ESS} = \frac{(\sum_{m=1}^M w_m)^2}{\sum_{m=1}^M w^2_m}.
+\text{ESS} = \frac{(\sum_{m=1}^M w(\theta^{(m)}))^2}{\sum_{m=1}^M w(\theta^{(m)})^2}.
 $$
 
 * Compute the effective sample size for the previous example.
@@ -385,7 +397,7 @@ do you think that these differences appear?
     set.seed(12)
     theta_sim <- rbeta(n_simulations, 20, 10)
     loglik_binom <- sapply(theta_sim, function(theta) {
-      sum(dbinom(data$red, data$MMs, theta, log = TRUE))
+      sum(dbinom(mmdata$red, mmdata$MMs, theta, log = TRUE))
     })
     log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - dbeta(theta_sim, 20, 10, log = TRUE)
     log_ww <- log_ww - max(log_ww)
@@ -404,7 +416,7 @@ do you think that these differences appear?
     
     ```{r fig = TRUE}
     plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
-    curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+    curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
     ```{r}
@@ -428,11 +440,11 @@ in a closed form) as the proposal distribution.
     ```{r}
     n_simulations <- 10000
     set.seed(12)
-    theta_sim <- rbeta(n_simulations, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1)
+    theta_sim <- rbeta(n_simulations, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1)
     loglik_binom <- sapply(theta_sim, function(theta) {
-      sum(dbinom(data$red, data$MMs, theta, log = TRUE))
+      sum(dbinom(mmdata$red, mmdata$MMs, theta, log = TRUE))
     })
-    log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - dbeta(theta_sim, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1, log = TRUE)
+    log_ww <- loglik_binom + dbeta(theta_sim, 1, 1, log = TRUE) - dbeta(theta_sim, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1, log = TRUE)
     log_ww <- log_ww - max(log_ww)
     ww <- exp(log_ww)
     ww <- ww / sum(ww)
@@ -449,7 +461,7 @@ in a closed form) as the proposal distribution.
     
     ```{r fig = TRUE}
     plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
-    curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+    curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
     </details>
@@ -507,7 +519,7 @@ and variance. Finally, show the posterior density estimate.
     set.seed(12)
     theta_sim <- rbeta(n_simulations,20,10)
     loglik_binom <- sapply(theta_sim, function(theta) {
-      sum(dbinom(data$red, data$MMs, theta, log = TRUE))
+      sum(dbinom(mmdata$red, mmdata$MMs, theta, log = TRUE))
     })
     log_ww <- loglik_binom + 2*log(1-theta_sim) - dbeta(theta_sim, 20, 10, log = TRUE)
     log_ww <- log_ww - max(log_ww)
@@ -526,7 +538,7 @@ and variance. Finally, show the posterior density estimate.
     
     ```{r fig = TRUE}
     plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
-    curve(dbeta(x, sum(data$red) + 1, sum(data$MMs) -sum(data$red) + 1), lty = 2, add = TRUE)
+    curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
     </details>
@@ -568,8 +580,8 @@ and variance. Finally, show the posterior density estimate.
     theta[1] <- 0.5
 
     # Data
-    y <- data$red
-    N <- data$MMs
+    y <- mmdata$red
+    N <- mmdata$MMs
 
     for(i in 2:n.iter) {
       new.theta <- rq()
@@ -629,10 +641,10 @@ precision (i.e., large variance).
 We will denote the observed values by `y` in the `R` code. The data collected can be loaded with:
 
 ```{r eval = TRUE}
-data <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23,
+GoTdata <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23,
                           28, 25, 24, 22, 25, 23, 29, 23, 28, 21, 29,
                           28, 23, 28))
-y <- data$Us
+y <- GoTdata$Us
 ```
 
 
@@ -661,7 +673,7 @@ are different from the ones in the Binomial example.
 ```{r}
 # Log-Likelihood (for each value of lambda_sim)
 loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
-  sum(dpois(data$Us, LAMBDA, log = TRUE))
+  sum(dpois(GoTdata$Us, LAMBDA, log = TRUE))
 })
 
 # Log-weights: log-lik + log-prior - log-proposal_distribution
@@ -699,7 +711,7 @@ obtained by using weighted kernel density estimation:
 
 ```{r fig = TRUE}
 plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density", xlim = c(10,40))
-curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
 Note that the value of the bandwidth used (argument `bw`) has been set
@@ -714,7 +726,7 @@ weights.
 ```{r}
 post_lambda_sim <- sample(lambda_sim, prob = ww, replace = TRUE)
 hist(post_lambda_sim, freq = FALSE)
-curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
 
@@ -832,7 +844,7 @@ How is this related to the number of IS samples (`n_simulations`)?
 * Use a different proposal distribution and check how sampling weights,
 ESS and point estimates differ from those in the current example. For
 example, a $\text{Ga}(5,\, 0.1)$ will put a higher mass on values
-around $40$, unlike the actual posterior distribution. What differences
+around 40, unlike the actual posterior distribution. What differences
 do you find with the example presented here using a uniform proposal
 distribution? Why do you think that these differences appear?
     
@@ -843,7 +855,7 @@ distribution? Why do you think that these differences appear?
     set.seed(12)
     lambda_sim <- rgamma(n_simulations,5,0.1)
     loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
-      sum(dpois(data$Us, LAMBDA, log = TRUE))
+      sum(dpois(GoTdata$Us, LAMBDA, log = TRUE))
     })
     log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, 5, 0.1, log=TRUE)
     log_ww <- log_ww - max(log_ww)
@@ -864,7 +876,7 @@ distribution? Why do you think that these differences appear?
     
     ```{r fig = TRUE}
     plot(density(lambda_sim, weights = ww, bw = 0.5), main = "Posterior density", xlim = c(10,40))
-    curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+    curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
     ```{r}
@@ -887,11 +899,11 @@ in a closed form) as the proposal distribution.
     ```{r}
     n_simulations <- 10000
     set.seed(12)
-    lambda_sim <- rgamma(n_simulations, sum(data$Us) + 0.01, length(data$Us) + 0.01)
+    lambda_sim <- rgamma(n_simulations, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01)
     loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
-      sum(dpois(data$Us, LAMBDA, log = TRUE))
+      sum(dpois(GoTdata$Us, LAMBDA, log = TRUE))
     })
-    log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, sum(data$Us) + 0.01, length(data$Us) + 0.01, log=TRUE)
+    log_ww <- loglik_pois + dgamma(lambda_sim, 0.01, 0.01, log = TRUE) - dgamma(lambda_sim, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01, log=TRUE)
     log_ww <- log_ww - max(log_ww)
     ww <- exp(log_ww)
     ww <- ww / sum(ww)
@@ -908,7 +920,7 @@ in a closed form) as the proposal distribution.
     
     ```{r fig = TRUE}
     plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density")
-    curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+    curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
     </details>
@@ -962,7 +974,7 @@ Parameter estimates for a model with this prior can be obtained using IS and M-H
     ```{r}
     # Log-Likelihood (for each value of lambda_sim)
     loglik_pois <- sapply(lambda_sim, function(LAMBDA) {
-      sum(dpois(data$Us, LAMBDA, log = TRUE))
+      sum(dpois(GoTdata$Us, LAMBDA, log = TRUE))
     })
 
     # Log-weights: log-lik + log-prior - log-proposal_distribution
@@ -987,7 +999,7 @@ Parameter estimates for a model with this prior can be obtained using IS and M-H
     
     ```{r fig = TRUE}
     plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density", xlim = c(10,40))
-    curve(dgamma(x, sum(data$Us) + 0.01, length(data$Us) + 0.01), lty = 2, add = TRUE)
+    curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
     ```{r}
@@ -1084,27 +1096,26 @@ dimension problems.
 
 To recap, in order to generate a random sample from the joint density
 $\pi\left(\mathbf{\theta}\right)=
-\pi\left(\theta_1,\theta_2,\ldots,\theta_d\right)$ for a model with
+\pi\left(\theta_1,\theta_2,\ldots,\theta_D\right)$ for a model with
 $d$ parameters, we use the following algorithm:
 
 1. Start with an initial set
 $\mathbf{\theta}^{(0)}=
-\left(\theta_1^{(0)},\theta_2^{(0)},\ldots,\theta_d^{(0)}\right)$
+\left(\theta_1^{(0)},\theta_2^{(0)},\ldots,\theta_D^{(0)}\right)$
 2. Generate $\theta_1^{(1)}$ from the conditional distribution 
-$\theta_1 \mid \left(\theta_2^{(0)},\ldots,\theta_d^{(0)}\right)$
+$\theta_1 \mid \left(\theta_2^{(0)},\ldots,\theta_D^{(0)}\right)$
 3. Generate $\theta_2^{(1)}$ from the conditional distribution
-$\theta_2 \mid \left(\theta_1^{(1)},\theta_3^{(0)},\ldots,\theta_d^{(0)}\right)$
+$\theta_2 \mid \left(\theta_1^{(1)},\theta_3^{(0)},\ldots,\theta_D^{(0)}\right)$
 4.  $\quad\quad\cdots$
-5. Generate $\theta_d^{(1)}$ from the conditional distribution
-$\theta_d \mid \left(\theta_1^{(1)},\theta_2^{(1)},\ldots,\theta_{d-1}^{(1)}\right)$
+5. Generate $\theta_D^{(1)}$ from the conditional distribution
+$\theta_D \mid \left(\theta_1^{(1)},\theta_2^{(1)},\ldots,\theta_{D-1}^{(1)}\right)$
 6. Iterate from Step 2.
 
-With Gibbs Sampling, we typically discard the initial simulations
-(the ``burn-in`` period), while the algorithm converges to the actual
-joint distribution, thus removing the dependence on the initial set
-of parameter values.
+As with Metropolis-Hastings, in Gibbs Sampling we typically discard the
+initial simulations (the burn-in period), reducing the dependence on the 
+initial set of parameter values.
 
-As with the other MCMC algorithms, the resulting simulations form a
+As with the other MCMC algorithms, the resulting simulations approximate a
 random sample from the posterior distribution.
 
 # Example: Simple Linear Regression
@@ -1123,17 +1134,17 @@ parameter given the current values of all the other parameters.
 The simple linear regression model we will analyse here is a reduced
 version of the general linear regression model we saw yesterday:
 $$
-y_i = \beta_0+\beta_1x_i+\epsilon_i
+Y_i = \beta_0+\beta_1x_i+\epsilon_i
 $$
-for response variable $\mathbf{y}=\left(y_1,y_2,\ldots,y_n\right)$,
+for response variable $\mathbf{Y}=\left(Y_1,Y_2,\ldots,Y_n\right)$,
 explanatory variable $\mathbf{x}=\left(x_1,x_2,\ldots,x_n\right)$ and
 residual vector $\mathbf{\epsilon}=
 \left(\epsilon_1,\epsilon_2,\ldots,\epsilon_n\right)$ for a sample of
 size $n$, where $\beta_0$ is the regression intercept,
-$\beta_1$ is the regresssion slope, and where the
+$\beta_1$ is the regression slope, and where the
 $\epsilon_i$ are independent with
-$\epsilon_i\sim N\left(0,\sigma^2\right)$ $\forall i=1,2,\ldots,n$. For
-convenience, we refer to the combined set of $\mathbf{y}$ and
+$\epsilon_i\sim \textrm{N}\left(0,\sigma^2\right)$ $\forall i=1,2,\ldots,n$. For
+convenience, we refer to the combined set of $\mathbf{Y}$ and
 $\mathbf{x}$ data as $\mathcal{D}$. We also define
 $\hat{\mathbf{y}}$ to be the fitted response vector (from the
 regression equation) using the current values of the parameters
@@ -1141,12 +1152,12 @@ $\beta_0$, $\beta_1$ and $\tau$ from the Gibbs Sampling simulations.
 
 For Bayesian inference, it is simpler to work with precisions $\tau$
 rather than with variances $\sigma^2$ (remember that
-$\tau=\frac{1}{\sigma^2}$. Given priors
+$\tau=\frac{1}{\sigma^2}$). Given priors
 $$
 \begin{align*}
 \pi(\tau) &= \textrm{Ga}\left(\alpha, \beta\right), \\
-\pi(\beta_0) &= N\left(\mu_{\beta_0}, \tau_{\beta_0}\right), \quad\textrm{and} \\
-\pi(\beta_1) &= N\left(\mu_{\beta_1}, \tau_{\beta_1}\right)
+\pi(\beta_0) &= \textrm{N}\left(\mu_{\beta_0}, \tau_{\beta_0}\right), \quad\textrm{and} \\
+\pi(\beta_1) &= \textrm{N}\left(\mu_{\beta_1}, \tau_{\beta_1}\right)
 \end{align*}
 $$
 then by combining with the likelihood we can derive the full conditional distributions for each parameter. For $\tau$, we have
@@ -1200,15 +1211,16 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &\propto
 \beta_1\left(-2\tau_{\beta_1}\mu_{\beta_1} - 2\tau\sum_{i=1}^n 
 (y_i - \beta_0)x_i\right) \right) + C \right\}, \\
 \textrm{so} \quad \beta_1|\mathcal{D}, \beta_0, \tau
-&\sim N\left((\tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2)^{-1}
+&\sim \textrm{N}\left((\tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2)^{-1}
 \left(\tau_{\beta_1}\mu_{\beta_1} + \tau\sum_{i=1}^n (y_i - \beta_0)x_i\right),
 \tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2\right).
 \end{align*}
 $$
 This gives us an easy way to run Gibbs Sampling for linear regression; we have
-standard distributions as full conditionals and there are standard functions in R
-to obtain the simulations. We shall do this now for an example in ecology, looking
-at the relationship between water pollution and mayfly size.
+standard distributions as full conditionals and there are standard
+functions in R to obtain the simulations. We shall do this now for an
+example in ecology, looking at the relationship between water pollution and
+mayfly size.
 
 The data are as follows:
 
@@ -1301,8 +1313,8 @@ parameters:
 $$
 \begin{align*}
 \pi(\tau) &= \textrm{Ga}\left(1, 1\right), \\
-\pi(\beta_0) &= N\left(0, 0.0001\right), \quad\textrm{and} \\
-\pi(\beta_1) &= N\left(0, 0.0001\right).
+\pi(\beta_0) &= \textrm{N}\left(0, 0.0001\right), \quad\textrm{and} \\
+\pi(\beta_1) &= \textrm{N}\left(0, 0.0001\right).
 \end{align*}
 $$
 We will set the initial values of all parameters to 1, i.e. $\beta_0^{(0)}=\beta_1^{(0)}=\tau^{(0)}=1$.
