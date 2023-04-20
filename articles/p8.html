@@ -159,7 +159,7 @@ y_{ij} \mid \theta &amp; \sim &amp; \text{Bi}(1,\, \theta)\\
 <span><span class="co">## </span></span>
 <span><span class="co">## Parametric coefficients:</span></span>
 <span><span class="co">##                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">## (Intercept) -1.3586  0.2451 -1.8608 -1.3509 -0.9046</span></span>
+<span><span class="co">## (Intercept) -1.3589  0.2397 -1.8163 -1.3577 -0.9202</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## family = binomial  method = MCMC  N = 106  iterations = 12000  </span></span>
 <span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
@@ -168,7 +168,7 @@ y_{ij} \mid \theta &amp; \sim &amp; \text{Bi}(1,\, \theta)\\
 <code class="sourceCode R"><span><span class="va">bayesx.theta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bayesx.bin</span><span class="op">$</span><span class="va">fixed.effects</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.theta</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">## 0.08686 0.18000 0.20573 0.20731 0.23299 0.36011</span></span></code></pre>
+<span><span class="co">## 0.09739 0.17995 0.20462 0.20714 0.23159 0.35163</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -208,7 +208,7 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <span><span class="co">## </span></span>
 <span><span class="co">## Parametric coefficients:</span></span>
 <span><span class="co">##               Mean     Sd   2.5%    50%  97.5%</span></span>
-<span><span class="co">## (Intercept) 3.2481 0.0386 3.1665 3.2494 3.3209</span></span>
+<span><span class="co">## (Intercept) 3.2478 0.0402 3.1708 3.2499 3.3249</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## family = poisson  method = MCMC  N = 25  iterations = 12000  </span></span>
 <span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
@@ -218,7 +218,7 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.lambda</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">##   22.86   25.09   25.78   25.76   26.42   29.20</span></span></code></pre>
+<span><span class="co">##   22.85   25.01   25.79   25.75   26.42   28.98</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -257,11 +257,11 @@ y_i \mid \mu,\, \tau&amp; \sim &amp; \mathcal{N}(\mu,\, \tau)\\
 <span><span class="co">## </span></span>
 <span><span class="co">## Parametric coefficients:</span></span>
 <span><span class="co">##               Mean     Sd   2.5%    50%  97.5%</span></span>
-<span><span class="co">## (Intercept) 1.7164 0.0237 1.6728 1.7150 1.7637</span></span>
+<span><span class="co">## (Intercept) 1.7169 0.0240 1.6694 1.7177 1.7651</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## Scale estimate:</span></span>
 <span><span class="co">##          Mean     Sd   2.5%    50%  97.5%</span></span>
-<span><span class="co">## Sigma2 0.0179 0.0051 0.0103 0.0170 0.0307</span></span>
+<span><span class="co">## Sigma2 0.0180 0.0052 0.0108 0.0172 0.0306</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">## family = gaussian  method = MCMC  N = 30  iterations = 12000  </span></span>
 <span><span class="co">## burnin = 2000  step = 10</span></span></code></pre>
@@ -326,7 +326,7 @@ y_i \mid \mu,\, \tau&amp; \sim &amp; \mathcal{N}(\mu,\, \tau)\\
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.41, Running = 6.48, Post = 0.0268, Total = 9.92 </span></span>
+<span><span class="co">##     Pre = 3.64, Running = 6.42, Post = 0.0217, Total = 10.1 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -1.356 0.239     -1.826   -1.356     -0.887 -1.356   0</span></span>
@@ -373,7 +373,7 @@ y_i \mid \mu,\, \tau&amp; \sim &amp; \mathcal{N}(\mu,\, \tau)\\
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.49, Running = 0.274, Post = 0.0133, Total = 3.78 </span></span>
+<span><span class="co">##     Pre = 3.26, Running = 0.271, Post = 0.015, Total = 3.54 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld</span></span>
 <span><span class="co">## (Intercept) 3.246 0.039      3.169    3.246      3.324 3.246   0</span></span>
@@ -418,7 +418,7 @@ y_i \mid \mu,\, \tau&amp; \sim &amp; \mathcal{N}(\mu,\, \tau)\\
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.55, Running = 0.266, Post = 0.0202, Total = 3.84 </span></span>
+<span><span class="co">##     Pre = 3.34, Running = 0.276, Post = 0.0237, Total = 3.64 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant  mode kld</span></span>
 <span><span class="co">## (Intercept) 1.716 0.023       1.67    1.716      1.762 1.716   0</span></span>
