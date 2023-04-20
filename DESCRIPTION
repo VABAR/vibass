@@ -1,9 +1,9 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.29
+Version: 0.0.34
 Authors@R: 
-    c(person(given = "VIBASS4",
+    c(person(given = "VIBASS5",
              role = c("aut")),
       person(given = "Facundo",
              family = "Muñoz",
@@ -28,8 +28,8 @@ Authors@R:
       person(given = "Mark",
              family = "Brewer",
              role = "ctb",
-             email = "mark.brewer@hutton.ac.uk",
-             comment = "Biomathematics and Statistics Scotland (BioSS)"),
+             email = "mark.brewer@bioss.ac.uk",
+             comment = c("Biomathematics and Statistics Scotland (BioSS)", ORCID = "0000-0001-7559-389X")),
       person(given = "Virgilio",
              family = "Gómez-Rubio",
              role = "ctb",
@@ -71,5 +71,5 @@ VignetteBuilder:
 URL: http://vabar.es/vibass/, https://github.com/VABAR/vibass
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 Additional_repositories: https://inla.r-inla-download.org/R/stable, https://packagemanager.rstudio.com/all/latest
