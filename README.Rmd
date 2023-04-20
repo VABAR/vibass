@@ -14,13 +14,13 @@ knitr::opts_chunk$set(
 ```
 
 # vibass
-[`r htmltools::img(src = "http://vabar.es/images//widget_vibass5.png", width = "300px")`](http://vabar.es/events/vibass5/)
+[`r htmltools::img(src = "http://vabar.es/images//widget_vibass6.png", width = "300px")`](http://vabar.es/events/vibass6/)
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/VABAR/vibass/workflows/R-CMD-check/badge.svg)](https://github.com/VABAR/vibass/actions)
 <!-- badges: end -->
 
-Teaching materials for the [introductory course on Bayesian inference](http://vabar.es/events/vibass5-intro/) at [VIBASS](http://vabar.es/events/vibass5/)
+Teaching materials for the [introductory course on Bayesian inference](http://vabar.es/events/vibass6-intro/) at [VIBASS](http://vabar.es/events/vibass6/)
 
 
 

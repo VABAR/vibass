@@ -66,13 +66,13 @@ as $0$ or $1$ and the model becomes:
 
 $$
 \begin{array}{rcl}
-y_{ij} \mid \theta & \sim & Bi(1,\theta)\\
-\textrm{logit}(\theta) & = & \beta_0\\
-\beta_0 & \sim & N(0, \tau_{\beta_0})
+y_{ij} \mid \theta & \sim & \text{Bi}(1,\, \theta)\\
+\text{logit}(\theta) & = & \beta_0\\
+\beta_0 & \sim & \mathcal{N}(0,\, \tau_{\beta_0})
 \end{array}
 $$
 
-Note that now the probability $\theta$ is not modeled directly but that its logit
+Note that now the probability $\theta$ is not modelled directly but that its logit
 depends on a linear predictor, which is made of a single intercept term
 $\beta_0$. This term is assigned a (vague) Gaussian prior.
 
@@ -86,14 +86,13 @@ data <- data.frame(MMs = c(35, 36, 35), red = c(5, 8, 9))
 Before fitting the model, you will need to transform the original data into binary data:
 
 ```{r}
-red.bin <- rep(c(1,0), times = c(sum(data$red), 
-  sum(data$MMs) - sum(data$red)))
+red.bin <- rep(c(1,0), times = c(sum(data$red), sum(data$MMs) - sum(data$red)))
 ```
 
 As mentioned above, fitting a model with `BayesX` is similar to fitting a
 model with the `glm` function:
 
-```{r results = "hide"}
+```{r message=FALSE}
 library(R2BayesX)
 bayesx.bin <- bayesx(red.bin ~ 1, family = "binomial", method = "MCMC")
 ```
@@ -110,7 +109,7 @@ summary(bayesx.bin)
 Note that the output shows the summary of the intercept term $\beta_0$ and not of
 $\theta$. In this simple case, we can obtain a sample from the posterior
 of $\theta$ by back-transforming the samples of the intercept term, i.e.,
-$\theta = \textrm{expit}(\beta_0) = 1/(1 + \exp(-\beta_0))$.
+$\theta = \text{expit}(\beta_0) = 1/(1 + \exp(-\beta_0))$.
 
 ```{r}
 bayesx.theta <- 1/(1 + exp(-attr(bayesx.bin$fixed.effects, "sample")[,1]))
@@ -135,17 +134,20 @@ a slightly different model will be fitted:
 
 $$
 \begin{array}{rcl}
-y_i \mid \lambda & \sim & Po(\lambda)\\
+y_i \mid \lambda & \sim & \text{Po}(\lambda)\\
 \log(\lambda) & = & \beta_0\\
 \beta_0 & \sim & N(0, \tau_{\beta_0})
 \end{array}
 $$
 
-In BayesX, $\tau_{\beta_0}$ is assigned a Gamma prior with parameters 0.001
+<!-- This is probably incorrect. Check. -->
+<!-- This sentence might have been intended for the Normal model -->
+In `BayesX`, $\tau_{\beta_0}$ is assigned a Gamma prior with parameters 0.001
 and 0.001, but we will ignore that for now.
+<!-- ... -->
 
 This is often called a *Poisson model* or *log-linear model* because the
-logarithm of the mean (i.e., $\lambda$) is modeled on a vector of covariates.
+logarithm of the mean (i.e., $\lambda$) is modelled on a vector of covariates.
 In this case the linear predictor is made up of a single intercept term, which
 is assigned a Gaussian prior. 
 
@@ -184,6 +186,7 @@ plot(bayesx.lambda, type = "l", main = "MCMC samples", ylab = expression(lambda)
 plot(density(bayesx.lambda), main = "Posterior density", xlab = expression(lambda))
 ```
 
+
 ## Normal model 
 
 The final model is based on the height data collected before. The actual
@@ -192,10 +195,10 @@ model that will be considered is:
 
 $$
 \begin{array}{rcl}
-y_i \mid \mu, \tau& \sim & N(\mu, \tau)\\
+y_i \mid \mu,\, \tau& \sim & \mathcal{N}(\mu,\, \tau)\\
 \mu & = & \beta_0\\
-\beta_0 & \sim & N(0, \tau_{\beta_0})\\
-\tau & \sim & Ga(0.001, 0.001)
+\beta_0 & \sim & \mathcal{N}(0,\, \tau_{\beta_0})\\
+\tau & \sim & \text{Ga}(0.001,\, 0.001)
 \end{array}
 $$
 
