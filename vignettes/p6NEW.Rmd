@@ -1,0 +1,124 @@
+---
+title: 'Practical 6: Software and GLMs'
+author: "VIBASS"
+date: "July 2023"
+output:
+  html_vignette:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    fig_width: 6
+    fig_height: 4
+vignette: >
+  %\VignetteIndexEntry{Practical 6: Software and GLMs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Software for Bayesian Statistical Analysis
+
+So far, only simple Bayesian models with conjugate priors have been considered.
+As explained in previous practicals, when the posterior distribution is not
+available in closed form, MCMC algorithms such as the Metropolis-Hastings or
+Gibbs Sampling can be used to obtain samples from it.
+
+In general, posterior distributions are seldom available in closed form and
+implementing MCMC algorithms for complex models can be technically difficult
+and very time-consuming.
+
+For this reason, in this Practical we start by looking at a number of `R`
+packages to fit Bayesian statistical models. These packages will equip us
+with tools which can be used to deal with more complex models efficiently,
+without us having to do a lot of extra coding ourselves. Fitting Bayesian
+models in `R` will then be much like fitting non-Bayesian models, using
+model-fitting functions at the command line, and using standard syntax for
+model specification.
+
+## BayesX and INLA
+
+In particular, the following two software packages will be considered:
+
+* `BayesX`
+
+* `INLA`
+
+`BayesX` (http://www.bayesx.org/) implements MCMC methods to obtain samples
+from the joint posterior and is conveniently accessed from R via the package
+`R2BayesX`.
+
+`INLA` (https://www.r-inla.org/) is based on producing (accurate)
+approximations to the marginal distributions of the model parameters.
+Although this can be enough most of the time, making multivariate inference
+with `INLA` can be difficult or impossible. However, in many cases this is
+not needed and `INLA` can fit some classes of models in a fraction of the
+time it takes with MCMC.
+
+Both `R2BayesX` and `INLA` have a very simple interface to define models
+using a `formula` (in the same way as with `glm` and `gam`).
+
+While `R2BayesX` can be installed from CRAN, `INLA` is not on CRAN and
+needs to be installed from a specific repository.
+
+## Other Bayesian Software
+
+NEEDS WRITING
+
+# Bayesian Logistic Regression
+
+## Model Formulation
+[RECAP OF LOGISTIC MODEL FROM SLIDES]
+
+## Example: Fake News
+
+The `fake_news` data set in the `bayesrules` package in `R` contains
+information about 150 news articles, some real news and some fake news.
+
+In this example, we will look at trying to predict whether an article of news
+is fake or not given three explanatory variables.
+
+We can use the following code to extract the variables we want from the
+data set without having to load the package itself:
+
+```{r}
+fakenews <- bayesrules::fake_news[,c("type","title_has_excl","title_words","negative")]
+```
+
+The response variable `type` takes values `fake` or `real`, which should be
+self-explanatory. The three explanatory variables are:
+
+* `title_has_excl`, whether or not the article contains an excalamation mark (values `TRUE` or `FALSE`);
+
+* `title_words`, the number of words in the title (a positive integer); and
+
+* `negative`, a sentiment rating, recorded on a continuous scale.
+
+
+
+
+## Exercises
+
+# Bayesian Poisson Regression
+
+## Model Formulation
+[RECAP OF POISSON MODEL FROM SLIDES]
+
+## Example: Emergency Room Complaints
+
+Example: in faraway package
+esdcomp: Complaints about emergency room doctors
+
+Data was recorded on 44 doctors working in an emergency service at a
+hospital to study the factors affecting the number of complaints received.
+
+## Exercises
+
+
+

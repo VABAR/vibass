@@ -1,0 +1,26 @@
+---
+title: 'Practical 7: Bayesian Hierarchical Modelling'
+author: "VIBASS"
+date: "July 2023"
+output:
+  html_vignette:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    fig_width: 6
+    fig_height: 4
+vignette: >
+  %\VignetteIndexEntry{Practical 7: Bayesian Hierarchical Modelling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Bayesian Hierarchical Modelling
+
+# Multilevel Modelling
+
+# Linear Mixed Models
+
+# Further Extensions
+
+
