@@ -100,11 +100,87 @@ self-explanatory. The three explanatory variables are:
 
 * `negative`, a sentiment rating, recorded on a continuous scale.
 
+In the exercise to follow, we will examine whether the chance of an article
+being fake news is related to the three covariates here.
 
+## Fitting Bayesian Logistic Regression Models in BayesX
 
+`BayesX` makes inference via MCMC, via the `R2BayesX` package which as noted 
+maked the syntax for model fitting very similar to that for fitting
+non-Bayesian models using `glm()` in R.
+
+The package must be loaded into R:
+```{r echo=FALSE}
+library(R2BayesX)
+```
+
+The syntax for fitting a Bayesian Logistic Regression Model with one response
+variable and three explanatory variables will be like so:
+
+```{r eval=FALSE}
+model1 <- bayesx(formula = y~x1+x2+x3,
+                 data = data.set,
+                 family="binomial")
+```
 
 ## Exercises
 
+* Perform an exploratory assessment of the fake news data set, in particular
+looking at the possible relationships between the explanatory variables
+and the fake/real response variable `type`.
+
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    
+    ```
+    
+    </details>
+    
+* Fit the model using the fake news `type` variable as response and the others
+as covariates. Examine the output; does the model fit well, and is there any
+evidence that any of the explanatory variables are associated with changes in
+probability of an article being fake or not?
+
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    bayesx.output <- bayesx(formula = type ~ title_has_excl + title_words + negative,
+    data = fakenews,
+    family = "binomial")
+    
+    ```
+    
+    </details>
+
+* Produce plots of the estimated posterior distributions for the model
+parameters.
+
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    
+    ```
+    
+    </details>
+
+* Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
+compare?
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # Fit model - note similarity with bayesx syntax
+    glm.output <- glm(formula = type ~ title_has_excl + title_words + negative,
+      data = fakenews,
+      family = "binomial")
+    # Summarise output
+    summary(glm.output)
+    # Perform ANOVA on each variable in turn
+    drop1(glm.output,test="Chisq")
+    ```
+    
+    </details>
+    
 # Bayesian Poisson Regression
 
 ## Model Formulation
