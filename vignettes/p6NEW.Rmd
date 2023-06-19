@@ -69,12 +69,36 @@ needs to be installed from a specific repository.
 
 ## Other Bayesian Software
 
-NEEDS WRITING
+* Package MCMCpack in R contains functions such as MCMClogit, MCMCPoisson and
+MCMCprobit for fitting specific kinds of models.
+* A classic MCMC program is BUGS, (Bayesian Analysis using Gibbs Sampling)
+described in Lunn et al. (2000):
+http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml
+BUGS can be used through graphical interfaces WinBUGS and OpenBUGS. Both of
+these packages can be called from within R using packages R2WinBUGS and
+R2OpenBUGS.
+* JAGS, which stands for “just another Gibbs sampler”. Can also be called from
+R using package "r2jags".
+* The NIMBLE package extends BUGS and implements MCMC and other methods
+for Bayesian inference. You can get it from https://r-nimble.org, and is best
+run directly from R.
+* The Stan software implements Hamiltonian Monte Carlo and other methods for
+fit hierarchical Bayesian models. It is available from https://mc-stan.org.
 
 # Bayesian Logistic Regression
 
 ## Model Formulation
-[RECAP OF LOGISTIC MODEL FROM SLIDES]
+
+To summarise the model formulation presented in the lecture, given a response
+variable $Y_i$ representing the count of a number of successes from a given
+number of trials $n$, we have
+
+* $(Y_i \mid \boldsymbol \theta_i) \sim\mbox{Bi}(n, \theta_i),\,\, i.i.d.\,\,, i=1, \ldots, n$
+\begin{align*}
+ \mbox{logit}(\theta_i) & =\eta_i \nonumber\\
+\eta_{i} & =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
+\end{align*}
+assuming the logit link function and with linear predictor $\eta_{i}$.
 
 ## Example: Fake News
 
@@ -110,7 +134,7 @@ maked the syntax for model fitting very similar to that for fitting
 non-Bayesian models using `glm()` in R.
 
 The package must be loaded into R:
-```{r echo=FALSE}
+```{r}
 library(R2BayesX)
 ```
 
@@ -123,43 +147,79 @@ model1 <- bayesx(formula = y~x1+x2+x3,
                  family="binomial")
 ```
 
+Note that the variable `title_has_excl` will need to be either replaced by or
+converted to a factor, for example
+
+```{r}
+fakenews$titlehasexcl <- as.factor(fakenews$title_has_excl)
+```
+
+Functions `summary` and `confint` produce a summary (including parameter
+estimates etc) and confidence intervals for the parameters, respectively.
+
+In order to be able to obtain output plots from BayesX, it seems that we need
+to create a new version of the response variable of type logical:
+
+```{r}
+fakenews$typeFAKE <- fakenews$type == "fake"
+```
+
 ## Exercises
 
 * Perform an exploratory assessment of the fake news data set, in particular
 looking at the possible relationships between the explanatory variables
-and the fake/real response variable `type`.
+and the fake/real response variable `typeFAKE`.
 
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    
+    # Is there a link between the fakeness and whether the title has an exclamation mark?
+    table(fakenews$title_has_excl,fakenews$typeFAKE)
+    # For the quantitative variables, look at boxplots on fake vs real
+    boxplot(fakenews$title_words~fakenews$typeFAKE)
+    boxplot(fakenews$negative~fakenews$typeFAKE)
+
     ```
     
     </details>
     
-* Fit the model using the fake news `type` variable as response and the others
-as covariates. Examine the output; does the model fit well, and is there any
-evidence that any of the explanatory variables are associated with changes in
-probability of an article being fake or not?
+* Fit a Bayesian model in BayesX using the fake news `typeFAKE` variable as
+response and the others as covariates. Examine the output; does the model fit
+well, and is there any evidence that any of the explanatory variables are
+associated with changes in probability of an article being fake or not?
 
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    bayesx.output <- bayesx(formula = type ~ title_has_excl + title_words + negative,
+    # Produce the BayesX output
+    bayesx.output <- bayesx(formula = typeFAKE ~ titlehasexcl + title_words + negative,
     data = fakenews,
-    family = "binomial")
-    
+    family = "binomial",
+    method = "MCMC",
+    iter = 15000,
+    burnin = 5000)
+    summary(bayesx.output)
+    confint(bayesx.output)
     ```
     
     </details>
 
-* Produce plots of the estimated posterior distributions for the model
-parameters.
+* Produce plots of the MCMC sample traces and the estimated posterior
+distributions for the model parameters. Does it seem like convergence has been
+achieved?
 
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    
+    # An overall plot of sample traces and density estimates
+   # plot(samples(bayesx.output))
+    # Traces can be obtained separately
+    plot(bayesx.output,which = "coef-samples")
+    # And the density plots one-by-one
+    par(mfrow=c(2,2))
+    plot(density(samples(bayesx.output)[,"titlehasexclTRUE"]),main="Title Has Excl")
+    plot(density(samples(bayesx.output)[,"title_words"]),main="Title Words")
+    plot(density(samples(bayesx.output)[,"negative"]),main="Negative")
     ```
     
     </details>
@@ -170,7 +230,7 @@ compare?
     
     ```{r fig = TRUE}
     # Fit model - note similarity with bayesx syntax
-    glm.output <- glm(formula = type ~ title_has_excl + title_words + negative,
+    glm.output <- glm(formula = typeFAKE ~ titlehasexcl + title_words + negative,
       data = fakenews,
       family = "binomial")
     # Summarise output
@@ -184,7 +244,17 @@ compare?
 # Bayesian Poisson Regression
 
 ## Model Formulation
-[RECAP OF POISSON MODEL FROM SLIDES]
+
+To summarise the model formulation presented in the lecture, given a response
+variable $Y_i$ representing the counts occurring from a process with rate 
+parameter $\lambda_i$:
+
+* $(Y_i \mid \boldsymbol \lambda_i) \sim\mbox{Po}(\lambda_i),\,\, i.i.d.\,\,, i=1, \ldots, n$
+\begin{align*}
+ \mbox{log}(\lambda_i) & =\eta_i \nonumber\\
+\eta_{i} & =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
+\end{align*}
+assuming the log link function and with linear predictor $\eta_{i}$.
 
 ## Example: Emergency Room Complaints
 
@@ -194,7 +264,140 @@ esdcomp: Complaints about emergency room doctors
 Data was recorded on 44 doctors working in an emergency service at a
 hospital to study the factors affecting the number of complaints received.
 
+The response variable that we will use is `complaints`, an integer count of the
+number of complaints received. It is expected that the number of complaints will
+scale by the number of visits (contained in the `visits` column), so we are
+modelling the rate of complaints per visit - thus we will need to include a new
+variable `log.visits` as an offset.
+
+The three explanatory variables we will use in the analysis are:
+
+* `residency`, whether or not the doctor is still in residency training (values
+`N` or `Y`);
+
+* `gender`, the gender of the doctor (values `F` or `M`); and
+
+* `revenue`, dollars per hour earned by the doctor, recorded as an integer.
+
+Our simple aim here is to assess whether the seniority, gender or income of the
+doctor is linked with the rate of complaints against that doctor.
+
+We can use the following code to extract the data we want without having to load
+the whole package:
+
+```{r}
+esdcomp <- faraway::esdcomp    
+```
+
+## Fitting Bayesian Poisson Regression Models in BayesX
+
+Again we use `BayesX` to fit this form of Bayesian generalised linear model.
+
+If not loaded already, the package must be loaded into R:
+```{r echo=FALSE}
+library(R2BayesX)
+```
+
+The syntax for fitting a Bayesian Poisson Regression Model with one response
+variable, three explanatory variables and an offset will be like so:
+
+```{r eval=FALSE}
+model1 <- bayesx(formula = y~x1+x2+x3+offset(w),
+                 data = data.set,
+                 family="poisson")
+```
+
+However, as noted above we need to include an offset in this analysis; since
+for a Poisson GLM we will be using a log() link function by default, we must
+compute the log of the number of visits and include that in the data set
+`esdcomp`:
+
+```{r}
+esdcomp$log.visits <- log(esdcomp$visits)    
+```
+
+The offset term in the model is then written
+
+`offset(log.visits)`
+
+in the call to `bayesx`.
+
 ## Exercises
 
+* Perform an exploratory assessment of the emergency room complaints data set,
+particularly how the response variable `complaints` varies with the proposed
+explanatory variables relative to the number of visits. To do this, create
+another variable which is the ratio of `complaints` to `visits`.
 
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # Compute the ratio
+    esdcomp$ratio <- esdcomp$complaints/esdcomp$visits
+    # Plot the link with revenue
+    plot(esdcomp$revenue,esdcomp$ratio)
+    # Use boxplots against residency and gender
+    boxplot(esdcomp$ratio~esdcomp$residency)
+    boxplot(esdcomp$ratio~esdcomp$gender)
+    ```
+    
+    </details>
+
+* Fit a Bayesian model in BayesX using the `complaints` variable as Poisson
+response and the others as covariates. Examine the output; does the model fit
+well, and is there any evidence that any of the explanatory variables are
+associated with the rate of complaints?
+
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # Fit model - note similarity with bayesx syntax
+    esdcomp$log.visits <- log(esdcomp$visits)
+    bayesx.output <- bayesx(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
+      data = esdcomp,
+      family = "poisson")
+    # Summarise output
+    summary(bayesx.output)
+    ```
+    
+    </details>
+
+
+* Produce plots of the MCMC sample traces and the estimated posterior
+distributions for the model parameters. Does it seem like convergence has been
+achieved?
+
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # An overall plot of sample traces and density estimates
+  #  plot(samples(bayesx.output))
+    # Traces can be obtained separately
+    plot(bayesx.output,which = "coef-samples")
+    # And the density plots one-by-one
+    par(mfrow=c(2,2))
+    plot(density(samples(bayesx.output)[,"residencyY"]),main="Residency")
+    plot(density(samples(bayesx.output)[,"genderM"]),main="Gender")
+    plot(density(samples(bayesx.output)[,"revenue"]),main="Revenue")
+    ```
+    
+    </details>
+
+* Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
+compare?
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # Fit model - note similarity with bayesx syntax
+    esdcomp$log.visits <- log(esdcomp$visits)
+    glm.output <- glm(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
+      data = esdcomp,
+      family = "poisson")
+    # Summarise output
+    summary(glm.output)
+    # Perform ANOVA on each variable in turn
+    drop1(glm.output,test="Chisq")
+    ```
+    
+    </details>
 
