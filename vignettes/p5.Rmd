@@ -1,5 +1,5 @@
 ---
-title: 'Practical 5: Numerical approaces'
+title: 'Practical 5: Numerical approaches'
 author: "VIBASS"
 date: "July 2023"
 output:
