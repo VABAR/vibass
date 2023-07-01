@@ -135,7 +135,7 @@ Y_i \mid \theta & \sim & \text{Bi}(n_i,\, \theta)\\
 \theta & \sim & \text{Be}(\alpha,\, \beta)
 \end{array}
 $$
-to allow for multiple tubes $i$.
+to allow for multiple tubes.
 
 In particular, we will consider a vague uniform prior in the $[0,1]$ interval, which corresponds to $\alpha=\beta=1$.
 
@@ -415,7 +415,7 @@ do you think that these differences appear?
     ```
     
     ```{r fig = TRUE}
-    plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
+    plot(density(theta_sim, weights = ww, bw = 0.025), main = "Posterior density")
     curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
@@ -537,7 +537,7 @@ and variance. Finally, show the posterior density estimate.
     ```
     
     ```{r fig = TRUE}
-    plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
+    plot(density(theta_sim, weights = ww, bw = 0.025), main = "Posterior density")
     curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
@@ -1095,8 +1095,8 @@ very large multidimensional inference problem to a set of single
 dimension problems.
 
 To recap, in order to generate a random sample from the joint density
-$\pi\left(\mathbf{\theta}\right)=
-\pi\left(\theta_1,\theta_2,\ldots,\theta_D\right)$ for a model with
+$g\left(\mathbf{\theta}\right)=
+g\left(\theta_1,\theta_2,\ldots,\theta_D\right)$ for a model with
 $d$ parameters, we use the following algorithm:
 
 1. Start with an initial set
@@ -1146,13 +1146,13 @@ $\epsilon_i$ are independent with
 $\epsilon_i\sim \textrm{N}\left(0,\sigma^2\right)$ $\forall i=1,2,\ldots,n$. For
 convenience, we refer to the combined set of $\mathbf{Y}$ and
 $\mathbf{x}$ data as $\mathcal{D}$. We also define
-$\hat{\mathbf{y}}$ to be the fitted response vector (from the
-regression equation) using the current values of the parameters
-$\beta_0$, $\beta_1$ and $\tau$ from the Gibbs Sampling simulations.
+$\hat{\mathbf{y}}$ to be the fitted response vector (i.e., 
+$\hat{y}_i = \beta_0 + \beta_1 x_i$ from the regression equation) using the
+current values of the parameters $\beta_0$, $\beta_1$ and precision $\tau = 1$
+(remember that $\tau=\frac{1}{\sigma^2}$) from the Gibbs Sampling simulations.
 
 For Bayesian inference, it is simpler to work with precisions $\tau$
-rather than with variances $\sigma^2$ (remember that
-$\tau=\frac{1}{\sigma^2}$). Given priors
+rather than with variances $\sigma^2$. Given priors
 $$
 \begin{align*}
 \pi(\tau) &= \textrm{Ga}\left(\alpha, \beta\right), \\
@@ -1342,7 +1342,7 @@ will be useful for comparison with our Bayesian analysis.
 
     ```{r}
     # Linear Regression using lm()
-    linreg <- lm(mayfly.length~BOD,data=Data)
+    linreg <- lm(mayfly.length ~ BOD, data = Data)
     summary(linreg)
     ``` 
 
@@ -1381,11 +1381,11 @@ the posterior distributions.
     apply(results1[,-1],2,quantile,probs=c(0.025,0.975))
     
     # Kernel density plots for beta0, beta1 and the residual stanard deviation
-    plot(density(results1$beta0, bw = 0.25),
+    plot(density(results1$beta0, bw = 0.5),
          main = "Posterior density for beta0")
-    plot(density(results1$beta0, bw = 0.25),
+    plot(density(results1$beta1, bw = 0.25),
          main = "Posterior density for beta1")
-    plot(density(results1$StdDev, bw = 0.05),
+    plot(density(results1$StdDev, bw = 0.075),
          main = "Posterior density for StdDev")
     ``` 
 
@@ -1400,7 +1400,7 @@ do the samples look independent?
     ```{r fig = TRUE}
     # Plot sampled series
     ts.plot(results1$beta0,ylab="beta0",xlab="Iteration")
-    ts.plot(results1$beta1,ylab="beta0",xlab="Iteration")
+    ts.plot(results1$beta1,ylab="beta1",xlab="Iteration")
     ts.plot(results1$StdDev,ylab="sigma",xlab="Iteration")
     ```
 
@@ -1422,7 +1422,7 @@ on the estimate of the regression intercept afterwards.
     # Mean-centre the x covariate
     DataC <- Data
     meanx <- mean(DataC$x)
-    DataC$x <- DataC$x-meanx
+    DataC$x <- DataC$x - meanx
     
     # Bayesian Linear Regression using a Gibbs Sampler
     
@@ -1433,35 +1433,35 @@ on the estimate of the regression intercept afterwards.
     m <- m.burnin + m.keep
     
     # Obtain the samples
-    results2 <- gibbs_sample(DataC,1,1,1,m,1,1,0,0.0001,0,0.0001)
+    results2 <- gibbs_sample(DataC, 1, 1, 1, m, 1, 1, 0, 0.0001, 0, 0.0001)
     # Remove the burn-in
-    results2 <- results2[-(1:m.burnin),]
+    results2 <- results2[-(1:m.burnin), ]
     
     # Correct the effect of the mean-centering on the intercept
-    results2$beta0 <- results2$beta0 - meanx*results2$beta1
+    results2$beta0 <- results2$beta0 - meanx * results2$beta1
     
     # Add variance and standard deviation columns
-    results2$Variance <- 1/results2$tau
+    results2$Variance <- 1 / results2$tau
     results2$StdDev <- sqrt(results2$Variance)
     # Estimates are the column means
-    apply(results2[,-1],2,mean)
+    apply(results2[, -1], 2, mean)
     # Also look at uncertainty
-    apply(results2[,-1],2,sd)
-    apply(results2[,-1],2,quantile,probs=c(0.025,0.975))
+    apply(results2[, -1], 2, sd)
+    apply(results2[, -1], 2, quantile, probs = c(0.025, 0.975))
     
     # Kernel density plots for beta0, beta1 and the residual standard
     # deviation
-    plot(density(results2$beta0, bw = 0.25),
+    plot(density(results2$beta0, bw = 0.5),
          main = "Posterior density for beta0")
-    plot(density(results2$beta0, bw = 0.25),
+    plot(density(results2$beta1, bw = 0.25),
          main = "Posterior density for beta1")
-    plot(density(results2$StdDev, bw = 0.05),
+    plot(density(results2$StdDev, bw = 0.075),
          main = "Posterior density for StdDev")
     
     # Plot sampled series
-    ts.plot(results2$beta0,ylab="beta0",xlab="Iteration")
-    ts.plot(results2$beta1,ylab="beta0",xlab="Iteration")
-    ts.plot(results2$StdDev,ylab="sigma",xlab="Iteration")
+    ts.plot(results2$beta0, ylab = "beta0", xlab = "Iteration")
+    ts.plot(results2$beta1, ylab = "beta1", xlab = "Iteration")
+    ts.plot(results2$StdDev, ylab = "sigma", xlab = "Iteration")
     ```
     
     </details>
