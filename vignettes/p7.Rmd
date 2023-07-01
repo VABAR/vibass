@@ -211,7 +211,12 @@ summary(m3nc)
 Now, notice the decrease in the estimate of the precision of the random effects (i.e., the variance increases). This means that values of the random effects are now larger than in the previous case as the random effects pick some of the effect explained by the covariate.
 
 
+```{r fig = TRUE}
+par(mfrow = c(1, 2))
+boxplot(m2nc$summary.random$ID$mean, ylim = c(-1, 1), main = "With NWPROP74")
+boxplot(m3nc$summary.random$ID$mean, ylim = c(-1, 1), main = "Without NWPROP74")
+```
 
 # Further Extensions
 
-
+Spatial random effects can be defined not to be independent and indentically distributed. Instead, spatial or temporal correlation can be considered when defining them. For example, in the North Carolina SIDS dataset, it is common to consider that two counties that are neighbours (i.e., share a boundary) will have similar relative risks. This can be taken into account in the model byt assuming that the random effects are spatially autocorrelated. This is out of the scope of the introductory course but feel free to ask around about this!!
