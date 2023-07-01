@@ -24,7 +24,14 @@ Regarding software, we will use `INLA` to fit the models in the examples now. Th
 
 # Linear Mixed Models
 
-**INCLUDE DEFINITION HERE.**
+Linear mixed models wre defined in the lecture as follows:
+
+$$
+Y_{ij} = X_{ij}\beta +\phi_i+\epsilon_{ij}
+$$
+
+Here, Y_{ij} represents observation $j$ in group $i$, X_{ij} are a vector fo covariates with coefficients $\beta$, $\phi_i$ i.i.d. random effects and $\epsilon_{ij}$ a Gaussian error term. The distribution of the random effects $\phi_i$ is Gaussian with zero mean and precision $\tau_{\phi}$.
+
 
 # Multilevel Modelling
 
@@ -87,12 +94,19 @@ summary(m2)
 
 # Generalized Linear Mixed Models
 
-**INCLUDE DEFINITION HERE.**
+Mixed effects models can also be considered within the context of generalised 
+linear models. In this case, the linear predictor of observation $i$, $\eta_i$, can be defined as
+
+$$
+\eta_i = X_{ij}\beta +\phi_i
+$$
+
+Compared to the previous setting of linear mixed effects models, note that now the distribution of the response could be other than Gaussian and that observations are not necessarily nested within groups.
 
 # Poisson regression
 
 
-In this practical we will use the North Carolina Sudden Infant Death Syndrome (SIDS) dataset. It is available in the spData package and it can be loaded as:
+In this practical we will use the North Carolina Sudden Infant Death Syndrome (SIDS) dataset. It is available in the `spData` package and it can be loaded as:
 
 ```{r message = FALSE, warning = FALSE}
 library(spData)
