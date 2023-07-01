@@ -17,9 +17,200 @@ vignette: >
 
 # Bayesian Hierarchical Modelling
 
-# Multilevel Modelling
+In this last practical we will consider the analysis of Bayesian hierarhical models. As explained in the previous lecture, hierarchical models pose a convenient tool to define model so that the different sources of variation in the data are clearly identified. Bayesian inference for highly structure hierarchical models can be diffincult and may require the use of Markov chain Monte Carlo methods. However, packages such as `BayesX` and `INLA`, to mention a few, provide a very convenient way to fit and make inference about certain types of Bayesian hierarchical models.
+
+
+Regarding software, we will use `INLA` to fit the models in the examples now. The reason is that it is a popular software for Bayesian inference and very fast.
 
 # Linear Mixed Models
+
+**INCLUDE DEFINITION HERE.**
+
+# Multilevel Modelling
+
+Multilevel models are a particular type o mixed-effects models in which observations are nested withing groups, so that group effects are modeled using random effects. A typical example is the that of students nested within classes.
+
+For the next example, the `nlschools` dataset (in package `MASS`) will be used.
+This dataset records data about students' performance (in particular, about a
+language score test) and other variables. The variable sin this dataset are:
+
+* `lang`, language score test.
+
+* `IQ`, verbal IQ.
+
+* `class`, class ID.
+
+* `GS`, class size as number of eighth-grade pupils recorded in the class.
+
+* `SES`, social-economic status of pupil’s family.
+
+* `COMB`, whether the pupils are taught in the multi-grade class with 7th-grade students.
+
+The dataset can be loaded and summarised as follows:
+
+```{r}
+library("MASS")
+data("nlschools")
+summary(nlschools)
+```
+
+The model to fit will take `lang`  as the response variables and include
+`IQ`, `GS`, `SES` and `COMB` as covariates (i.e., fixed effects). This model can easily be fit with `INLA` as follows:
+
+```{r message = FALSE, warning = FALSE}
+library("INLA")
+m1 <- inla(lang ~ IQ + GS +  SES + COMB, data = nlschools)
+
+summary(m1)
+```
+
+Note that the previous model only includes fixed effects. The dataset includes `class` as the class ID to which each student belongs. Class effects can have an impact on the performance of the students, with students in the same class performing similarly in the language test.
+
+Very conveniently, `INLA` can include random effects in the model by adding a term in the right hand side of the formula that defined the model. In particular, 
+the term to add is `f(class, model = "iid")` (see code below for full model). This will create a random effect indexed over variable `class` and that is of type `iid`, i.e., the random effects are independent and indentically distributed using a normal distributopn with zero mean and precicion $\tau$.
+
+Before fitting the model, the between-class variabiolity can be explored by means of boxplots:
+
+```{r fig = TRUE, fig.width = 15, fig.height = 5}
+boxplot(lang ~ class, data = nlschools, las = 2)
+```
+
+The code to fit the model with random effects is:
+
+```{r}
+m2 <- inla(lang ~ IQ + GS +  SES + COMB + f(class, model = "iid"),
+  data = nlschools)
+
+summary(m2)
+```
+
+
+# Generalized Linear Mixed Models
+
+**INCLUDE DEFINITION HERE.**
+
+# Poisson regression
+
+
+In this practical we will use the North Carolina Sudden Infant Death Syndrome (SIDS) dataset. It is available in the spData package and it can be loaded as:
+
+```{r message = FALSE, warning = FALSE}
+library(spData)
+data(nc.sids)
+summary(nc.sids)
+```
+
+A full description of the dataset is provided in the associated manual page (check with `?nc.sids`) but in this practical we will only consider these variables:
+
+* `BIR74`,  number of births (1974-78).
+
+* `SID74`,  number of SID deaths (1974-78).
+
+* `NWBIR74`, number of non-white births (1974-78).
+
+These variables are measured at the county level in North Carolina, of which there are 100.
+
+Because `SID74` records the number of SID deaths, the model is Poisson:
+
+$$
+O_i \mid \mu_i \sim Po(\mu_i),\ i=1,\ldots, 100
+$$
+Here, $O_i$ represents the number of cases in county $i$ and $\mu_i$ the mean.
+In addition, mean $mu_i$ will be written as $\mu_i = E_i \theta_i$, where $E_i$ is the *expected* number of cases and $\theta_i$ the realtive risk in county $i$.
+
+The relative risk $\theta_i$ is often modeled, in the log-scale, to be equal to a linear predictor:
+
+$$
+\log(\theta_i) = \beta_0 + \ldots
+$$
+
+The expeted number of cases is computed by multiplying th numbero of births in county $i$ to the overall mortality rate
+
+$$
+r = \frac{\sum_{i=1}^{100}}{\sum_{i=1}^{100}B_i}
+$$
+where $B_i$ represents the total number of births in country $i$. Hence,
+the expected number of cases in county $i$ is $E_i = r B_i$.
+
+
+```{r}
+# Overall mortality rate
+r74 <- sum(nc.sids$SID74) / sum(nc.sids$BIR74)
+# Expected cases
+nc.sids$EXP74 <- r74 * nc.sids$BIR74
+```
+
+A common measure of realtive risk is the *standarised mortality ratio* ($O_i / E_i$):
+
+```{r}
+nc.sids$SMR74 <- nc.sids$SID74 / nc.sids$EXP74
+```
+
+A summary of the SMR can be obtained:
+
+```{r fig = TRUE}
+hist(nc.sids$SMR, xlab = "SMR")
+```
+
+Values above 1 indicate that the county has more observed deaths than expected and that there might be an increased risk in the area.
+
+
+As a covariate, we will compute the proportion on non-white births:
+
+```{r}
+nc.sids$NWPROP74 <- nc.sids$NWBIR74/ nc.sids$BIR74
+```
+
+There is a clear relationship between the SMR and the proportion of non-white births in a county:
+
+```{r fig = TRUE}
+plot(nc.sids$NWPROP74, nc.sids$SMR74)
+
+# Correlation
+cor(nc.sids$NWPROP74, nc.sids$SMR74)
+```
+
+
+A simple Poisson regression can be fit by using the following code:
+
+```{r}
+m1nc <- inla(SID74 ~ 1 + NWPROP74, E = nc.sids$EXP74, data = nc.sids, family = "poisson")
+summary(m1nc)
+```
+
+Random effects could be included to account for intrinsic differences in the counties:
+
+```{r}
+# Index for random effects
+nc.sids$ID <- 1:nrow(nc.sids)
+
+# Model WITHOUT covariate
+m2nc <- inla(SID74 ~  1 + NWPROP74 + f(ID, model = "iid"),
+  data = as.data.frame(nc.sids),
+  family = "poisson",
+  E = nc.sids$EXP74
+)
+
+summary(m2nc)
+```
+
+The role of the covariate can be explored by fitting a model without it:
+
+
+```{r}
+# Model WITHOUT covariate
+m3nc <- inla(SID74 ~  1 + f(ID, model = "iid"),
+  data = as.data.frame(nc.sids),
+  family = "poisson",
+  E = nc.sids$EXP74
+)
+
+summary(m3nc)
+```
+
+Now, notice the decrease in the estimate of the precision of the random effects (i.e., the variance increases). This means that values of the random effects are now larger than in the previous case as the random effects pick some of the effect explained by the covariate.
+
+
 
 # Further Extensions
 
