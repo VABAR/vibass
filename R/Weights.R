@@ -7,7 +7,7 @@
 #'
 #' @docType data
 #'
-#' @usage data(Weights)
+#' @usage data("Weights")
 #'
 #' @format An object of class \code{"data.frame"}.
 #'
