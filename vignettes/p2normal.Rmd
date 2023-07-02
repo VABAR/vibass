@@ -1,5 +1,5 @@
 ---
-title: 'Practical 4: Normal data'
+title: 'Practical 2: Normal data'
 author: "VIBASS"
 date: "July 2022"
 output:
@@ -10,7 +10,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Practical 4: Normal data}
+  %\VignetteIndexEntry{Practical 2: Normal data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
