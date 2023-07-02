@@ -24,3 +24,4 @@
 #' # ML estimates
 #' lmW <- lm(weight ~ age, data = Weights)
 #' summary(lmW) 
+NULL
