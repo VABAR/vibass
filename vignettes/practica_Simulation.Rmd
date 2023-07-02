@@ -1,0 +1,185 @@
+---
+title: 'Practical 4: Simualtion-based Bayesian inference'
+author: "VIBASS"
+date: "July 2023"
+output:
+  html_vignette:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    fig_width: 6
+    fig_height: 4
+vignette: >
+  %\VignetteIndexEntry{Practical 4: Simualtion-based Bayesian inference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Simulation-based inference in a Bayesian spline model
+
+## Introduction 
+
+We resume the analysis of the \texttt{Auto} data set of the \texttt{ISLR} library from the previous practical session. We are again interested in explaining the fuel consumption of the cars  (variable \texttt{mpg}) as a function of their power (\texttt{horsepower}).
+
+We start by loading the data and redoing the frequentist fit from the previous session:
+
+```{r}
+if(!("ISLR"%in%installed.packages())){install.packages("ISLR")}
+library(ISLR)
+library(splines)
+library(LaplacesDemon)
+
+basis<-bs(Auto$horsepower,df=5)
+
+Fit1<-lm(mpg~bs(horsepower,df=5),data=Auto)
+summary(Fit1)
+plot(mpg~horsepower, data=Auto)
+lines(50:250,predict(Fit1,data.frame(horsepower=50:250)),col=2,lwd=2)
+```
+
+We will now assume that we have prior information on the parameters of this analysis. That prior information may be summarised in the following conjugate prior:
+$$\pi(\boldsymbol{\beta},\sigma^2)\sim N_6(\boldsymbol{\beta}\mid\mathbf{0}_6,5\sigma^2\mathbf{I}_6)IG(\sigma^2\mid 10,300)$$
+
+## Posterior distribution for the model parameters
+
+As mentioned in the theoretical session, the posterior distribution of this parameter under this model is:
+
+$$\pi(\boldsymbol{\beta}|\sigma^2,\boldsymbol{y})\sim N_{p+1}\left((\boldsymbol{S}^{-1}+\boldsymbol{X}'\boldsymbol{X})^{-1}(\boldsymbol{X}'\boldsymbol{y}+\boldsymbol{S}^{-1}\boldsymbol{m}),\sigma^2(\boldsymbol{S}^{-1}+\boldsymbol{X}'\boldsymbol{X})^{-1}\right)$$
+and
+$$\pi(\sigma^2|\boldsymbol{y})\sim IG\left(a+\frac{n}{2},b+\frac{s_e^2+(\boldsymbol{m}-\hat{\boldsymbol{\beta}})'(\boldsymbol{S}+(\boldsymbol{X}'\boldsymbol{X})^{-1})^{-1}(\boldsymbol{m}-\hat{\boldsymbol{\beta}})}{2}\right)$$
+
+for $\textbf{m}=\textbf{0}_6$, $\textbf{S}=5\cdot\textbf{I}_6$, $a=10$ and $b=300$. Unlike Jeffreys' prior, for this model no analytical expression can be deduced for the marginal posterior distribution $\pi(\boldsymbol{\beta}\mid\mathcal{D})$, so the practical use of this model becomes quite complicated.
+
+## Analytical inference 
+
+We are going to generate functions for calculating the posterior distributions $\pi(\sigma^2\mid \mathcal{D})$, $\pi(\boldsymbol{\beta}\mid \sigma^2, \mathcal{D})$, $\pi(\boldsymbol{\beta}, \sigma^2 \mid \mathcal{D})$
+```{r}
+X <- cbind(rep(1, nrow(Auto)), basis)
+y <- matrix(Auto$mpg, ncol = 1)
+
+betahat <- matrix(Fit1$coefficients, ncol = 1)
+RSS <- sum(residuals(Fit1)^2)
+
+# P(sigma^2|y)
+Psigma2<-function(sigma2){
+  dinvgamma(sigma2, 10+nrow(Auto)/2, 
+            300+(RSS+t(betahat)%*%solve(5*diag(6)+solve(t(X)%*%X))%*%betahat)/2)
+}
+
+# P(beta|sigma^2,y)
+PBetaGivenSigma2<-function(beta,sigma2){
+  dmvn(beta, as.vector(solve(diag(6)/5+t(X)%*%X)%*%(t(X)%*%y)),
+       sigma2*solve(diag(6)/5+t(X)%*%X))
+}
+
+# P(beta,sigma^2|y)  
+JointPosterior<-function(beta,sigma2){
+  P1 <- Psigma2(sigma2)
+  P2 <- PBetaGivenSigma2(beta, sigma2)
+  P1*P2
+}
+```
+
+We can use these functions to plot, for example, the posterior marginal distribution of $\sigma^2$, $\pi(\sigma2\mid\mathcal{D})$:
+
+```{r}
+plot(seq(10,30,by=0.1),Psigma2(seq(10,30,by=0.1)),type="l",xlab="sigma2",
+     ylab="density",main="posterior marginal density of sigma2")
+```
+
+However, the marginal posterior distribution of $\boldsymbol{\beta}$, $\pi(\boldsymbol{\beta}\mid \mathcal{D})$ is not analytic. We know the conditional posterior distribution of $\pi(\boldsymbol{\beta}|\sigma^2, \mathcal{D})$, i.e., we know that distribution for given values of $\sigma^2$ but not for unknown values of this parameter. Possibly, simulation in this context could make things much easier.
+
+## Simulation-based inference 
+
+We could use the composition method in order to draw samples of $\pi((\boldsymbol{\beta},\sigma^2)\mid \mathcal{D})$. This could be done as follows:
+
+```{r}
+sigma2.sample <- rinvgamma(10000, 10+nrow(Auto)/2, 
+                           300+(RSS+t(betahat)%*%(diag(6)+solve(t(X)%*%X))%*%betahat)/2)
+
+beta.sample<-t(sapply(sigma2.sample,function(sigma2){
+  rmvn(1, as.vector(solve(diag(6)+t(X)%*%X)%*%(t(X)%*%y)),
+       sigma2*round(solve(diag(6)+t(X)%*%X),5))
+}))
+posterior.sample <- cbind(beta.sample, sigma2.sample)
+```
+With this, we have 10000 draws of the joint posterior distribution of $\pi((\boldsymbol{\beta},\sigma^2)\mid \mathcal{D})$ and, from that sample, we could evaluate what we found of interest from these parameters. For example:
+
+```{r}
+# Posterior mean of each parameter:
+apply(posterior.sample, 2, mean)
+# Posterior standard deviation of each parameter:
+apply(posterior.sample, 2, sd)
+# Posterior probability of being higher than 0
+apply(posterior.sample>0, 2, mean)
+```
+
+In addition, we can also evaluate some unconventional hypothesis tests, such as $\beta_1>\beta_5$ by means of the corresponding probability observed in the posterior sample:
+
+```{r}
+mean(posterior.sample[,1]>posterior.sample[,5])
+```
+We can also obtain a distribution of the rank of each of the coefficients of $\boldsymbol{\beta}$ in realtion to the rest of the components
+```{r}
+ranks<-t(apply(posterior.sample[,1:5],1,rank))
+apply(ranks,2,table)
+```
+or normalize the coefficients according to the standard deviation of the error (taking into account the uncertainty of that standard deviation):
+```{r}
+beta.sd <- t(apply(posterior.sample,1,function(x){x[1:6]/sqrt(x[7])}))
+apply(beta.sd, 2, summary)
+```
+
+But, beyond the parameters of the model, we could take advantage of these samples to make inference about quantities of even greater interest such as, for example, the curve describing the relationship between the two variables. Thus, we can plot the posterior mean of the curve, and even assess its variability, by calculating the curve for each of the samples drawn from $\pi((\boldsymbol{\beta},\sigma^2)\mid \textbf{y})$:
+
+```{r}
+plot(mpg ~ horsepower, data = Auto)
+
+# Posterior mean curve
+values <- seq(min(Auto$horsepower), max(Auto$horsepower), 1)
+posterior.mean.curve <- as.vector(cbind(rep(1,length(values)), predict(basis,newx = values)) 
+                                  %*%matrix(apply(posterior.sample[,1:6], 2, mean),ncol=1))
+lines(values, posterior.mean.curve, col = 2, lwd = 2)
+
+# 95% credible band for the curve
+posterior.curve <- t(cbind(rep(1,length(values)),predict(basis,newx= values)) 
+                     %*%t(posterior.sample[,1:6]))
+posterior.IC.curve <- apply(posterior.curve, 2, function(x){quantile(x, c(0.025,0.975))})
+lines(values, posterior.IC.curve[1,], col = 3, lwd = 1.5, lty = 2)
+lines(values, posterior.IC.curve[2,], col = 3, lwd = 1.5, lty=2)
+```
+
+## Predictive inference
+For given values of $\boldsymbol{\beta}$ and $\sigma^2$ we would know the predictive distribution of \texttt{y} for a given value of \texttt{horsepower}:
+$$\pi(y^*\mid \hat{\beta},\hat{\sigma}^2)=N(y^*|\textbf{x}^*\cdot\hat{\beta},\hat{\sigma}^2)$$ 
+In that case we could use the composition method to sample values of a new hypothetical $y^*$ for any given value of \texttt{horsepower} and the sampled values $\{(\beta_1,\sigma_1^2),\ldots,(\beta_n,\sigma_n^2)\}$.
+
+```{r}
+SampleY <- function(at){
+  mu <- beta.sample%*%matrix(c(1, predict(basis,newx = at)), ncol = 1)
+  rnorm(nrow(mu), mu, sqrt(sigma2.sample))
+}
+samples <- sapply(values, SampleY)
+```
+
+With these values of the predctive distribution we can even plot prediction bands for the weights:
+```{r}
+quantiles <- apply(samples, 2, quantile, c(0.025,0.975))
+plot(mpg ~ horsepower, data = Auto)
+lines(values, quantiles[1,], col = 4, lty = 3)
+lines(values, quantiles[2,], col = 4, lty = 3)
+```
+
+Analytical inference on this predictive distribution is quite complicated, if possible.
+
+# Time to individual work
+
+We propose below an individual exercise that pursues to consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session. 
+
+**Exercice** 
+
+We return to the analysis of the dataset \texttt{Weights} by age and race of the childen. Perform simulation-based inference on this data set assuming a non-informative Jeffreys' prior for the parameters. Assess the probability that a 10-year-old child weighs more than 30 (kg.).
