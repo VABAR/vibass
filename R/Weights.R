@@ -3,6 +3,8 @@
 #' Data for the VIBASS session on linear models. The dataset include
 #' data bout children, that includes weight, height and some other variables.
 #'
+#' @name Weights
+#'
 #' @docType data
 #'
 #' @usage data(Weights)
