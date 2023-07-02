@@ -110,10 +110,11 @@ In this example, we will look at trying to predict whether an article of news
 is fake or not given three explanatory variables.
 
 We can use the following code to extract the variables we want from the
-data set without having to load the package itself:
+data set:
 
 ```{r}
-fakenews <- bayesrules::fake_news[,c("type","title_has_excl","title_words","negative")]
+library("bayesrules")
+fakenews <- fake_news[,c("type","title_has_excl","title_words","negative")]
 ```
 
 The response variable `type` takes values `fake` or `real`, which should be
@@ -175,10 +176,10 @@ and the fake/real response variable `typeFAKE`.
     
     ```{r fig = TRUE}
     # Is there a link between the fakeness and whether the title has an exclamation mark?
-    table(fakenews$title_has_excl,fakenews$typeFAKE)
+    table(fakenews$title_has_excl, fakenews$typeFAKE)
     # For the quantitative variables, look at boxplots on fake vs real
-    boxplot(fakenews$title_words~fakenews$typeFAKE)
-    boxplot(fakenews$negative~fakenews$typeFAKE)
+    boxplot(fakenews$title_words ~ fakenews$typeFAKE)
+    boxplot(fakenews$negative ~ fakenews$typeFAKE)
 
     ```
     
