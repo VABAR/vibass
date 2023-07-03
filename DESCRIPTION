@@ -53,8 +53,8 @@ Imports:
     rstudioapi,
     shiny (>= 1.5),
     tibble,
-    tidyr
-Suggests: 
+    tidyr,
+Suggests:
     bayesrules,
     coda,
     cowplot,
@@ -65,12 +65,14 @@ Suggests:
     ISLR,
     LaplacesDemon,
     magick,
-    pacman,
+    MASS,
     plotly,
-    R2BayesX,
-    png,
     rmarkdown,
-    waffle,
+    R2BayesX,
+    pacman,
+    png,
+    spData,
+    waffle
 VignetteBuilder: 
     knitr
 URL: http://vabar.es/vibass/, https://github.com/VABAR/vibass
