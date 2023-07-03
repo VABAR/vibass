@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Practical 5: Numerical approaces • vibass</title>
+<title>Practical 5: Numerical approaches • vibass</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Practical 5: Numerical approaces">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Practical 5: Numerical approaches">
 <meta property="og:description" content="vibass">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -53,25 +53,25 @@
       <a href="../articles/p1.html">Practical 1: Binary data</a>
     </li>
     <li>
-      <a href="../articles/p2.html">Practical 2: Inference with simulated samples</a>
+      <a href="../articles/p2count.html">Practical 2: Count data</a>
     </li>
     <li>
-      <a href="../articles/p3.html">Practical 3: Count data</a>
+      <a href="../articles/p2normal.html">Practical 2: Normal data</a>
     </li>
     <li>
-      <a href="../articles/p4.html">Practical 4: Normal data</a>
+      <a href="../articles/p3.html">Practical 3: Bayesian linear regression</a>
     </li>
     <li>
-      <a href="../articles/p5.html">Practical 5: Numerical approaces</a>
+      <a href="../articles/p4.html">Practical 4: Simualtion-based Bayesian inference</a>
     </li>
     <li>
-      <a href="../articles/p6.html">Practical 6: Linear models</a>
+      <a href="../articles/p5.html">Practical 5: Numerical approaches</a>
     </li>
     <li>
-      <a href="../articles/p7.html">Practical 7: Generalized linear models</a>
+      <a href="../articles/p6.html">Practical 6: Software and GLMs</a>
     </li>
     <li>
-      <a href="../articles/p8.html">Practical 8: Bayesian hierachical models</a>
+      <a href="../articles/p7.html">Practical 7: Bayesian Hierarchical Modelling</a>
     </li>
   </ul>
 </li>
@@ -93,10 +93,10 @@
 
       
 
-      </header><script src="p5_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Practical 5: Numerical approaces</h1>
+      <h1 data-toc-skip>Practical 5: Numerical approaches</h1>
                         <h4 data-toc-skip class="author">VIBASS</h4>
             
             <h4 data-toc-skip class="date">July 2023</h4>
@@ -111,42 +111,82 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>In previous practicals you have used Bayesian models with conjugate priors where the posterior distribution can be easily worked out. In general, this is seldom the case and other approaches need to be considered. In particular, Importance Sampling and Markov Chain Monte Carlo (MCMC) methods can be used to draw samples from the posterior distribution that are in turn used to obtain estimates of the posterior mean and variance and other quantities of interest.</p>
+<p>In previous practicals you have used Bayesian models with conjugate
+priors where the posterior distribution can be easily worked out. In
+general, this is seldom the case and other approaches need to be
+considered. In particular, Importance Sampling and Markov Chain Monte
+Carlo (MCMC) methods can be used to draw samples from the posterior
+distribution that are in turn used to obtain estimates of the posterior
+mean and variance and other quantities of interest.</p>
 </div>
 <div class="section level2">
 <h2 id="importance-sampling">Importance Sampling<a class="anchor" aria-label="anchor" href="#importance-sampling"></a>
 </h2>
-<p>As described in the previous lecture, Importance Sampling (IS) is an algorithm to estimate some quantities of interest of a target distribution by sampling from a different (proposal) distribution and reweighting the samples using importance weights. In Bayesian inference, IS can be used to sample from the posterior distribution when the normalizing constant is not known because <span class="math display">\[
-\pi(\theta \mid \mathbf{y}) \propto L(\theta \mid \mathbf{y}) \pi(\theta),
-\]</span> where <span class="math inline">\(\mathbf{y}\)</span> represents the observed data, <span class="math inline">\(L(\theta \mid \mathbf{y})\)</span> the likelihood function and <span class="math inline">\(\pi(\theta)\)</span> the prior distribution on <span class="math inline">\(\theta\)</span>.</p>
-<p>If <span class="math inline">\(g(\cdot)\)</span> is a proposal distribution, and <span class="math inline">\(\{\theta^{(m)}\}_{m=1}^M\)</span> are <span class="math inline">\(M\)</span> samples from that distribution, then the importance weights are <span class="math display">\[
-w(\theta^{(m)}) = \frac{L(\theta^{(m)} \mid \mathbf{y})\,\pi(\theta^{(m)})}
+<p>As described in the previous lecture, Importance Sampling (IS) is an
+algorithm to estimate some quantities of interest of a target
+distribution by sampling from a different (proposal) distribution and
+reweighting the samples using importance weights. In Bayesian inference,
+IS can be used to sample from the posterior distribution when the
+normalizing constant is not known because <span class="math display">\[
+\pi(\theta \mid \mathbf{y}) \propto L(\theta \mid \mathbf{y})
+\pi(\theta),
+\]</span> where <span class="math inline">\(\mathbf{y}\)</span>
+represents the observed data, <span class="math inline">\(L(\theta \mid
+\mathbf{y})\)</span> the likelihood function and <span class="math inline">\(\pi(\theta)\)</span> the prior distribution on
+<span class="math inline">\(\theta\)</span>.</p>
+<p>If <span class="math inline">\(g(\cdot)\)</span> is a proposal
+distribution, and <span class="math inline">\(\{\theta^{(m)}\}_{m=1}^M\)</span> are <span class="math inline">\(M\)</span> samples from that distribution, then
+the importance weights are <span class="math display">\[
+w(\theta^{(m)}) = \frac{L(\theta^{(m)} \mid
+\mathbf{y})\,\pi(\theta^{(m)})}
   {g(\theta^{(m)})} .
-\]</span>  When the normalizing constant in the posterior distribution is not known, the importance weights are rescaled to sum to one. Note that this rescaling is done by the denominator in the expression at point 2 on slide 9/22 of the Numerical Approaches slides you have just seen. In practice, rescaling removes the need for the denominator and simplifies the calculations throughout (we do it once, rather than every time).</p>
+\]</span> When the normalizing constant in the posterior distribution is
+not known, the importance weights are rescaled to sum to one. Note that
+this rescaling is done by the denominator in the expression at point 2
+on slide 9/22 of the Numerical Approaches slides you have just seen. In
+practice, rescaling removes the need for the denominator and simplifies
+the calculations throughout (we do it once, rather than every time).</p>
 <p>Hence, the posterior mean can be computed as <span class="math display">\[
-E\left(\theta \mid \mathbf{y}\right) = \mu = \int \theta\, \pi(\theta \mid \mathbf{y}) \mathop{d\theta}
+E\left(\theta \mid \mathbf{y}\right) = \mu = \int \theta\, \pi(\theta
+\mid \mathbf{y}) \mathop{d\theta}
   \simeq \sum_{m=1}^M \theta^{(m)}\, w(\theta^{(m)}) = \hat{\mu}.
-\]</span>  Similarly, the posterior variance can be computed as <span class="math display">\[
-\mbox{Var}\left(\theta \mid \mathbf{y}\right) = 
-\sigma^2 = \int (\theta - \mu)^2\, \pi(\theta \mid \mathbf{y}) \mathop{d\theta}
+\]</span> Similarly, the posterior variance can be computed as <span class="math display">\[
+\mbox{Var}\left(\theta \mid \mathbf{y}\right) =
+\sigma^2 = \int (\theta - \mu)^2\, \pi(\theta \mid \mathbf{y})
+\mathop{d\theta}
   \simeq \sum_{m=1}^M (\theta^{(m)})^2\, w(\theta^{(m)}) - \hat{\mu}^2 .
 \]</span></p>
 </div>
 <div class="section level2">
 <h2 id="the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm<a class="anchor" aria-label="anchor" href="#the-metropolis-hastings-algorithm"></a>
 </h2>
-<p>The Metropolis-Hastings (M-H) algorithm is a popular MCMC method to obtain samples from the posterior distribution of an ensemble of parameters. In the examples below we will only consider models with one parameter, but the M-H algorithm can be used on models with a large number of parameters.</p>
-<p>The M-H algorithm works in a very simple way. At every step of the algorithm a new movement is proposed using a <em>proposal distribution</em>. This movement is accepted with a known probability, which implies that the movement can be rejected so that the algorithm stays at the same state in the current iteration.</p>
-<p>Hence, in order to code the M-H algorithm for a set of parameters <span class="math inline">\(\theta\)</span> we need to define:</p>
+<p>The Metropolis-Hastings (M-H) algorithm is a popular MCMC method to
+obtain samples from the posterior distribution of an ensemble of
+parameters. In the examples below we will only consider models with one
+parameter, but the M-H algorithm can be used on models with a large
+number of parameters.</p>
+<p>The M-H algorithm works in a very simple way. At every step of the
+algorithm a new movement is proposed using a <em>proposal
+distribution</em>. This movement is accepted with a known probability,
+which implies that the movement can be rejected so that the algorithm
+stays at the same state in the current iteration.</p>
+<p>Hence, in order to code the M-H algorithm for a set of parameters
+<span class="math inline">\(\theta\)</span> we need to define:</p>
 <ul>
-<li>A function to draw observations from the proposal distribution, given its current state. This will be denoted by <span class="math inline">\(q(\cdot\mid\cdot)\)</span>, so that the density of a new proposal <span class="math inline">\(\theta^*\)</span> given a current state <span class="math inline">\(\theta^{(m)}\)</span> is given by <span class="math inline">\(q(\theta^*\mid\theta^{(m)})\)</span>.</li>
+<li>A function to draw observations from the proposal distribution,
+given its current state. This will be denoted by <span class="math inline">\(q(\cdot\mid\cdot)\)</span>, so that the density of
+a new proposal <span class="math inline">\(\theta^*\)</span> given a
+current state <span class="math inline">\(\theta^{(m)}\)</span> is given
+by <span class="math inline">\(q(\theta^*\mid\theta^{(m)})\)</span>.</li>
 </ul>
 <p>From the Bayesian model, we already know:</p>
 <ul>
 <li><p>A prior distribution on the parameters of interest, i.e., <span class="math inline">\(\pi(\theta)\)</span>.</p></li>
 <li><p>The likelihood of the parameter <span class="math inline">\(\theta\)</span> given the observed data <span class="math inline">\(\mathbf{y}\)</span>, i.e., <span class="math inline">\(L(\theta\mid\mathbf{y})\)</span>.</p></li>
 </ul>
-<p>At step <span class="math inline">\(m\)</span>, a new value is drawn from <span class="math inline">\(q(\cdot\mid\theta^{(m)})\)</span> and it is accepted with probability:</p>
+<p>At step <span class="math inline">\(m\)</span>, a new value is drawn
+from <span class="math inline">\(q(\cdot\mid\theta^{(m)})\)</span> and
+it is accepted with probability:</p>
 <p><span class="math display">\[
 \alpha = \min\left\{1,
 \frac{L(\theta^*\mid\mathbf{y})\,\pi(\theta^{*})\,q(\theta^{(m)}
@@ -154,32 +194,52 @@ E\left(\theta \mid \mathbf{y}\right) = \mu = \int \theta\, \pi(\theta \mid \math
 {L(\theta^{(m)}\mid\mathbf{y})\,\pi(\theta^{(m)})\,q(\theta^{*}
 \mid\theta^{(m)})}\right\}
 \]</span></p>
-<p>If the value is accepted, then the current state is set to the proposed value, i.e., <span class="math inline">\(\theta^{(m+1)} = \theta^{*}\)</span>. Otherwise we keep the previous value, so <span class="math inline">\(\theta^{(m+1)} = \theta^{(m)}\)</span>.</p>
+<p>If the value is accepted, then the current state is set to the
+proposed value, i.e., <span class="math inline">\(\theta^{(m+1)} =
+\theta^{*}\)</span>. Otherwise we keep the previous value, so <span class="math inline">\(\theta^{(m+1)} = \theta^{(m)}\)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="example-binomial-beta-model">Example: Binomial-Beta Model<a class="anchor" aria-label="anchor" href="#example-binomial-beta-model"></a>
 </h2>
-<p>The first example that will be considered is based on the data set collected on the number of red M&amp;M’s in tube <span class="math inline">\(i\)</span> with <span class="math inline">\(n_i\)</span> M&amp;M’s. The number of red M&amp;M’s obtained depends on the total number of M&amp;M’s extracted and the actual proportion of red ones <span class="math inline">\(\theta\)</span>. Given the proportion <span class="math inline">\(\theta\)</span>, the number of red M&amp;M’s obtained follows a Binomial distribution. Because <span class="math inline">\(\theta\)</span> takes values between 0 and 1, a sensible choice for a prior is the Beta distribution.</p>
+<p>The first example that will be considered is based on the data set
+collected on the number of red M&amp;M’s in tube <span class="math inline">\(i\)</span> with <span class="math inline">\(n_i\)</span> M&amp;M’s. The number of red
+M&amp;M’s obtained depends on the total number of M&amp;M’s extracted
+and the actual proportion of red ones <span class="math inline">\(\theta\)</span>. Given the proportion <span class="math inline">\(\theta\)</span>, the number of red M&amp;M’s
+obtained follows a Binomial distribution. Because <span class="math inline">\(\theta\)</span> takes values between 0 and 1, a
+sensible choice for a prior is the Beta distribution.</p>
 <p>The model can be stated as follows: <span class="math display">\[
 \begin{array}{rcl}
 Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 \theta &amp; \sim &amp; \text{Be}(\alpha,\, \beta)
 \end{array}
-\]</span> to allow for multiple tubes <span class="math inline">\(i\)</span>.</p>
-<p>In particular, we will consider a vague uniform prior in the <span class="math inline">\([0,1]\)</span> interval, which corresponds to <span class="math inline">\(\alpha=\beta=1\)</span>.</p>
+\]</span> to allow for multiple tubes.</p>
+<p>In particular, we will consider a vague uniform prior in the <span class="math inline">\([0,1]\)</span> interval, which corresponds to
+<span class="math inline">\(\alpha=\beta=1\)</span>.</p>
 <p>You can use the following data set for this exercise:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MMs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">22</span>, <span class="fl">24</span><span class="op">)</span>, red <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>These data reproduce different counts of red M&amp;M’s in three different tubes. Variable <code>MMs</code> records the total number of M&amp;M’s <span class="math inline">\(n_i\)</span> in tube <span class="math inline">\(i\)</span> and <code>red</code> the actual number of red M&amp;M’s (<span class="math inline">\(y_i\)</span> in the model).</p>
+<p>These data reproduce different counts of red M&amp;M’s in three
+different tubes. Variable <code>MMs</code> records the total number of
+M&amp;M’s <span class="math inline">\(n_i\)</span> in tube <span class="math inline">\(i\)</span> and <code>red</code> the actual number
+of red M&amp;M’s (<span class="math inline">\(y_i\)</span> in the
+model).</p>
 <div class="section level3">
 <h3 id="importance-sampling-1">Importance sampling<a class="anchor" aria-label="anchor" href="#importance-sampling-1"></a>
 </h3>
-<p>Although the posterior distribution is known in closed form, IS can be used to estimate the posterior mean and variance. Given that the parameter <span class="math inline">\(\theta\)</span> is bounded, a uniform distribution in the interval <span class="math inline">\([0,1]\)</span> will be used. This is probably not very efficient (as it is likely not to be close to the actual posterior) but it will provide a straightforward simulation strategy.</p>
+<p>Although the posterior distribution is known in closed form, IS can
+be used to estimate the posterior mean and variance. Given that the
+parameter <span class="math inline">\(\theta\)</span> is bounded, a
+uniform distribution in the interval <span class="math inline">\([0,1]\)</span> will be used. This is probably not
+very efficient (as it is likely not to be close to the actual posterior)
+but it will provide a straightforward simulation strategy.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_simulations</span><span class="op">)</span></span></code></pre></div>
-<p>Next, importance weights are computed in two steps. First, the ratio between the likelihood times the prior and the density of the proposal distribution is computed. Secondly, weights are re-scaled to sum to one.</p>
+<p>Next, importance weights are computed in two steps. First, the ratio
+between the likelihood times the prior and the density of the proposal
+distribution is computed. Secondly, weights are re-scaled to sum to
+one.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Log-Likelihood (for each value of theta_sim)</span></span>
 <span><span class="va">loglik_binom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">theta_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">theta</span><span class="op">)</span> <span class="op">{</span></span>
@@ -193,7 +253,9 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <span><span class="va">log_ww</span> <span class="op">&lt;-</span> <span class="va">log_ww</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span></span>
 <span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">log_ww</span><span class="op">)</span></span>
 <span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="va">ww</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
-<p>The importance weights can be summarized using a histogram (see below). The distribution of weights shows that most samples are far from the regions of high posterior density.</p>
+<p>The importance weights can be summarized using a histogram (see
+below). The distribution of weights shows that most samples are far from
+the regions of high posterior density.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">ww</span>, xlab <span class="op">=</span> <span class="st">"Importance weights"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -208,17 +270,35 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">post_var</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.003288748</span></span></code></pre>
-<p>Finally, an estimate of the posterior density <span class="math inline">\(\pi(\theta \mid \mathbf{y})\)</span> of the parameter can be obtained by using <em>weighted</em> kernel density estimation.</p>
-
-<p><strong>Aside: weighted kernel density estimation</strong> Standard kernel density estimation is a way of producing a non-parametric estimate of the distribution of a continuous quantity given a sample. A <em>kernel</em> function is selected (typically a Normal density), and one of these is placed centred on each sample point. The sum of these functions produces the kernel density estimate (after scaling - dividing by the number of sample points). A <em>weighted</em> kernel density estimate simply includes weights in the sum of the kernel functions. In both weighted and unweighted forms of kernel density estimation, the key parameter controlling the smoothness of the resulting density estimate is the <em>bandwidth</em> (equivalent to the standard deviation if using a Normal kernel function); larger values give smoother density estimates, and smaller values give <em>noisier</em> densities. </p>
+<p>Finally, an estimate of the posterior density <span class="math inline">\(\pi(\theta \mid \mathbf{y})\)</span> of the
+parameter can be obtained by using <em>weighted</em> kernel density
+estimation.</p>
+<p><strong>Aside: weighted kernel density estimation</strong> Standard
+kernel density estimation is a way of producing a non-parametric
+estimate of the distribution of a continuous quantity given a sample. A
+<em>kernel</em> function is selected (typically a Normal density), and
+one of these is placed centred on each sample point. The sum of these
+functions produces the kernel density estimate (after scaling - dividing
+by the number of sample points). A <em>weighted</em> kernel density
+estimate simply includes weights in the sum of the kernel functions. In
+both weighted and unweighted forms of kernel density estimation, the key
+parameter controlling the smoothness of the resulting density estimate
+is the <em>bandwidth</em> (equivalent to the standard deviation if using
+a Normal kernel function); larger values give smoother density
+estimates, and smaller values give <em>noisier</em> densities. </p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">theta_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">MMs</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>      lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>Note that the value of the bandwidth used (argument <code>bw</code>) has been set manually so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.</p>
-<p>Similarly, a sample from the posterior distribution can be obtained by resampling the original values of theta with their corresponding weights.</p>
+<p>Note that the value of the bandwidth used (argument <code>bw</code>)
+has been set manually so that both curves will match (as the default
+bandwidth provided a slightly different estimate of the posterior
+distribution) to enable a fair comparison.</p>
+<p>Similarly, a sample from the posterior distribution can be obtained
+by resampling the original values of theta with their corresponding
+weights.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">post_theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">theta_sim</span>, prob <span class="op">=</span> <span class="va">ww</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">post_theta_sim</span>, freq <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -229,8 +309,13 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <div class="section level3">
 <h3 id="metropolis-hastings">Metropolis-Hastings<a class="anchor" aria-label="anchor" href="#metropolis-hastings"></a>
 </h3>
-<p>As stated above, the implementation of the M-H algorithm requires a proposal distribution to obtain new values of the parameter <span class="math inline">\(\theta\)</span>. Usually, the proposal distribution is defined so that the proposed movement depends on the current value. However, in this case we will use a uniform distribution between 0 and 1 as our proposal distribution.</p>
-<p>First of all, we will define the proposal distribution, prior and likelihood of the model:</p>
+<p>As stated above, the implementation of the M-H algorithm requires a
+proposal distribution to obtain new values of the parameter <span class="math inline">\(\theta\)</span>. Usually, the proposal
+distribution is defined so that the proposed movement depends on the
+current value. However, in this case we will use a uniform distribution
+between 0 and 1 as our proposal distribution.</p>
+<p>First of all, we will define the proposal distribution, prior and
+likelihood of the model:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Proposal distribution: sampling</span></span>
 <span><span class="va">rq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
@@ -251,7 +336,8 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <span><span class="va">loglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">theta</span>, <span class="va">N</span><span class="op">)</span> <span class="op">{</span></span>
 <span>   <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">dbinom</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">N</span>, <span class="va">theta</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Note that all densities and the likelihood are computed on the log-scale.</p>
+<p>Note that all densities and the likelihood are computed on the
+log-scale.</p>
 <p>Next, an implementation of the M-H algorithm is as follows:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Number of iterations</span></span>
@@ -284,9 +370,18 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <span>    <span class="va">theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The simulations we have generated are not independent of one another; each is dependent on the previous one. This has two consequences: the chain is dependent on the initial, starting value of the parameter(s); and the sampling chain itself will exhibit <em>autocorrelation</em>.</p>
-<p>For this reason, we will remove the first 500 iterations to reduce the dependence of the sampling on the starting value; and we will keep only every 10<sup>th</sup> simulation to reduce the autocorrelation in the sampled series. The 500 iterations we discard are known as the <strong>burn-in</strong> sample, and the process of keeping only every 10<sup>th</sup> value is called <strong>thinning</strong>.</p>
-<p>After that, we will compute summary statistics and display a density of the simulations.</p>
+<p>The simulations we have generated are not independent of one another;
+each is dependent on the previous one. This has two consequences: the
+chain is dependent on the initial, starting value of the parameter(s);
+and the sampling chain itself will exhibit <em>autocorrelation</em>.</p>
+<p>For this reason, we will remove the first 500 iterations to reduce
+the dependence of the sampling on the starting value; and we will keep
+only every 10<sup>th</sup> simulation to reduce the autocorrelation in
+the sampled series. The 500 iterations we discard are known as the
+<strong>burn-in</strong> sample, and the process of keeping only every
+10<sup>th</sup> value is called <strong>thinning</strong>.</p>
+<p>After that, we will compute summary statistics and display a density
+of the simulations.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Remove burn-in</span></span>
 <span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span></span>
@@ -310,19 +405,25 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <div class="section level4">
 <h4 id="performance-of-the-proposal-distribution">Performance of the proposal distribution<a class="anchor" aria-label="anchor" href="#performance-of-the-proposal-distribution"></a>
 </h4>
-<p>The proposal distribution plays a crucial role in IS and it should be as close to the posterior as possible. As a way of measuring how good a proposal distribution is, it is possible to compute the <em>effective</em> sample size as follows:</p>
+<p>The proposal distribution plays a crucial role in IS and it should be
+as close to the posterior as possible. As a way of measuring how good a
+proposal distribution is, it is possible to compute the
+<em>effective</em> sample size as follows:</p>
 <p><span class="math display">\[
-\text{ESS} = \frac{(\sum_{m=1}^M w(\theta^{(m)}))^2}{\sum_{m=1}^M w(\theta^{(m)})^2}.
+\text{ESS} = \frac{(\sum_{m=1}^M w(\theta^{(m)}))^2}{\sum_{m=1}^M
+w(\theta^{(m)})^2}.
 \]</span></p>
 <ul>
 <li>
-<p>Compute the effective sample size for the previous example. How is this related to the number of IS samples (<code>n_simulations</code>)?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p>Compute the effective sample size for the previous example. How
+is this related to the number of IS samples
+(<code>n_simulations</code>)?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ESS</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 2017.874</span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -330,9 +431,15 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 </details>
 </li>
 <li>
-<p>Use a different proposal distribution and check how sampling weights, ESS and point estimates differ from those in the current example. For example, a <span class="math inline">\(\text{Be}(20,\, 10)\)</span> will put more mass on high values of <span class="math inline">\(\theta\)</span>, unlike the actual posterior distribution. What differences do you find with the example presented here using a uniform proposal distribution? Why do you think that these differences appear?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<p>Use a different proposal distribution and check how sampling
+weights, ESS and point estimates differ from those in the current
+example. For example, a <span class="math inline">\(\text{Be}(20,\,
+10)\)</span> will put more mass on high values of <span class="math inline">\(\theta\)</span>, unlike the actual posterior
+distribution. What differences do you find with the example presented
+here using a uniform proposal distribution? Why do you think that these
+differences appear?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span></span>
@@ -353,11 +460,11 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.001419052</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">theta_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">theta_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">MMs</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 11.94817</span></span></code></pre>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -369,12 +476,13 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <div class="section level4">
 <h4 id="sampling-from-the-actual-posterior">Sampling from the actual posterior<a class="anchor" aria-label="anchor" href="#sampling-from-the-actual-posterior"></a>
 </h4>
-<p>Use the posterior distribution (which for this particular case is known in a closed form) as the proposal distribution.</p>
+<p>Use the posterior distribution (which for this particular case is
+known in a closed form) as the proposal distribution.</p>
 <ul>
 <li>
 <p>What is the distribution of the importance weights now?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">MMs</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -401,10 +509,11 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 </details>
 </li>
 <li>
-<p>Compute the effective sample size. How large is it? Why do you think this happens?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<p>Compute the effective sample size. How large is it? Why do you
+think this happens?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 10000</span></span></code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -416,7 +525,12 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <div class="section level4">
 <h4 id="non-conjugate-prior">Non-conjugate prior<a class="anchor" aria-label="anchor" href="#non-conjugate-prior"></a>
 </h4>
-<p>IS and M-H are algorithms that can be used to make inference about <span class="math inline">\(\theta\)</span> when the posterior density of the parameter is not available in closed form. This is the case with models which have non-conjugate priors. As an exercise, try to obtain the posterior density of the same model with the following non-conjugate prior:</p>
+<p>IS and M-H are algorithms that can be used to make inference about
+<span class="math inline">\(\theta\)</span> when the posterior density
+of the parameter is not available in closed form. This is the case with
+models which have non-conjugate priors. As an exercise, try to obtain
+the posterior density of the same model with the following non-conjugate
+prior:</p>
 <p><span class="math display">\[
 \pi(\theta) \propto (1-\theta)^2,\quad \theta\in[0,1].
 \]</span></p>
@@ -424,13 +538,22 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">x</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="cn">NA</span>, yaxt <span class="op">=</span> <span class="st">'n'</span>, bty <span class="op">=</span> <span class="st">'n'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
-<p>The interpretation of this prior is that smaller values are favoured over higher values, i.e., our prior information is that the parameter is more likely to have values close to 0 than values close to 1.</p>
-<p>Note that the prior is specified up to a normalising constant (which in this case is not difficult to compute). However, this constant is not needed to implement both the IS and M-H algorithms. In the case of IS, the constant will cancel when the weights are re-scaled to sum to one and in the case of the M-H algorithm the constant will cancel when the acceptance ratio is computed.</p>
+<p>The interpretation of this prior is that smaller values are favoured
+over higher values, i.e., our prior information is that the parameter is
+more likely to have values close to 0 than values close to 1.</p>
+<p>Note that the prior is specified up to a normalising constant (which
+in this case is not difficult to compute). However, this constant is not
+needed to implement both the IS and M-H algorithms. In the case of IS,
+the constant will cancel when the weights are re-scaled to sum to one
+and in the case of the M-H algorithm the constant will cancel when the
+acceptance ratio is computed.</p>
 <ul>
 <li>
-<p>Use the IS algorithm to compute and plot the weights using this non-conjugate distribution, using them to estimate the posterior mean and variance. Finally, show the posterior density estimate.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<p>Use the IS algorithm to compute and plot the weights using this
+non-conjugate distribution, using them to estimate the posterior mean
+and variance. Finally, show the posterior density estimate.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">theta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n_simulations</span>,<span class="fl">20</span>,<span class="fl">10</span><span class="op">)</span></span>
@@ -451,15 +574,16 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.00127375</span></span></code></pre>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">theta_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">theta_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Posterior density"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">MMs</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">mmdata</span><span class="op">$</span><span class="va">red</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 </details>
 </li>
 <li>
-<p>Use the M-H algorithm to produce the posterior density estimate.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<p>Use the M-H algorithm to produce the posterior density
+estimate.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Proposal distribution: sampling</span></span>
 <span><span class="va">rq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
@@ -535,15 +659,20 @@ Y_i \mid \theta &amp; \sim &amp; \text{Bi}(n_i,\, \theta)\\
 <div class="section level2">
 <h2 id="example-poisson-gamma-model">Example: Poisson-Gamma Model<a class="anchor" aria-label="anchor" href="#example-poisson-gamma-model"></a>
 </h2>
-<p>The second example will be based on the <em>Game of Thrones</em> data set. Remember that this is made of the observed number of u’s on a page of a book of Game of Thrones. The model can be stated as:</p>
+<p>The second example will be based on the <em>Game of Thrones</em> data
+set. Remember that this is made of the observed number of u’s on a page
+of a book of Game of Thrones. The model can be stated as:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
 y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 \lambda &amp; \sim &amp; \text{Ga}(\alpha,\, \beta)
 \end{array}
 \]</span></p>
-<p>In particular, the prior on <span class="math inline">\(\lambda\)</span> will be a Gamma distribution with parameters <span class="math inline">\(0.01\)</span> and <span class="math inline">\(0.01\)</span>, which is centred at 1 and has a small precision (i.e., large variance).</p>
-<p>We will denote the observed values by <code>y</code> in the <code>R</code> code. The data collected can be loaded with:</p>
+<p>In particular, the prior on <span class="math inline">\(\lambda\)</span> will be a Gamma distribution with
+parameters <span class="math inline">\(0.01\)</span> and <span class="math inline">\(0.01\)</span>, which is centred at 1 and has a
+small precision (i.e., large variance).</p>
+<p>We will denote the observed values by <code>y</code> in the
+<code>R</code> code. The data collected can be loaded with:</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">GoTdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Us <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span>, <span class="fl">27</span>, <span class="fl">27</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">22</span>, <span class="fl">26</span>, <span class="fl">27</span>, <span class="fl">29</span>, <span class="fl">23</span>,</span>
 <span>                          <span class="fl">28</span>, <span class="fl">25</span>, <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">29</span>, <span class="fl">23</span>, <span class="fl">28</span>, <span class="fl">21</span>, <span class="fl">29</span>,</span>
@@ -552,12 +681,22 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="section level3">
 <h3 id="importance-sampling-2">Importance sampling<a class="anchor" aria-label="anchor" href="#importance-sampling-2"></a>
 </h3>
-<p>Now the parameter of interest is not bounded, so the proposal distribution needs to be chosen with care. We will use a log-Normal distribution with mean 3 and standard deviation equal to 0.5 in the log scale. This will ensure that all the sampled values are positive (because <span class="math inline">\(\lambda\)</span> cannot take negative values) and that the sample values are reasonable (i.e., they are not too small or too large). Note that this proposal distribution has been chosen having in mind the problem at hand and that it may not work well with other problems.</p>
+<p>Now the parameter of interest is not bounded, so the proposal
+distribution needs to be chosen with care. We will use a log-Normal
+distribution with mean 3 and standard deviation equal to 0.5 in the log
+scale. This will ensure that all the sampled values are positive
+(because <span class="math inline">\(\lambda\)</span> cannot take
+negative values) and that the sample values are reasonable (i.e., they
+are not too small or too large). Note that this proposal distribution
+has been chosen having in mind the problem at hand and that it may not
+work well with other problems.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p>Next, importance weights are computed in two steps, as in the previous example. Note that now the likelihood, prior and proposal distribution are different from the ones in the Binomial example.</p>
+<p>Next, importance weights are computed in two steps, as in the
+previous example. Note that now the likelihood, prior and proposal
+distribution are different from the ones in the Binomial example.</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Log-Likelihood (for each value of lambda_sim)</span></span>
 <span><span class="va">loglik_pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">lambda_sim</span>, <span class="kw">function</span><span class="op">(</span><span class="va">LAMBDA</span><span class="op">)</span> <span class="op">{</span></span>
@@ -584,13 +723,19 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <code class="sourceCode R"><span><span class="co"># Posterior variance</span></span>
 <span><span class="op">(</span><span class="va">post_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lambda_sim</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">ww</span><span class="op">)</span><span class="op">-</span> <span class="va">post_mean</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.9987383</span></span></code></pre>
-<p>Finally, an estimate of the posterior density of the parameter can be obtained by using weighted kernel density estimation:</p>
+<p>Finally, an estimate of the posterior density of the parameter can be
+obtained by using weighted kernel density estimation:</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">lambda_sim</span>, weights <span class="op">=</span> <span class="va">ww</span>, bw <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> , main <span class="op">=</span> <span class="st">"Posterior density"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">GoTdata</span><span class="op">$</span><span class="va">Us</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">GoTdata</span><span class="op">$</span><span class="va">Us</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
-<p>Note that the value of the bandwidth used (argument <code>bw</code>) has been set manually so that both curves will match (as the default bandwidth provided a slightly different estimate of the posterior distribution) to enable a fair comparison.</p>
-<p>Similarly, a sample from the posterior distribution can be obtained by resampling the original values of <span class="math inline">\(\theta\)</span> with their corresponding weights.</p>
+<p>Note that the value of the bandwidth used (argument <code>bw</code>)
+has been set manually so that both curves will match (as the default
+bandwidth provided a slightly different estimate of the posterior
+distribution) to enable a fair comparison.</p>
+<p>Similarly, a sample from the posterior distribution can be obtained
+by resampling the original values of <span class="math inline">\(\theta\)</span> with their corresponding
+weights.</p>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">post_lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">lambda_sim</span>, prob <span class="op">=</span> <span class="va">ww</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">post_lambda_sim</span>, freq <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -600,7 +745,10 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="section level3">
 <h3 id="metropolis-hastings-1">Metropolis-Hastings<a class="anchor" aria-label="anchor" href="#metropolis-hastings-1"></a>
 </h3>
-<p>Similarly to the previous example, we will set the proposal distribution, as the model has been fully defined above. In this case, the proposal distribution is a log-Normal distribution centred at the logarithm of the current value with precision <span class="math inline">\(100\)</span>.</p>
+<p>Similarly to the previous example, we will set the proposal
+distribution, as the model has been fully defined above. In this case,
+the proposal distribution is a log-Normal distribution centred at the
+logarithm of the current value with precision <span class="math inline">\(100\)</span>.</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Proposal distribution: sampling</span></span>
 <span><span class="va">rq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span> <span class="op">{</span></span>
@@ -621,7 +769,8 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <span><span class="va">loglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">lambda</span><span class="op">)</span> <span class="op">{</span></span>
 <span>   <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">lambda</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>With these definitions we can actually use the same implementation of the M-H that we have used in the previous section.</p>
+<p>With these definitions we can actually use the same implementation of
+the M-H that we have used in the previous section.</p>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Number of iterations</span></span>
 <span><span class="va">n.iter</span> <span class="op">&lt;-</span> <span class="fl">40500</span></span>
@@ -650,7 +799,9 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <span>    <span class="va">lambda</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lambda</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The same burn-in and thinning as in the Beta-Binomial example will be used. Furthermore, summary statistics and plots will be computed now:</p>
+<p>The same burn-in and thinning as in the Beta-Binomial example will be
+used. Furthermore, summary statistics and plots will be computed
+now:</p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Remove burn-in</span></span>
 <span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">lambda</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span></span>
@@ -674,13 +825,17 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="section level4">
 <h4 id="performance-of-the-proposal-distribution-1">Performance of the proposal distribution<a class="anchor" aria-label="anchor" href="#performance-of-the-proposal-distribution-1"></a>
 </h4>
-<p>Similarly to the exercises in the example on Binomial data, you will now assess the impact of the proposal distribution on the inference process.</p>
+<p>Similarly to the exercises in the example on Binomial data, you will
+now assess the impact of the proposal distribution on the inference
+process.</p>
 <ul>
 <li>
-<p>Compute the effective sample size for the previous example. How is this related to the number of IS samples (<code>n_simulations</code>)?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<p>Compute the effective sample size for the previous example. How
+is this related to the number of IS samples
+(<code>n_simulations</code>)?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 941.928</span></span></code></pre>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -688,9 +843,15 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 </details>
 </li>
 <li>
-<p>Use a different proposal distribution and check how sampling weights, ESS and point estimates differ from those in the current example. For example, a <span class="math inline">\(\text{Ga}(5,\, 0.1)\)</span> will put a higher mass on values around 40, unlike the actual posterior distribution. What differences do you find with the example presented here using a uniform proposal distribution? Why do you think that these differences appear?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<p>Use a different proposal distribution and check how sampling
+weights, ESS and point estimates differ from those in the current
+example. For example, a <span class="math inline">\(\text{Ga}(5,\,
+0.1)\)</span> will put a higher mass on values around 40, unlike the
+actual posterior distribution. What differences do you find with the
+example presented here using a uniform proposal distribution? Why do you
+think that these differences appear?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="va">n_simulations</span>,<span class="fl">5</span>,<span class="fl">0.1</span><span class="op">)</span></span>
@@ -717,7 +878,7 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">GoTdata</span><span class="op">$</span><span class="va">Us</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">GoTdata</span><span class="op">$</span><span class="va">Us</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-45-1.png" width="700"></p>
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 445.456</span></span></code></pre>
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -729,12 +890,13 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="section level4">
 <h4 id="sampling-from-the-actual-posterior-1">Sampling from the actual posterior<a class="anchor" aria-label="anchor" href="#sampling-from-the-actual-posterior-1"></a>
 </h4>
-<p>Use the posterior distribution (which for this particular case is known in a closed form) as the proposal distribution.</p>
+<p>Use the posterior distribution (which for this particular case is
+known in a closed form) as the proposal distribution.</p>
 <ul>
 <li>
 <p>What is the distribution of the importance weights now?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">GoTdata</span><span class="op">$</span><span class="va">Us</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">GoTdata</span><span class="op">$</span><span class="va">Us</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span></span>
@@ -761,10 +923,11 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 </details>
 </li>
 <li>
-<p>Compute the effective sample size. How large is it? Why do you think this happens?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<p>Compute the effective sample size. How large is it? Why do you
+think this happens?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 10000</span></span></code></pre>
 <div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -776,7 +939,13 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="section level4">
 <h4 id="non-conjugate-prior-1">Non-conjugate prior<a class="anchor" aria-label="anchor" href="#non-conjugate-prior-1"></a>
 </h4>
-<p>Just as in the Binomial example, non-conjugate priors can be used for the <span class="math inline">\(\lambda\)</span> parameter. In this case, given that <span class="math inline">\(\lambda\)</span> is positive, care must be taken when choosing the prior. For this exercise, try to use a log-Normal prior with mean 4 and standard deviation 1. This will provide a prior of <span class="math inline">\(\lambda\)</span> as seen in the next plot:</p>
+<p>Just as in the Binomial example, non-conjugate priors can be used for
+the <span class="math inline">\(\lambda\)</span> parameter. In this
+case, given that <span class="math inline">\(\lambda\)</span> is
+positive, care must be taken when choosing the prior. For this exercise,
+try to use a log-Normal prior with mean 4 and standard deviation 1. This
+will provide a prior of <span class="math inline">\(\lambda\)</span> as
+seen in the next plot:</p>
 <div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span>,</span>
@@ -785,13 +954,16 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <span>  yaxt <span class="op">=</span> <span class="st">'n'</span>, bty <span class="op">=</span> <span class="st">'n'</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-52-1.png" width="700"></p>
-<p>Hence, with this prior small values of the average number of u’s are given a higher prior density.</p>
-<p>Parameter estimates for a model with this prior can be obtained using IS and M-H algorithms.</p>
+<p>Hence, with this prior small values of the average number of u’s are
+given a higher prior density.</p>
+<p>Parameter estimates for a model with this prior can be obtained using
+IS and M-H algorithms.</p>
 <ul>
 <li>
-<p>Fit the model with the non-conjugate prior using the IS algorithm.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<p>Fit the model with the non-conjugate prior using the IS
+algorithm.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">lambda_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">n_simulations</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
@@ -827,7 +999,7 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <code class="sourceCode R"><span><span class="va">ESS</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">ww</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu">ESS</span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/LaplacesDemon/man/ESS.html" class="external-link">ESS</a></span><span class="op">(</span><span class="va">ww</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 938.3653</span></span></code></pre>
 <div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_simulations</span></span></code></pre></div>
@@ -835,9 +1007,10 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 </details>
 </li>
 <li>
-<p>Fit the model with the non-conjugate prior using the M-H algorithm.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<p>Fit the model with the non-conjugate prior using the M-H
+algorithm.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Proposal distribution: sampling</span></span>
 <span><span class="va">rq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="fl">1</span>, meanlog <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span>, sdlog <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
@@ -909,38 +1082,80 @@ y_i \mid \lambda &amp; \sim &amp; \text{Po}(\lambda)\\
 <div class="section level2">
 <h2 id="gibbs-sampling">Gibbs Sampling<a class="anchor" aria-label="anchor" href="#gibbs-sampling"></a>
 </h2>
-<p>As we have seen in the theory session, Gibbs Sampling is an MCMC method which allows us to estimate one parameter at a time. This is very useful for models which have lots of parameters, as in a sense it reduces a very large multidimensional inference problem to a set of single dimension problems.</p>
-<p>To recap, in order to generate a random sample from the joint density <span class="math inline">\(\pi\left(\mathbf{\theta}\right)= \pi\left(\theta_1,\theta_2,\ldots,\theta_D\right)\)</span> for a model with <span class="math inline">\(d\)</span> parameters, we use the following algorithm:</p>
+<p>As we have seen in the theory session, Gibbs Sampling is an MCMC
+method which allows us to estimate one parameter at a time. This is very
+useful for models which have lots of parameters, as in a sense it
+reduces a very large multidimensional inference problem to a set of
+single dimension problems.</p>
+<p>To recap, in order to generate a random sample from the joint density
+<span class="math inline">\(g\left(\mathbf{\theta}\right)=
+g\left(\theta_1,\theta_2,\ldots,\theta_D\right)\)</span> for a model
+with <span class="math inline">\(d\)</span> parameters, we use the
+following algorithm:</p>
 <ol style="list-style-type: decimal">
-<li>Start with an initial set <span class="math inline">\(\mathbf{\theta}^{(0)}= \left(\theta_1^{(0)},\theta_2^{(0)},\ldots,\theta_D^{(0)}\right)\)</span>
+<li>Start with an initial set <span class="math inline">\(\mathbf{\theta}^{(0)}=
+\left(\theta_1^{(0)},\theta_2^{(0)},\ldots,\theta_D^{(0)}\right)\)</span>
 </li>
-<li>Generate <span class="math inline">\(\theta_1^{(1)}\)</span> from the conditional distribution <span class="math inline">\(\theta_1 \mid \left(\theta_2^{(0)},\ldots,\theta_D^{(0)}\right)\)</span>
+<li>Generate <span class="math inline">\(\theta_1^{(1)}\)</span> from
+the conditional distribution <span class="math inline">\(\theta_1 \mid
+\left(\theta_2^{(0)},\ldots,\theta_D^{(0)}\right)\)</span>
 </li>
-<li>Generate <span class="math inline">\(\theta_2^{(1)}\)</span> from the conditional distribution <span class="math inline">\(\theta_2 \mid \left(\theta_1^{(1)},\theta_3^{(0)},\ldots,\theta_D^{(0)}\right)\)</span>
+<li>Generate <span class="math inline">\(\theta_2^{(1)}\)</span> from
+the conditional distribution <span class="math inline">\(\theta_2 \mid
+\left(\theta_1^{(1)},\theta_3^{(0)},\ldots,\theta_D^{(0)}\right)\)</span>
 </li>
 <li><span class="math inline">\(\quad\quad\cdots\)</span></li>
-<li>Generate <span class="math inline">\(\theta_D^{(1)}\)</span> from the conditional distribution <span class="math inline">\(\theta_D \mid \left(\theta_1^{(1)},\theta_2^{(1)},\ldots,\theta_{D-1}^{(1)}\right)\)</span>
+<li>Generate <span class="math inline">\(\theta_D^{(1)}\)</span> from
+the conditional distribution <span class="math inline">\(\theta_D \mid
+\left(\theta_1^{(1)},\theta_2^{(1)},\ldots,\theta_{D-1}^{(1)}\right)\)</span>
 </li>
 <li>Iterate from Step 2.</li>
 </ol>
-<p>As with Metropolis-Hastings, in Gibbs Sampling we typically discard the initial simulations (the burn-in period), reducing the dependence on the initial set of parameter values.</p>
-<p>As with the other MCMC algorithms, the resulting simulations approximate a random sample from the posterior distribution.</p>
+<p>As with Metropolis-Hastings, in Gibbs Sampling we typically discard
+the initial simulations (the burn-in period), reducing the dependence on
+the initial set of parameter values.</p>
+<p>As with the other MCMC algorithms, the resulting simulations
+approximate a random sample from the posterior distribution.</p>
 </div>
 <div class="section level2">
 <h2 id="example-simple-linear-regression">Example: Simple Linear Regression<a class="anchor" aria-label="anchor" href="#example-simple-linear-regression"></a>
 </h2>
-<p>We will illustrate the use of Gibbs Sampling on a simple linear regression model. Recall that we saw yesterday that we can obtain an analytical solution for a Bayesian linear regression, but that more complex models require a simulation approach.</p>
-<p>The approach we take here for Gibbs Sampling on a simple linear regression model is very easily generalised to more complex models, the key is that whatever your model looks like, you update one parameter at a time, using the conditional distribution of that parameter given the current values of all the other parameters.</p>
-<p>The simple linear regression model we will analyse here is a reduced version of the general linear regression model we saw yesterday: <span class="math display">\[
+<p>We will illustrate the use of Gibbs Sampling on a simple linear
+regression model. Recall that we saw yesterday that we can obtain an
+analytical solution for a Bayesian linear regression, but that more
+complex models require a simulation approach.</p>
+<p>The approach we take here for Gibbs Sampling on a simple linear
+regression model is very easily generalised to more complex models, the
+key is that whatever your model looks like, you update one parameter at
+a time, using the conditional distribution of that parameter given the
+current values of all the other parameters.</p>
+<p>The simple linear regression model we will analyse here is a reduced
+version of the general linear regression model we saw yesterday: <span class="math display">\[
 Y_i = \beta_0+\beta_1x_i+\epsilon_i
-\]</span> for response variable <span class="math inline">\(\mathbf{Y}=\left(Y_1,Y_2,\ldots,Y_n\right)\)</span>, explanatory variable <span class="math inline">\(\mathbf{x}=\left(x_1,x_2,\ldots,x_n\right)\)</span> and residual vector <span class="math inline">\(\mathbf{\epsilon}= \left(\epsilon_1,\epsilon_2,\ldots,\epsilon_n\right)\)</span> for a sample of size <span class="math inline">\(n\)</span>, where <span class="math inline">\(\beta_0\)</span> is the regression intercept, <span class="math inline">\(\beta_1\)</span> is the regression slope, and where the <span class="math inline">\(\epsilon_i\)</span> are independent with <span class="math inline">\(\epsilon_i\sim \textrm{N}\left(0,\sigma^2\right)\)</span> <span class="math inline">\(\forall i=1,2,\ldots,n\)</span>. For convenience, we refer to the combined set of <span class="math inline">\(\mathbf{Y}\)</span> and <span class="math inline">\(\mathbf{x}\)</span> data as <span class="math inline">\(\mathcal{D}\)</span>. We also define <span class="math inline">\(\hat{\mathbf{y}}\)</span> to be the fitted response vector (from the regression equation) using the current values of the parameters <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\tau\)</span> from the Gibbs Sampling simulations.</p>
-<p>For Bayesian inference, it is simpler to work with precisions <span class="math inline">\(\tau\)</span> rather than with variances <span class="math inline">\(\sigma^2\)</span> (remember that <span class="math inline">\(\tau=\frac{1}{\sigma^2}\)</span>). Given priors <span class="math display">\[
+\]</span> for response variable <span class="math inline">\(\mathbf{Y}=\left(Y_1,Y_2,\ldots,Y_n\right)\)</span>,
+explanatory variable <span class="math inline">\(\mathbf{x}=\left(x_1,x_2,\ldots,x_n\right)\)</span>
+and residual vector <span class="math inline">\(\mathbf{\epsilon}=
+\left(\epsilon_1,\epsilon_2,\ldots,\epsilon_n\right)\)</span> for a
+sample of size <span class="math inline">\(n\)</span>, where <span class="math inline">\(\beta_0\)</span> is the regression intercept,
+<span class="math inline">\(\beta_1\)</span> is the regression slope,
+and where the <span class="math inline">\(\epsilon_i\)</span> are
+independent with <span class="math inline">\(\epsilon_i\sim
+\textrm{N}\left(0,\sigma^2\right)\)</span> <span class="math inline">\(\forall i=1,2,\ldots,n\)</span>. For convenience,
+we refer to the combined set of <span class="math inline">\(\mathbf{Y}\)</span> and <span class="math inline">\(\mathbf{x}\)</span> data as <span class="math inline">\(\mathcal{D}\)</span>. We also define <span class="math inline">\(\hat{\mathbf{y}}\)</span> to be the fitted
+response vector (i.e., <span class="math inline">\(\hat{y}_i = \beta_0 +
+\beta_1 x_i\)</span> from the regression equation) using the current
+values of the parameters <span class="math inline">\(\beta_0\)</span>,
+<span class="math inline">\(\beta_1\)</span> and precision <span class="math inline">\(\tau = 1\)</span> (remember that <span class="math inline">\(\tau=\frac{1}{\sigma^2}\)</span>) from the Gibbs
+Sampling simulations.</p>
+<p>For Bayesian inference, it is simpler to work with precisions <span class="math inline">\(\tau\)</span> rather than with variances <span class="math inline">\(\sigma^2\)</span>. Given priors <span class="math display">\[
 \begin{align*}
 \pi(\tau) &amp;= \textrm{Ga}\left(\alpha, \beta\right), \\
-\pi(\beta_0) &amp;= \textrm{N}\left(\mu_{\beta_0}, \tau_{\beta_0}\right), \quad\textrm{and} \\
+\pi(\beta_0) &amp;= \textrm{N}\left(\mu_{\beta_0},
+\tau_{\beta_0}\right), \quad\textrm{and} \\
 \pi(\beta_1) &amp;= \textrm{N}\left(\mu_{\beta_1}, \tau_{\beta_1}\right)
 \end{align*}
-\]</span> then by combining with the likelihood we can derive the full conditional distributions for each parameter. For <span class="math inline">\(\tau\)</span>, we have <span class="math display">\[
+\]</span> then by combining with the likelihood we can derive the full
+conditional distributions for each parameter. For <span class="math inline">\(\tau\)</span>, we have <span class="math display">\[
 \begin{align*}
 \pi\left(\tau|\mathcal{D}, \beta_0, \beta_1\right) &amp;\propto
 \pi(\tau)\prod_{i=1}^nL\left(y_i|\hat{y_i}\right), \\
@@ -953,47 +1168,62 @@ Y_i = \beta_0+\beta_1x_i+\epsilon_i
 \textrm{Ga}\left(\alpha+\frac{n}{2},
 \beta +\frac{1}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right).
 \end{align*}
-\]</span> For <span class="math inline">\(\beta_0\)</span> we will need to expand <span class="math inline">\(\hat{y}_i=\beta_0+\beta_1x_i\)</span>, and then we have <span class="math display">\[
+\]</span> For <span class="math inline">\(\beta_0\)</span> we will need
+to expand <span class="math inline">\(\hat{y}_i=\beta_0+\beta_1x_i\)</span>, and then we
+have <span class="math display">\[
 \begin{align*}
 p(\beta_0|\mathcal{D}, \beta_1, \tau) &amp;\propto
 \pi(\beta_0)\prod_{i=1}^nL\left(y_i|\hat{y_i}\right), \\
 &amp;= \tau_{\beta_0}^{\frac{1}{2}}\exp\left\{-
 \frac{\tau_{\beta_0}}{2}(\beta_0-\mu_{\beta_0})^2\right\}\tau^\frac{n}{2}
 \exp\left\{-\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\}, \\
-&amp;\propto \exp\left\{-\frac{\tau_{\beta_0}}{2}(\beta_0-\mu_{\beta_0})^2-
+&amp;\propto
+\exp\left\{-\frac{\tau_{\beta_0}}{2}(\beta_0-\mu_{\beta_0})^2-
 \frac{\tau}{2}\sum_{i=1}^n(y_i-\beta_0-x_i \beta_1)^2\right\}, \\
-&amp;= \exp \left\{ -\frac{1}{2}\left(\beta_0^2(\tau_{\beta_0} + n\tau) +
-\beta_0\left(-2\tau_{\beta_0}\mu_{\beta_0} - 2\tau\sum_{i=1}^n 
+&amp;= \exp \left\{ -\frac{1}{2}\left(\beta_0^2(\tau_{\beta_0} + n\tau)
++
+\beta_0\left(-2\tau_{\beta_0}\mu_{\beta_0} - 2\tau\sum_{i=1}^n
 (y_i - x_i\beta_1)\right) \right) + C \right\}, \\
 \textrm{so} \quad \beta_0|\mathcal{D}, \beta_1, \tau &amp;\sim
 \mathcal{N}\left((\tau_{\beta_0} + n\tau)^{-1}
-\left(\tau_{\beta_0}\mu_{\beta_0} + \tau\sum_{i=1}^n (y_i - x_i\beta_1)\right),
+\left(\tau_{\beta_0}\mu_{\beta_0} + \tau\sum_{i=1}^n (y_i -
+x_i\beta_1)\right),
 \tau_{\beta_0} + n\tau\right).
 \end{align*}
 \]</span></p>
-<p>In the above, <span class="math inline">\(C\)</span> represents a quantity that is constant with respect to <span class="math inline">\(\beta_0\)</span> and hence can be ignored. Finally, for <span class="math inline">\(\beta_1\)</span> we have <span class="math display">\[
+<p>In the above, <span class="math inline">\(C\)</span> represents a
+quantity that is constant with respect to <span class="math inline">\(\beta_0\)</span> and hence can be ignored.
+Finally, for <span class="math inline">\(\beta_1\)</span> we have <span class="math display">\[
 \begin{align*}
 p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 \pi(\beta_1)\prod_{i=1}^nL\left(y_i|\hat{y_i}\right), \\
 &amp;= \tau_{\beta_1}^{\frac{1}{2}}\exp\left\{-
 \frac{\tau_{\beta_1}}{2}(\beta_1-\mu_{\beta_1})^2\right\}\tau^\frac{n}{2}
 \exp\left\{-\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\}, \\
-&amp;\propto \exp\left\{-\frac{\tau_{\beta_1}}{2}(\beta_1-\mu_{\beta_1})^2-
+&amp;\propto
+\exp\left\{-\frac{\tau_{\beta_1}}{2}(\beta_1-\mu_{\beta_1})^2-
 \frac{\tau}{2}\sum_{i=1}^n(y_i-\beta_0-x_i \beta_1)^2\right\}, \\
-&amp;= \exp \left\{ -\frac{1}{2}\left(\beta_1^2\left(\tau_{\beta_1} + 
+&amp;= \exp \left\{ -\frac{1}{2}\left(\beta_1^2\left(\tau_{\beta_1} +
 \tau\sum_{i=1}^n x_i^2\right) +
-\beta_1\left(-2\tau_{\beta_1}\mu_{\beta_1} - 2\tau\sum_{i=1}^n 
+\beta_1\left(-2\tau_{\beta_1}\mu_{\beta_1} - 2\tau\sum_{i=1}^n
 (y_i - \beta_0)x_i\right) \right) + C \right\}, \\
 \textrm{so} \quad \beta_1|\mathcal{D}, \beta_0, \tau
 &amp;\sim \textrm{N}\left((\tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2)^{-1}
-\left(\tau_{\beta_1}\mu_{\beta_1} + \tau\sum_{i=1}^n (y_i - \beta_0)x_i\right),
+\left(\tau_{\beta_1}\mu_{\beta_1} + \tau\sum_{i=1}^n (y_i -
+\beta_0)x_i\right),
 \tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2\right).
 \end{align*}
-\]</span> This gives us an easy way to run Gibbs Sampling for linear regression; we have standard distributions as full conditionals and there are standard functions in R to obtain the simulations. We shall do this now for an example in ecology, looking at the relationship between water pollution and mayfly size.</p>
+\]</span> This gives us an easy way to run Gibbs Sampling for linear
+regression; we have standard distributions as full conditionals and
+there are standard functions in R to obtain the simulations. We shall do
+this now for an example in ecology, looking at the relationship between
+water pollution and mayfly size.</p>
 <p>The data are as follows:</p>
 <ul>
 <li><p><code>length</code> - the length of a mayfly in mm;</p></li>
-<li><p><code>BOD</code> - biological oxygen demand in mg of oxygen per litre, effectively a measure of organic pollution (since more organic pollution requires more oxygen to break it down).</p></li>
+<li><p><code>BOD</code> - biological oxygen demand in mg of oxygen per
+litre, effectively a measure of organic pollution (since more organic
+pollution requires more oxygen to break it down).</p></li>
 </ul>
 <p>The data can be read into R:</p>
 <div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
@@ -1004,7 +1234,10 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 <span>            <span class="fl">16</span>,<span class="fl">25</span>,<span class="fl">24</span>,<span class="fl">23</span>,<span class="fl">22</span><span class="op">)</span></span>
 <span><span class="co"># Create data frame for the Gibbs Sampling, needs x and y</span></span>
 <span><span class="va">Data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">BOD</span>,y<span class="op">=</span><span class="va">mayfly.length</span><span class="op">)</span></span></code></pre></div>
-<p>We provide here some simple functions for running the analysis by Gibbs Sampling, using the full conditionals derived above. The functions assume you have a data frame with two columns, the response <code>y</code> and the covariate <code>x</code>.</p>
+<p>We provide here some simple functions for running the analysis by
+Gibbs Sampling, using the full conditionals derived above. The functions
+assume you have a data frame with two columns, the response
+<code>y</code> and the covariate <code>x</code>.</p>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Function to update tau, the precision</span></span>
 <span><span class="va">sample_tau</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">beta0</span>, <span class="va">beta1</span>, <span class="va">alphatau</span>, <span class="va">betatau</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1065,21 +1298,27 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 <div class="section level3">
 <h3 id="exercises-2">Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"></a>
 </h3>
-<p>We will use Gibbs Sampling to fit a Bayesian Linear Regression model to the mayfly data. We will use the following prior distributions for the regression parameters: <span class="math display">\[
+<p>We will use Gibbs Sampling to fit a Bayesian Linear Regression model
+to the mayfly data. We will use the following prior distributions for
+the regression parameters: <span class="math display">\[
 \begin{align*}
 \pi(\tau) &amp;= \textrm{Ga}\left(1, 1\right), \\
-\pi(\beta_0) &amp;= \textrm{N}\left(0, 0.0001\right), \quad\textrm{and} \\
+\pi(\beta_0) &amp;= \textrm{N}\left(0, 0.0001\right), \quad\textrm{and}
+\\
 \pi(\beta_1) &amp;= \textrm{N}\left(0, 0.0001\right).
 \end{align*}
-\]</span> We will set the initial values of all parameters to 1, i.e. <span class="math inline">\(\beta_0^{(0)}=\beta_1^{(0)}=\tau^{(0)}=1\)</span>.</p>
+\]</span> We will set the initial values of all parameters to 1,
+i.e. <span class="math inline">\(\beta_0^{(0)}=\beta_1^{(0)}=\tau^{(0)}=1\)</span>.</p>
 <div class="section level4">
 <h4 id="data-exploration">Data exploration<a class="anchor" aria-label="anchor" href="#data-exploration"></a>
 </h4>
 <ul>
 <li>
-<p>Investigate the data to see whether a linear regression model would be sensible. [Hint: a scatterplot and a correlation coefficient could be helpful.]</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<p>Investigate the data to see whether a linear regression model
+would be sensible. [Hint: a scatterplot and a correlation coefficient
+could be helpful.]</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Scatterplot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">BOD</span>,<span class="va">mayfly.length</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-65-1.png" width="700"></p>
@@ -1100,11 +1339,13 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 </details>
 </li>
 <li>
-<p>Run a frequentist simple linear regression using the <code>lm</code> function in R; this will be useful for comparison with our Bayesian analysis.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<p>Run a frequentist simple linear regression using the
+<code>lm</code> function in R; this will be useful for comparison with
+our Bayesian analysis.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Linear Regression using lm()</span></span>
-<span><span class="va">linreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mayfly.length</span><span class="op">~</span><span class="va">BOD</span>,data<span class="op">=</span><span class="va">Data</span><span class="op">)</span></span>
+<span><span class="va">linreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mayfly.length</span> <span class="op">~</span> <span class="va">BOD</span>, data <span class="op">=</span> <span class="va">Data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">linreg</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Call:</span></span>
@@ -1133,9 +1374,14 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 </h4>
 <ul>
 <li>
-<p>Use the code above to fit a Bayesian simple linear regression using <code>length</code> as the response variable. Ensure you have a burn-in period so that the initial simulations are discarded. Use the output from <code>gibbs_sample</code> to estimate the regression parameters (with uncertainty measures). Also plot the estimates of the posterior distributions.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<p>Use the code above to fit a Bayesian simple linear regression
+using <code>length</code> as the response variable. Ensure you have a
+burn-in period so that the initial simulations are discarded. Use the
+output from <code>gibbs_sample</code> to estimate the regression
+parameters (with uncertainty measures). Also plot the estimates of the
+posterior distributions.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bayesian Linear Regression using a Gibbs Sampler</span></span>
 <span></span>
 <span><span class="co"># Set the number of iterations of the Gibbs Sampler - including how many to</span></span>
@@ -1167,28 +1413,31 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 <span><span class="co">## 97.5% 30.02607 -0.04092882 0.5059932 6.210072 2.492001</span></span></code></pre>
 <div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Kernel density plots for beta0, beta1 and the residual stanard deviation</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta0"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-67-1.png" width="700"></p>
 <div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta1</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-67-2.png" width="700"></p>
 <div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">StdDev</span>, bw <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">StdDev</span>, bw <span class="op">=</span> <span class="fl">0.075</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for StdDev"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-67-3.png" width="700"></p>
 </details>
 </li>
 <li>
-<p>Use the function <code><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot()</a></code> to view the autocorrelation in the Gibbs sampling simulation chain. Is there any visual evidence of autocorrelation, or do the samples look independent?</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<p>Use the function <code><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot()</a></code> to view the
+autocorrelation in the Gibbs sampling simulation chain. Is there any
+visual evidence of autocorrelation, or do the samples look
+independent?</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot sampled series</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta0</span>,ylab<span class="op">=</span><span class="st">"beta0"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-68-1.png" width="700"></p>
 <div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta1</span>,ylab<span class="op">=</span><span class="st">"beta0"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta1</span>,ylab<span class="op">=</span><span class="st">"beta1"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-68-2.png" width="700"></p>
 <div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">StdDev</span>,ylab<span class="op">=</span><span class="st">"sigma"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
@@ -1203,13 +1452,18 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 </h4>
 <ul>
 <li>
-<p>One method for reducing the autocorrelation in the sampling chains for regression parameters is to mean centre the covariate(s); this works because it reduces any dependence between the regression intercept and slope(s). Do this for the current example, noting that you will need to make a correction on the estimate of the regression intercept afterwards.</p>
-<details><p><summary>Solution</summary></p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<p>One method for reducing the autocorrelation in the sampling
+chains for regression parameters is to mean centre the covariate(s);
+this works because it reduces any dependence between the regression
+intercept and slope(s). Do this for the current example, noting that you
+will need to make a correction on the estimate of the regression
+intercept afterwards.</p>
+<details><summary><p>Solution</p>
+</summary><div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Mean-centre the x covariate</span></span>
 <span><span class="va">DataC</span> <span class="op">&lt;-</span> <span class="va">Data</span></span>
 <span><span class="va">meanx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">DataC</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="va">DataC</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">DataC</span><span class="op">$</span><span class="va">x</span><span class="op">-</span><span class="va">meanx</span></span>
+<span><span class="va">DataC</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">DataC</span><span class="op">$</span><span class="va">x</span> <span class="op">-</span> <span class="va">meanx</span></span>
 <span></span>
 <span><span class="co"># Bayesian Linear Regression using a Gibbs Sampler</span></span>
 <span></span>
@@ -1220,53 +1474,53 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &amp;\propto
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m.burnin</span> <span class="op">+</span> <span class="va">m.keep</span></span>
 <span></span>
 <span><span class="co"># Obtain the samples</span></span>
-<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu">gibbs_sample</span><span class="op">(</span><span class="va">DataC</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="va">m</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0.0001</span>,<span class="fl">0</span>,<span class="fl">0.0001</span><span class="op">)</span></span>
+<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu">gibbs_sample</span><span class="op">(</span><span class="va">DataC</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="va">m</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.0001</span>, <span class="fl">0</span>, <span class="fl">0.0001</span><span class="op">)</span></span>
 <span><span class="co"># Remove the burn-in</span></span>
-<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="va">results2</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">m.burnin</span><span class="op">)</span>,<span class="op">]</span></span>
+<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="va">results2</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">m.burnin</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Correct the effect of the mean-centering on the intercept</span></span>
-<span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="va">results2</span><span class="op">$</span><span class="va">beta0</span> <span class="op">-</span> <span class="va">meanx</span><span class="op">*</span><span class="va">results2</span><span class="op">$</span><span class="va">beta1</span></span>
+<span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="va">results2</span><span class="op">$</span><span class="va">beta0</span> <span class="op">-</span> <span class="va">meanx</span> <span class="op">*</span> <span class="va">results2</span><span class="op">$</span><span class="va">beta1</span></span>
 <span></span>
 <span><span class="co"># Add variance and standard deviation columns</span></span>
-<span><span class="va">results2</span><span class="op">$</span><span class="va">Variance</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">results2</span><span class="op">$</span><span class="va">tau</span></span>
+<span><span class="va">results2</span><span class="op">$</span><span class="va">Variance</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">results2</span><span class="op">$</span><span class="va">tau</span></span>
 <span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">Variance</span><span class="op">)</span></span>
 <span><span class="co"># Estimates are the column means</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       beta0       beta1         tau    Variance      StdDev </span></span>
 <span><span class="co">## 27.73399395 -0.05550429  0.30162488  3.60895902  1.87850921</span></span></code></pre>
 <div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Also look at uncertainty</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">sd</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       beta0       beta1         tau    Variance      StdDev </span></span>
 <span><span class="co">## 1.341309629 0.008768635 0.084661274 1.141747061 0.283270929</span></span></code></pre>
 <div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">quantile</span>,probs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          beta0       beta1       tau Variance   StdDev</span></span>
 <span><span class="co">## 2.5%  25.02776 -0.07186434 0.1520312 2.112600 1.453478</span></span>
 <span><span class="co">## 97.5% 30.29086 -0.03799052 0.4733507 6.577602 2.564683</span></span></code></pre>
 <div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Kernel density plots for beta0, beta1 and the residual standard</span></span>
 <span><span class="co"># deviation</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta0"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-69-1.png" width="700"></p>
 <div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta1</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-69-2.png" width="700"></p>
 <div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span>, bw <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span>, bw <span class="op">=</span> <span class="fl">0.075</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for StdDev"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-69-3.png" width="700"></p>
 <div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot sampled series</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>,ylab<span class="op">=</span><span class="st">"beta0"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>, ylab <span class="op">=</span> <span class="st">"beta0"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-69-4.png" width="700"></p>
 <div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta1</span>,ylab<span class="op">=</span><span class="st">"beta0"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta1</span>, ylab <span class="op">=</span> <span class="st">"beta1"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-69-5.png" width="700"></p>
 <div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span>,ylab<span class="op">=</span><span class="st">"sigma"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span>, ylab <span class="op">=</span> <span class="st">"sigma"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p5_files/figure-html/unnamed-chunk-69-6.png" width="700"></p>
 </details>
 </li>

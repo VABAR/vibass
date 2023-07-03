@@ -53,25 +53,25 @@
       <a href="../articles/p1.html">Practical 1: Binary data</a>
     </li>
     <li>
-      <a href="../articles/p2.html">Practical 2: Inference with simulated samples</a>
+      <a href="../articles/p2count.html">Practical 2: Count data</a>
     </li>
     <li>
-      <a href="../articles/p3.html">Practical 3: Count data</a>
+      <a href="../articles/p2normal.html">Practical 2: Normal data</a>
     </li>
     <li>
-      <a href="../articles/p4.html">Practical 4: Normal data</a>
+      <a href="../articles/p3.html">Practical 3: Bayesian linear regression</a>
     </li>
     <li>
-      <a href="../articles/p5.html">Practical 5: Numerical approaces</a>
+      <a href="../articles/p4.html">Practical 4: Simualtion-based Bayesian inference</a>
     </li>
     <li>
-      <a href="../articles/p6.html">Practical 6: Linear models</a>
+      <a href="../articles/p5.html">Practical 5: Numerical approaches</a>
     </li>
     <li>
-      <a href="../articles/p7.html">Practical 7: Generalized linear models</a>
+      <a href="../articles/p6.html">Practical 6: Software and GLMs</a>
     </li>
     <li>
-      <a href="../articles/p8.html">Practical 8: Bayesian hierachical models</a>
+      <a href="../articles/p7.html">Practical 7: Bayesian Hierarchical Modelling</a>
     </li>
   </ul>
 </li>
@@ -93,7 +93,7 @@
 
       
 
-      </header><script src="p1_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Practical 1: Binary data</h1>
@@ -113,8 +113,18 @@
 </h2>
 <p>According to Wikipedia:</p>
 <blockquote>
-<p>M&amp;M’s are multi-colored button-shaped chocolates, each of which has the letter “m” printed in lower case in white on one side, consisting of a candy shell surrounding a filling which varies depending upon the variety of M&amp;M’s. The original candy has a semi-sweet chocolate filling which, upon introduction of other variations, was branded as the “plain, normal” variety.</p>
-<p>The candy originated in the United States in 1941. They are produced in different colors, some of which have changed over the years. The candy-coated chocolate concept was inspired by a method used to allow soldiers in the Spanish Civil War (1936–1939) to carry chocolate in warm climates without it melting. A traditional milk chocolate M&amp;M weighs about 0.91 grams and has about 4.7 calories of food energy’’.</p>
+<p>M&amp;M’s are multi-colored button-shaped chocolates, each of which
+has the letter “m” printed in lower case in white on one side,
+consisting of a candy shell surrounding a filling which varies depending
+upon the variety of M&amp;M’s. The original candy has a semi-sweet
+chocolate filling which, upon introduction of other variations, was
+branded as the “plain, normal” variety.</p>
+<p>The candy originated in the United States in 1941. They are produced
+in different colors, some of which have changed over the years. The
+candy-coated chocolate concept was inspired by a method used to allow
+soldiers in the Spanish Civil War (1936–1939) to carry chocolate in warm
+climates without it melting. A traditional milk chocolate M&amp;M weighs
+about 0.91 grams and has about 4.7 calories of food energy’’.</p>
 </blockquote>
 <div class="figure" style="text-align: center">
 <img src="mm_photo.jpg" alt="A pile of peanut M&amp;M's candies. Photo by Victor Roda."><p class="caption">
@@ -128,7 +138,14 @@ A pile of peanut M&amp;M’s candies. Photo by Victor Roda.
 <div class="section level3">
 <h3 id="the-experiment-counting-red-mms">The experiment: Counting red M<span class="math inline">\(\&amp;\)</span>M’s<a class="anchor" aria-label="anchor" href="#the-experiment-counting-red-mms"></a>
 </h3>
-<p>Let’s start this practical session by making inference about the proportion of red M<span class="math inline">\(\&amp;\)</span>M’s in a very huge box. If you are following this practice in person, the instructor will give you a bag of M<span class="math inline">\(\&amp;\)</span>M’s to make the practice more fun even if we have to be a bit flexible about the theoretical conditions of the experiment. If you are working online it will be a bit more boring but we will comply better with the theoretical conditions of the experiment.</p>
+<p>Let’s start this practical session by making inference about the
+proportion of red M<span class="math inline">\(\&amp;\)</span>M’s in a
+very huge box. If you are following this practice in person, the
+instructor will give you a bag of M<span class="math inline">\(\&amp;\)</span>M’s to make the practice more fun
+even if we have to be a bit flexible about the theoretical conditions of
+the experiment. If you are working online it will be a bit more boring
+but we will comply better with the theoretical conditions of the
+experiment.</p>
 <pre><code><span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
@@ -139,22 +156,36 @@ A pile of peanut M&amp;M’s candies. Photo by Victor Roda.
 Representation of the sampling experiment.
 </p>
 </div>
-<p>For those of us who physically have the bag of M<span class="math inline">\(\&amp;\)</span>M’s, the most appropriate experiment would be to take candies out of the bag one at a time and replace them, recording whether their colour is red or not, until the number <span class="math inline">\(n\)</span> of candies we have previously set is obtained. We consider <span class="math inline">\(n\)</span>=20.</p>
-<p>In case you are online or you don’t want to carry out the experiment physically you can use the following result of the experiment:</p>
+<p>For those of us who physically have the bag of M<span class="math inline">\(\&amp;\)</span>M’s, the most appropriate
+experiment would be to take candies out of the bag one at a time and
+replace them, recording whether their colour is red or not, until the
+number <span class="math inline">\(n\)</span> of candies we have
+previously set is obtained. We consider <span class="math inline">\(n\)</span>=20.</p>
+<p>In case you are online or you don’t want to carry out the experiment
+physically you can use the following result of the experiment:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mm_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span>, r <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="the-sampling-model-is-binomial">The sampling model is Binomial<a class="anchor" aria-label="anchor" href="#the-sampling-model-is-binomial"></a>
 </h3>
-<p>Let <span class="math inline">\(Y\)</span> be the random variable that describes the number of red M<span class="math inline">\(\&amp;\)</span>M’s (successes) out of the <span class="math inline">\(n=20\)</span> sampled. Given the proportion <span class="math inline">\(\theta\)</span> of red candies in the bag, <span class="math inline">\(Y\)</span> is a binomial random variable with parameters <span class="math inline">\(n=20\)</span> and probability <span class="math inline">\(\theta\)</span> associated with obtaining a red candy</p>
-<p><span class="math display">\[Y \mid \theta \sim \mbox{Bi}(n, \theta)\]</span></p>
-<p>whose conditional probability function, expectation and variance are:</p>
+<p>Let <span class="math inline">\(Y\)</span> be the random variable
+that describes the number of red M<span class="math inline">\(\&amp;\)</span>M’s (successes) out of the <span class="math inline">\(n=20\)</span> sampled. Given the proportion <span class="math inline">\(\theta\)</span> of red candies in the bag, <span class="math inline">\(Y\)</span> is a binomial random variable with
+parameters <span class="math inline">\(n=20\)</span> and probability
+<span class="math inline">\(\theta\)</span> associated with obtaining a
+red candy</p>
+<p><span class="math display">\[Y \mid \theta \sim \mbox{Bi}(n,
+\theta)\]</span></p>
+<p>whose conditional probability function, expectation and variance
+are:</p>
 <ul>
-<li><span class="math inline">\(P(Y=r \mid \theta, n)=\binom{n}{r}\,\theta^r\, (1-\theta)^{(n-r)}, \,\,r=0,1,\ldots, n\)</span></li>
+<li><span class="math inline">\(P(Y=r \mid \theta,
+n)=\binom{n}{r}\,\theta^r\, (1-\theta)^{(n-r)}, \,\,r=0,1,\ldots,
+n\)</span></li>
 <li>
 <span class="math inline">\(E(Y\mid \theta)=n\,\theta\)</span>,</li>
-<li><span class="math inline">\(Var(Y\mid \theta)=n \theta (1-\theta)\)</span></li>
+<li><span class="math inline">\(Var(Y\mid \theta)=n \theta
+(1-\theta)\)</span></li>
 </ul>
 <div class="figure">
 <img src="p1_files/figure-html/binomial-pdfs-1.png" alt="Binomial probability function for two values of $\theta$ and $n=20$ observations." width="480"><p class="caption">
@@ -165,14 +196,23 @@ Binomial probability function for two values of <span class="math inline">\(\the
 <div class="section level3">
 <h3 id="a-prior-distribution-for-theta">A prior distribution for <span class="math inline">\(\theta\)</span><a class="anchor" aria-label="anchor" href="#a-prior-distribution-for-theta"></a>
 </h3>
-<p>Recall that the beta distribution is conjugate with respect to the binomial probability model. If we elicit a prior beta distribution Be<span class="math inline">\((\alpha_0, \beta_0)\)</span> for <span class="math inline">\(\theta\)</span>, its density is</p>
-<p><span class="math display">\[\pi(\theta)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\, \theta^{\alpha_0-1}\,(1-\theta)^{\beta_0-1}, \quad 0&lt;\theta&lt;1\]</span> with expectation and variance</p>
+<p>Recall that the beta distribution is conjugate with respect to the
+binomial probability model. If we elicit a prior beta distribution
+Be<span class="math inline">\((\alpha_0, \beta_0)\)</span> for <span class="math inline">\(\theta\)</span>, its density is</p>
+<p><span class="math display">\[\pi(\theta)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\,
+\theta^{\alpha_0-1}\,(1-\theta)^{\beta_0-1}, \quad
+0&lt;\theta&lt;1\]</span> with expectation and variance</p>
 <ul>
-<li>E<span class="math inline">\((\theta)=\alpha_0 / (\alpha_0+\beta_0)\)</span>,</li>
-<li>Var<span class="math inline">\((\theta)= \alpha_0\,\beta_0 / [(\alpha_0+\beta_0)^2\,(\alpha_0+\beta_0+1)]\)</span>
+<li>E<span class="math inline">\((\theta)=\alpha_0 /
+(\alpha_0+\beta_0)\)</span>,</li>
+<li>Var<span class="math inline">\((\theta)= \alpha_0\,\beta_0 /
+[(\alpha_0+\beta_0)^2\,(\alpha_0+\beta_0+1)]\)</span>
 </li>
 </ul>
-<p>We will start by working with the non-informative prior distribution Be<span class="math inline">\((\alpha_0=0.5, \beta_0=0.5)\)</span> whose prior expectation and standard deviation is <span class="math inline">\(\mathbb{E}(\theta)=0.5\)</span> and <span class="math inline">\(\mathbb{SD}(\theta)=0.3535\)</span>, respectively. Its graphic is obtained via</p>
+<p>We will start by working with the non-informative prior distribution
+Be<span class="math inline">\((\alpha_0=0.5, \beta_0=0.5)\)</span> whose
+prior expectation and standard deviation is <span class="math inline">\(\mathbb{E}(\theta)=0.5\)</span> and <span class="math inline">\(\mathbb{SD}(\theta)=0.3535\)</span>, respectively.
+Its graphic is obtained via</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
@@ -186,10 +226,18 @@ Binomial probability function for two values of <span class="math inline">\(\the
 <div class="section level3">
 <h3 id="the-likelihood-function-of-theta">The likelihood function of <span class="math inline">\(\theta\)</span><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-theta"></a>
 </h3>
-<p>The likelihood function of <span class="math inline">\(\theta\)</span> is a function of <span class="math inline">\(\theta\)</span> whose construction needs the data <span class="math inline">\(\mathcal D = \{n, r\}\)</span>. It is defined as follows</p>
-<p><span class="math display">\[L(\theta \mid \mathcal D) = P(Y=r \mid \theta, n) = \binom{n}{r}\, \theta^r\,(1- \theta)^{n-r},\]</span></p>
-<p>where <span class="math inline">\(r\)</span> is the <em>observed</em> number of successes in the sample (here the number of red candies in the sample of size <span class="math inline">\(n\)</span>). In our first experiment, the likelihood function of <span class="math inline">\(\theta\)</span> for the data <span class="math inline">\(\mathcal D_1 = \{r_1 = 4 \text{ red candies in } n_1 = 20 \text{ sampled}\}\)</span> is</p>
-<p><span class="math display">\[L(\theta \mid \mathcal D_1) = \binom{20}{4}\, \theta^4\,(1- \theta)^{16},\]</span></p>
+<p>The likelihood function of <span class="math inline">\(\theta\)</span> is a function of <span class="math inline">\(\theta\)</span> whose construction needs the data
+<span class="math inline">\(\mathcal D = \{n, r\}\)</span>. It is
+defined as follows</p>
+<p><span class="math display">\[L(\theta \mid \mathcal D) = P(Y=r \mid
+\theta, n) = \binom{n}{r}\, \theta^r\,(1- \theta)^{n-r},\]</span></p>
+<p>where <span class="math inline">\(r\)</span> is the <em>observed</em>
+number of successes in the sample (here the number of red candies in the
+sample of size <span class="math inline">\(n\)</span>). In our first
+experiment, the likelihood function of <span class="math inline">\(\theta\)</span> for the data <span class="math inline">\(\mathcal D_1 = \{r_1 = 4 \text{ red candies in }
+n_1 = 20 \text{ sampled}\}\)</span> is</p>
+<p><span class="math display">\[L(\theta \mid \mathcal D_1) =
+\binom{20}{4}\, \theta^4\,(1- \theta)^{16},\]</span></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="va">mm_sample</span><span class="op">$</span><span class="va">r</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="va">mm_sample</span><span class="op">$</span><span class="va">n</span></span>
@@ -204,10 +252,14 @@ Binomial probability function for two values of <span class="math inline">\(\the
 <div class="section level3">
 <h3 id="the-posterior-distribution-of-theta">The posterior distribution of <span class="math inline">\(\theta\)</span><a class="anchor" aria-label="anchor" href="#the-posterior-distribution-of-theta"></a>
 </h3>
-<p>The posterior distribution of <span class="math inline">\(\theta\)</span> is also a beta distribution with parameters</p>
-<p><span class="math display">\[\pi(\theta \mid \mathcal{D})= \mbox{Be}(\alpha=\alpha_0+r, \beta= \beta_0+n-r).\]</span></p>
-<p>In our case, the posterior distribution of the proportion of red candies is</p>
-<p><span class="math display">\[\pi(\theta \mid \mathcal{D_1})= \mbox{Be}(\alpha=4.5, \beta= 16.5) \]</span> whose graphic is</p>
+<p>The posterior distribution of <span class="math inline">\(\theta\)</span> is also a beta distribution with
+parameters</p>
+<p><span class="math display">\[\pi(\theta \mid \mathcal{D})=
+\mbox{Be}(\alpha=\alpha_0+r, \beta= \beta_0+n-r).\]</span></p>
+<p>In our case, the posterior distribution of the proportion of red
+candies is</p>
+<p><span class="math display">\[\pi(\theta \mid \mathcal{D_1})=
+\mbox{Be}(\alpha=4.5, \beta= 16.5) \]</span> whose graphic is</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mm_sample</span><span class="op">$</span><span class="va">r</span> <span class="op">+</span> <span class="fl">0.5</span>, <span class="va">mm_sample</span><span class="op">$</span><span class="va">n</span> <span class="op">-</span> <span class="va">mm_sample</span><span class="op">$</span><span class="va">r</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
@@ -216,12 +268,18 @@ Binomial probability function for two values of <span class="math inline">\(\the
 <span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Proportion of red candies "</span>, <span class="va">theta</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="st">'posterior'</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="p1_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;"> The posterior mean and posterior standard deviation of the proportion of red candies is</p>
-<p><span class="math display">\[\mathbb{E}(\theta \mid \mathcal D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mathbb{SD}(\theta \mid \mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot (4.5+16.5+1)}}=0.0875.\]</span> A 95<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\theta\)</span> is</p>
+<p><img src="p1_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;">
+The posterior mean and posterior standard deviation of the proportion of
+red candies is</p>
+<p><span class="math display">\[\mathbb{E}(\theta \mid \mathcal
+D)=\frac{4.5}{4.5+16.5}=0.2143, \quad\quad \mathbb{SD}(\theta \mid
+\mathcal D)=\sqrt{\frac{4.5 \cdot 16.5}{(4.5+16.5)^2 \cdot
+(4.5+16.5+1)}}=0.0875.\]</span> A 95<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\theta\)</span> is</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">qbeta</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.07152005 0.40822576</span></span></code></pre></div>
-<p>and the posterior probability that the proportion of red candies is between 0.1 and 0.3 is</p>
+<p>and the posterior probability that the proportion of red candies is
+between 0.1 and 0.3 is</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">pbeta</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">pbeta</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4.5</span>, <span class="fl">16.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.7571733</span></span></code></pre></div>
@@ -233,16 +291,36 @@ Posterior summaries for <span class="math inline">\(\theta\)</span>.
 </div>
 </div>
 <div class="section level3">
-<h3 id="the-posterior-predictive-distribution-for-the-results-of-a-new-experiment">The posterior predictive distribution for the results of a new experiment<a class="anchor" aria-label="anchor" href="#the-posterior-predictive-distribution-for-the-results-of-a-new-experiment"></a>
+<h3 id="the-posterior-predictive-distribution-for-the-results-of-a-new-experiment">The posterior predictive distribution for the results of a new
+experiment<a class="anchor" aria-label="anchor" href="#the-posterior-predictive-distribution-for-the-results-of-a-new-experiment"></a>
 </h3>
-<p>We remind that the posterior predictive distribution of the number of successes <span class="math inline">\(Y^{\prime}\)</span> in a new sample of size <span class="math inline">\(n^{\prime}\)</span> is a beta-binomial distribution <span class="math inline">\(\text{Bb}(\alpha,\, \beta,\, n^{\prime})\)</span> with parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> from the posterior distribution <span class="math inline">\(\pi(\theta \mid \mathcal D)\)</span> and the size <span class="math inline">\(n^{\prime}\)</span> of the new experiment. Its probability function is</p>
-<p><span class="math display">\[P(Y^{\prime} = r^{\prime} \mid \mathcal{D}) = \binom{n^\prime}{r^\prime}\, \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \,\Gamma(\beta)} \,\frac{\Gamma(\alpha+r^{\prime})\,\Gamma(\beta+n^{\prime}-r^{\prime})}{\Gamma(\alpha+\beta+n^{\prime})}, \,\, r^{\prime}=0,1,\ldots, n^{\prime}\]</span></p>
+<p>We remind that the posterior predictive distribution of the number of
+successes <span class="math inline">\(Y^{\prime}\)</span> in a new
+sample of size <span class="math inline">\(n^{\prime}\)</span> is a
+beta-binomial distribution <span class="math inline">\(\text{Bb}(\alpha,\, \beta,\, n^{\prime})\)</span>
+with parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> from the posterior distribution
+<span class="math inline">\(\pi(\theta \mid \mathcal D)\)</span> and the
+size <span class="math inline">\(n^{\prime}\)</span> of the new
+experiment. Its probability function is</p>
+<p><span class="math display">\[P(Y^{\prime} = r^{\prime} \mid
+\mathcal{D}) = \binom{n^\prime}{r^\prime}\,
+\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \,\Gamma(\beta)}
+\,\frac{\Gamma(\alpha+r^{\prime})\,\Gamma(\beta+n^{\prime}-r^{\prime})}{\Gamma(\alpha+\beta+n^{\prime})},
+\,\, r^{\prime}=0,1,\ldots, n^{\prime}\]</span></p>
 <p>with expectation and variance,</p>
 <ul>
-<li><span class="math inline">\(\mathbb{E}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha}{(\alpha+\beta)},\)</span></li>
-<li><span class="math inline">\(\mathbb{V}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.\)</span></li>
+<li><span class="math inline">\(\mathbb{E}(Y^{\prime}\mid
+\mathcal{D})=n^{\prime}\,\frac{\alpha}{(\alpha+\beta)},\)</span></li>
+<li><span class="math inline">\(\mathbb{V}(Y^{\prime}\mid
+\mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.\)</span></li>
 </ul>
-<p>Suppose now that we are going to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag but before we are going to predict the number of red M<span class="math inline">\(\&amp;\)</span>M’s we can record. The posterior predictive distribution is a beta-binomial distribution with parameters <span class="math inline">\(\alpha=4.5\)</span> and <span class="math inline">\(\beta=16.5\)</span>, that we pick from the posterior distribution <span class="math inline">\(\pi(\theta \mid \mathcal D)\)</span>, and <span class="math inline">\(n^{\prime}=10\)</span>, which is the size of the new experiment.</p>
+<p>Suppose now that we are going to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag but before we are
+going to predict the number of red M<span class="math inline">\(\&amp;\)</span>M’s we can record. The posterior
+predictive distribution is a beta-binomial distribution with parameters
+<span class="math inline">\(\alpha=4.5\)</span> and <span class="math inline">\(\beta=16.5\)</span>, that we pick from the
+posterior distribution <span class="math inline">\(\pi(\theta \mid
+\mathcal D)\)</span>, and <span class="math inline">\(n^{\prime}=10\)</span>, which is the size of the
+new experiment.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr" class="external-link">extraDistr</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
@@ -253,24 +331,47 @@ Posterior summaries for <span class="math inline">\(\theta\)</span>.
 <span>  ylab <span class="op">=</span> <span class="st">'probability'</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="p1_files/figure-html/unnamed-chunk-8-1.png" width="60%" style="display: block; margin: auto;"></p>
-<p>We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of the number of red candies is this new sample is</p>
-<p><span class="math display">\[\mathbb{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mathbb{DT}(Y^{\prime} \mid \mathcal D)=1.5403.\]</span></p>
+<p>We observe that the most likely numbers of red candies in the new
+sample are 1 and 2. The posterior mean and posterior standard deviation
+of the number of red candies is this new sample is</p>
+<p><span class="math display">\[\mathbb{E}(Y^{\prime} \mid \mathcal
+D)=  2.1429, \quad\quad \mathbb{DT}(Y^{\prime} \mid \mathcal
+D)=1.5403.\]</span></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="time-for-individual-work">Time for individual work<a class="anchor" aria-label="anchor" href="#time-for-individual-work"></a>
 </h2>
-<p>We propose below an individual exercise that pursues that we can consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session. You can code the exercise yourself in R using the examples above, or use the provided interactive application.</p>
+<p>We propose below an individual exercise that pursues that we can
+consolidate the basic concepts that we have learned in the previous
+theoretical session and that we have been practising in this session.
+You can code the exercise yourself in R using the examples above, or use
+the provided interactive application.</p>
 <p><strong>EXERCISE</strong></p>
-<p>You have two friends, Arnau and Mary, who know a little bit about Bayesian inference and a lot about M<span class="math inline">\(\&amp;\)</span>M’s. Their opinions about the proportion <span class="math inline">\(\theta\)</span> of red candies are expressed in terms of the following prior distributions: <span class="math display">\[\begin{align*}
-\mbox{Arnau's prior distribution: } &amp; \pi^{(A)}(\theta) = \mbox{Be}(4,8) \\
-\mbox{Mary's prior distribution: } &amp; \pi^{(M)}(\theta) = \mbox{Be}(5,95)
+<p>You have two friends, Arnau and Mary, who know a little bit about
+Bayesian inference and a lot about M<span class="math inline">\(\&amp;\)</span>M’s. Their opinions about the
+proportion <span class="math inline">\(\theta\)</span> of red candies
+are expressed in terms of the following prior distributions: <span class="math display">\[\begin{align*}
+\mbox{Arnau's prior distribution: } &amp; \pi^{(A)}(\theta) =
+\mbox{Be}(4,8) \\
+\mbox{Mary's prior distribution: } &amp; \pi^{(M)}(\theta) =
+\mbox{Be}(5,95)
 \end{align*}\]</span></p>
 <ol style="list-style-type: decimal">
-<li><p>How different are your two friends’ opinions on <span class="math inline">\(\theta\)</span>? A good idea to answer this question would be to plot both densities and calculate the mean and standard deviation of the subsequent prior distributions.</p></li>
-<li><p>From the results of the previous experiment (<span class="math inline">\(r= 4\)</span> red candies out of a total of <span class="math inline">\(n=20\)</span> sampled), compare the posterior distribution for <span class="math inline">\(\theta\)</span> that Mary and Arnau would obtain.</p></li>
-<li><p>Compare both posterior distributions with the one we have obtained in Subsection 2.5 of the practical through its graph, posterior mean, standard deviation and a credibility interval at 95<span class="math inline">\(\%\)</span>.</p></li>
-<li><p>Compute the posterior predictive distribution for the new experiment described in Subsection 2.6 (to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag) and compare both posterior predictive distributions with the one we have obtained in Subsection 2.6 of the practical through its graph, posterior mean and standard deviation.</p></li>
+<li><p>How different are your two friends’ opinions on <span class="math inline">\(\theta\)</span>? A good idea to answer this
+question would be to plot both densities and calculate the mean and
+standard deviation of the subsequent prior distributions.</p></li>
+<li><p>From the results of the previous experiment (<span class="math inline">\(r= 4\)</span> red candies out of a total of <span class="math inline">\(n=20\)</span> sampled), compare the posterior
+distribution for <span class="math inline">\(\theta\)</span> that Mary
+and Arnau would obtain.</p></li>
+<li><p>Compare both posterior distributions with the one we have
+obtained in Subsection 2.5 of the practical through its graph, posterior
+mean, standard deviation and a credibility interval at 95<span class="math inline">\(\%\)</span>.</p></li>
+<li><p>Compute the posterior predictive distribution for the new
+experiment described in Subsection 2.6 (to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag) and compare both
+posterior predictive distributions with the one we have obtained in
+Subsection 2.6 of the practical through its graph, posterior mean and
+standard deviation.</p></li>
 </ol>
 </div>
   </div>

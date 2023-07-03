@@ -13,7 +13,10 @@
     <loc>http://vabar.es/vibass/articles/p1.html</loc>
   </url>
   <url>
-    <loc>http://vabar.es/vibass/articles/p2.html</loc>
+    <loc>http://vabar.es/vibass/articles/p2count.html</loc>
+  </url>
+  <url>
+    <loc>http://vabar.es/vibass/articles/p2normal.html</loc>
   </url>
   <url>
     <loc>http://vabar.es/vibass/articles/p3.html</loc>
@@ -31,13 +34,13 @@
     <loc>http://vabar.es/vibass/articles/p7.html</loc>
   </url>
   <url>
-    <loc>http://vabar.es/vibass/articles/p8.html</loc>
-  </url>
-  <url>
     <loc>http://vabar.es/vibass/authors.html</loc>
   </url>
   <url>
     <loc>http://vabar.es/vibass/index.html</loc>
+  </url>
+  <url>
+    <loc>http://vabar.es/vibass/reference/Weights.html</loc>
   </url>
   <url>
     <loc>http://vabar.es/vibass/reference/available_apps.html</loc>
