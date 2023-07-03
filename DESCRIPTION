@@ -62,6 +62,8 @@ Suggests:
     hrbrthemes,
     htmlwidgets,
     INLA,
+    ISLR,
+    LaplacesDemon,
     magick,
     pacman,
     plotly,

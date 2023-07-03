@@ -28,7 +28,6 @@ The \texttt{Auto} dataset of the \texttt{ISLR} library contains information on s
 We begin by visualizing the relationship between the two variables
 
 ```{r}
-if(!("ISLR"%in%installed.packages())){install.packages("ISLR")}
 library(ISLR)
 plot(mpg ~ horsepower, data = Auto)
 ```
@@ -40,7 +39,6 @@ The relationship between both variables is clearly nonlinear, so we will fit a (
 Spline regression models are linear models whose variables are the elements of a basis of spline functions evaluated on each of the individuals in the dataset. In our case, the explanatory variable with a nonlinear relationship is \texttt{horsepower}. We define a basis of spline functions (b-splines of degree 3) for this variable. 
 
 ```{r}
-if(!("splines"%in%installed.packages())){install.packages("splines")}
 library(splines)
 basis <- bs(Auto$horsepower, df = 5)
 
@@ -67,8 +65,6 @@ The fitted curve adequately describes the relationship between both variables. M
 Let us now fit the Bayesian version of the above model. We will use, for convenience, Jeffreys' prior for $P(\boldsymbol{\beta},\sigma^2)\propto \sigma^{-2}$. In that case, we have:
 $$\sigma^2\mid \mathcal{D}\sim IG(\sigma^2\mid(n-(p+1))/2,s_e^2/2)$$
 ```{r}
-if(!("LaplacesDemon"%in%installed.packages())){
-  install.packages("LaplacesDemon")}
 library(LaplacesDemon)
 plot(seq(13, 25, by = 0.1), 
      dinvgamma(seq(13, 25, by = 0.1), (nrow(Auto)-6)/2,sum(residuals(Fit1)^2)/2), 

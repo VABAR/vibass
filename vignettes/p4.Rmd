@@ -28,7 +28,6 @@ We resume the analysis of the \texttt{Auto} data set of the \texttt{ISLR} librar
 We start by loading the data and redoing the frequentist fit from the previous session:
 
 ```{r}
-if(!("ISLR"%in%installed.packages())){install.packages("ISLR")}
 library(ISLR)
 library(splines)
 library(LaplacesDemon)
