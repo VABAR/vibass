@@ -249,21 +249,21 @@ found of interest from these parameters. For example:</p>
 <code class="sourceCode R"><span><span class="co"># Posterior mean of each parameter:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">posterior.sample</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                                                       </span></span>
-<span><span class="co">##     25.993331     14.063529     -1.523922    -10.342704    -14.974699 </span></span>
+<span><span class="co">##     25.979400     14.097354     -1.514902    -10.337614    -14.970435 </span></span>
 <span><span class="co">##               sigma2.sample </span></span>
-<span><span class="co">##    -11.088767     28.091390</span></span></code></pre>
+<span><span class="co">##    -11.056788     28.080082</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Posterior standard deviation of each parameter:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">posterior.sample</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                                                       </span></span>
-<span><span class="co">##      1.495251      2.333851      1.678004      2.477107      2.873908 </span></span>
+<span><span class="co">##      1.455397      2.281917      1.660784      2.442221      2.891692 </span></span>
 <span><span class="co">##               sigma2.sample </span></span>
-<span><span class="co">##      2.543660      1.951169</span></span></code></pre>
+<span><span class="co">##      2.497826      1.971974</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Posterior probability of being higher than 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">posterior.sample</span><span class="op">&gt;</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                                                       </span></span>
-<span><span class="co">##        1.0000        1.0000        0.1829        0.0001        0.0000 </span></span>
+<span><span class="co">##        1.0000        1.0000        0.1784        0.0000        0.0000 </span></span>
 <span><span class="co">##               sigma2.sample </span></span>
 <span><span class="co">##        0.0000        1.0000</span></span></code></pre>
 <p>In addition, we can also evaluate some unconventional hypothesis
@@ -282,40 +282,40 @@ in realtion to the rest of the components</p>
 <pre><code><span><span class="co">## [[1]]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    4    5 </span></span>
-<span><span class="co">##    5 9995 </span></span>
+<span><span class="co">##    3 9997 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    4    5 </span></span>
-<span><span class="co">## 9995    5 </span></span>
+<span><span class="co">## 9997    3 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[3]]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    2    3 </span></span>
-<span><span class="co">##    5 9995 </span></span>
+<span><span class="co">##    4 9996 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[4]]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    1    2    3 </span></span>
-<span><span class="co">## 1346 8649    5 </span></span>
+<span><span class="co">## 1331 8665    4 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[5]]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    1    2 </span></span>
-<span><span class="co">## 8654 1346</span></span></code></pre>
+<span><span class="co">## 8669 1331</span></span></code></pre>
 <p>or normalize the coefficients according to the standard deviation of
 the error (taking into account the uncertainty of that standard
 deviation):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">beta.sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">posterior.sample</span>,<span class="fl">1</span>,<span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">beta.sd</span>, <span class="fl">2</span>, <span class="va">summary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                                                         </span></span>
-<span><span class="co">## Min.    3.565737 0.7822969 -1.54398465 -3.74530743 -4.9512475 -4.0667549</span></span>
-<span><span class="co">## 1st Qu. 4.696811 2.3564023 -0.49662021 -2.27769190 -3.1978605 -2.4193285</span></span>
-<span><span class="co">## Median  4.914370 2.6561682 -0.29279924 -1.95746581 -2.8368813 -2.1038223</span></span>
-<span><span class="co">## Mean    4.912955 2.6586789 -0.28806207 -1.95448524 -2.8305321 -2.0955107</span></span>
-<span><span class="co">## 3rd Qu. 5.135745 2.9681528 -0.07551358 -1.63271634 -2.4585697 -1.7687217</span></span>
-<span><span class="co">## Max.    6.203470 4.4334413  0.83406260  0.06940378 -0.9741671 -0.2247216</span></span></code></pre>
+<pre><code><span><span class="co">##                                                                       </span></span>
+<span><span class="co">## Min.    3.764915 0.9326931 -1.70164076 -3.6260296 -5.2063704 -3.826065</span></span>
+<span><span class="co">## 1st Qu. 4.694159 2.3677847 -0.49755498 -2.2743033 -3.2016193 -2.412924</span></span>
+<span><span class="co">## Median  4.912514 2.6680877 -0.28576400 -1.9495289 -2.8299760 -2.087642</span></span>
+<span><span class="co">## Mean    4.911582 2.6653157 -0.28631554 -1.9543445 -2.8303561 -2.090130</span></span>
+<span><span class="co">## 3rd Qu. 5.130003 2.9591990 -0.07504113 -1.6339598 -2.4495047 -1.764371</span></span>
+<span><span class="co">## Max.    6.122018 4.3900233  0.97588700 -0.3453707 -0.7141512 -0.315325</span></span></code></pre>
 <p>But, beyond the parameters of the model, we could take advantage of
 these samples to make inference about quantities of even greater
 interest such as, for example, the curve describing the relationship
