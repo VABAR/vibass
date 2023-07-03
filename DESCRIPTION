@@ -58,6 +58,7 @@ Suggests:
     bayesrules,
     coda,
     cowplot,
+    faraway,
     hrbrthemes,
     htmlwidgets,
     INLA,
