@@ -17,14 +17,23 @@ vignette: >
 
 # Bayesian Hierarchical Modelling
 
-In this last practical we will consider the analysis of Bayesian hierarhical models. As explained in the previous lecture, hierarchical models pose a convenient tool to define model so that the different sources of variation in the data are clearly identified. Bayesian inference for highly structure hierarchical models can be diffincult and may require the use of Markov chain Monte Carlo methods. However, packages such as `BayesX` and `INLA`, to mention a few, provide a very convenient way to fit and make inference about certain types of Bayesian hierarchical models.
+In this last practical we will consider the analysis of Bayesian hierarchical
+models. As explained in the previous lecture, hierarchical models pose a
+convenient tool to define model so that the different sources of variation in
+the data are clearly identified. Bayesian inference for highly structure
+hierarchical models can be difficult and may require the use of Markov chain
+Monte Carlo methods. However, packages such as `BayesX` and `INLA`, to mention a
+few, provide a very convenient way to fit and make inference about certain types
+of Bayesian hierarchical models.
 
 
-Regarding software, we will use `INLA` to fit the models in the examples now. The reason is that it is a popular software for Bayesian inference and very fast.
+Regarding software, we will use `INLA` to fit the models in the examples now.
+The reason is that it is a popular software for Bayesian inference and very
+fast.
 
 # Linear Mixed Models
 
-Linear mixed models wre defined in the lecture as follows:
+Linear mixed models were defined in the lecture as follows:
 
 $$
 Y_{ij} = X_{ij}\beta +\phi_i+\epsilon_{ij}
@@ -35,7 +44,9 @@ Here, Y_{ij} represents observation $j$ in group $i$, X_{ij} are a vector fo cov
 
 # Multilevel Modelling
 
-Multilevel models are a particular type o mixed-effects models in which observations are nested withing groups, so that group effects are modeled using random effects. A typical example is the that of students nested within classes.
+Multilevel models are a particular type of mixed-effects models in which
+observations are nested within groups, so that group effects are modelled using
+random effects. A typical example is the that of students nested within classes.
 
 For the next example, the `nlschools` dataset (in package `MASS`) will be used.
 This dataset records data about students' performance (in particular, about a
