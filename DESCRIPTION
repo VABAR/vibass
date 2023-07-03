@@ -55,6 +55,7 @@ Imports:
     tibble,
     tidyr
 Suggests: 
+    bayesrules,
     cowplot,
     hrbrthemes,
     htmlwidgets,
