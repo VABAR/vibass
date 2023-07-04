@@ -584,15 +584,15 @@ D)\)</span>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span></span>
-<span><span class="co">#&gt; 0.0009209 0.0026816 0.0034208 0.0038085 0.0045040 0.0251141</span></span>
+<span><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
+<span><span class="co">#&gt; 0.001032 0.002660 0.003421 0.003788 0.004472 0.022284</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2.846443e-06</span></span>
+<span><span class="co">#&gt; [1] 2.799525e-06</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.00168714</span></span>
+<span><span class="co">#&gt; [1] 0.001673178</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        0.5%       99.5% </span></span>
-<span><span class="co">#&gt; 0.001458552 0.010971474</span></span></code></pre></div>
+<span><span class="co">#&gt;       0.5%      99.5% </span></span>
+<span><span class="co">#&gt; 0.00146327 0.01104371</span></span></code></pre></div>
 <p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid
 \mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
 </div>
