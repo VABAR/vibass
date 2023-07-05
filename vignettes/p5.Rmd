@@ -1220,7 +1220,7 @@ This gives us an easy way to run Gibbs Sampling for linear regression; we have
 standard distributions as full conditionals and there are standard
 functions in R to obtain the simulations. We shall do this now for an
 example in ecology, looking at the relationship between water pollution and
-mayfly size.
+mayfly size - the data come from the book *Statistics for Ecologists Using R and Excel 2nd edition* by Mark Gardener (ISBN 9781784271398), see [the publisher's webpage](https://pelagicpublishing.com/products/statistics-for-ecologists-using-r-and-excel-gardener-2nd-edition).
 
 The data are as follows:
 

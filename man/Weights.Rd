@@ -8,14 +8,24 @@
 An object of class \code{"data.frame"}.
 }
 \source{
-To be added.
+VIBASS Team.
 }
 \usage{
 data("Weights")
 }
 \description{
-Data for the VIBASS session on linear models. The dataset include
-data bout children, that includes weight, height and some other variables.
+Data for the VIBASS session on linear models. This is a simulated dataset
+that includes data about children. The variables in the dataset are:
+}
+\details{
+\itemize{
+ \item age. Age (in years).
+ \item vegetables. Measure of vegetables consumption.
+ \item weight. Weight (in kg).
+ \item sex. Girl or Boy.
+ \item height. Height (in cm).
+ \item race. Assian, Black or European.
+}
 }
 \examples{
 data(Weights)
@@ -24,8 +34,5 @@ summary(Weights)
 # ML estimates
 lmW <- lm(weight ~ age, data = Weights)
 summary(lmW) 
-}
-\references{
-To be added.
 }
 \keyword{datasets}
