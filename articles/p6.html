@@ -210,7 +210,7 @@ of news is fake or not given three explanatory variables.</p>
 <p>We can use the following code to extract the variables we want from
 the data set:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://bayes-rules.github.io/bayesrules/docs/" class="external-link">"bayesrules"</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bayes-rules.github.io/bayesrules/docs/" class="external-link">bayesrules</a></span><span class="op">)</span></span>
 <span><span class="va">fakenews</span> <span class="op">&lt;-</span> <span class="va">fake_news</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"type"</span>,<span class="st">"title_has_excl"</span>,<span class="st">"title_words"</span>,<span class="st">"negative"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <p>The response variable <code>type</code> takes values
 <code>fake</code> or <code>real</code>, which should be
@@ -310,19 +310,19 @@ probability of an article being fake or not?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                     Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -3.0651  0.7990 -4.6280 -3.0344 -1.5945</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  2.7425  0.8609  1.2153  2.6700  4.6110</span></span>
-<span><span class="co">#&gt; title_words       0.1182  0.0596 -0.0008  0.1166  0.2334</span></span>
-<span><span class="co">#&gt; negative          0.3334  0.1549  0.0540  0.3281  0.6491</span></span>
+<span><span class="co">#&gt; (Intercept)      -3.0270  0.7506 -4.5144 -3.0012 -1.6359</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  2.5930  0.8380  1.0821  2.5464  4.3368</span></span>
+<span><span class="co">#&gt; title_words       0.1164  0.0578  0.0032  0.1180  0.2271</span></span>
+<span><span class="co">#&gt; negative          0.3306  0.1519  0.0450  0.3247  0.6309</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 150  burnin = 5000  method = MCMC  family = binomial  </span></span>
 <span><span class="co">#&gt; iterations = 15000  step = 10</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                           2.5%      97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -4.6190395000 -1.5947392</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  1.2187790000  4.5976602</span></span>
-<span><span class="co">#&gt; title_words      -0.0003365886  0.2333292</span></span>
-<span><span class="co">#&gt; negative          0.0548472475  0.6489418</span></span></code></pre></div>
+<span><span class="co">#&gt;                          2.5%      97.5%</span></span>
+<span><span class="co">#&gt; (Intercept)      -4.502459750 -1.6381798</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  1.095741500  4.3313072</span></span>
+<span><span class="co">#&gt; title_words       0.003239988  0.2270562</span></span>
+<span><span class="co">#&gt; negative          0.045114213  0.6307793</span></span></code></pre></div>
 </details>
 </li>
 <li>
@@ -523,10 +523,10 @@ complaints?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept) -0.3951  0.6757 -1.6696 -0.3991  0.9738</span></span>
-<span><span class="co">#&gt; residencyY  -0.5594  0.1950 -0.9309 -0.5568 -0.1936</span></span>
-<span><span class="co">#&gt; genderM      0.1435  0.2084 -0.2377  0.1329  0.5486</span></span>
-<span><span class="co">#&gt; revenue      0.0065  0.0027  0.0012  0.0066  0.0116</span></span>
+<span><span class="co">#&gt; (Intercept) -0.3925  0.6818 -1.7193 -0.3995  0.8689</span></span>
+<span><span class="co">#&gt; residencyY  -0.5506  0.1870 -0.9254 -0.5512 -0.1943</span></span>
+<span><span class="co">#&gt; genderM      0.1664  0.2113 -0.2514  0.1583  0.5776</span></span>
+<span><span class="co">#&gt; revenue      0.0064  0.0027  0.0012  0.0065  0.0117</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 44  burnin = 2000  method = MCMC  family = poisson  </span></span>
 <span><span class="co">#&gt; iterations = 12000  step = 10</span></span></code></pre></div>
