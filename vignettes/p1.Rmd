@@ -106,7 +106,7 @@ p <-
     ),
     aes(xend = xend, yend = yend),
     colour = "grey75",
-    size = .5,
+    linewidth = .5,
     curvature = -.1,
     arrow = arrow(length = unit(0.01, "npc"), type = "closed")
   ) +
@@ -124,7 +124,7 @@ p <-
     ),
     aes(xend = xend, yend = yend),
     colour = "grey75",
-    size = .5,
+    linewidth = .5,
     curvature = -.1
   ) +
   annotate(
@@ -362,7 +362,7 @@ tibble(
     ),
     aes(xend = xend, yend = yend),
     colour = "grey75",
-    size = .5,
+    linewidth = .5,
     curvature = .1,
     arrow = arrow(length = unit(0.01, "npc"), type = "closed")
   ) +
