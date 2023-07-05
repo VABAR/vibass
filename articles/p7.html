@@ -209,14 +209,14 @@ can easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.25, Running = 7.63, Post = 0.0409, Total = 11.9 </span></span>
+<span><span class="co">##     Pre = 3.94, Running = 7.17, Post = 0.0394, Total = 11.2 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0</span></span>
+<span><span class="co">## (Intercept)  9.685 1.070      7.585    9.685     11.784  9.685   0</span></span>
 <span><span class="co">## IQ           2.391 0.074      2.246    2.391      2.536  2.391   0</span></span>
 <span><span class="co">## GS          -0.026 0.025     -0.076   -0.026      0.024 -0.026   0</span></span>
 <span><span class="co">## SES          0.148 0.014      0.120    0.148      0.175  0.148   0</span></span>
-<span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.047 -1.684   0</span></span>
+<span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.046 -1.684   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
@@ -224,7 +224,7 @@ can easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">##                                         0.975quant  mode</span></span>
 <span><span class="co">## Precision for the Gaussian observations      0.022 0.021</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7713.46 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7713.45 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -272,10 +272,10 @@ explored by means of boxplots:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.43, Running = 1.59, Post = 0.0468, Total = 6.07 </span></span>
+<span><span class="co">##     Pre = 4.09, Running = 1.28, Post = 0.0435, Total = 5.41 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept)  9.685 1.071      7.585    9.685     11.784  9.685   0</span></span>
+<span><span class="co">## (Intercept)  9.685 1.070      7.585    9.685     11.784  9.685   0</span></span>
 <span><span class="co">## IQ           2.391 0.074      2.246    2.391      2.536  2.391   0</span></span>
 <span><span class="co">## GS          -0.026 0.025     -0.076   -0.026      0.024 -0.026   0</span></span>
 <span><span class="co">## SES          0.148 0.014      0.120    0.148      0.175  0.148   0</span></span>
@@ -286,14 +286,14 @@ explored by means of boxplots:</p>
 <span><span class="co">##     class IID model</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
-<span><span class="co">##                                             mean       sd 0.025quant 0.5quant</span></span>
-<span><span class="co">## Precision for the Gaussian observations 2.10e-02 1.00e-03       0.02    0.021</span></span>
-<span><span class="co">## Precision for class                     1.23e+04 1.14e+04     664.91 8609.833</span></span>
-<span><span class="co">##                                         0.975quant     mode</span></span>
-<span><span class="co">## Precision for the Gaussian observations   2.20e-02    0.021</span></span>
-<span><span class="co">## Precision for class                       4.22e+04 1741.264</span></span>
+<span><span class="co">##                                             mean    sd 0.025quant 0.5quant</span></span>
+<span><span class="co">## Precision for the Gaussian observations 2.10e-02 1e-03       0.02 2.10e-02</span></span>
+<span><span class="co">## Precision for class                     2.79e+04 4e+03   22075.18 2.71e+04</span></span>
+<span><span class="co">##                                         0.975quant    mode</span></span>
+<span><span class="co">## Precision for the Gaussian observations   2.20e-02 2.1e-02</span></span>
+<span><span class="co">## Precision for class                       3.51e+04 2.3e+04</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7713.04 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7717.05 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -436,7 +436,7 @@ code:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.68, Running = 0.557, Post = 0.0144, Total = 4.26 </span></span>
+<span><span class="co">##     Pre = 3.88, Running = 0.594, Post = 0.0136, Total = 4.49 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0</span></span>
@@ -480,7 +480,7 @@ in the counties:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.19, Running = 0.85, Post = 0.0256, Total = 5.06 </span></span>
+<span><span class="co">##     Pre = 4.13, Running = 0.7, Post = 0.0243, Total = 4.85 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.650 0.104     -0.856   -0.650     -0.447 -0.649   0</span></span>
@@ -492,7 +492,7 @@ in the counties:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                    mean     sd 0.025quant 0.5quant 0.975quant  mode</span></span>
-<span><span class="co">## Precision for ID 134.14 229.41       9.57    31.05     416.30 15.76</span></span>
+<span><span class="co">## Precision for ID 134.13 229.39       9.57    31.05     416.29 15.76</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Marginal log-Likelihood:  -227.83 </span></span>
 <span><span class="co">##  is computed </span></span>
@@ -529,7 +529,7 @@ it:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.57, Running = 0.77, Post = 0.024, Total = 5.37 </span></span>
+<span><span class="co">##     Pre = 4.07, Running = 0.617, Post = 0.0224, Total = 4.71 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.03 0.063     -0.157   -0.028      0.091 -0.026   0</span></span>
