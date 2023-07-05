@@ -12,7 +12,7 @@ on:
 
 name: R-CMD-check
 env:
-  cache-version: v4
+  cache-version: v5
 
 jobs:
   R-CMD-check:
