@@ -38,7 +38,7 @@ pacman::p_load(
 
 ```
 
- 
+
 
  
 # Introducing  M$\&$M's
@@ -55,12 +55,12 @@ include_graphics("mm_photo.jpg")
 ```
 
 
-#  Bayesian inference for the proportion of red M$\&$M's
+# Bayesian inference for the proportion of red M$\&$M's
 
 
-##  The experiment: Counting red M$\&$M's
+## The experiment: Counting red M$\&$M's
 
-Let's start this practical session by making inference about the proportion of red M$\&$M's in a very huge box. If you are following this practice in person, the instructor will give you a bag of M$\&$M's to make the practice more fun even if we have to be a bit flexible about the theoretical conditions of the experiment.  If you are working  online  it will be a bit more boring but we will comply better with the theoretical  conditions of the experiment. 
+Let's start this practical session by making inference about the proportion of red M$\&$M's in a very huge box. If you are following this practice in person, the instructor will give you a bag of M$\&$M's to make the practice more fun even if we have to be a bit flexible about the theoretical conditions of the experiment. If you are working online it will be a bit more boring but we will comply better with the theoretical conditions of the experiment. 
 
 
 ```{r sampling-process, fig.cap = cap, echo = FALSE, fig.width=9, fig.height = 4}
@@ -164,7 +164,7 @@ mm_sample <- data.frame(n = 20, r = 4)
 
 ## The sampling model is Binomial
 
-Let $Y$ be the random variable that describes the number of red M$\&$M's (successes)   out of the $n=20$ sampled. Given the proportion $\theta$ of red candies in the bag,   $Y$ is a binomial random variable with parameters $n=20$ and probability $\theta$ associated  with obtaining a red candy
+Let $Y$ be the random variable that describes the number of red M$\&$M's (successes) out of the $n=20$ sampled. Given the proportion $\theta$ of red candies in the bag, $Y$ is a binomial random variable with parameters $n=20$ and probability $\theta$ associated with obtaining a red candy
 
 $$Y \mid \theta \sim \mbox{Bi}(n, \theta)$$
  
@@ -222,9 +222,9 @@ tibble(
 ```
 
 
-##  A prior distribution for $\theta$
+## A prior distribution for $\theta$
 
-Recall that the beta distribution is conjugate with respect to the binomial probability model. If we elicit a prior beta distribution Be$(\alpha_0, \beta_0)$ for $\theta$, its density is  
+Recall that the beta distribution is conjugate with respect to the binomial probability model. If we elicit a prior beta distribution Be$(\alpha_0, \beta_0)$ for $\theta$, its density is 
 
 $$\pi(\theta)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\, \theta^{\alpha_0-1}\,(1-\theta)^{\beta_0-1}, \quad 0<\theta<1$$
 with expectation and variance
@@ -244,7 +244,7 @@ curve(
 )
 ```
 
-##  The likelihood function of $\theta$
+## The likelihood function of $\theta$
  
 The likelihood function of $\theta$ is a function of $\theta$ whose construction needs the data $\mathcal D = \{n, r\}$. It is defined as follows
  
@@ -267,7 +267,7 @@ curve(
 )
 ```
 
-## The posterior distribution of $\theta$   
+## The posterior distribution of $\theta$ 
 
 The posterior distribution of $\theta$ is also a beta distribution with parameters
 
@@ -378,7 +378,7 @@ tibble(
 ```
 
 
-##  The posterior predictive distribution for the results of a new experiment  
+## The posterior predictive distribution for the results of a new experiment 
 
 We remind that the posterior predictive distribution of the number of successes $Y^{\prime}$ in a new sample of size $n^{\prime}$ is a beta-binomial distribution $\text{Bb}(\alpha,\, \beta,\, n^{\prime})$ with parameters $\alpha$ and $\beta$ from the posterior distribution $\pi(\theta \mid \mathcal D)$ and the size $n^{\prime}$ of the new experiment. Its probability function is
 
@@ -388,8 +388,8 @@ with expectation and variance,
 
 - $\mathbb{E}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha}{(\alpha+\beta)},$
 - $\mathbb{V}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.$
-     
-Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag but before we are going to predict the number of red M$\&$M's we can record. The posterior  predictive distribution is a beta-binomial distribution with parameters $\alpha=4.5$ and $\beta=16.5$, that we pick from the posterior distribution $\pi(\theta \mid \mathcal D)$, and $n^{\prime}=10$, which is the size of the new experiment. 
+   
+Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag but before we are going to predict the number of red M$\&$M's we can record. The posterior predictive distribution is a beta-binomial distribution with parameters $\alpha=4.5$ and $\beta=16.5$, that we pick from the posterior distribution $\pi(\theta \mid \mathcal D)$, and $n^{\prime}=10$, which is the size of the new experiment. 
 
 ```{r, fig.align='center', out.width="60%"}
 library(extraDistr)
@@ -402,7 +402,7 @@ curve(
 )
 ```
 
-We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of  the number of red candies is this new sample is
+We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of the number of red candies is this new sample is
 
 $$\mathbb{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mathbb{DT}(Y^{\prime} \mid \mathcal D)=1.5403.$$
  
@@ -418,9 +418,9 @@ You have two friends, Arnau and Mary, who know a little bit about Bayesian infer
 \mbox{Mary's prior distribution: } & \pi^{(M)}(\theta) = \mbox{Be}(5,95)
 \end{align*}
 
-1. How different are your two friends' opinions on $\theta$?  A good idea to answer this question would be to plot both densities and calculate the mean and standard deviation of the subsequent prior distributions.
+1. How different are your two friends' opinions on $\theta$? A good idea to answer this question would be to plot both densities and calculate the mean and standard deviation of the subsequent prior distributions.
 
-2. From the results of the previous experiment ($r= 4$ red candies out of a total of $n=20$ sampled), compare the posterior distribution for $\theta$  that Mary and Arnau would obtain. 
+2. From the results of the previous experiment ($r= 4$ red candies out of a total of $n=20$ sampled), compare the posterior distribution for $\theta$ that Mary and Arnau would obtain. 
 
 3. Compare both posterior distributions with the one we have obtained in Subsection 2.5 of the practical through its graph, posterior mean, standard deviation and a credibility interval at 95$\%$. 
 
