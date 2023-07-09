@@ -1,10 +1,10 @@
-#' The application User-Interface Practical 3
+#' The application User-Interface Practical 2
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
-p3_ui <- function(request) {
+p2_ui <- function(request) {
 
   # Top banner with explanatory text and equations --------------------------
   explanations <- fluidRow(
@@ -138,7 +138,7 @@ p3_ui <- function(request) {
 
   tagList(
     # Leave this function for adding external resources
-    add_external_resources(3),
+    add_external_resources(2),
 
     # First level UI elements here
 
@@ -155,7 +155,7 @@ p3_ui <- function(request) {
                 </script>
                 ")),
 
-      titlePanel("Practical 3: Count data"),
+      titlePanel("Practical 2: Count data"),
 
       strong(
         "Estimate the number of u's in a page of",

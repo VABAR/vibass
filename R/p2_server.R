@@ -8,7 +8,7 @@
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
 #' @noRd
-p3_server <- function(input, output, session) {
+p2_server <- function(input, output, session) {
 
   a0 <- textedSliderServer("a0", 0.5)
 
