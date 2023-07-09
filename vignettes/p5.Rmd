@@ -1,7 +1,6 @@
 ---
 title: 'Practical 5: Numerical approaches'
 author: "VIBASS"
-date: "July 2023"
 output:
   html_vignette:
     fig_caption: yes

@@ -1,7 +1,6 @@
 ---
 title: 'Practical 3: Bayesian linear regression'
 author: "VIBASS"
-date: "July 2023"
 output:
   html_vignette:
     fig_caption: yes

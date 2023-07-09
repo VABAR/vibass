@@ -1,7 +1,6 @@
 ---
 title: 'Practical 1: Binary data'
 author: "VIBASS"
-date: "July 2022"
 output:
   html_vignette:
     fig_caption: yes
