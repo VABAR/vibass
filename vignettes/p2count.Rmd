@@ -37,7 +37,7 @@ If you want to get a bit of atmosphere, you can see a trailer of the series [her
 
 ## The experiment: Number of _u_'s in a page of *A Game of Thrones*
 
-In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, *A Game of Thrones*, and we are interested in learning about the mean number of letters u we can find on a page of this book. We select pages of the book at random and count the number of _u_'s on each page. The random sampling is ``with replacement'' in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data 
+In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, *A Game of Thrones*, and we are interested in learning about the mean number of letters _u_ we can find on a page of this book. We select pages of the book at random and count the number of _u_'s on each page. The random sampling is _with replacement_ in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data 
 
 ```{r}
 udata <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23, 28, 25, 24, 22, 
@@ -49,8 +49,7 @@ that we have obtained as a consequence of carrying out an experiment consisting 
 We can summarize the results obtained by means of a table of frequencies and its graphical representation 
 
 ```{r}
-table.udata <- table(udata)
-table.udata
+(table.udata <- table(udata))
 ```
 
 ```{r, fig.align='center', out.width="70%"}
@@ -59,11 +58,11 @@ barplot(table.udata, col="gray89", xlab="Number of letters u in a page")
 
 ## The sampling model is approximately Poisson
 
-let $Y$ the random variable that describes the number of _u_'s in a page of the novel *A Game of Thrones*. We consider in this practice that, given $\lambda$, the distribution of the number of _u_'s is Poisson with parameter $\lambda$ 
+Let $Y$ the random variable that describes the number of _u_'s in a page of the novel *A Game of Thrones*. We consider in this practice that, given $\lambda$, the distribution of the number of _u_'s is Poisson with rate $\lambda$ 
 
 $$Y \mid \lambda \sim \text{Po}(\lambda),$$
  
-whose conditional probability function, expectation and variance is: 
+whose conditional probability function, expectation and variance are: 
 
 - $P(Y=y \mid \lambda)= \frac{\lambda^y\, e^{-\lambda}}{y!}, \;y=0,1,\ldots$ 
 - $\mathbb{E}(Y\mid \lambda) = \lambda$, 
@@ -71,65 +70,83 @@ whose conditional probability function, expectation and variance is:
 
 
 
-We know that this distribution is not exactly Poisson because the number of _u_'s on a page is finite and the Poisson distribution has no limit to the possible values of the variable.
+We know that this distribution is not exactly Poisson because the number of _u_'s 
+that can possibly be printed in a page is necessarily limited, while the potential values of a Poisson variable are not bounded.
+Nevertheless, the Poisson distribution can be a useful model in practice.
 
 
 ## A prior distribution for $\lambda$
 
 Recall that the gamma distribution is conjugate with respect to the Poisson probability model. If we elicit a prior gamma distribution Ga$(\alpha_0, \beta_0)$ for $\lambda$, its density is 
 
-$$\pi(\lambda)=\frac{ \beta_0^{\alpha_0}}{\Gamma(\alpha_0) }\, \lambda^{(\alpha_0-1)}\, e^{-\lambda\,\beta_0}, \,\, \lambda>0$$
+$$\pi(\lambda \mid \alpha_0, \beta_0)=\frac{ \beta_0^{\alpha_0}}{\Gamma(\alpha_0) }\, \lambda^{(\alpha_0-1)}\, e^{-\lambda\,\beta_0}, \,\, \lambda>0$$
 with expectation and variance
 
-- $\mathbb{E}(\lambda)=\alpha_0 / \beta_0$, 
-- $\mathbb{V}(\lambda)= \alpha_0 / \beta_0^2.$
+- $\mathbb{E}(\lambda \mid \alpha_0, \beta_0)=\alpha_0 / \beta_0$, 
+- $\mathbb{V}(\lambda \mid \alpha_0, \beta_0)= \alpha_0 / \beta_0^2.$
 
-We are going to work with two different prior distributions to learn a bit more about this Bayesian inferential process. We will work with a non-informative prior distribution (Prior 1) and with the prior distribution (Prior 2) provided by a friend of ours, Joan, who has read all of George R. R. Martin's books. 
+We are going to work with two different prior distributions to learn a bit more about this Bayesian inferential process. We will work with a _non-informative_ prior distribution (Prior 1) and with the prior distribution (Prior 2) provided by a friend of ours, Joan, who has read all books by George R. R. Martin.
 
 \begin{align*}
 \text{Prior 1: }& \pi_1(\lambda) \propto\lambda^{-1/2}\\
 \text{Joan, Prior 2: }& \pi_2(\lambda)=\text{Ga}(\alpha_0=105.8, \beta_0=4.6).
 \end{align*}
 
-The non-informative prior distribution is intended to be a neutral distribution that leaves the data in the spotlight. Let's try to understand what Joan's views are that he has expressed through his prior distribution. To do so, we  calculate the mean and standard deviation and graphically represent this prior. 
+The non-informative prior distribution is intended to be a neutral distribution that leaves the data in the spotlight. Let's try to understand which views are expressed in Joan's prior distribution. To do so, we  calculate the mean and standard deviation and graphically represent his prior.
 
 ```{r, fig.align='center', out.width="60%"}
-lambda<-seq(15,35,0.01)
-prior2 <- dgamma(lambda, 105.8, 4.6)
-plot(lambda, prior2, type="l", lwd=4, col="dodgerblue", xlim=c(15,35), ylim=c(0,0.5),
-     xlab=expression(paste(lambda ))) 
+curve(
+  dgamma(x, 105.8, 4.6), 
+  col="dodgerblue", lwd=4,
+  xlim=c(15,35), ylim=c(0,0.5),
+  xlab = expression(paste("Expected number of u's in a page ", lambda)),
+  ylab = 'Prior 2 (Joan)'
+  )
 ```
 
-According to Joan, the prior expectation and variance of $\lambda$ is 
-$$\mathbb{E}(\lambda)=105.8/4.6= 23, \,\,\mathbb{SD}{(\lambda)}= \sqrt(105.8/4.6^2)=2.236 \,\,\text{letters u}$$
+According to Joan, the prior expectation and standard deviation of $\lambda$ is 
+$$\mathbb{E}(\lambda)=105.8/4.6= 23, \quad \mathbb{SD}(\lambda)= \sqrt{105.8/4.6^2}=2.236$$
 and the prior probability that $\lambda$ is less than 20, 23, 25, 30 and 35 is:
 ```{r}
-pgamma(c(20, 23, 25, 30, 35), 105.8, 4.6)
+setNames(nm = c(20, 23, 25, 30, 35)) |> pgamma(105.8, 4.6) |> round(3)
 ```
+
 ## The likelihood function of $\lambda$
 
-The likelihood of $\lambda$ is a function of $\lambda$ whose construction needs the data $\mathcal D=\{n, \sum y_i\}$, where $\sum y_i$ is the sum of the data. It is defined as follows
+The likelihood of $\lambda$ is a function of $\lambda$ whose expression requires the observed data $\mathcal D=\{n, \sum y_i\}$, where $\sum y_i$ is the total number of _u_'s observed in the _n_ sampled pages. It is defined as follows
 
 \begin{align*}
 L(\lambda \mid \mathcal D)=& P(Y_1=y_1, Y_2=y_2, \ldots, Y_n=y_n \mid \lambda)\\
 =& \prod_{i=1}^{n}\, P(Y_i=y_i \mid \lambda) = \frac{\lambda^{\sum y_i}\, e^{-n \lambda}}{\prod_{i=1}^{n}\, y_i!}
 \end{align*}
-where $Y_i$ represents the random Poisson variable that describes the number of _u_'s in the page $i$ and $y_i$ is observed value. In our case, we have sampled $n=25$ pages and have registered $\sum y_i= 643$ _u_'s, and consequently, the likelihood function is
+where $Y_i$ represents the random Poisson variable that describes the number $y_i$ of _u_'s in the page $i$. 
+Note that the denominator is a scaling factor independent of $\lambda$, that we
+can ignore, since we are only interested in the _relative_ likelihood of each possible
+value of $\lambda$. The rest of the expression, only depends on the total sum
+of observed values, and the number of pages examined.
+
+In our case, we have sampled $n=25$ pages and have registered $\sum y_i= 643$ _u_'s, and consequently, the likelihood function is (up to the scaling factor)
 
 \begin{align*}
 L(\lambda \mid \mathcal D)\propto & \lambda^{643}\, e^{-25\, \lambda}
 \end{align*}
 
 ```{r, fig.align='center', out.width="60%"}
-lambda<-seq(15,35,0.01)
-like <- exp(643*log(lambda)-25*lambda-sum(log(factorial(udata))))
-plot(lambda, like, type="l", lwd=4, col="darkorange", 
-     xlab=expression(paste(lambda)), ylab="likelihood") 
+sum_y <- sum(udata$Us)
+n <- nrow(udata)
+scale_y <- sum(log(factorial(udata)))
+curve(
+  exp(sum_y * log(x) - n * x - scale_y),
+  col = "darkorange", lwd = 4,
+  xlim = c(15, 35),
+  xlab = expression(paste("Expected number of u's in a page ", lambda)),
+  ylab = 'likelihood'
+)
 ```
 
 ## The posterior distribution of $\lambda$
 
-The posterior distribution of $\lambda$ for both priors 1 and 2 is a gamma distribution with parameters
+The posterior distributions of $\lambda$ for priors 1 and 2 are also gamma distributions with parameters
 
 \begin{align*}
 \text{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\text{Ga}(\alpha = 643+0.5= 643.5 , \beta =25 )\\
@@ -140,34 +157,45 @@ Next, we plot on the same graph the informative prior distribution $\text{Ga}(\a
 $\pi_1(\lambda \mid \mathcal D) =\text{Ga}(\alpha = 643.5, \beta =25 )$ in dark green and $\pi_2(\lambda \mid \mathcal D)=\text{Ga}(\alpha = 748.8, \beta =29.6)$ in light green. 
 
 ```{r, fig.align='center', out.width="60%"}
-lambda<-seq(15,35,0.01)
-posterior1<-dgamma(lambda, 643.5, 25)
-plot(lambda, posterior1, col="green3", type="l", lwd=4, xlim=c(15,35), 
-     xlab=expression(paste(lambda)), ylab="prior and posteriors", ylim=c(0,0.5))
-posterior2<-dgamma(lambda, 748.8, 29.6)
-lines(lambda, posterior2, col="darkgreen", type="l", lwd=4)
-prior2 <- dgamma(lambda, 105.8, 4.6)
-lines(lambda, prior2, type="l", lwd=4, col="dodgerblue") 
+curve(
+  dgamma(x, 748.8, 29.6),
+  col = "darkgreen", lwd = 4,
+  xlim = c(15, 35),
+  xlab = expression(paste("Expected number of u's in a page ", lambda)),
+  ylab = 'prior and posteriors'
+)
+curve(
+  dgamma(x, 643.5, 25),
+  col = "green3", lwd = 4,
+  add = TRUE
+)
+curve(
+  dgamma(x, 105.8, 4.6),
+  col = "dodgerblue", lwd = 4,
+  add = TRUE
+)
+
 ```
 
 Interestingly, the two posterior distributions are quite similar despite the fact that the informative prior distribution is compatible with smaller lambda values than indicated by the data.
-The posterior mean and standard deviation of $\lambda$ according to each posterior distributions is
+The posterior mean and standard deviation of $\lambda$ according to each posterior distribution are
 \begin{align*}
-\text{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\text{Ga}(643.5, 25 ), \,\,\mathbb{E} (\lambda \mid \mathcal D)=25.74, \,\,\mathbb{SD}(\lambda \mid \mathcal D)=1.0147 \text{ letters u} \\
-\text{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\text{Ga}(748.8, 29.6 ), \,\,\mathbb{E} (\lambda \mid \mathcal D)=25.30, \,\,\mathbb{SD}(\lambda \mid \mathcal D)=0.9245 \text{ letters u}
+\text{Posterior 1: }& \pi_1(\lambda \mid \mathcal D) =\text{Ga}(643.5, 25), \,\,\mathbb{E} (\lambda \mid \mathcal D)=`r 643.5/25`, \,\,\mathbb{SD}(\lambda \mid \mathcal D)= `r round(sqrt(643.5/25^2), 2)`\\
+\text{Posterior 2: }& \pi_2(\lambda \mid \mathcal D)=\text{Ga}(748.8, 29.6 ), \,\,\mathbb{E} (\lambda \mid \mathcal D)= `r round(748.8/29.6, 1)`, \,\,\mathbb{SD}(\lambda \mid \mathcal D)=`r round(sqrt(748.8/29.6^2), 2)`
 \end{align*}
 
-A 95$\%$ credible interval for $\lambda$ according to posteriors 1 and 2 is 
+
+95$\%$ credible intervals for $\lambda$ according to posteriors 1 and 2 are 
 
 ```{r}
-qgamma(c(0.025, 0.975), 643.5, 25)
-qgamma(c(0.025, 0.975), 748.8, 29.6) 
+setNames(nm = c(0.025, 0.975)) |> qgamma(643.5, 25) |> round(1)
+setNames(nm = c(0.025, 0.975)) |> qgamma(748.8, 29.6) |> round(1)
 ```
-and the subsequent posterior probability that the mean of the number of letters _u_'s in a page of *A Game of Thrones* is between 24 and 26 letters is
-```{r}
-pgamma(27, 643.5, 25) - pgamma(24, 643.5, 25)
-pgamma(27, 748.8, 29.6) - pgamma(24, 748.8, 29.6) 
 
+and the subsequent posterior probabilities that the mean number of letters _u_'s in a page of *A Game of Thrones* is between 24 and 26 letters are
+```{r}
+round(pgamma(27, 643.5, 25) - pgamma(24, 643.5, 25), 3)
+round(pgamma(27, 748.8, 29.6) - pgamma(24, 748.8, 29.6), 3)
 ```
 
 
@@ -177,26 +205,36 @@ Remember that the posterior predictive distribution for the result of a new obse
 \begin{align*}
 P(Y_{n+1}&=r \mid \mathcal D) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, \frac{\Gamma(r+\alpha)}{r!}\,\frac{1}{(\beta+1)^{(r+\alpha)}}, \,r=0,1,2,\ldots, \nonumber \\
 \end{align*}
-where $\mathbb{E}(Y_{n+1}\mid \mathcal D) = \alpha/\beta$ and $\mathbb{V}(Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1+(1/\beta))$.
+where $\mathbb{E}(Y_{n+1}\mid \mathcal D) = \alpha/\beta$ and $\mathbb{V}(Y_{n+1} \mid \mathcal D) = \frac{\alpha}{\beta} (1 + 1/\beta)$.
 
-Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters u we will find in it. The subsequent posterior predictive distribution is $\text{GaPo}(643.5,\, 25, 1)$ if we work in the framework of the posterior 1 or $\text{GaPo}(748.8,\, 29.6, 1)$ if we work in the framework of the posterior 2.
+Suppose now that we randomly select a new page (page 26th) in the novel and want to predict the number of letters _u_ we will find in it. The subsequent posterior predictive distribution is $\text{GaPo}(643.5,\, 25, 1)$ if we work in the framework of the posterior 1 or $\text{GaPo}(748.8,\, 29.6, 1)$ if we work in the framework of the posterior 2.
 Now we represent both predictive distributions
 
 ```{r, fig.align='center', out.width="55%"}
 library(extraDistr)
-x<-c(10:40)
-pred1<-dgpois(10:40, 643.5, 25)
-plot(x,pred1,type="h",xlim=c(10,40),ylim=c(0,0.1),lwd=2,col="purple", ylab="probability", 
-      xlab="number of letters u in a new page")
-pred2<-dgpois(10:40, 748.8, 29.6)
-plot(x,pred2,type="h",xlim=c(10,40),ylim=c(0,0.1),lwd=2,col="purple", ylab="probability", 
-      xlab="number of u's in a new page")
+x <- c(10:40)
+pred1 <- dgpois(10:40, 643.5, 25)
+pred2 <- dgpois(10:40, 748.8, 29.6)
+plot(
+  x, pred1,
+  type = "h", lwd = 2, col = "purple", 
+  xlim = c(10, 40), ylim = c(0, 0.1), 
+  xlab = "number of letters u in a new page", 
+  ylab = "probability"
+)
+plot(
+  x, pred2,
+  type = "h", lwd = 2, col = "purple",
+  xlim = c(10, 40), ylim = c(0, 0.1),
+  xlab = "number of u's in a new page",
+  ylab = "probability"
+)
 ```
-The graphs of both distributions are visually almost identical. The mean and standard deviation are
+The graphs of both distributions are visually almost identical. The means and standard deviations are
 
 \begin{align*}
-\text{Predictive 1: }& \text{GaPo}(643.5, 25, 1 ), \,\, \mathbb{E}(Y_{26} \mid \mathcal D)=25.74, \,\,SD(Y_{26} \mid \mathcal{D})=5.17 \text{ letters u}\\
-\text{Predictive 2: }& \text{GaPo}(748.8, 29.6, 1), \,\, \mathbb{E}(Y_{26} \mid \mathcal D)=25.30, , \,\,SD(Y_{26} \mid \mathcal{D})=5.11 \text{ letters u}
+\text{Predictive 1: }& \text{GaPo}(643.5, 25, 1 ), \,\, \mathbb{E}(Y_{26} \mid \mathcal D)=25.74, \,\,SD(Y_{26} \mid \mathcal{D})=5.17\\
+\text{Predictive 2: }& \text{GaPo}(748.8, 29.6, 1), \,\, \mathbb{E}(Y_{26} \mid \mathcal D)=25.30, , \,\,SD(Y_{26} \mid \mathcal{D})=5.11
 \end{align*}
 
 It is important to note the large variability associated with the prediction process relative to the estimation process. This characteristic of the estimation and prediction processes is general to all inferential processes and statistical methodologies. 
@@ -209,7 +247,7 @@ We propose below an individual exercise that pursues to consolidate the basic co
 
 **Exercice** 
 
-You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel *A Game of Thrones* and you have thought to ask her opinion about the number of _u_'s in the novel. Her prior distribution for $\lambda$ is very different from that of your other friend Joan. It is Ga(90, 3) and we will call it prior 3.
+You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel *A Game of Thrones* and you have thought to ask her opinion about the number of _u_'s in the novel. Her prior distribution for $\lambda$ is very different from that of your other friend Joan. It is $\text{Ga}(90, 3)$ and we will call it prior 3.
 \begin{align*}
 \text{Tauriel, Prior 3: } & \pi_3(\lambda) = \text{Ga}(90,3) 
 \end{align*}
