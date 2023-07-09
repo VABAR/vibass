@@ -41,13 +41,14 @@ Spline regression models are linear models whose variables are the elements of a
 library(splines)
 basis <- bs(Auto$horsepower, df = 5)
 
-plot(Auto$horsepower[order(Auto$horsepower)],
-     basis[order(Auto$horsepower),1], type = "l", 
-     ylim = c(0,max(basis)), xlab = "Horsepower", ylab = "", 
-     main = "B-spline basis of 5 elements")
-for(i in 2:5){lines(Auto$horsepower[order(Auto$horsepower)],
-                    basis[order(Auto$horsepower),i], col = i)
-}
+matplot(
+  sort(Auto$horsepower),
+  basis[order(Auto$horsepower), ],
+  type = 'l', lty = 1,
+  xlab = "Horsepower", ylab = "", 
+  main = "B-spline basis of 5 elements"
+)
+
 ```
 A regression model with these functions would fit the complex relationship between `mpg` and `horsepower` as a linear combination of the 5 functions in this graph (and an intercept). Let's fit that relationship:
 ```{r}
