@@ -60,7 +60,7 @@ include_graphics("mm_photo.jpg")
 
 ## The experiment: Counting red M$\&$M's
 
-Let's start this practical session by making inference about the proportion of red M$\&$M's in a very huge box. If you are following this practice in person, the instructor will give you a bag of M$\&$M's to make the practice more fun even if we have to be a bit flexible about the theoretical conditions of the experiment. If you are working online it will be a bit more boring but we will comply better with the theoretical conditions of the experiment. 
+Let's start this practical session by making inference about the proportion of red M$\&$M's in a very huge box. If you are following this practice in person, the instructor will give you a bag of M$\&$M's to make the practice more fun even if we have to be a bit flexible about the theoretical conditions of the experiment. If you are working on line it will be a bit more boring but we will comply better with the theoretical conditions of the experiment. 
 
 
 ```{r sampling-process, fig.cap = cap, echo = FALSE, fig.width=9, fig.height = 4}
@@ -152,9 +152,10 @@ ggdraw() +
 ```
 
 
-For those of us who physically have the bag of M$\&$M's, the most appropriate experiment would be to take candies out of the bag one at a time and replace them, recording whether their colour is red or not, until the number $n$ of candies we have previously set is obtained. We consider $n$=20. 
+For those of us who physically have the bag of M$\&$M's, the most appropriate experiment would be to take candies out of the bag one at a time and replace them, recording whether their colour is red or not, until the number $n$ of candies defined in advance is reached.
+We consider $n$=20. 
 
-In case you are online or you don't want to carry out the experiment physically you can use the following result of the experiment:
+In case you are on line or you don't want to carry out the experiment physically, you can use the following result of the experiment:
 
 ```{r}
 mm_sample <- data.frame(n = 20, r = 4) 
@@ -164,15 +165,15 @@ mm_sample <- data.frame(n = 20, r = 4)
 
 ## The sampling model is Binomial
 
-Let $Y$ be the random variable that describes the number of red M$\&$M's (successes) out of the $n=20$ sampled. Given the proportion $\theta$ of red candies in the bag, $Y$ is a binomial random variable with parameters $n=20$ and probability $\theta$ associated with obtaining a red candy
+Let $Y$ be the random variable that describes the number of red M$\&$M's (successes) out of the $n=20$ sampled. Given the proportion $\theta$ of red candies in the bag, $Y$ is a binomial random variable with parameters $n=20$ and probability $\theta$ associated with drawing a red candy.
 
 $$Y \mid \theta \sim \mbox{Bi}(n, \theta)$$
  
 whose conditional probability function, expectation and variance are:
 
-- $P(Y=r \mid \theta, n)=\binom{n}{r}\,\theta^r\, (1-\theta)^{(n-r)}, \,\,r=0,1,\ldots, n$ 
+- $P(Y=r \mid \theta)=\binom{n}{r}\,\theta^r\, (1-\theta)^{n-r}, \,\,r=0,1,\ldots, n$ 
 - $E(Y\mid \theta)=n\,\theta$, 
-- $Var(Y\mid \theta)=n \theta (1-\theta)$
+- $Var(Y\mid \theta)=n\, \theta\, (1-\theta)$
 
 ```{r binomial-pdfs, fig.cap = cap, fig.width = 5, fig.height = 3, echo = FALSE}
 cap <- "Binomial probability function for two values of $\\theta$ and $n=20$ observations."
@@ -226,11 +227,11 @@ tibble(
 
 Recall that the beta distribution is conjugate with respect to the binomial probability model. If we elicit a prior beta distribution Be$(\alpha_0, \beta_0)$ for $\theta$, its density is 
 
-$$\pi(\theta)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\, \theta^{\alpha_0-1}\,(1-\theta)^{\beta_0-1}, \quad 0<\theta<1$$
+$$\pi(\theta \mid \alpha_0, \beta_0)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\, \theta^{\alpha_0-1}\,(1-\theta)^{\beta_0-1}, \quad 0<\theta<1$$
 with expectation and variance
 
-- E$(\theta)=\alpha_0 / (\alpha_0+\beta_0)$, 
-- Var$(\theta)= \alpha_0\,\beta_0 / [(\alpha_0+\beta_0)^2\,(\alpha_0+\beta_0+1)]$
+- $\mathbb{E}(\theta \mid \alpha_0, \beta_0)=\alpha_0 / (\alpha_0+\beta_0)$, 
+- Var$(\theta \mid \alpha_0, \beta_0)= \alpha_0\,\beta_0 / [(\alpha_0+\beta_0)^2\,(\alpha_0+\beta_0+1)]$
 
 We will start by working with the non-informative prior distribution Be$(\alpha_0=0.5, \beta_0=0.5)$ whose prior expectation and standard deviation is $\mathbb{E}(\theta)=0.5$ and $\mathbb{SD}(\theta)=0.3535$, respectively. Its graphic is obtained via 
 
@@ -246,11 +247,11 @@ curve(
 
 ## The likelihood function of $\theta$
  
-The likelihood function of $\theta$ is a function of $\theta$ whose construction needs the data $\mathcal D = \{n, r\}$. It is defined as follows
+The likelihood function of $\theta$ is a function of $\theta$ whose expression requires the observed data $\mathcal D = \{n, r\}$. It is defined as follows
  
 $$L(\theta \mid \mathcal D) = P(Y=r \mid \theta, n) = \binom{n}{r}\, \theta^r\,(1- \theta)^{n-r},$$
 
-where $r$ is the _observed_ number of successes in the sample (here the number of red candies in the sample of size $n$).
+where $r$ is the _observed_ number of successes in the sample (here, the number of red candies) of size $n$.
 In our first experiment, the likelihood function of $\theta$ for the data $\mathcal D_1 = \{r_1 = 4 \text{ red candies in } n_1 = 20 \text{ sampled}\}$ is
 
 $$L(\theta \mid \mathcal D_1) = \binom{20}{4}\, \theta^4\,(1- \theta)^{16},$$
@@ -380,7 +381,7 @@ tibble(
 
 ## The posterior predictive distribution for the results of a new experiment 
 
-We remind that the posterior predictive distribution of the number of successes $Y^{\prime}$ in a new sample of size $n^{\prime}$ is a beta-binomial distribution $\text{Bb}(\alpha,\, \beta,\, n^{\prime})$ with parameters $\alpha$ and $\beta$ from the posterior distribution $\pi(\theta \mid \mathcal D)$ and the size $n^{\prime}$ of the new experiment. Its probability function is
+Recall that the posterior predictive distribution of the number of successes $Y^{\prime}$ in a new sample of size $n^{\prime}$ is a beta-binomial distribution $\text{Bb}(\alpha,\, \beta,\, n^{\prime})$ with parameters $\alpha$ and $\beta$ from the posterior distribution $\pi(\theta \mid \mathcal D)$ and the size $n^{\prime}$ of the new experiment. Its probability function is
 
 $$P(Y^{\prime} = r^{\prime} \mid \mathcal{D}) = \binom{n^\prime}{r^\prime}\, \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \,\Gamma(\beta)} \,\frac{\Gamma(\alpha+r^{\prime})\,\Gamma(\beta+n^{\prime}-r^{\prime})}{\Gamma(\alpha+\beta+n^{\prime})}, \,\, r^{\prime}=0,1,\ldots, n^{\prime}$$
 
@@ -388,8 +389,22 @@ with expectation and variance,
 
 - $\mathbb{E}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha}{(\alpha+\beta)},$
 - $\mathbb{V}(Y^{\prime}\mid \mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.$
-   
-Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag but before we are going to predict the number of red M$\&$M's we can record. The posterior predictive distribution is a beta-binomial distribution with parameters $\alpha=4.5$ and $\beta=16.5$, that we pick from the posterior distribution $\pi(\theta \mid \mathcal D)$, and $n^{\prime}=10$, which is the size of the new experiment. 
+
+```{r expectation-beta-binomial, echo = FALSE}
+expbbinom <- function(n, a, b) {
+  n * a / (a + b)
+}
+```
+
+```{r variance-beta-binomial, echo = FALSE}
+varbbinom <- function(n, a, b) {
+  n * a * b * (a + b + n) / (a + b)**2 / (a + b +1)
+}
+```
+
+
+Suppose now that we are going to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag.
+Before performing the experiment, the posterior predictive distributions quantifies the relative plausibility of each possible outcome. It is a beta-binomial distribution with parameters $\alpha=4.5$ and $\beta=16.5$ from the posterior distribution $\pi(\theta \mid \mathcal D)$, and $n^{\prime}=10$, which is the size of the new experiment. 
 
 ```{r, fig.align='center', out.width="60%"}
 library(extraDistr)
@@ -404,11 +419,11 @@ curve(
 
 We observe that the most likely numbers of red candies in the new sample are 1 and 2. The posterior mean and posterior standard deviation of the number of red candies is this new sample is
 
-$$\mathbb{E}(Y^{\prime} \mid \mathcal D)=  2.1429, \quad\quad \mathbb{DT}(Y^{\prime} \mid \mathcal D)=1.5403.$$
+$$\mathbb{E}(Y^{\prime} \mid \mathcal D)= `r round(expbbinom(10, 4.5, 16.5), 2)`, \quad\quad \mathbb{SD}(Y^{\prime} \mid \mathcal D)= `r round(sqrt(varbbinom(10, 4.5, 16.5)), 2)`.$$
  
 # Time for individual work
  
-We propose below an individual exercise that pursues that we can consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session. You can code the exercise yourself in R using the examples above, or use the provided interactive application.
+We propose below an individual exercise that pursues that we can consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session. You can code the exercise yourself in R using the examples above, or use `vibass_app(1)` to launch the interactive application provided in the `vibass` R-package.
 
 **EXERCISE**
 
@@ -422,6 +437,6 @@ You have two friends, Arnau and Mary, who know a little bit about Bayesian infer
 
 2. From the results of the previous experiment ($r= 4$ red candies out of a total of $n=20$ sampled), compare the posterior distribution for $\theta$ that Mary and Arnau would obtain. 
 
-3. Compare both posterior distributions with the one we have obtained in Subsection 2.5 of the practical through its graph, posterior mean, standard deviation and a credibility interval at 95$\%$. 
+3. Compare both posterior distributions with the one we have obtained in Subsection 2.5 of the practical through their density curves, posterior means, standard deviations and 95% credibility intervals. 
 
-4. Compute the posterior predictive distribution for the new experiment described in Subsection 2.6 (to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag) and compare both posterior predictive distributions with the one we have obtained in Subsection 2.6 of the practical through its graph, posterior mean and standard deviation.
+4. Compute the posterior predictive distribution for the new experiment described in Subsection 2.6 (to randomly draw $n^{\prime}=10$ new M$\&$M's from the bag) and compare both posterior predictive distributions with the one we have obtained in Subsection 2.6 of the practical through their density curves, posterior means and standard deviations.
