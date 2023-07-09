@@ -95,8 +95,10 @@ boxplot(lang ~ class, data = nlschools, las = 2)
 The code to fit the model with random effects is:
 
 ```{r}
-m2 <- inla(lang ~ IQ + GS +  SES + COMB + f(class, model = "iid"),
-  data = nlschools)
+m2 <- inla(
+  lang ~ IQ + GS +  SES + COMB + f(class, model = "iid"),
+  data = nlschools
+)
 
 summary(m2)
 ```
@@ -198,7 +200,12 @@ cor(nc.sids$NWPROP74, nc.sids$SMR74)
 A simple Poisson regression can be fit by using the following code:
 
 ```{r}
-m1nc <- inla(SID74 ~ 1 + NWPROP74, E = nc.sids$EXP74, data = nc.sids, family = "poisson")
+m1nc <- inla(
+  SID74 ~ 1 + NWPROP74,
+  family = "poisson",
+  E = nc.sids$EXP74,
+  data = nc.sids
+)
 summary(m1nc)
 ```
 
@@ -209,10 +216,11 @@ Random effects could be included to account for intrinsic differences in the cou
 nc.sids$ID <- 1:nrow(nc.sids)
 
 # Model WITHOUT covariate
-m2nc <- inla(SID74 ~  1 + NWPROP74 + f(ID, model = "iid"),
-  data = as.data.frame(nc.sids),
+m2nc <- inla(
+  SID74 ~  1 + NWPROP74 + f(ID, model = "iid"),
   family = "poisson",
-  E = nc.sids$EXP74
+  E = nc.sids$EXP74,
+  data = as.data.frame(nc.sids)
 )
 
 summary(m2nc)
@@ -223,10 +231,11 @@ The role of the covariate can be explored by fitting a model without it:
 
 ```{r}
 # Model WITHOUT covariate
-m3nc <- inla(SID74 ~  1 + f(ID, model = "iid"),
-  data = as.data.frame(nc.sids),
+m3nc <- inla(
+  SID74 ~  1 + f(ID, model = "iid"),
   family = "poisson",
-  E = nc.sids$EXP74
+  E = nc.sids$EXP74,
+  data = as.data.frame(nc.sids)
 )
 
 summary(m3nc)
