@@ -99,7 +99,6 @@
       <h1 data-toc-skip>Practical 6: Software and GLMs</h1>
                         <h4 data-toc-skip class="author">VIBASS</h4>
             
-            <h4 data-toc-skip class="date">July 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/VABAR/vibass/blob/HEAD/vignettes/p6.Rmd" class="external-link"><code>vignettes/p6.Rmd</code></a></small>
       <div class="hidden name"><code>p6.Rmd</code></div>
@@ -310,19 +309,19 @@ probability of an article being fake or not?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                     Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -3.0068  0.7563 -4.5703 -2.9741 -1.5552</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  2.7732  0.9637  1.2350  2.6529  5.8797</span></span>
-<span><span class="co">#&gt; title_words       0.1185  0.0563  0.0084  0.1203  0.2267</span></span>
-<span><span class="co">#&gt; negative          0.3164  0.1540  0.0236  0.3140  0.6093</span></span>
+<span><span class="co">#&gt; (Intercept)      -3.0168  0.7912 -4.6013 -2.9891 -1.4807</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  2.6986  0.8499  1.1514  2.6393  4.6513</span></span>
+<span><span class="co">#&gt; title_words       0.1172  0.0593  0.0014  0.1154  0.2370</span></span>
+<span><span class="co">#&gt; negative          0.3230  0.1579  0.0015  0.3175  0.6324</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 150  burnin = 5000  method = MCMC  family = binomial  </span></span>
 <span><span class="co">#&gt; iterations = 15000  step = 10</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                          2.5%      97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -4.529194750 -1.5555153</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  1.236651500  5.8797200</span></span>
-<span><span class="co">#&gt; title_words       0.009294723  0.2263702</span></span>
-<span><span class="co">#&gt; negative          0.025572105  0.6068026</span></span></code></pre></div>
+<span><span class="co">#&gt; (Intercept)      -4.600558000 -1.4815360</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  1.153310500  4.6472035</span></span>
+<span><span class="co">#&gt; title_words       0.001837456  0.2369460</span></span>
+<span><span class="co">#&gt; negative          0.002388093  0.6292016</span></span></code></pre></div>
 </details>
 </li>
 <li>
@@ -523,10 +522,10 @@ complaints?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept) -0.3652  0.6702 -1.7263 -0.3548  0.8909</span></span>
-<span><span class="co">#&gt; residencyY  -0.5412  0.1877 -0.9121 -0.5385 -0.1708</span></span>
-<span><span class="co">#&gt; genderM      0.1596  0.2110 -0.2388  0.1576  0.5749</span></span>
-<span><span class="co">#&gt; revenue      0.0063  0.0026  0.0013  0.0063  0.0116</span></span>
+<span><span class="co">#&gt; (Intercept) -0.3913  0.6822 -1.5863 -0.4009  1.0048</span></span>
+<span><span class="co">#&gt; residencyY  -0.5613  0.1887 -0.9272 -0.5616 -0.1928</span></span>
+<span><span class="co">#&gt; genderM      0.1496  0.2034 -0.2368  0.1494  0.5531</span></span>
+<span><span class="co">#&gt; revenue      0.0065  0.0027  0.0008  0.0065  0.0114</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 44  burnin = 2000  method = MCMC  family = poisson  </span></span>
 <span><span class="co">#&gt; iterations = 12000  step = 10</span></span></code></pre></div>

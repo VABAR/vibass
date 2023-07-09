@@ -102,7 +102,7 @@ that includes data about children. The variables in the dataset are:</p>
 <li><p>weight. Weight (in kg).</p></li>
 <li><p>sex. Girl or Boy.</p></li>
 <li><p>height. Height (in cm).</p></li>
-<li><p>race. Assian, Black or European.</p></li>
+<li><p>ethnicity Asian, Black or European.</p></li>
 </ul></div>
 
     <div id="ref-examples">
@@ -116,17 +116,17 @@ that includes data about children. The variables in the dataset are:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 8.625   Mean   :0.22745   Mean   :19.47             Mean   :150.4  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:10.370   3rd Qu.:0.28416   3rd Qu.:22.27             3rd Qu.:161.7  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :11.943   Max.   :0.47274   Max.   :27.54             Max.   :177.4  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        race   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Assian  :37  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Black   :41  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  European:22  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ethnicity        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:100        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ML estimates</span></span></span>
 <span class="r-in"><span><span class="va">lmW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">Weights</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lmW</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lmW</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = weight ~ age, data = Weights)</span>
