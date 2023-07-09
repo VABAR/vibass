@@ -94,18 +94,28 @@ cov2cor(VarCov)
 Moreover, we can also plot the bivariate distribution for each pair of these coefficients:
 ```{r}
 # Plot the intercept and first component of the spline
-xlims <- c(Fit1$coefficients[1]-3*sqrt(VarCov[1,1]),
-            Fit1$coefficients[1]+3*sqrt(VarCov[1,1]))
-ylims <- c(Fit1$coefficients[2]-3*sqrt(VarCov[2,2]),
-            Fit1$coefficients[2]+3*sqrt(VarCov[2,2]))
-gridPoints <- expand.grid(seq(xlims[1],xlims[2],by=0.1),
-                        seq(ylims[1],ylims[2],by=0.1))
-resul <- matrix(dmvt(as.matrix(gridPoints), mu = Fit1$coefficients[1:2],
-                     S = round(VarCov[1:2,1:2],5), df = nrow(Auto)-(5+1)),
-                nrow = length(seq(xlims[1], xlims[2], by = 0.1)))
-image(x = seq(xlims[1], xlims[2], by = 0.1), y = seq(ylims[1], ylims[2], by = 0.1), 
-      z = resul, xlab = "Intercept", ylab = "beta, first component of the basis", 
-      main = "Bivariate posterior density")
+post_support <- function(x) seq(
+  Fit1$coefficients[x]-3*sqrt(VarCov[x,x]),
+  Fit1$coefficients[x]+3*sqrt(VarCov[x,x]),
+  by = 0.1
+)
+xvalues <- post_support(1)
+yvalues <- post_support(2)
+gridPoints <- expand.grid(xvalues, yvalues)
+resul <- matrix(
+  dmvt(
+    as.matrix(gridPoints),
+    mu = Fit1$coefficients[1:2],
+    S = round(VarCov[1:2, 1:2], 5), 
+    df = nrow(Auto) - (5 + 1)
+  ),
+  nrow = length(xvalues)
+)
+image(
+  x = xvalues, y = yvalues, z = resul,
+  xlab = "Intercept", ylab = "beta, first component of the basis", 
+  main = "Bivariate posterior density"
+)
 ```
 
 That is, if the intercept were to take higher values, it would be compensated by the first component of the basis, which would take lower values. 
