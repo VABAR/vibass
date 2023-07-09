@@ -152,7 +152,7 @@ In addition, we can also evaluate some unconventional hypothesis tests, such as 
 ```{r}
 mean(posterior.sample[, 1] > posterior.sample[, 5])
 ```
-We can also obtain a distribution of the rank of each of the coefficients of $\boldsymbol{\beta}$ in realtion to the rest of the components
+We can also obtain a distribution of the rank of each of the coefficients of $\boldsymbol{\beta}$ in relation to the rest of the components
 ```{r}
 ranks<-t(apply(posterior.sample[,1:5],1,rank))
 apply(ranks,2,table)
