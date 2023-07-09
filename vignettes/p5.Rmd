@@ -231,14 +231,10 @@ smaller values give *noisier* densities.
 ```{r fig = TRUE}
 plot(density(theta_sim, weights = ww, bw = 0.01),
      main = "Posterior density")
-curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1),
-      lty = 2, add = TRUE)
 ```
 
 Note that the value of the bandwidth used (argument `bw`) has been
-set manually so that both curves will match (as the default bandwidth
-provided a slightly different estimate of the posterior distribution)
-to enable a fair comparison.
+set manually to provide a sensible, smooth curve.
 
 Similarly, a sample from the posterior distribution can be obtained by 
 resampling the original values of theta with their corresponding weights.
@@ -246,8 +242,6 @@ resampling the original values of theta with their corresponding weights.
 ```{r}
 post_theta_sim <- sample(theta_sim, prob = ww, replace = TRUE)
 hist(post_theta_sim, freq = FALSE)
-curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1),
-      lty = 2, add = TRUE)
 ```
 
 
@@ -416,7 +410,6 @@ do you think that these differences appear?
     
     ```{r fig = TRUE}
     plot(density(theta_sim, weights = ww, bw = 0.025), main = "Posterior density")
-    curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
     ```{r}
@@ -461,7 +454,6 @@ in a closed form) as the proposal distribution.
     
     ```{r fig = TRUE}
     plot(density(theta_sim, weights = ww, bw = 0.01), main = "Posterior density")
-    curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
     </details>
@@ -538,7 +530,6 @@ and variance. Finally, show the posterior density estimate.
     
     ```{r fig = TRUE}
     plot(density(theta_sim, weights = ww, bw = 0.025), main = "Posterior density")
-    curve(dbeta(x, sum(mmdata$red) + 1, sum(mmdata$MMs) -sum(mmdata$red) + 1), lty = 2, add = TRUE)
     ```
     
     </details>
@@ -711,13 +702,10 @@ obtained by using weighted kernel density estimation:
 
 ```{r fig = TRUE}
 plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density", xlim = c(10,40))
-curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
 Note that the value of the bandwidth used (argument `bw`) has been set
-manually so that both curves will match (as the default bandwidth
-provided a slightly different estimate of the posterior distribution) to
-enable a fair comparison.
+manually to provide a realistically smooth density function.
 
 Similarly, a sample from the posterior distribution can be obtained by 
 resampling the original values of $\theta$ with their corresponding
@@ -726,7 +714,6 @@ weights.
 ```{r}
 post_lambda_sim <- sample(lambda_sim, prob = ww, replace = TRUE)
 hist(post_lambda_sim, freq = FALSE)
-curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
 ```
 
 
@@ -876,7 +863,6 @@ distribution? Why do you think that these differences appear?
     
     ```{r fig = TRUE}
     plot(density(lambda_sim, weights = ww, bw = 0.5), main = "Posterior density", xlim = c(10,40))
-    curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
     ```{r}
@@ -920,7 +906,6 @@ in a closed form) as the proposal distribution.
     
     ```{r fig = TRUE}
     plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density")
-    curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
     </details>
@@ -999,7 +984,6 @@ Parameter estimates for a model with this prior can be obtained using IS and M-H
     
     ```{r fig = TRUE}
     plot(density(lambda_sim, weights = ww, bw = 0.5) , main = "Posterior density", xlim = c(10,40))
-    curve(dgamma(x, sum(GoTdata$Us) + 0.01, length(GoTdata$Us) + 0.01), lty = 2, add = TRUE)
     ```
     
     ```{r}
