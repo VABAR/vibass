@@ -208,7 +208,7 @@ can easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.13, Running = 6.68, Post = 0.0399, Total = 9.84 </span></span>
+<span><span class="co">##     Pre = 4.08, Running = 7.4, Post = 0.045, Total = 11.5 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0</span></span>
@@ -247,8 +247,10 @@ explored by means of boxplots:</p>
 <p><img src="p7_files/figure-html/unnamed-chunk-3-1.png" width="1440"></p>
 <p>The code to fit the model with random effects is:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">lang</span> <span class="op">~</span> <span class="va">IQ</span> <span class="op">+</span> <span class="va">GS</span> <span class="op">+</span>  <span class="va">SES</span> <span class="op">+</span> <span class="va">COMB</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">class</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">nlschools</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
+<span>  <span class="va">lang</span> <span class="op">~</span> <span class="va">IQ</span> <span class="op">+</span> <span class="va">GS</span> <span class="op">+</span>  <span class="va">SES</span> <span class="op">+</span> <span class="va">COMB</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">class</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">nlschools</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -271,28 +273,28 @@ explored by means of boxplots:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.18, Running = 0.874, Post = 0.0444, Total = 4.1 </span></span>
+<span><span class="co">##     Pre = 3.87, Running = 0.965, Post = 0.053, Total = 4.89 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept) 10.627 1.497      7.695   10.625     13.570 10.622   0</span></span>
-<span><span class="co">## IQ           2.248 0.072      2.108    2.248      2.388  2.248   0</span></span>
-<span><span class="co">## GS          -0.016 0.048     -0.109   -0.016      0.078 -0.016   0</span></span>
-<span><span class="co">## SES          0.165 0.015      0.136    0.165      0.194  0.165   0</span></span>
-<span><span class="co">## COMB1       -2.018 0.599     -3.196   -2.017     -0.846 -2.015   0</span></span>
+<span><span class="co">## (Intercept)  9.685 1.070      7.585    9.685     11.784  9.685   0</span></span>
+<span><span class="co">## IQ           2.391 0.074      2.246    2.391      2.536  2.391   0</span></span>
+<span><span class="co">## GS          -0.026 0.025     -0.076   -0.026      0.024 -0.026   0</span></span>
+<span><span class="co">## SES          0.148 0.014      0.120    0.148      0.175  0.148   0</span></span>
+<span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.046 -1.684   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Random effects:</span></span>
 <span><span class="co">##   Name     Model</span></span>
 <span><span class="co">##     class IID model</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
-<span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
-<span><span class="co">## Precision for the Gaussian observations 0.025 0.001      0.024    0.025</span></span>
-<span><span class="co">## Precision for class                     0.122 0.020      0.087    0.120</span></span>
-<span><span class="co">##                                         0.975quant  mode</span></span>
-<span><span class="co">## Precision for the Gaussian observations      0.027 0.025</span></span>
-<span><span class="co">## Precision for class                          0.167 0.117</span></span>
+<span><span class="co">##                                             mean       sd 0.025quant 0.5quant</span></span>
+<span><span class="co">## Precision for the Gaussian observations 2.10e-02 1.00e-03       0.02 2.10e-02</span></span>
+<span><span class="co">## Precision for class                     2.62e+04 4.06e+04    1660.90 1.43e+04</span></span>
+<span><span class="co">##                                         0.975quant    mode</span></span>
+<span><span class="co">## Precision for the Gaussian observations   2.20e-02 2.1e-02</span></span>
+<span><span class="co">## Precision for class                       1.25e+05 4.3e+03</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7613.04 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7713.89 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -413,7 +415,12 @@ non-white births in a county:</p>
 <p>A simple Poisson regression can be fit by using the following
 code:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">m1nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">SID74</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span>, E <span class="op">=</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span>, data <span class="op">=</span> <span class="va">nc.sids</span>, family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">m1nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
+<span>  <span class="va">SID74</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span>,</span>
+<span>  family <span class="op">=</span> <span class="st">"poisson"</span>,</span>
+<span>  E <span class="op">=</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">nc.sids</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Call:</span></span>
@@ -435,7 +442,7 @@ code:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 2.9, Running = 0.445, Post = 0.0141, Total = 3.36 </span></span>
+<span><span class="co">##     Pre = 4.09, Running = 0.528, Post = 0.014, Total = 4.63 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0</span></span>
@@ -452,10 +459,11 @@ in the counties:</p>
 <span><span class="va">nc.sids</span><span class="op">$</span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Model WITHOUT covariate</span></span>
-<span><span class="va">m2nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
-<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span>,</span>
+<span><span class="va">m2nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
+<span>  <span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
 <span>  family <span class="op">=</span> <span class="st">"poisson"</span>,</span>
-<span>  E <span class="op">=</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span></span>
+<span>  E <span class="op">=</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span>,</span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2nc</span><span class="op">)</span></span></code></pre></div>
@@ -479,7 +487,7 @@ in the counties:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.12, Running = 0.571, Post = 0.0238, Total = 3.71 </span></span>
+<span><span class="co">##     Pre = 4.1, Running = 0.614, Post = 0.0244, Total = 4.74 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.650 0.104     -0.856   -0.650     -0.447 -0.649   0</span></span>
@@ -491,7 +499,7 @@ in the counties:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                    mean     sd 0.025quant 0.5quant 0.975quant  mode</span></span>
-<span><span class="co">## Precision for ID 134.14 229.41       9.57    31.05     416.30 15.76</span></span>
+<span><span class="co">## Precision for ID 134.13 229.39       9.57    31.05     416.29 15.76</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Marginal log-Likelihood:  -227.83 </span></span>
 <span><span class="co">##  is computed </span></span>
@@ -501,10 +509,11 @@ in the counties:</p>
 it:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model WITHOUT covariate</span></span>
-<span><span class="va">m3nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
-<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span>,</span>
+<span><span class="va">m3nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
+<span>  <span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
 <span>  family <span class="op">=</span> <span class="st">"poisson"</span>,</span>
-<span>  E <span class="op">=</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span></span>
+<span>  E <span class="op">=</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span>,</span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m3nc</span><span class="op">)</span></span></code></pre></div>
@@ -528,7 +537,7 @@ it:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.17, Running = 0.568, Post = 0.0225, Total = 3.76 </span></span>
+<span><span class="co">##     Pre = 4.09, Running = 0.635, Post = 0.0232, Total = 4.75 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.03 0.063     -0.157   -0.028      0.091 -0.026   0</span></span>
