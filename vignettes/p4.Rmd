@@ -180,4 +180,4 @@ We propose below an individual exercise that pursues to consolidate the basic co
 
 **Exercice** 
 
-We return to the analysis of the dataset \texttt{Weights} by age and race of the childen. Perform simulation-based inference on this data set assuming a non-informative Jeffreys' prior for the parameters. Assess the probability that a 10-year-old child weighs more than 30 (kg.).
+We return to the analysis of the dataset \texttt{Weights} by age and ethnicity of the children. Perform simulation-based inference on this data set assuming a non-informative Jeffreys' prior for the parameters. Assess the probability that a 10-year-old child weighs more than 30 (kg.).

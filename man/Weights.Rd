@@ -24,7 +24,7 @@ that includes data about children. The variables in the dataset are:
  \item weight. Weight (in kg).
  \item sex. Girl or Boy.
  \item height. Height (in cm).
- \item race. Assian, Black or European.
+ \item ethnicity Asian, Black or European.
 }
 }
 \examples{
@@ -33,6 +33,6 @@ summary(Weights)
 
 # ML estimates
 lmW <- lm(weight ~ age, data = Weights)
-summary(lmW) 
+summary(lmW)
 }
 \keyword{datasets}
