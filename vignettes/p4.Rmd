@@ -27,28 +27,34 @@ We resume the analysis of the `Auto` data set of the `ISLR` library from the pre
 We start by loading the data and redoing the frequentist fit from the previous session:
 
 ```{r}
-library(ISLR)
 library(splines)
 library(LaplacesDemon)
+data("Auto", package = "ISLR")
+```
 
-basis<-bs(Auto$horsepower,df=5)
 
-Fit1<-lm(mpg~bs(horsepower,df=5),data=Auto)
+```{r}
+basis <- bs(Auto$horsepower, df = 5)
+Fit1 <- lm(mpg ~ bs(horsepower, df = 5), data = Auto)
+```
+
+
+```{r}
 summary(Fit1)
-plot(mpg~horsepower, data=Auto)
-lines(50:250,predict(Fit1,data.frame(horsepower=50:250)),col=2,lwd=2)
+plot(mpg ~ horsepower, data = Auto)
+lines(46:230, predict(Fit1, data.frame(horsepower = 46:230)), col = 2, lwd = 2)
 ```
 
 We will now assume that we have prior information on the parameters of this analysis. That prior information may be summarised in the following conjugate prior:
-$$\pi(\boldsymbol{\beta},\sigma^2)\sim N_6(\boldsymbol{\beta}\mid\mathbf{0}_6,5\sigma^2\mathbf{I}_6)IG(\sigma^2\mid 10,300)$$
+$$\pi(\boldsymbol{\beta},\,\sigma^2)\sim \mathcal{N}_6(\boldsymbol{\beta}\mid\mathbf{0}_6,\, 5\sigma^2\mathbf{I}_6)\text{IG}(\sigma^2\mid 10,300)$$
 
 ## Posterior distribution for the model parameters
 
 As mentioned in the theoretical session, the posterior distribution of this parameter under this model is:
 
-$$\pi(\boldsymbol{\beta}|\sigma^2,\boldsymbol{y})\sim N_{p+1}\left((\boldsymbol{S}^{-1}+\boldsymbol{X}'\boldsymbol{X})^{-1}(\boldsymbol{X}'\boldsymbol{y}+\boldsymbol{S}^{-1}\boldsymbol{m}),\sigma^2(\boldsymbol{S}^{-1}+\boldsymbol{X}'\boldsymbol{X})^{-1}\right)$$
+$$\pi(\boldsymbol{\beta} \mid \sigma^2,\boldsymbol{y})\sim \mathcal{N}_{p+1}\left((\boldsymbol{S}^{-1}+\boldsymbol{X}'\boldsymbol{X})^{-1}(\boldsymbol{X}'\boldsymbol{y}+\boldsymbol{S}^{-1}\boldsymbol{m}),\sigma^2(\boldsymbol{S}^{-1}+\boldsymbol{X}'\boldsymbol{X})^{-1}\right)$$
 and
-$$\pi(\sigma^2|\boldsymbol{y})\sim IG\left(a+\frac{n}{2},b+\frac{s_e^2+(\boldsymbol{m}-\hat{\boldsymbol{\beta}})'(\boldsymbol{S}+(\boldsymbol{X}'\boldsymbol{X})^{-1})^{-1}(\boldsymbol{m}-\hat{\boldsymbol{\beta}})}{2}\right)$$
+$$\pi(\sigma^2|\boldsymbol{y})\sim \text{IG}\left(a+\frac{n}{2},\, b+\frac{s_e^2+(\boldsymbol{m}-\hat{\boldsymbol{\beta}})'(\boldsymbol{S}+(\boldsymbol{X}'\boldsymbol{X})^{-1})^{-1}(\boldsymbol{m}-\hat{\boldsymbol{\beta}})}{2}\right)$$
 
 for $\textbf{m}=\textbf{0}_6$, $\textbf{S}=5\cdot\textbf{I}_6$, $a=10$ and $b=300$. Unlike Jeffreys' prior, for this model no analytical expression can be deduced for the marginal posterior distribution $\pi(\boldsymbol{\beta}\mid\mathcal{D})$, so the practical use of this model becomes quite complicated.
 
@@ -63,19 +69,26 @@ betahat <- matrix(Fit1$coefficients, ncol = 1)
 RSS <- sum(residuals(Fit1)^2)
 
 # P(sigma^2|y)
-Psigma2<-function(sigma2){
-  dinvgamma(sigma2, 10+nrow(Auto)/2, 
-            300+(RSS+t(betahat)%*%solve(5*diag(6)+solve(t(X)%*%X))%*%betahat)/2)
+Psigma2 <- function(sigma2) {
+  dinvgamma(
+    sigma2,
+    shape = 10 + nrow(Auto) / 2,
+    scale = 300 + RSS / 2 + 
+      (t(betahat) %*% solve(5 * diag(6) + solve(t( X ) %*% X)) %*% betahat) / 2
+  )
 }
 
 # P(beta|sigma^2,y)
-PBetaGivenSigma2<-function(beta,sigma2){
-  dmvn(beta, as.vector(solve(diag(6)/5+t(X)%*%X)%*%(t(X)%*%y)),
-       sigma2*solve(diag(6)/5+t(X)%*%X))
+PBetaGivenSigma2 <- function(beta, sigma2) {
+  dmvn(
+    beta,
+    mu = as.vector(solve(diag(6) / 5 + t(X) %*% X) %*% (t(X) %*% y)), 
+    Sigma = sigma2 * solve(diag(6) / 5 + t(X) %*% X)
+  )
 }
 
 # P(beta,sigma^2|y)  
-JointPosterior<-function(beta,sigma2){
+JointPosterior <- function(beta, sigma2) {
   P1 <- Psigma2(sigma2)
   P2 <- PBetaGivenSigma2(beta, sigma2)
   P1*P2
@@ -85,41 +98,59 @@ JointPosterior<-function(beta,sigma2){
 We can use these functions to plot, for example, the posterior marginal distribution of $\sigma^2$, $\pi(\sigma2\mid\mathcal{D})$:
 
 ```{r}
-plot(seq(10,30,by=0.1),Psigma2(seq(10,30,by=0.1)),type="l",xlab="sigma2",
-     ylab="density",main="posterior marginal density of sigma2")
+curve(
+  Psigma2(x),
+  col = "darkgreen", lwd = 4,
+  xlim = c(10, 30),
+  xlab = expression(paste("Residual variance ", sigma^2)),
+  ylab = 'posterior marginal density'
+)
 ```
 
-However, the marginal posterior distribution of $\boldsymbol{\beta}$, $\pi(\boldsymbol{\beta}\mid \mathcal{D})$ is not analytic. We know the conditional posterior distribution of $\pi(\boldsymbol{\beta}|\sigma^2, \mathcal{D})$, i.e., we know that distribution for given values of $\sigma^2$ but not for unknown values of this parameter. Possibly, simulation in this context could make things much easier.
+However, the marginal posterior distribution of $\boldsymbol{\beta}$, $\pi(\boldsymbol{\beta}\mid \mathcal{D})$ is not analytic. We know the conditional posterior distribution of $\pi(\boldsymbol{\beta} \mid \sigma^2, \mathcal{D})$, i.e., we know that distribution for given values of $\sigma^2$ but not for unknown values of this parameter. Possibly, simulation in this context could make things much easier.
 
 ## Simulation-based inference 
 
 We could use the composition method in order to draw samples of $\pi((\boldsymbol{\beta},\sigma^2)\mid \mathcal{D})$. This could be done as follows:
 
 ```{r}
-sigma2.sample <- rinvgamma(10000, 10+nrow(Auto)/2, 
-                           300+(RSS+t(betahat)%*%(diag(6)+solve(t(X)%*%X))%*%betahat)/2)
+sigma2.sample <- rinvgamma(
+  10000,
+  10 + nrow(Auto) / 2,
+  300 + (RSS + t(betahat) %*% (diag(6) + solve(t(X) %*% X)) %*% betahat) / 2
+)
 
-beta.sample<-t(sapply(sigma2.sample,function(sigma2){
-  rmvn(1, as.vector(solve(diag(6)+t(X)%*%X)%*%(t(X)%*%y)),
-       sigma2*round(solve(diag(6)+t(X)%*%X),5))
-}))
-posterior.sample <- cbind(beta.sample, sigma2.sample)
+## Sample from the multivariate conditional posterior of beta, given sigma2 
+rbeta_cond <- function(sigma2) {
+  rmvn(
+    1,
+    as.vector(solve(diag(6) + t(X) %*% X) %*% (t(X) %*% y)), 
+    sigma2 * round(solve(diag(6) + t(X) %*% X), 5)
+  ) |> 
+    as.numeric() |> 
+    setNames(paste("beta", 1:6, sep = "_"))
+}
+
+beta.sample <- t(Vectorize(rbeta_cond)(sigma2.sample))
+
+posterior.sample <- cbind(beta.sample, sigma2 = sigma2.sample)
 ```
+
 With this, we have 10000 draws of the joint posterior distribution of $\pi((\boldsymbol{\beta},\sigma^2)\mid \mathcal{D})$ and, from that sample, we could evaluate what we found of interest from these parameters. For example:
 
 ```{r}
 # Posterior mean of each parameter:
-apply(posterior.sample, 2, mean)
+apply(posterior.sample, 2, mean) |> round(2)
 # Posterior standard deviation of each parameter:
-apply(posterior.sample, 2, sd)
+apply(posterior.sample, 2, sd) |> round(2)
 # Posterior probability of being higher than 0
-apply(posterior.sample>0, 2, mean)
+apply(posterior.sample > 0, 2, mean) |> round(2)
 ```
 
 In addition, we can also evaluate some unconventional hypothesis tests, such as $\beta_1>\beta_5$ by means of the corresponding probability observed in the posterior sample:
 
 ```{r}
-mean(posterior.sample[,1]>posterior.sample[,5])
+mean(posterior.sample[, 1] > posterior.sample[, 5])
 ```
 We can also obtain a distribution of the rank of each of the coefficients of $\boldsymbol{\beta}$ in realtion to the rest of the components
 ```{r}
@@ -178,6 +209,6 @@ Analytical inference on this predictive distribution is quite complicated, if po
 
 We propose below an individual exercise that pursues to consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practising in this session. 
 
-**Exercice** 
+**Exercise** 
 
 We return to the analysis of the dataset `Weights` by age and ethnicity of the children. Perform simulation-based inference on this data set assuming a non-informative Jeffreys' prior for the parameters. Assess the probability that a 10-year-old child weighs more than 30 (kg.).
