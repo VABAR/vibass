@@ -32,19 +32,19 @@ According to Wikipedia:
 
 If you want to get a bit of atmosphere, you can see a trailer of the series [here](https://www.youtube.com/watch?v=KPLWWIOCOOQ) and if you want the music of this series to accompany you throughout the practice you can go [here](https://www.youtube.com/watch?v=Hf9u3jPvkkI).
 
-# Bayesian inference for the mean of the number of u's in a page of *A Game of Thrones* 
+# Bayesian inference for the expected number of _u_'s in a page of *A Game of Thrones* 
 
 
-## The experiment: Number of u's in a page of *A Game of Thrones*
+## The experiment: Number of _u_'s in a page of *A Game of Thrones*
 
-In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, *A Game of Thrones*, and we are interested in learning about the mean number of letters u we can find on a page of this book. We select pages of the book at random and count the number of u's on each page. The random sampling is ``with replacement'' in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data 
+In this practice we need to have imagination, possibly not as much as George R. R. Martin but a little. We have an English edition of the first novel, *A Game of Thrones*, and we are interested in learning about the mean number of letters u we can find on a page of this book. We select pages of the book at random and count the number of _u_'s on each page. The random sampling is ``with replacement'' in the sense that the same page could be selected more than once. If we each had the book we could physically conduct the experiment. But as this is not the case, we can use the following data 
 
 ```{r}
 udata <- data.frame(Us = c(25, 29, 27, 27, 25, 27, 22, 26, 27, 29, 23, 28, 25, 24, 22, 
 25, 23, 29, 23, 28, 21, 29, 28, 23, 28))
 ```
 
-that we have obtained as a consequence of carrying out an experiment consisting of randomly selecting $n=25$ pages of the book and counting the number of u's in each one of them. 
+that we have obtained as a consequence of carrying out an experiment consisting of randomly selecting $n=25$ pages of the book and counting the number of _u_'s in each one of them. 
  
 We can summarize the results obtained by means of a table of frequencies and its graphical representation 
 
@@ -59,7 +59,7 @@ barplot(table.udata, col="gray89", xlab="Number of letters u in a page")
 
 ## The sampling model is approximately Poisson
 
-let $Y$ the random variable that describes the number of u's in a page of the novel *A Game of Thrones*. We consider in this practice that, given $\lambda$, the distribution of the number of u's is Poisson with parameter $\lambda$ 
+let $Y$ the random variable that describes the number of _u_'s in a page of the novel *A Game of Thrones*. We consider in this practice that, given $\lambda$, the distribution of the number of _u_'s is Poisson with parameter $\lambda$ 
 
 $$Y \mid \lambda \sim \text{Po}(\lambda),$$
  
@@ -71,7 +71,7 @@ whose conditional probability function, expectation and variance is:
 
 
 
-We know that this distribution is not exactly Poisson because the number of u's on a page is finite and the Poisson distribution has no limit to the possible values of the variable.
+We know that this distribution is not exactly Poisson because the number of _u_'s on a page is finite and the Poisson distribution has no limit to the possible values of the variable.
 
 
 ## A prior distribution for $\lambda$
@@ -114,7 +114,7 @@ The likelihood of $\lambda$ is a function of $\lambda$ whose construction needs 
 L(\lambda \mid \mathcal D)=& P(Y_1=y_1, Y_2=y_2, \ldots, Y_n=y_n \mid \lambda)\\
 =& \prod_{i=1}^{n}\, P(Y_i=y_i \mid \lambda) = \frac{\lambda^{\sum y_i}\, e^{-n \lambda}}{\prod_{i=1}^{n}\, y_i!}
 \end{align*}
-where $Y_i$ represents the random Poisson variable that describes the number of u's in the page $i$ and $y_i$ is observed value. In our case, we have sampled $n=25$ pages and have registered $\sum y_i= 643$ u's, and consequently, the likelihood function is
+where $Y_i$ represents the random Poisson variable that describes the number of _u_'s in the page $i$ and $y_i$ is observed value. In our case, we have sampled $n=25$ pages and have registered $\sum y_i= 643$ _u_'s, and consequently, the likelihood function is
 
 \begin{align*}
 L(\lambda \mid \mathcal D)\propto & \lambda^{643}\, e^{-25\, \lambda}
@@ -163,7 +163,7 @@ A 95$\%$ credible interval for $\lambda$ according to posteriors 1 and 2 is
 qgamma(c(0.025, 0.975), 643.5, 25)
 qgamma(c(0.025, 0.975), 748.8, 29.6) 
 ```
-and the subsequent posterior probability that the mean of the number of letters u's in a page of *A Game of Thrones* is between 24 and 26 letters is
+and the subsequent posterior probability that the mean of the number of letters _u_'s in a page of *A Game of Thrones* is between 24 and 26 letters is
 ```{r}
 pgamma(27, 643.5, 25) - pgamma(24, 643.5, 25)
 pgamma(27, 748.8, 29.6) - pgamma(24, 748.8, 29.6) 
@@ -171,7 +171,7 @@ pgamma(27, 748.8, 29.6) - pgamma(24, 748.8, 29.6)
 ```
 
 
-## The posterior predictive distribution for the number of u's in a new page of *A Game of Thrones*
+## The posterior predictive distribution for the number of _u_'s in a new page of *A Game of Thrones*
 
 Remember that the posterior predictive distribution for the result of a new observation $Y_{n+1}$ is a Gamma-Poisson distribution GaPo$(\alpha, \beta, 1)$ with probability distribution
 \begin{align*}
@@ -209,13 +209,13 @@ We propose below an individual exercise that pursues to consolidate the basic co
 
 **Exercice** 
 
-You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel *A Game of Thrones* and you have thought to ask her opinion about the number of u's in the novel. Her prior distribution for $\lambda$ is very different from that of your other friend Joan. It is Ga(90, 3) and we will call it prior 3.
+You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel *A Game of Thrones* and you have thought to ask her opinion about the number of _u_'s in the novel. Her prior distribution for $\lambda$ is very different from that of your other friend Joan. It is Ga(90, 3) and we will call it prior 3.
 \begin{align*}
 \text{Tauriel, Prior 3: } & \pi_3(\lambda) = \text{Ga}(90,3) 
 \end{align*}
 
 1. How different are your two friends' opinions on $\lambda$? A good idea to answer this question would be to plot both densities and calculate the mean, standard deviation and some relevant probabilities from the subsequent prior distributions.
 
-2. From the results of the previous experiment ($\sum y_i= 643$ u's in a total of $n=25$), compare the posterior distribution for $\lambda$ that Joan and Tauriel would obtain. 
+2. From the results of the previous experiment ($\sum y_i= 643$ _u_'s in a total of $n=25$), compare the posterior distribution for $\lambda$ that Joan and Tauriel would obtain. 
 
-3. Joan and Taurel select $n^{\prime}=1$ new page from the novel. Before they start counting the u's on the page, they ask you to calculate the predicted distribution of each of them over the number of u's they will find on this page. Can you compute them? And since they are asking you to do some work, you could also represent them graphically and describe them numerically. 
+3. Joan and Taurel select $n^{\prime}=1$ new page from the novel. Before they start counting the _u_'s on the page, they ask you to calculate the predicted distribution of each of them over the number of _u_'s they will find on this page. Can you compute them? And since they are asking you to do some work, you could also represent them graphically and describe them numerically. 
