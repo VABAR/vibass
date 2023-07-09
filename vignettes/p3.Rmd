@@ -27,7 +27,7 @@ The `Auto` dataset of the `ISLR` library contains information on several charact
 We begin by visualizing the relationship between the two variables
 
 ```{r}
-library(ISLR)
+data("Auto", package = "ISLR")
 plot(mpg ~ horsepower, data = Auto)
 ```
 
@@ -35,7 +35,7 @@ The relationship between both variables is clearly nonlinear, so we will fit a (
 
 ## Fitting a (frequentist) spline regression model 
 
-Spline regression models are linear models whose variables are the elements of a basis of spline functions evaluated on each of the individuals in the dataset. In our case, the explanatory variable with a nonlinear relationship is `horsepower`. We define a basis of spline functions (b-splines of degree 3) for this variable. 
+Spline regression models are linear models whose variables are the elements of a basis of spline functions evaluated on each of the individuals in the dataset. In our case, the explanatory variable with a non linear relationship is `horsepower`. We define a basis of spline functions (b-splines of degree 3) for this variable. 
 
 ```{r}
 library(splines)
@@ -50,40 +50,55 @@ matplot(
 )
 
 ```
+
 A regression model with these functions would fit the complex relationship between `mpg` and `horsepower` as a linear combination of the 5 functions in this graph (and an intercept). Let's fit that relationship:
 ```{r}
-Fit1 <- lm( mpg ~ bs(horsepower, df = 5), data = Auto)
+Fit1 <- lm(mpg ~ bs(horsepower, df = 5), data = Auto)
 summary(Fit1)
-plot(mpg ~ horsepower, data = Auto)
-lines(50:250, predict(Fit1, data.frame(horsepower = 50:250)),
-      col = 2, lwd = 2)
 ```
+
+
+```{r}
+plot(mpg ~ horsepower, data = Auto)
+lines(46:230, predict(Fit1, data.frame(horsepower = 46:230)),
+      col = 'red', lwd = 2)
+```
+
 The fitted curve adequately describes the relationship between both variables. Moreover, all elements of the spline basis seem to have a significant effect, that is, all of them are necessary to describe the differences between the intercept (expected value for the lowest power) and the `mpg`s for higher `horsepower`s.
 
 ## Fitting a Bayesian spline regression model 
 
-Let us now fit the Bayesian version of the above model. We will use, for convenience, Jeffreys' prior for $P(\boldsymbol{\beta},\sigma^2)\propto \sigma^{-2}$. In that case, we have:
-$$\sigma^2\mid \mathcal{D}\sim IG(\sigma^2\mid(n-(p+1))/2,s_e^2/2)$$
+Let us now fit the Bayesian version of the above model. We will use, for convenience, Jeffreys' prior for $\pi(\boldsymbol{\beta},\,\sigma^2)\propto \sigma^{-2}$. In that case, the posterior residual variance is:
+$$\sigma^2\mid \mathcal{D}\sim \text{IG}\Big(\sigma^2\mid\big((n-(p+1)\big)/2,\, s_e^2/2\Big),$$
+where $n$ is the sample size, $p$ is the number of model parameters and $s_e^2$ is the sum of squared residuals.
 ```{r}
 library(LaplacesDemon)
-plot(seq(13, 25, by = 0.1), 
-     dinvgamma(seq(13, 25, by = 0.1), (nrow(Auto)-6)/2,sum(residuals(Fit1)^2)/2), 
-     type = "l", ylab = "density", xlab = "sigma2")
+curve(
+  dinvgamma(x, (nrow(Auto) - 6) / 2, sum(residuals(Fit1)^2) / 2), 
+  col = "darkgreen", lwd = 4,
+  xlim = c(13, 25),
+  xlab = expression(paste("Residual variance ", sigma^2)),
+  ylab = 'posterior density'
+)
 ```
+
 This distribution yields a posterior mean of $(s^2_e/2)/((n-(p+1))/2-1)$ and a mode of $(s^2_e/2)/((n-(p+1))/2+1)$, that is:
+
 ```{r}
-# posterior mean
-sum(residuals(Fit1)^2)/2/((nrow(Auto)-6)/2-1)
-# posterior mode
-sum(residuals(Fit1)^2)/2/((nrow(Auto)-6)/2+1)
-# Frequentist estimate of sigma2
-sum(Fit1$residuals^2)/(nrow(Auto)-6)
+data.frame(
+  Estimator = c('Posterior mean', 'Posterior mode', 'Maximum-likelihood'),
+  Value = c(sum(residuals(Fit1)^2)/2/((nrow(Auto)-6)/2-1),
+            sum(residuals(Fit1)^2)/2/((nrow(Auto)-6)/2+1),
+            sum(Fit1$residuals^2)/(nrow(Auto)-6)
+  )
+) |> 
+  knitr::kable(digits = 2)
 ```
 The posterior point estimates are quite close to the frequentist estimate, although the posterior distribution of $\sigma^2\mid\mathcal{D}$ allows, in addition, to explore the uncertainty of this parameter.
 
 As mentioned in the theoretical session, $\boldsymbol{\beta}$ has the following marginal posterior distribution:
-$$\pi(\boldsymbol{\beta}\mid \boldsymbol{y})\sim t_{n-(p+1)}(\hat{\boldsymbol{\beta}},s_e^2(\boldsymbol{X}'\boldsymbol{X})^{-1}/(n-(p+1))$$
-The mean of this distribution coincides with the coefficients of the linear model `Fit1`, and has as variance-covariance matrix:
+$$\pi(\boldsymbol{\beta}\mid \mathcal{D})\sim t_{n-(p+1)}\Big(\hat{\boldsymbol{\beta}},\,s_e^2(\boldsymbol{X}'\boldsymbol{X})^{-1}/(n-(p+1)\Big)$$
+The mean of this multivariate distribution coincides with the coefficients of the linear model `Fit1`, and has as variance-covariance matrix:
 ```{r}
 X <- cbind(rep(1, dim(basis)[1]), basis)
 VarCov <- solve(t(X)%*%X)*sum(residuals(Fit1)^2)/(nrow(Auto)-6)
@@ -91,14 +106,22 @@ VarCov
 # Correlation between coefficients
 cov2cor(VarCov)
 ```
+
 Moreover, we can also plot the bivariate distribution for each pair of these coefficients:
+
 ```{r}
-# Plot the intercept and first component of the spline
+## Define a helper function that yields a vector of values for
+## the evaluation of the posterior distribution of a coefficient x
 post_support <- function(x) seq(
   Fit1$coefficients[x]-3*sqrt(VarCov[x,x]),
   Fit1$coefficients[x]+3*sqrt(VarCov[x,x]),
   by = 0.1
 )
+```
+
+
+```{r}
+# Plot the intercept and first component of the spline
 xvalues <- post_support(1)
 yvalues <- post_support(2)
 gridPoints <- expand.grid(xvalues, yvalues)
@@ -122,36 +145,40 @@ That is, if the intercept were to take higher values, it would be compensated by
 
 ```{r}
 # Plot the first and third component of the spline
-xlims <- c(Fit1$coefficients[2]-3*sqrt(VarCov[2,2]),
-            Fit1$coefficients[2]+3*sqrt(VarCov[2,2]))
-ylims <- c(Fit1$coefficients[4]-3*sqrt(VarCov[4,4]),
-            Fit1$coefficients[4]+3*sqrt(VarCov[4,4]))
-gridPoints <- expand.grid(seq(xlims[1],xlims[2],by=0.1),
-                        seq(ylims[1],ylims[2],by=0.1))
-resul <- matrix(dmvt(as.matrix(gridPoints), mu = Fit1$coefficients[c(2,4)],
-                     S = round(VarCov[c(2,4),c(2,4)], 5), df = nrow(Auto)-(5+1)), 
-                nrow = length(seq(xlims[1], xlims[2], by = 0.1)))
-image(x = seq(xlims[1], xlims[2], by = 0.1), y = seq(ylims[1], ylims[2], by = 0.1), 
-      z = resul, xlab = "beta, first component of the basis", 
-      ylab = "beta, third component of the basis", 
-      main = "Bivariate posterior density")
+xvalues <- post_support(2)
+yvalues <- post_support(4)
+gridPoints <- expand.grid(xvalues, yvalues)
+resul <- matrix(
+  dmvt(
+    as.matrix(gridPoints),
+    mu = Fit1$coefficients[c(2, 4)],
+    S = round(VarCov[c(2, 4), c(2, 4)], 5), 
+    df = nrow(Auto) - (5 + 1)
+  ),
+  nrow = length(xvalues)
+)
+image(
+  x = xvalues, y = yvalues, z = resul,
+  xlab = "beta, first component of the basis", 
+  ylab = "beta, third component of the basis", 
+  main = "Bivariate posterior density"
+)
 ```
 
 The opposite is true for the first and third components of the spline, since high values of one of the coefficients are accompanied by high values of the other.
 
-Furthermore, we can also quantify the probability that each of components is positive:
+Furthermore, we can also quantify the probability that each of the components is positive:
 ```{r}
-Probs <- vector()
-for(i in 1:6){
-  Probs[i] <- pst(0, mu = Fit1$coefficients[i], sigma = sqrt(VarCov[i,i]),
-                  nu = nrow(Auto)-(5+1))
-}
-Probs
+1 - pst(
+  0,
+  mu = Fit1$coefficients, sigma = sqrt(diag(VarCov)),
+  nu = nrow(Auto)-(5+1)
+)
 ```
 
 These probabilities may be used as Bayesian measures of evidence of the contribution of each variable to the fit. Values of these probabilities close to 0 or 1 indicate the appropriateness of considering that component in the model.
 
-Finally, the posterior means of each of the components of $\boldsymbol{\beta}$ coincide with the frequentist estimates of those same coefficients. Therefore, the point estimate (posterior mean) of the spline curve resulting from the Bayesian analysis exactly matches the corresponding curve from the frequentist analysis.
+Finally, the posterior means of the components of $\boldsymbol{\beta}$ coincide with the frequentist estimates of those same coefficients. Therefore, the point estimate (posterior mean) of the spline curve resulting from the Bayesian analysis exactly matches the corresponding curve from the frequentist analysis.
 
 # Time to individual work
 
