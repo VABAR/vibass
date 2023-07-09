@@ -27,7 +27,7 @@ Teaching materials for the [introductory course on Bayesian inference](http://va
 ## Installation
 
 ```{r install, eval = FALSE}
-install.packages('vibass', repos = "https://vabar.r-universe.dev")
+install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 ## Example

@@ -17,7 +17,7 @@ inference](http://vabar.es/events/vibass6-intro/) at
 ## Installation
 
 ``` r
-install.packages('vibass', repos = "https://vabar.r-universe.dev")
+install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 ## Example
