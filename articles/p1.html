@@ -143,7 +143,7 @@ proportion of red M<span class="math inline">\(\&amp;\)</span>M’s in a
 very huge box. If you are following this practice in person, the
 instructor will give you a bag of M<span class="math inline">\(\&amp;\)</span>M’s to make the practice more fun
 even if we have to be a bit flexible about the theoretical conditions of
-the experiment. If you are working online it will be a bit more boring
+the experiment. If you are working on line it will be a bit more boring
 but we will comply better with the theoretical conditions of the
 experiment.</p>
 <div class="figure">
@@ -154,10 +154,10 @@ Representation of the sampling experiment.
 <p>For those of us who physically have the bag of M<span class="math inline">\(\&amp;\)</span>M’s, the most appropriate
 experiment would be to take candies out of the bag one at a time and
 replace them, recording whether their colour is red or not, until the
-number <span class="math inline">\(n\)</span> of candies we have
-previously set is obtained. We consider <span class="math inline">\(n\)</span>=20.</p>
-<p>In case you are online or you don’t want to carry out the experiment
-physically you can use the following result of the experiment:</p>
+number <span class="math inline">\(n\)</span> of candies defined in
+advance is reached. We consider <span class="math inline">\(n\)</span>=20.</p>
+<p>In case you are on line or you don’t want to carry out the experiment
+physically, you can use the following result of the experiment:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mm_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span>, r <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span></code></pre></div>
 </div>
@@ -167,19 +167,19 @@ physically you can use the following result of the experiment:</p>
 <p>Let <span class="math inline">\(Y\)</span> be the random variable
 that describes the number of red M<span class="math inline">\(\&amp;\)</span>M’s (successes) out of the <span class="math inline">\(n=20\)</span> sampled. Given the proportion <span class="math inline">\(\theta\)</span> of red candies in the bag, <span class="math inline">\(Y\)</span> is a binomial random variable with
 parameters <span class="math inline">\(n=20\)</span> and probability
-<span class="math inline">\(\theta\)</span> associated with obtaining a
-red candy</p>
+<span class="math inline">\(\theta\)</span> associated with drawing a
+red candy.</p>
 <p><span class="math display">\[Y \mid \theta \sim \mbox{Bi}(n,
 \theta)\]</span></p>
 <p>whose conditional probability function, expectation and variance
 are:</p>
 <ul>
-<li><span class="math inline">\(P(Y=r \mid \theta,
-n)=\binom{n}{r}\,\theta^r\, (1-\theta)^{(n-r)}, \,\,r=0,1,\ldots,
+<li><span class="math inline">\(P(Y=r \mid
+\theta)=\binom{n}{r}\,\theta^r\, (1-\theta)^{n-r}, \,\,r=0,1,\ldots,
 n\)</span></li>
 <li>
 <span class="math inline">\(E(Y\mid \theta)=n\,\theta\)</span>,</li>
-<li><span class="math inline">\(Var(Y\mid \theta)=n \theta
+<li><span class="math inline">\(Var(Y\mid \theta)=n\, \theta\,
 (1-\theta)\)</span></li>
 </ul>
 <div class="figure">
@@ -194,13 +194,16 @@ Binomial probability function for two values of <span class="math inline">\(\the
 <p>Recall that the beta distribution is conjugate with respect to the
 binomial probability model. If we elicit a prior beta distribution
 Be<span class="math inline">\((\alpha_0, \beta_0)\)</span> for <span class="math inline">\(\theta\)</span>, its density is</p>
-<p><span class="math display">\[\pi(\theta)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\,
+<p><span class="math display">\[\pi(\theta \mid \alpha_0,
+\beta_0)=\frac{\Gamma(\alpha_0+\beta_0)}{\Gamma(\alpha_0)\,\Gamma(\beta_0)}\,
 \theta^{\alpha_0-1}\,(1-\theta)^{\beta_0-1}, \quad
 0&lt;\theta&lt;1\]</span> with expectation and variance</p>
 <ul>
-<li>E<span class="math inline">\((\theta)=\alpha_0 /
-(\alpha_0+\beta_0)\)</span>,</li>
-<li>Var<span class="math inline">\((\theta)= \alpha_0\,\beta_0 /
+<li>
+<span class="math inline">\(\mathbb{E}(\theta \mid \alpha_0,
+\beta_0)=\alpha_0 / (\alpha_0+\beta_0)\)</span>,</li>
+<li>Var<span class="math inline">\((\theta \mid \alpha_0, \beta_0)=
+\alpha_0\,\beta_0 /
 [(\alpha_0+\beta_0)^2\,(\alpha_0+\beta_0+1)]\)</span>
 </li>
 </ul>
@@ -221,16 +224,17 @@ Its graphic is obtained via</p>
 <div class="section level3">
 <h3 id="the-likelihood-function-of-theta">The likelihood function of <span class="math inline">\(\theta\)</span><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-theta"></a>
 </h3>
-<p>The likelihood function of <span class="math inline">\(\theta\)</span> is a function of <span class="math inline">\(\theta\)</span> whose construction needs the data
-<span class="math inline">\(\mathcal D = \{n, r\}\)</span>. It is
-defined as follows</p>
+<p>The likelihood function of <span class="math inline">\(\theta\)</span> is a function of <span class="math inline">\(\theta\)</span> whose expression requires the
+observed data <span class="math inline">\(\mathcal D = \{n,
+r\}\)</span>. It is defined as follows</p>
 <p><span class="math display">\[L(\theta \mid \mathcal D) = P(Y=r \mid
 \theta, n) = \binom{n}{r}\, \theta^r\,(1- \theta)^{n-r},\]</span></p>
 <p>where <span class="math inline">\(r\)</span> is the <em>observed</em>
-number of successes in the sample (here the number of red candies in the
-sample of size <span class="math inline">\(n\)</span>). In our first
-experiment, the likelihood function of <span class="math inline">\(\theta\)</span> for the data <span class="math inline">\(\mathcal D_1 = \{r_1 = 4 \text{ red candies in }
-n_1 = 20 \text{ sampled}\}\)</span> is</p>
+number of successes in the sample (here, the number of red candies) of
+size <span class="math inline">\(n\)</span>. In our first experiment,
+the likelihood function of <span class="math inline">\(\theta\)</span>
+for the data <span class="math inline">\(\mathcal D_1 = \{r_1 = 4 \text{
+red candies in } n_1 = 20 \text{ sampled}\}\)</span> is</p>
 <p><span class="math display">\[L(\theta \mid \mathcal D_1) =
 \binom{20}{4}\, \theta^4\,(1- \theta)^{16},\]</span></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -289,7 +293,7 @@ Posterior summaries for <span class="math inline">\(\theta\)</span>.
 <h3 id="the-posterior-predictive-distribution-for-the-results-of-a-new-experiment">The posterior predictive distribution for the results of a new
 experiment<a class="anchor" aria-label="anchor" href="#the-posterior-predictive-distribution-for-the-results-of-a-new-experiment"></a>
 </h3>
-<p>We remind that the posterior predictive distribution of the number of
+<p>Recall that the posterior predictive distribution of the number of
 successes <span class="math inline">\(Y^{\prime}\)</span> in a new
 sample of size <span class="math inline">\(n^{\prime}\)</span> is a
 beta-binomial distribution <span class="math inline">\(\text{Bb}(\alpha,\, \beta,\, n^{\prime})\)</span>
@@ -309,13 +313,13 @@ experiment. Its probability function is</p>
 <li><span class="math inline">\(\mathbb{V}(Y^{\prime}\mid
 \mathcal{D})=n^{\prime}\,\frac{\alpha\,\beta\,(\alpha+\beta+n^{\prime})}{(\alpha+\beta)^{2}\,(\alpha+\beta+1)}.\)</span></li>
 </ul>
-<p>Suppose now that we are going to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag but before we are
-going to predict the number of red M<span class="math inline">\(\&amp;\)</span>M’s we can record. The posterior
-predictive distribution is a beta-binomial distribution with parameters
-<span class="math inline">\(\alpha=4.5\)</span> and <span class="math inline">\(\beta=16.5\)</span>, that we pick from the
-posterior distribution <span class="math inline">\(\pi(\theta \mid
-\mathcal D)\)</span>, and <span class="math inline">\(n^{\prime}=10\)</span>, which is the size of the
-new experiment.</p>
+<p>Suppose now that we are going to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag. Before performing
+the experiment, the posterior predictive distributions quantifies the
+relative plausibility of each possible outcome. It is a beta-binomial
+distribution with parameters <span class="math inline">\(\alpha=4.5\)</span> and <span class="math inline">\(\beta=16.5\)</span> from the posterior
+distribution <span class="math inline">\(\pi(\theta \mid \mathcal
+D)\)</span>, and <span class="math inline">\(n^{\prime}=10\)</span>,
+which is the size of the new experiment.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr" class="external-link">extraDistr</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
@@ -329,9 +333,9 @@ new experiment.</p>
 <p>We observe that the most likely numbers of red candies in the new
 sample are 1 and 2. The posterior mean and posterior standard deviation
 of the number of red candies is this new sample is</p>
-<p><span class="math display">\[\mathbb{E}(Y^{\prime} \mid \mathcal
-D)=  2.1429, \quad\quad \mathbb{DT}(Y^{\prime} \mid \mathcal
-D)=1.5403.\]</span></p>
+<p><span class="math display">\[\mathbb{E}(Y^{\prime} \mid \mathcal D)=
+2.14, \quad\quad \mathbb{SD}(Y^{\prime} \mid \mathcal D)=
+1.54.\]</span></p>
 </div>
 </div>
 <div class="section level2">
@@ -341,7 +345,8 @@ D)=1.5403.\]</span></p>
 consolidate the basic concepts that we have learned in the previous
 theoretical session and that we have been practising in this session.
 You can code the exercise yourself in R using the examples above, or use
-the provided interactive application.</p>
+<code>vibass_app(1)</code> to launch the interactive application
+provided in the <code>vibass</code> R-package.</p>
 <p><strong>EXERCISE</strong></p>
 <p>You have two friends, Arnau and Mary, who know a little bit about
 Bayesian inference and a lot about M<span class="math inline">\(\&amp;\)</span>M’s. Their opinions about the
@@ -360,13 +365,14 @@ standard deviation of the subsequent prior distributions.</p></li>
 distribution for <span class="math inline">\(\theta\)</span> that Mary
 and Arnau would obtain.</p></li>
 <li><p>Compare both posterior distributions with the one we have
-obtained in Subsection 2.5 of the practical through its graph, posterior
-mean, standard deviation and a credibility interval at 95<span class="math inline">\(\%\)</span>.</p></li>
+obtained in Subsection 2.5 of the practical through their density
+curves, posterior means, standard deviations and 95% credibility
+intervals.</p></li>
 <li><p>Compute the posterior predictive distribution for the new
 experiment described in Subsection 2.6 (to randomly draw <span class="math inline">\(n^{\prime}=10\)</span> new M<span class="math inline">\(\&amp;\)</span>M’s from the bag) and compare both
 posterior predictive distributions with the one we have obtained in
-Subsection 2.6 of the practical through its graph, posterior mean and
-standard deviation.</p></li>
+Subsection 2.6 of the practical through their density curves, posterior
+means and standard deviations.</p></li>
 </ol>
 </div>
   </div>
