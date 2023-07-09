@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction 
 
-We resume the analysis of the \texttt{Auto} data set of the \texttt{ISLR} library from the previous practical session. We are again interested in explaining the fuel consumption of the cars  (variable \texttt{mpg}) as a function of their power (\texttt{horsepower}).
+We resume the analysis of the `Auto` data set of the `ISLR` library from the previous practical session. We are again interested in explaining the fuel consumption of the cars  (variable `mpg`) as a function of their power (`horsepower`).
 
 We start by loading the data and redoing the frequentist fit from the previous session:
 
@@ -152,9 +152,9 @@ lines(values, posterior.IC.curve[2,], col = 3, lwd = 1.5, lty=2)
 ```
 
 ## Predictive inference
-For given values of $\boldsymbol{\beta}$ and $\sigma^2$ we would know the predictive distribution of \texttt{y} for a given value of \texttt{horsepower}:
+For given values of $\boldsymbol{\beta}$ and $\sigma^2$ we would know the predictive distribution of `y` for a given value of `horsepower`:
 $$\pi(y^*\mid \hat{\beta},\hat{\sigma}^2)=N(y^*|\textbf{x}^*\cdot\hat{\beta},\hat{\sigma}^2)$$ 
-In that case we could use the composition method to sample values of a new hypothetical $y^*$ for any given value of \texttt{horsepower} and the sampled values $\{(\beta_1,\sigma_1^2),\ldots,(\beta_n,\sigma_n^2)\}$.
+In that case we could use the composition method to sample values of a new hypothetical $y^*$ for any given value of `horsepower` and the sampled values $\{(\beta_1,\sigma_1^2),\ldots,(\beta_n,\sigma_n^2)\}$.
 
 ```{r}
 SampleY <- function(at){
@@ -180,4 +180,4 @@ We propose below an individual exercise that pursues to consolidate the basic co
 
 **Exercice** 
 
-We return to the analysis of the dataset \texttt{Weights} by age and ethnicity of the children. Perform simulation-based inference on this data set assuming a non-informative Jeffreys' prior for the parameters. Assess the probability that a 10-year-old child weighs more than 30 (kg.).
+We return to the analysis of the dataset `Weights` by age and ethnicity of the children. Perform simulation-based inference on this data set assuming a non-informative Jeffreys' prior for the parameters. Assess the probability that a 10-year-old child weighs more than 30 (kg.).
