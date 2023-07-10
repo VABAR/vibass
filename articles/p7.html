@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.37</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.38</span>
       </span>
     </div>
 
@@ -113,16 +113,16 @@ Modelling</h1>
 </h2>
 <p>In this last practical we will consider the analysis of Bayesian
 hierarchical models. As explained in the previous lecture, hierarchical
-models pose a convenient tool to define model so that the different
+models provide a convenient tool to define models so that the different
 sources of variation in the data are clearly identified. Bayesian
-inference for highly structure hierarchical models can be difficult and
+inference for highly structured hierarchical models can be difficult and
 may require the use of Markov chain Monte Carlo methods. However,
-packages such as <code>BayesX</code> and <code>INLA</code>, to mention a
-few, provide a very convenient way to fit and make inference about
+packages such as <code>BayesX</code> and <code>INLA</code>, to mention
+just two, provide a very convenient way to fit and make inference about
 certain types of Bayesian hierarchical models.</p>
 <p>Regarding software, we will use <code>INLA</code> to fit the models
-in the examples now. The reason is that it is a popular software for
-Bayesian inference and very fast.</p>
+in the examples from this point on. The reason is that it is a popular
+software for Bayesian inference and very fast.</p>
 </div>
 <div class="section level2">
 <h2 id="linear-mixed-models">Linear Mixed Models<a class="anchor" aria-label="anchor" href="#linear-mixed-models"></a>
@@ -131,7 +131,7 @@ Bayesian inference and very fast.</p>
 <p><span class="math display">\[
 Y_{ij} = X_{ij}\beta +\phi_i+\epsilon_{ij}
 \]</span></p>
-<p>Here, Y_{ij} represents observation <span class="math inline">\(j\)</span> in group <span class="math inline">\(i\)</span>, X_{ij} are a vector fo covariates with
+<p>Here, Y_{ij} represents observation <span class="math inline">\(j\)</span> in group <span class="math inline">\(i\)</span>, X_{ij} are a vector of covariates with
 coefficients <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\phi_i\)</span> i.i.d. random effects and <span class="math inline">\(\epsilon_{ij}\)</span> a Gaussian error term. The
 distribution of the random effects <span class="math inline">\(\phi_i\)</span> is Gaussian with zero mean and
 precision <span class="math inline">\(\tau_{\phi}\)</span>.</p>
@@ -141,12 +141,12 @@ precision <span class="math inline">\(\tau_{\phi}\)</span>.</p>
 </h2>
 <p>Multilevel models are a particular type of mixed-effects models in
 which observations are nested within groups, so that group effects are
-modelled using random effects. A typical example is the that of students
+modelled using random effects. A typical example is that of students
 nested within classes.</p>
-<p>For the next example, the <code>nlschools</code> dataset (in package
-<code>MASS</code>) will be used. This dataset records data about
+<p>For the next example, the <code>nlschools</code> data set (in package
+<code>MASS</code>) will be used. This data set records data about
 students’ performance (in particular, about a language score test) and
-other variables. The variable sin this dataset are:</p>
+other variables. The variables in this data set are:</p>
 <ul>
 <li><p><code>lang</code>, language score test.</p></li>
 <li><p><code>IQ</code>, verbal IQ.</p></li>
@@ -158,7 +158,7 @@ family.</p></li>
 <li><p><code>COMB</code>, whether the pupils are taught in the
 multi-grade class with 7th-grade students.</p></li>
 </ul>
-<p>The dataset can be loaded and summarised as follows:</p>
+<p>The data set can be loaded and summarised as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">"MASS"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nlschools"</span><span class="op">)</span></span>
@@ -179,10 +179,10 @@ multi-grade class with 7th-grade students.</p></li>
 <span><span class="co">##          </span></span>
 <span><span class="co">##          </span></span>
 <span><span class="co">## </span></span></code></pre>
-<p>The model to fit will take <code>lang</code> as the response
-variables and include <code>IQ</code>, <code>GS</code>, <code>SES</code>
-and <code>COMB</code> as covariates (i.e., fixed effects). This model
-can easily be fit with <code>INLA</code> as follows:</p>
+<p>The model to fit will take <code>lang</code> as the response variable
+and include <code>IQ</code>, <code>GS</code>, <code>SES</code> and
+<code>COMB</code> as covariates (i.e., fixed effects). This model can
+easily be fit with <code>INLA</code> as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"INLA"</span><span class="op">)</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">lang</span> <span class="op">~</span> <span class="va">IQ</span> <span class="op">+</span> <span class="va">GS</span> <span class="op">+</span>  <span class="va">SES</span> <span class="op">+</span> <span class="va">COMB</span>, data <span class="op">=</span> <span class="va">nlschools</span><span class="op">)</span></span>
@@ -208,14 +208,14 @@ can easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.98, Running = 1.06, Post = 0.0408, Total = 5.08 </span></span>
+<span><span class="co">##     Pre = 15.3, Running = 5.43, Post = 0.0393, Total = 20.8 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept)  9.685 1.070      7.585    9.685     11.784  9.685   0</span></span>
+<span><span class="co">## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0</span></span>
 <span><span class="co">## IQ           2.391 0.074      2.246    2.391      2.536  2.391   0</span></span>
 <span><span class="co">## GS          -0.026 0.025     -0.076   -0.026      0.024 -0.026   0</span></span>
 <span><span class="co">## SES          0.148 0.014      0.120    0.148      0.175  0.148   0</span></span>
-<span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.046 -1.684   0</span></span>
+<span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.047 -1.684   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
@@ -227,20 +227,20 @@ can easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
-<p>Note that the previous model only includes fixed effects. The dataset
-includes <code>class</code> as the class ID to which each student
+<p>Note that the previous model only includes fixed effects. The data
+set includes <code>class</code> as the class ID to which each student
 belongs. Class effects can have an impact on the performance of the
 students, with students in the same class performing similarly in the
 language test.</p>
 <p>Very conveniently, <code>INLA</code> can include random effects in
 the model by adding a term in the right hand side of the formula that
-defined the model. In particular, the term to add is
-<code>f(class, model = "iid")</code> (see code below for full model).
-This will create a random effect indexed over variable
-<code>class</code> and that is of type <code>iid</code>, i.e., the
-random effects are independent and indentically distributed using a
-normal distributopn with zero mean and precicion <span class="math inline">\(\tau\)</span>.</p>
-<p>Before fitting the model, the between-class variabiolity can be
+defined the model. Specifically, the term to add is
+<code>f(class, model = "iid")</code> (see code below for the full
+model). This will create a random effect indexed over variable
+<code>class</code> and which is of type <code>iid</code>, i.e., the
+random effects are independent and identically distributed using a
+normal distribution with zero mean and precision <span class="math inline">\(\tau\)</span>.</p>
+<p>Before fitting the model, the between-class variability can be
 explored by means of boxplots:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">lang</span> <span class="op">~</span> <span class="va">class</span>, data <span class="op">=</span> <span class="va">nlschools</span>, las <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
@@ -250,9 +250,11 @@ explored by means of boxplots:</p>
 <code class="sourceCode R"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">lang</span> <span class="op">~</span> <span class="va">IQ</span> <span class="op">+</span> <span class="va">GS</span> <span class="op">+</span>  <span class="va">SES</span> <span class="op">+</span> <span class="va">COMB</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">class</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">nlschools</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  *** inla.core.safe:  rerun to try to solve negative eigenvalue(s) in the Hessian</span></span></code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Call:</span></span>
 <span><span class="co">##    c("inla.core(formula = formula, family = family, contrasts = contrasts, </span></span>
@@ -273,14 +275,14 @@ explored by means of boxplots:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.32, Running = 1.4, Post = 0.0439, Total = 5.77 </span></span>
+<span><span class="co">##     Pre = 11.6, Running = 7.04, Post = 0.0389, Total = 18.7 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0</span></span>
-<span><span class="co">## IQ           2.391 0.074      2.246    2.391      2.536  2.391   0</span></span>
+<span><span class="co">## (Intercept)  9.685 1.069      7.588    9.685     11.782  9.685   0</span></span>
+<span><span class="co">## IQ           2.391 0.074      2.246    2.391      2.535  2.391   0</span></span>
 <span><span class="co">## GS          -0.026 0.025     -0.076   -0.026      0.024 -0.026   0</span></span>
 <span><span class="co">## SES          0.148 0.014      0.120    0.148      0.175  0.148   0</span></span>
-<span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.047 -1.684   0</span></span>
+<span><span class="co">## COMB1       -1.684 0.325     -2.321   -1.684     -1.047 -1.684   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Random effects:</span></span>
 <span><span class="co">##   Name     Model</span></span>
@@ -288,19 +290,19 @@ explored by means of boxplots:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                                             mean       sd 0.025quant 0.5quant</span></span>
-<span><span class="co">## Precision for the Gaussian observations 2.10e-02 1.00e-03       0.02 2.10e-02</span></span>
-<span><span class="co">## Precision for class                     2.25e+04 2.36e+04    1516.96 1.54e+04</span></span>
-<span><span class="co">##                                         0.975quant    mode</span></span>
-<span><span class="co">## Precision for the Gaussian observations   2.20e-02 2.1e-02</span></span>
-<span><span class="co">## Precision for class                       8.51e+04 4.1e+03</span></span>
+<span><span class="co">## Precision for the Gaussian observations 2.10e-02    0.001       0.02  2.1e-02</span></span>
+<span><span class="co">## Precision for class                     1.09e+04 1382.063    8363.02  1.1e+04</span></span>
+<span><span class="co">##                                         0.975quant     mode</span></span>
+<span><span class="co">## Precision for the Gaussian observations   2.20e-02 2.10e-02</span></span>
+<span><span class="co">## Precision for class                       1.32e+04 1.18e+04</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7714.14 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7717.13 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="generalized-linear-mixed-models">Generalized Linear Mixed Models<a class="anchor" aria-label="anchor" href="#generalized-linear-mixed-models"></a>
+<h2 id="generalised-linear-mixed-models">Generalised Linear Mixed Models<a class="anchor" aria-label="anchor" href="#generalised-linear-mixed-models"></a>
 </h2>
 <p>Mixed effects models can also be considered within the context of
 generalised linear models. In this case, the linear predictor of
@@ -316,9 +318,9 @@ and that observations are not necessarily nested within groups.</p>
 <h2 id="poisson-regression">Poisson regression<a class="anchor" aria-label="anchor" href="#poisson-regression"></a>
 </h2>
 <p>In this practical we will use the North Carolina Sudden Infant Death
-Syndrome (SIDS) dataset. It is available in the <code>spData</code>
-package and it can be loaded as:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+Syndrome (SIDS) data set. It is available in the <code>spData</code>
+package and it can be loaded using:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jakubnowosad.com/spData/" class="external-link">spData</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span></code></pre></div>
@@ -350,7 +352,7 @@ package and it can be loaded as:</p>
 <span><span class="co">##  Mean   :35.62   Mean   :2.12   Mean   :2.67  </span></span>
 <span><span class="co">##  3rd Qu.:36.05   3rd Qu.:3.00   3rd Qu.:3.25  </span></span>
 <span><span class="co">##  Max.   :36.52   Max.   :4.00   Max.   :4.00</span></span></code></pre>
-<p>A full description of the dataset is provided in the associated
+<p>A full description of the data set is provided in the associated
 manual page (check with <code><a href="https://jakubnowosad.com/spData/reference/nc.sids.html" class="external-link">?nc.sids</a></code>) but in this practical we
 will only consider these variables:</p>
 <ul>
@@ -369,14 +371,14 @@ O_i \mid \mu_i \sim Po(\mu_i),\ i=1,\ldots, 100
 number of cases in county <span class="math inline">\(i\)</span> and
 <span class="math inline">\(\mu_i\)</span> the mean. In addition, mean
 <span class="math inline">\(mu_i\)</span> will be written as <span class="math inline">\(\mu_i = E_i \theta_i\)</span>, where <span class="math inline">\(E_i\)</span> is the <em>expected</em> number of
-cases and <span class="math inline">\(\theta_i\)</span> the realtive
+cases and <span class="math inline">\(\theta_i\)</span> the relative
 risk in county <span class="math inline">\(i\)</span>.</p>
 <p>The relative risk <span class="math inline">\(\theta_i\)</span> is
-often modeled, in the log-scale, to be equal to a linear predictor:</p>
+often modelled, on the log-scale, to be equal to a linear predictor:</p>
 <p><span class="math display">\[
 \log(\theta_i) = \beta_0 + \ldots
 \]</span></p>
-<p>The expeted number of cases is computed by multiplying th numbero of
+<p>The expected number of cases is computed by multiplying the number of
 births in county <span class="math inline">\(i\)</span> to the overall
 mortality rate</p>
 <p><span class="math display">\[
@@ -384,37 +386,37 @@ r = \frac{\sum_{i=1}^{100}}{\sum_{i=1}^{100}B_i}
 \]</span> where <span class="math inline">\(B_i\)</span> represents the
 total number of births in country <span class="math inline">\(i\)</span>. Hence, the expected number of cases in
 county <span class="math inline">\(i\)</span> is <span class="math inline">\(E_i = r B_i\)</span>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Overall mortality rate</span></span>
 <span><span class="va">r74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span></span>
 <span><span class="co"># Expected cases</span></span>
 <span><span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span> <span class="op">&lt;-</span> <span class="va">r74</span> <span class="op">*</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span></span></code></pre></div>
-<p>A common measure of realtive risk is the <em>standarised mortality
+<p>A common measure of relative risk is the <em>standardised mortality
 ratio</em> (<span class="math inline">\(O_i / E_i\)</span>):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span> <span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span></span></code></pre></div>
 <p>A summary of the SMR can be obtained:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR</span>, xlab <span class="op">=</span> <span class="st">"SMR"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p7_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Values above 1 indicate that the county has more observed deaths than
 expected and that there might be an increased risk in the area.</p>
-<p>As a covariate, we will compute the proportion on non-white
+<p>As a covariate, we will compute the proportion of non-white
 births:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span></span></code></pre></div>
 <p>There is a clear relationship between the SMR and the proportion of
 non-white births in a county:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p7_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correlation</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.5793901</span></span></code></pre>
 <p>A simple Poisson regression can be fit by using the following
 code:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">SID74</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span>,</span>
 <span>  family <span class="op">=</span> <span class="st">"poisson"</span>,</span>
@@ -442,7 +444,7 @@ code:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 3.89, Running = 0.499, Post = 0.0141, Total = 4.4 </span></span>
+<span><span class="co">##     Pre = 12.2, Running = 3.2, Post = 0.0136, Total = 15.4 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0</span></span>
@@ -452,13 +454,13 @@ code:</p>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
-<p>Random effects could be included to account for intrinsic differences
-in the counties:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>Random effects can also be included to account for intrinsic
+differences between the counties:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Index for random effects</span></span>
 <span><span class="va">nc.sids</span><span class="op">$</span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Model WITHOUT covariate</span></span>
+<span><span class="co"># Model WITH covariate</span></span>
 <span><span class="va">m2nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
 <span>  family <span class="op">=</span> <span class="st">"poisson"</span>,</span>
@@ -487,7 +489,7 @@ in the counties:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.13, Running = 0.631, Post = 0.0235, Total = 4.78 </span></span>
+<span><span class="co">##     Pre = 14.1, Running = 2.49, Post = 0.0239, Total = 16.7 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.650 0.104     -0.856   -0.650     -0.447 -0.649   0</span></span>
@@ -499,7 +501,7 @@ in the counties:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                    mean     sd 0.025quant 0.5quant 0.975quant  mode</span></span>
-<span><span class="co">## Precision for ID 134.13 229.39       9.57    31.05     416.29 15.76</span></span>
+<span><span class="co">## Precision for ID 134.14 229.41       9.57    31.05     416.30 15.76</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Marginal log-Likelihood:  -227.83 </span></span>
 <span><span class="co">##  is computed </span></span>
@@ -507,7 +509,7 @@ in the counties:</p>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
 <p>The role of the covariate can be explored by fitting a model without
 it:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model WITHOUT covariate</span></span>
 <span><span class="va">m3nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
@@ -537,7 +539,7 @@ it:</p>
 <span><span class="co">##    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">##    .parent.frame)") </span></span>
 <span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 4.78, Running = 0.712, Post = 0.0231, Total = 5.52 </span></span>
+<span><span class="co">##     Pre = 4.88, Running = 3.3, Post = 0.0235, Total = 8.2 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##              mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.03 0.063     -0.157   -0.028      0.091 -0.026   0</span></span>
@@ -558,7 +560,7 @@ it:</p>
 random effects (i.e., the variance increases). This means that values of
 the random effects are now larger than in the previous case as the
 random effects pick some of the effect explained by the covariate.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">m2nc</span><span class="op">$</span><span class="va">summary.random</span><span class="op">$</span><span class="va">ID</span><span class="op">$</span><span class="va">mean</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"With NWPROP74"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">m3nc</span><span class="op">$</span><span class="va">summary.random</span><span class="op">$</span><span class="va">ID</span><span class="op">$</span><span class="va">mean</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Without NWPROP74"</span><span class="op">)</span></span></code></pre></div>
@@ -568,13 +570,13 @@ random effects pick some of the effect explained by the covariate.</p>
 <h2 id="further-extensions">Further Extensions<a class="anchor" aria-label="anchor" href="#further-extensions"></a>
 </h2>
 <p>Spatial random effects can be defined not to be independent and
-indentically distributed. Instead, spatial or temporal correlation can
-be considered when defining them. For example, in the North Carolina
-SIDS dataset, it is common to consider that two counties that are
-neighbours (i.e., share a boundary) will have similar relative risks.
-This can be taken into account in the model byt assuming that the random
-effects are spatially autocorrelated. This is out of the scope of the
-introductory course but feel free to ask around about this!!</p>
+identically distributed. Instead, spatial or temporal correlation can be
+considered when defining them. For example, in the North Carolina SIDS
+data set, it is common to consider that two counties that are neighbours
+(i.e., share a boundary) will have similar relative risks. This can be
+taken into account in the model but assuming that the random effects are
+spatially autocorrelated. This is out of the scope of this introductory
+course but feel free to ask about this!!</p>
 </div>
   </div>
 
