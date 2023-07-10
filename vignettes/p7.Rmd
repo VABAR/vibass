@@ -17,18 +17,17 @@ vignette: >
 # Bayesian Hierarchical Modelling
 
 In this last practical we will consider the analysis of Bayesian hierarchical
-models. As explained in the previous lecture, hierarchical models pose a
-convenient tool to define model so that the different sources of variation in
-the data are clearly identified. Bayesian inference for highly structure
+models. As explained in the previous lecture, hierarchical models provide a
+convenient tool to define models so that the different sources of variation in
+the data are clearly identified. Bayesian inference for highly structured
 hierarchical models can be difficult and may require the use of Markov chain
-Monte Carlo methods. However, packages such as `BayesX` and `INLA`, to mention a
-few, provide a very convenient way to fit and make inference about certain types
-of Bayesian hierarchical models.
+Monte Carlo methods. However, packages such as `BayesX` and `INLA`, to mention
+just two, provide a very convenient way to fit and make inference about certain
+types of Bayesian hierarchical models.
 
-
-Regarding software, we will use `INLA` to fit the models in the examples now.
-The reason is that it is a popular software for Bayesian inference and very
-fast.
+Regarding software, we will use `INLA` to fit the models in the examples from
+this point on. The reason is that it is a popular software for Bayesian
+inference and very fast.
 
 # Linear Mixed Models
 
@@ -38,18 +37,21 @@ $$
 Y_{ij} = X_{ij}\beta +\phi_i+\epsilon_{ij}
 $$
 
-Here, Y_{ij} represents observation $j$ in group $i$, X_{ij} are a vector fo covariates with coefficients $\beta$, $\phi_i$ i.i.d. random effects and $\epsilon_{ij}$ a Gaussian error term. The distribution of the random effects $\phi_i$ is Gaussian with zero mean and precision $\tau_{\phi}$.
+Here, Y_{ij} represents observation $j$ in group $i$, X_{ij} are a vector of
+covariates with coefficients $\beta$, $\phi_i$ i.i.d. random effects and
+$\epsilon_{ij}$ a Gaussian error term. The distribution of the random effects
+$\phi_i$ is Gaussian with zero mean and precision $\tau_{\phi}$.
 
 
 # Multilevel Modelling
 
 Multilevel models are a particular type of mixed-effects models in which
 observations are nested within groups, so that group effects are modelled using
-random effects. A typical example is the that of students nested within classes.
+random effects. A typical example is that of students nested within classes.
 
-For the next example, the `nlschools` dataset (in package `MASS`) will be used.
-This dataset records data about students' performance (in particular, about a
-language score test) and other variables. The variable sin this dataset are:
+For the next example, the `nlschools` data set (in package `MASS`) will be used.
+This data set records data about students' performance (in particular, about a
+language score test) and other variables. The variables in this data set are:
 
 * `lang`, language score test.
 
@@ -63,7 +65,7 @@ language score test) and other variables. The variable sin this dataset are:
 
 * `COMB`, whether the pupils are taught in the multi-grade class with 7th-grade students.
 
-The dataset can be loaded and summarised as follows:
+The data set can be loaded and summarised as follows:
 
 ```{r}
 library("MASS")
@@ -71,8 +73,9 @@ data("nlschools")
 summary(nlschools)
 ```
 
-The model to fit will take `lang`  as the response variables and include
-`IQ`, `GS`, `SES` and `COMB` as covariates (i.e., fixed effects). This model can easily be fit with `INLA` as follows:
+The model to fit will take `lang` as the response variable and include
+`IQ`, `GS`, `SES` and `COMB` as covariates (i.e., fixed effects). This model
+can easily be fit with `INLA` as follows:
 
 ```{r message = FALSE, warning = FALSE}
 library("INLA")
@@ -81,12 +84,21 @@ m1 <- inla(lang ~ IQ + GS +  SES + COMB, data = nlschools)
 summary(m1)
 ```
 
-Note that the previous model only includes fixed effects. The dataset includes `class` as the class ID to which each student belongs. Class effects can have an impact on the performance of the students, with students in the same class performing similarly in the language test.
+Note that the previous model only includes fixed effects. The data set includes
+`class` as the class ID to which each student belongs. Class effects can have an
+impact on the performance of the students, with students in the same class
+performing similarly in the language test.
 
-Very conveniently, `INLA` can include random effects in the model by adding a term in the right hand side of the formula that defined the model. In particular, 
-the term to add is `f(class, model = "iid")` (see code below for full model). This will create a random effect indexed over variable `class` and that is of type `iid`, i.e., the random effects are independent and indentically distributed using a normal distributopn with zero mean and precicion $\tau$.
+Very conveniently, `INLA` can include random effects in the model by adding a
+term in the right hand side of the formula that defined the model. Specifically, 
+the term to add is `f(class, model = "iid")` (see code below for the
+full model).
+This will create a random effect indexed over variable `class` and which is of
+type `iid`, i.e., the random effects are independent and identically distributed
+using a normal distribution with zero mean and precision $\tau$.
 
-Before fitting the model, the between-class variabiolity can be explored by means of boxplots:
+Before fitting the model, the between-class variability can be explored by
+means of boxplots:
 
 ```{r fig = TRUE, fig.width = 15, fig.height = 5}
 boxplot(lang ~ class, data = nlschools, las = 2)
@@ -104,21 +116,26 @@ summary(m2)
 ```
 
 
-# Generalized Linear Mixed Models
+# Generalised Linear Mixed Models
 
 Mixed effects models can also be considered within the context of generalised 
-linear models. In this case, the linear predictor of observation $i$, $\eta_i$, can be defined as
+linear models. In this case, the linear predictor of observation $i$, $\eta_i$,
+can be defined as
 
 $$
 \eta_i = X_{ij}\beta +\phi_i
 $$
 
-Compared to the previous setting of linear mixed effects models, note that now the distribution of the response could be other than Gaussian and that observations are not necessarily nested within groups.
+Compared to the previous setting of linear mixed effects models, note that now
+the distribution of the response could be other than Gaussian and that
+observations are not necessarily nested within groups.
 
 # Poisson regression
 
 
-In this practical we will use the North Carolina Sudden Infant Death Syndrome (SIDS) dataset. It is available in the `spData` package and it can be loaded as:
+In this practical we will use the North Carolina Sudden Infant Death Syndrome
+(SIDS) data set. It is available in the `spData` package and it can be loaded
+using:
 
 ```{r message = FALSE, warning = FALSE}
 library(spData)
@@ -126,7 +143,9 @@ data(nc.sids)
 summary(nc.sids)
 ```
 
-A full description of the dataset is provided in the associated manual page (check with `?nc.sids`) but in this practical we will only consider these variables:
+A full description of the data set is provided in the associated manual page
+(check with `?nc.sids`) but in this practical we will only consider these
+variables:
 
 * `BIR74`,  number of births (1974-78).
 
@@ -134,7 +153,8 @@ A full description of the dataset is provided in the associated manual page (che
 
 * `NWBIR74`, number of non-white births (1974-78).
 
-These variables are measured at the county level in North Carolina, of which there are 100.
+These variables are measured at the county level in North Carolina, of which
+there are 100.
 
 Because `SID74` records the number of SID deaths, the model is Poisson:
 
@@ -142,15 +162,18 @@ $$
 O_i \mid \mu_i \sim Po(\mu_i),\ i=1,\ldots, 100
 $$
 Here, $O_i$ represents the number of cases in county $i$ and $\mu_i$ the mean.
-In addition, mean $mu_i$ will be written as $\mu_i = E_i \theta_i$, where $E_i$ is the *expected* number of cases and $\theta_i$ the realtive risk in county $i$.
+In addition, mean $mu_i$ will be written as $\mu_i = E_i \theta_i$, where $E_i$
+is the *expected* number of cases and $\theta_i$ the relative risk in county $i$.
 
-The relative risk $\theta_i$ is often modeled, in the log-scale, to be equal to a linear predictor:
+The relative risk $\theta_i$ is often modelled, on the log-scale, to be equal
+to a linear predictor:
 
 $$
 \log(\theta_i) = \beta_0 + \ldots
 $$
 
-The expeted number of cases is computed by multiplying th numbero of births in county $i$ to the overall mortality rate
+The expected number of cases is computed by multiplying the number of births in
+county $i$ to the overall mortality rate
 
 $$
 r = \frac{\sum_{i=1}^{100}}{\sum_{i=1}^{100}B_i}
@@ -166,7 +189,8 @@ r74 <- sum(nc.sids$SID74) / sum(nc.sids$BIR74)
 nc.sids$EXP74 <- r74 * nc.sids$BIR74
 ```
 
-A common measure of realtive risk is the *standarised mortality ratio* ($O_i / E_i$):
+A common measure of relative risk is the *standardised mortality ratio*
+($O_i / E_i$):
 
 ```{r}
 nc.sids$SMR74 <- nc.sids$SID74 / nc.sids$EXP74
@@ -178,16 +202,18 @@ A summary of the SMR can be obtained:
 hist(nc.sids$SMR, xlab = "SMR")
 ```
 
-Values above 1 indicate that the county has more observed deaths than expected and that there might be an increased risk in the area.
+Values above 1 indicate that the county has more observed deaths than expected
+and that there might be an increased risk in the area.
 
 
-As a covariate, we will compute the proportion on non-white births:
+As a covariate, we will compute the proportion of non-white births:
 
 ```{r}
 nc.sids$NWPROP74 <- nc.sids$NWBIR74/ nc.sids$BIR74
 ```
 
-There is a clear relationship between the SMR and the proportion of non-white births in a county:
+There is a clear relationship between the SMR and the proportion of non-white
+births in a county:
 
 ```{r fig = TRUE}
 plot(nc.sids$NWPROP74, nc.sids$SMR74)
@@ -209,13 +235,14 @@ m1nc <- inla(
 summary(m1nc)
 ```
 
-Random effects could be included to account for intrinsic differences in the counties:
+Random effects can also be included to account for intrinsic differences between
+the counties:
 
 ```{r}
 # Index for random effects
 nc.sids$ID <- 1:nrow(nc.sids)
 
-# Model WITHOUT covariate
+# Model WITH covariate
 m2nc <- inla(
   SID74 ~  1 + NWPROP74 + f(ID, model = "iid"),
   family = "poisson",
@@ -241,7 +268,10 @@ m3nc <- inla(
 summary(m3nc)
 ```
 
-Now, notice the decrease in the estimate of the precision of the random effects (i.e., the variance increases). This means that values of the random effects are now larger than in the previous case as the random effects pick some of the effect explained by the covariate.
+Now, notice the decrease in the estimate of the precision of the random effects
+(i.e., the variance increases). This means that values of the random effects
+are now larger than in the previous case as the random effects pick some of the
+effect explained by the covariate.
 
 
 ```{r fig = TRUE}
@@ -252,4 +282,10 @@ boxplot(m3nc$summary.random$ID$mean, ylim = c(-1, 1), main = "Without NWPROP74")
 
 # Further Extensions
 
-Spatial random effects can be defined not to be independent and indentically distributed. Instead, spatial or temporal correlation can be considered when defining them. For example, in the North Carolina SIDS dataset, it is common to consider that two counties that are neighbours (i.e., share a boundary) will have similar relative risks. This can be taken into account in the model byt assuming that the random effects are spatially autocorrelated. This is out of the scope of the introductory course but feel free to ask around about this!!
+Spatial random effects can be defined not to be independent and identically
+distributed. Instead, spatial or temporal correlation can be considered when
+defining them. For example, in the North Carolina SIDS data set, it is common
+to consider that two counties that are neighbours (i.e., share a boundary)
+will have similar relative risks. This can be taken into account in the model
+but assuming that the random effects are spatially autocorrelated. This is out
+of the scope of this introductory course but feel free to ask about this!!
