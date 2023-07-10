@@ -128,11 +128,12 @@ self-explanatory. The three explanatory variables are:
 In the exercise to follow, we will examine whether the chance of an article
 being fake news is related to the three covariates here.
 
-## Fitting Bayesian Logistic Regression Models in BayesX
+## Fitting Bayesian Logistic Regression Models
 
 `BayesX` makes inference via MCMC, via the `R2BayesX` package which as noted 
 maked the syntax for model fitting very similar to that for fitting
-non-Bayesian models using `glm()` in R.
+non-Bayesian models using `glm()` in R. If you do not yet have it installed,
+you can install it in the usual way from CRAN.
 
 The package must be loaded into R:
 ```{r}
@@ -147,6 +148,22 @@ model1 <- bayesx(formula = y ~ x1 + x2 + x3,
                  data = data.set,
                  family = "binomial")
 ```
+
+Alternatively, we can obtain a Bayesian model fit without using MCMC with the
+INLA software, implemented in R via the `INLA` package. If you do not have this
+package installed already, as it is not on CRAN you will need to install it via
+
+```{r eval=FALSE}
+install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+```
+
+After this, the package can be loaded into R:
+```{r}
+library(INLA)
+```
+
+
+## Model Fitting
 
 Note that the variable `title_has_excl` will need to be either replaced by or
 converted to a factor, for example
@@ -169,7 +186,8 @@ fakenews$typeFAKE <- fakenews$type == "fake"
 
 * Perform an exploratory assessment of the fake news data set, in particular
 looking at the possible relationships between the explanatory variables
-and the fake/real response variable `typeFAKE`.
+and the fake/real response variable `typeFAKE`. You may wish to use the R 
+function `boxplot()` here.
 
     <details><summary>Solution</summary>
     
@@ -212,8 +230,6 @@ achieved?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE, fig.width = 5, fig.height = 10}
-    # An overall plot of sample traces and density estimates
-   # plot(samples(bayesx.output))
     # Traces can be obtained separately
     plot(bayesx.output,which = "coef-samples")
     ```
@@ -226,6 +242,26 @@ achieved?
     plot(density(samples(bayesx.output)[,"negative"]),main="Negative")
     ```
     
+    </details>
+    
+* Fit the Bayesian model without MCMC using `INLA`; note that the summary output
+provides credible intervals for each parameter to help us make inference.
+Also, in INLA a Binomial response needs to be entered as type integer, so we
+need another conversion:
+    ```{r}
+    fakenews$typeFAKE.int <- as.integer(fakenews$typeFAKE)
+    ```
+    
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    # Fit model - note similarity with bayesx syntax
+    inla.output <- inla(formula = typeFAKE.int ~ titlehasexcl + title_words + negative,
+      data = fakenews,
+      family = "binomial")
+    # Summarise output
+    summary(inla.output)
+    ```
     </details>
 
 * Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
@@ -262,8 +298,8 @@ assuming the log link function and with linear predictor $\eta_{i}$.
 
 ## Example: Emergency Room Complaints
 
-For this example we will use the `esdcomp` dataset, which is available in the
-`faraway` package. This dataset records complaints about emergency room
+For this example we will use the `esdcomp` data set, which is available in the
+`faraway` package. This data set records complaints about emergency room
 doctors.  In particular, data was recorded on 44 doctors working in an
 emergency service at a hospital to study the factors affecting the number of
 complaints received.
@@ -293,17 +329,19 @@ the whole package:
 esdcomp <- faraway::esdcomp    
 ```
 
-## Fitting Bayesian Poisson Regression Models in BayesX
+## Fitting Bayesian Poisson Regression Models
 
-Again we use `BayesX` to fit this form of Bayesian generalised linear model.
+Again we can use `BayesX` and `INLA` to fit this form of Bayesian generalised
+linear model.
 
-If not loaded already, the package must be loaded into R:
+If not loaded already, the packages must be loaded into R:
 ```{r echo=FALSE}
 library(R2BayesX)
+library(INLA)
 ```
 
-The syntax for fitting a Bayesian Poisson Regression Model with one response
-variable, three explanatory variables and an offset will be like so:
+In BayesX, the syntax for fitting a Bayesian Poisson Regression Model with one
+response variable, three explanatory variables and an offset will be like so:
 
 ```{r eval=FALSE}
 model1 <- bayesx(formula = y~x1+x2+x3+offset(w),
@@ -311,7 +349,7 @@ model1 <- bayesx(formula = y~x1+x2+x3+offset(w),
                  family="poisson")
 ```
 
-However, as noted above we need to include an offset in this analysis; since
+As noted above we need to include an offset in this analysis; since
 for a Poisson GLM we will be using a log() link function by default, we must
 compute the log of the number of visits and include that in the data set
 `esdcomp`:
@@ -386,6 +424,22 @@ achieved?
     plot(density(samples(bayesx.output)[, "residencyY"]), main = "Residency")
     plot(density(samples(bayesx.output)[, "genderM"]), main = "Gender")
     plot(density(samples(bayesx.output)[, "revenue"]), main = "Revenue")
+    ```
+    
+    </details>
+    
+* Fit the Bayesian model without MCMC using `INLA`; note that the summary output
+provides credible intervals for each parameter to help us make inference.
+
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    # Fit model - note similarity with bayesx syntax
+    inla.output <- inla(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
+      data = esdcomp,
+      family = "poisson")
+    # Summarise output
+    summary(inla.output)
     ```
     
     </details>
