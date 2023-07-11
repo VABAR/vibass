@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.38</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.39</span>
       </span>
     </div>
 
@@ -185,11 +185,11 @@ from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org
 </h3>
 <p>To summarise the model formulation presented in the lecture, given a
 response variable <span class="math inline">\(Y_i\)</span> representing
-the count of a number of successes from a given number of trials <span class="math inline">\(n\)</span> with success probabliity <span class="math inline">\(\theta_i\)</span>, we have</p>
+the count of a number of successes from a given number of trials <span class="math inline">\(n_i\)</span> with success probability <span class="math inline">\(\theta_i\)</span>, we have</p>
 <ul>
 <li>
 <span class="math inline">\((Y_i \mid \boldsymbol \theta_i)
-\sim\mbox{Bi}(n, \theta_i),\,\, i.i.d.\,\,, i=1, \ldots, n\)</span>
+\sim\mbox{Bi}(n_i, \theta_i),\,\, i.i.d.\,\,, i=1, \ldots, m\)</span>
 <span class="math display">\[\begin{align*}
 \mbox{logit}(\theta_i) &amp; =\eta_i \nonumber\\
 \eta_{i} &amp; =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol
@@ -230,7 +230,7 @@ article being fake news is related to the three covariates here.</p>
 <h3 id="fitting-bayesian-logistic-regression-models">Fitting Bayesian Logistic Regression Models<a class="anchor" aria-label="anchor" href="#fitting-bayesian-logistic-regression-models"></a>
 </h3>
 <p><code>BayesX</code> makes inference via MCMC, via the
-<code>R2BayesX</code> package which as noted maked the syntax for model
+<code>R2BayesX</code> package which as noted makes the syntax for model
 fitting very similar to that for fitting non-Bayesian models using
 <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> in R. If you do not yet have it installed, you can
 install it in the usual way from CRAN.</p>
@@ -339,19 +339,19 @@ probability of an article being fake or not?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                     Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -2.9928  0.7998 -4.6481 -2.9618 -1.5287</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  2.7462  0.8868  1.1533  2.6656  4.6322</span></span>
-<span><span class="co">#&gt; title_words       0.1176  0.0583 -0.0025  0.1192  0.2301</span></span>
-<span><span class="co">#&gt; negative          0.3165  0.1553  0.0239  0.3111  0.6061</span></span>
+<span><span class="co">#&gt; (Intercept)      -3.0319  0.7847 -4.6604 -3.0317 -1.5927</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  2.6565  0.8187  1.0982  2.6022  4.4051</span></span>
+<span><span class="co">#&gt; title_words       0.1169  0.0612  0.0048  0.1140  0.2425</span></span>
+<span><span class="co">#&gt; negative          0.3310  0.1598  0.0299  0.3274  0.6447</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 150  burnin = 5000  method = MCMC  family = binomial  </span></span>
 <span><span class="co">#&gt; iterations = 15000  step = 10</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                           2.5%      97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -4.6476422500 -1.5330325</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  1.1561330000  4.6132210</span></span>
-<span><span class="co">#&gt; title_words      -0.0005141978  0.2288654</span></span>
-<span><span class="co">#&gt; negative          0.0244105200  0.6056474</span></span></code></pre></div>
+<span><span class="co">#&gt;                          2.5%      97.5%</span></span>
+<span><span class="co">#&gt; (Intercept)      -4.653443750 -1.5948368</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  1.100110750  4.3633472</span></span>
+<span><span class="co">#&gt; title_words       0.004964578  0.2421420</span></span>
+<span><span class="co">#&gt; negative          0.030322488  0.6441158</span></span></code></pre></div>
 </details>
 </li>
 <li>
@@ -407,7 +407,7 @@ entered as type integer, so we need another conversion:</p>
 <span><span class="co">#&gt;    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">#&gt;    .parent.frame)") </span></span>
 <span><span class="co">#&gt; Time used:</span></span>
-<span><span class="co">#&gt;     Pre = 9.12, Running = 11.6, Post = 0.0252, Total = 20.7 </span></span>
+<span><span class="co">#&gt;     Pre = 3.93, Running = 7.05, Post = 0.0249, Total = 11 </span></span>
 <span><span class="co">#&gt; Fixed effects:</span></span>
 <span><span class="co">#&gt;                    mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">#&gt; (Intercept)      -3.016 0.761     -4.507   -3.016     -1.525 -3.016   0</span></span>
@@ -599,10 +599,10 @@ complaints?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept) -0.3731  0.6791 -1.7282 -0.3505  0.9291</span></span>
-<span><span class="co">#&gt; residencyY  -0.5553  0.1882 -0.9148 -0.5537 -0.1935</span></span>
-<span><span class="co">#&gt; genderM      0.1477  0.2087 -0.2639  0.1405  0.5699</span></span>
-<span><span class="co">#&gt; revenue      0.0064  0.0027  0.0011  0.0064  0.0116</span></span>
+<span><span class="co">#&gt; (Intercept) -0.3996  0.6823 -1.7347 -0.3918  1.0102</span></span>
+<span><span class="co">#&gt; residencyY  -0.5555  0.1824 -0.9017 -0.5488 -0.1915</span></span>
+<span><span class="co">#&gt; genderM      0.1638  0.2174 -0.2452  0.1564  0.6044</span></span>
+<span><span class="co">#&gt; revenue      0.0064  0.0027  0.0008  0.0065  0.0117</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 44  burnin = 2000  method = MCMC  family = poisson  </span></span>
 <span><span class="co">#&gt; iterations = 12000  step = 10</span></span></code></pre></div>
@@ -660,7 +660,7 @@ to help us make inference.</p>
 <span><span class="co">#&gt;    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">#&gt;    .parent.frame)") </span></span>
 <span><span class="co">#&gt; Time used:</span></span>
-<span><span class="co">#&gt;     Pre = 12.8, Running = 1.22, Post = 0.0173, Total = 14 </span></span>
+<span><span class="co">#&gt;     Pre = 3.81, Running = 0.59, Post = 0.0168, Total = 4.42 </span></span>
 <span><span class="co">#&gt; Fixed effects:</span></span>
 <span><span class="co">#&gt;               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">#&gt; (Intercept) -7.171 0.688     -8.520   -7.171     -5.822 -7.171   0</span></span>
