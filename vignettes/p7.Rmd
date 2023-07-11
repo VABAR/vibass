@@ -162,7 +162,7 @@ $$
 O_i \mid \mu_i \sim Po(\mu_i),\ i=1,\ldots, 100
 $$
 Here, $O_i$ represents the number of cases in county $i$ and $\mu_i$ the mean.
-In addition, mean $mu_i$ will be written as $\mu_i = E_i \theta_i$, where $E_i$
+In addition, mean $\mu_i$ will be written as $\mu_i = E_i \theta_i$, where $E_i$
 is the *expected* number of cases and $\theta_i$ the relative risk in county $i$.
 
 The relative risk $\theta_i$ is often modelled, on the log-scale, to be equal
@@ -176,7 +176,7 @@ The expected number of cases is computed by multiplying the number of births in
 county $i$ to the overall mortality rate
 
 $$
-r = \frac{\sum_{i=1}^{100}}{\sum_{i=1}^{100}B_i}
+r = \frac{\sum_{i=1}^{100}O_i}{\sum_{i=1}^{100}B_i}
 $$
 where $B_i$ represents the total number of births in country $i$. Hence,
 the expected number of cases in county $i$ is $E_i = r B_i$.
