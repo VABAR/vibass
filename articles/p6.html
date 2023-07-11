@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.39</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.40</span>
       </span>
     </div>
 
@@ -339,19 +339,19 @@ probability of an article being fake or not?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                     Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -3.0319  0.7847 -4.6604 -3.0317 -1.5927</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  2.6565  0.8187  1.0982  2.6022  4.4051</span></span>
-<span><span class="co">#&gt; title_words       0.1169  0.0612  0.0048  0.1140  0.2425</span></span>
-<span><span class="co">#&gt; negative          0.3310  0.1598  0.0299  0.3274  0.6447</span></span>
+<span><span class="co">#&gt; (Intercept)      -2.9970  0.7826 -4.5170 -2.9783 -1.4787</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  2.7250  0.8611  1.2617  2.6259  4.5855</span></span>
+<span><span class="co">#&gt; title_words       0.1132  0.0602 -0.0026  0.1133  0.2315</span></span>
+<span><span class="co">#&gt; negative          0.3283  0.1592  0.0249  0.3238  0.6496</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 150  burnin = 5000  method = MCMC  family = binomial  </span></span>
 <span><span class="co">#&gt; iterations = 15000  step = 10</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                          2.5%      97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -4.653443750 -1.5948368</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  1.100110750  4.3633472</span></span>
-<span><span class="co">#&gt; title_words       0.004964578  0.2421420</span></span>
-<span><span class="co">#&gt; negative          0.030322488  0.6441158</span></span></code></pre></div>
+<span><span class="co">#&gt; (Intercept)      -4.506552500 -1.4788143</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  1.261901000  4.5792860</span></span>
+<span><span class="co">#&gt; title_words      -0.002144448  0.2312184</span></span>
+<span><span class="co">#&gt; negative          0.025499198  0.6494650</span></span></code></pre></div>
 </details>
 </li>
 <li>
@@ -407,7 +407,7 @@ entered as type integer, so we need another conversion:</p>
 <span><span class="co">#&gt;    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">#&gt;    .parent.frame)") </span></span>
 <span><span class="co">#&gt; Time used:</span></span>
-<span><span class="co">#&gt;     Pre = 3.93, Running = 7.05, Post = 0.0249, Total = 11 </span></span>
+<span><span class="co">#&gt;     Pre = 4.19, Running = 7.94, Post = 0.0258, Total = 12.2 </span></span>
 <span><span class="co">#&gt; Fixed effects:</span></span>
 <span><span class="co">#&gt;                    mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">#&gt; (Intercept)      -3.016 0.761     -4.507   -3.016     -1.525 -3.016   0</span></span>
@@ -599,10 +599,10 @@ complaints?</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept) -0.3996  0.6823 -1.7347 -0.3918  1.0102</span></span>
-<span><span class="co">#&gt; residencyY  -0.5555  0.1824 -0.9017 -0.5488 -0.1915</span></span>
-<span><span class="co">#&gt; genderM      0.1638  0.2174 -0.2452  0.1564  0.6044</span></span>
-<span><span class="co">#&gt; revenue      0.0064  0.0027  0.0008  0.0065  0.0117</span></span>
+<span><span class="co">#&gt; (Intercept) -0.4030  0.6855 -1.7370 -0.3962  0.9549</span></span>
+<span><span class="co">#&gt; residencyY  -0.5626  0.1890 -0.9346 -0.5606 -0.1851</span></span>
+<span><span class="co">#&gt; genderM      0.1427  0.2121 -0.2665  0.1388  0.5748</span></span>
+<span><span class="co">#&gt; revenue      0.0065  0.0027  0.0011  0.0065  0.0119</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 44  burnin = 2000  method = MCMC  family = poisson  </span></span>
 <span><span class="co">#&gt; iterations = 12000  step = 10</span></span></code></pre></div>
@@ -660,7 +660,7 @@ to help us make inference.</p>
 <span><span class="co">#&gt;    = inla.mode, safe = FALSE, debug = debug, ", " .parent.frame = </span></span>
 <span><span class="co">#&gt;    .parent.frame)") </span></span>
 <span><span class="co">#&gt; Time used:</span></span>
-<span><span class="co">#&gt;     Pre = 3.81, Running = 0.59, Post = 0.0168, Total = 4.42 </span></span>
+<span><span class="co">#&gt;     Pre = 3.94, Running = 0.568, Post = 0.0168, Total = 4.52 </span></span>
 <span><span class="co">#&gt; Fixed effects:</span></span>
 <span><span class="co">#&gt;               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">#&gt; (Intercept) -7.171 0.688     -8.520   -7.171     -5.822 -7.171   0</span></span>
