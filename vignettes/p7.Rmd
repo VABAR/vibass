@@ -22,12 +22,12 @@ convenient tool to define models so that the different sources of variation in
 the data are clearly identified. Bayesian inference for highly structured
 hierarchical models can be difficult and may require the use of Markov chain
 Monte Carlo methods. However, packages such as `BayesX` and `INLA`, to mention
-just two, provide a very convenient way to fit and make inference about certain
-types of Bayesian hierarchical models.
+just two, provide a very convenient way to fit and make inference about complex
+Bayesian hierarchical models.
 
-Regarding software, we will use `INLA` to fit the models in the examples from
-this point on. The reason is that it is a popular software for Bayesian
-inference and very fast.
+Regarding software, we will use `MCMCpack` to fit the models in the fairly
+straightforward examples in this Practical - more complex models would require
+another package.
 
 # Linear Mixed Models
 
@@ -75,13 +75,21 @@ summary(nlschools)
 
 The model to fit will take `lang` as the response variable and include
 `IQ`, `GS`, `SES` and `COMB` as covariates (i.e., fixed effects). This model
-can easily be fit with `INLA` as follows:
+can easily be fitted with `MCMCregress` as follows:
 
 ```{r message = FALSE, warning = FALSE}
-library("INLA")
-m1 <- inla(lang ~ IQ + GS +  SES + COMB, data = nlschools)
-
-summary(m1)
+library(MCMCpack)
+burnin <- 5000
+mcmc <- 10000
+thin <- 10
+results1 <- MCMCregress(formula = lang ~ IQ + GS +  SES + COMB,
+                  data = nlschools,
+                  b0 = 0, B0 = 0.0001,
+                  c0 = 2, d0 = 2, # Because the prior is Ga(c0/2,d0/2),
+                  beta.start = c(1,1),
+                  burnin=burnin, mcmc=mcmc, thin=thin,
+                  verbose=1000)
+summary(results1)
 ```
 
 Note that the previous model only includes fixed effects. The data set includes
@@ -89,13 +97,13 @@ Note that the previous model only includes fixed effects. The data set includes
 impact on the performance of the students, with students in the same class
 performing similarly in the language test.
 
-Very conveniently, `INLA` can include random effects in the model by adding a
-term in the right hand side of the formula that defined the model. Specifically, 
-the term to add is `f(class, model = "iid")` (see code below for the
-full model).
-This will create a random effect indexed over variable `class` and which is of
-type `iid`, i.e., the random effects are independent and identically distributed
-using a normal distribution with zero mean and precision $\tau$.
+Very conveniently, the function `MCMChregress` in `MCMCpack"
+can include random effects in the model. The argument `group` takes the name
+of the grouping variable (in quotes). The fixed effects are written as a 
+standard model formula using the argument `fixed`, while the argument `random`
+(as you might expect!) contains the random effects model formula, this time
+using a one-sided formula (as the response variable was already declared
+in the fixed model formula). This is best illustrated via example, as below.
 
 Before fitting the model, the between-class variability can be explored by
 means of boxplots:
@@ -104,17 +112,123 @@ means of boxplots:
 boxplot(lang ~ class, data = nlschools, las = 2)
 ```
 
-The code to fit the model with random effects is:
+The we wish to use has a random effect indexed over grouping variable
+`class` and random effects which are independent and identically distributed
+using a normal distribution with zero mean and precision $\tau_\phi$.
+The function `MCMChregress()` places a Wishart prior on $\tau_\phi$,
+but studying this is beyond the scope of this course. For our purposes,
+we would like a vague prior for this quantity (similar to the Uniform prior
+placed on $\sigma_\phi$ in the lectures), and this equates to placing an
+Inverse Wishart prior on $\sigma^2_\phi$. We use a IW(1,1) prior here, to
+give the most uninformative prior (via arguments $r$ and $R$ to
+`MCMChregress()`).
+
+The normal priors for the fixed effect regression parameters have means set
+by `mubeta` and variances by `Vbeta`; we use fixed values of 0 for each mean
+and 0.000001 for each variance.
+
+Note that in `MCMChregress()`, the argument `verbose` only takes the values `0`
+and `1`, representing a switch where a progress bar is shown if the value `1`
+is chosen.
+
+The code to fit the model with a single random effect allowing for a different
+mean level per group is:
 
 ```{r}
-m2 <- inla(
-  lang ~ IQ + GS +  SES + COMB + f(class, model = "iid"),
-  data = nlschools
+results2 <- MCMChregress(
+  fixed = lang ~ IQ + GS +  SES + COMB,
+  random = ~ 1,
+  group = "class",
+  data = nlschools,
+  #burnin=1000, mcmc=10000, thin=1, verbose=1,
+  burnin=100, mcmc=1000, thin=1, verbose=1,
+  #beta.start=0, sigma2.start=1, # Starting values for 
+  mubeta=0, Vbeta=1.0E6, # Mean and variance of prior distributions for each random effect
+  r=1, R=1 # To give an uninformative prior on sigma_phi
 )
 
-summary(m2)
 ```
 
+If we look at
+```{r}
+summary(results2)
+```
+all we see is a brief description of the stucture of the MCMC output contained
+within `results2`. This means that to look at the results, we need to do a 
+little more work.
+
+There are two objects in `results2`; `mcmc` contains the MCMC simulations, and
+`Y.pred` contains predictions for the response variable, `lang` in this
+example.
+
+Doing
+```{r}
+summary(results2$mcmc)
+```
+gives summary statistics for *everything* in the model - including all of the
+random effects. Most often we want to study the fixed effects; we can select
+*only* those terms using the somewhat clunky but powerful code below,.
+making use of `grepl`, a function for matching regular expressions:
+```{r}
+summary(results2$mcmc[ , grepl("beta", colnames(results2$mcmc), fixed=TRUE)])
+```
+We are also interested in the variance terms for the random effects and for
+the residuals - the relative sizes of these in informative on whether there is
+more variability within the groups or between the groups.
+
+For the residual variance, we use
+```{r}
+summary(results2$mcmc[ , grepl("sigma2", colnames(results2$mcmc), fixed=TRUE)])
+```
+and for the random effects variance, we use
+```{r}
+summary(results2$mcmc[ , grepl("VCOV", colnames(results2$mcmc), fixed=TRUE)])
+```
+The random effect variance term looks more complicated because for more
+complex models (with more than a single random effect term) it will be a matrix.
+
+In this example, we can see that the random effect variance is much larger than
+the residual variance, suggesting that there is more variability between the
+groups than within the groups.
+
+Finally, we can study some trace plots and some density plots.
+
+```{r fig = TRUE, fig.width = 7, fig.height = 9}
+    par(mfrow=c(3,2))
+    ts.plot(results2$mcmc[,"beta.(Intercept)"], ylab = "beta.Intercept", xlab = "Iteration")
+    ts.plot(results2$mcmc[,"beta.IQ"], ylab = "beta.IQ", xlab = "Iteration")
+    ts.plot(results2$mcmc[,"beta.GS"], ylab = "beta.GS", xlab = "Iteration")
+    ts.plot(results2$mcmc[,"beta.SES"], ylab = "beta.SES", xlab = "Iteration")
+    ts.plot(results2$mcmc[,"beta.COMB1"], ylab = "beta.COMB1", xlab = "Iteration")
+```
+
+```{r fig = TRUE, fig.width = 7, fig.height = 9}
+    par(mfrow=c(3,2))
+    ts.plot(results2$mcmc[,"VCV.(Intercept).(Intercept)"], ylab = "RE Variance", xlab = "Iteration")
+    ts.plot(results2$mcmc[,"sigma2"], ylab = "Residual Variance", xlab = "Iteration")
+```
+
+```{r fig = TRUE, fig.width = 7, fig.height = 9}
+    par(mfrow=c(3,2))
+    plot(density(results2$mcmc[,"beta.(Intercept)"], bw = 5),
+         main = "Posterior density for beta.Intercept")
+    plot(density(results2$mcmc[,"beta.IQ"], bw = 0.2),
+         main = "Posterior density for beta.IQ")
+    plot(density(results2$mcmc[,"beta.GS"], bw = 0.75),
+         main = "Posterior density for beta.GS")
+    plot(density(results2$mcmc[,"beta.SES"], bw = 0.2),
+         main = "Posterior density for beta.SES")
+    plot(density(results2$mcmc[,"beta.COMB1"], bw = 5),
+         main = "Posterior density for beta.COMB1")
+```
+
+```{r fig = TRUE, fig.width = 7, fig.height = 9}
+    par(mfrow=c(3,2))
+    plot(density(results2$mcmc[,"VCV.(Intercept).(Intercept)"], bw = 0.5),
+         main = "Posterior density for RE Variance")
+    plot(density(results2$mcmc[,"sigma2"], bw = 0.5),
+         main = "Posterior density for Residual Variance")
+```
 
 # Generalised Linear Mixed Models
 
@@ -226,6 +340,7 @@ cor(nc.sids$NWPROP74, nc.sids$SMR74)
 A simple Poisson regression can be fit by using the following code:
 
 ```{r}
+library(INLA)
 m1nc <- inla(
   SID74 ~ 1 + NWPROP74,
   family = "poisson",
