@@ -526,8 +526,9 @@ to see the help page for MCMCregress. We specify the formula just as we would
 for a non-Bayesian regression using the lm function in Base R. Conjugate priors
 are used, with Normal priors for the regression parameters $\beta$ (with means
 in `b0` and precisions in `B0`) and an inverse Gamma prior for the residual
-variance $\sigma^2$.
-The hyperparameters for the prior for $\sigma^2$ can either be set
+variance $\sigma^2$; the latter is equivalent to a Gamma prior for the
+residual precision $\tau$.
+The parameters for the prior for $\tau$ can either be set
 as the shape and scale parameters of the Gamma distribution
 (`c0/2` and `d0/2` respectively) or as the mean and variance
 (`sigma.mu` and `sigma.var`). 

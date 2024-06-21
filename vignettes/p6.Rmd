@@ -34,56 +34,49 @@ In general, posterior distributions are seldom available in closed form and
 implementing MCMC algorithms for complex models can be technically difficult
 and very time-consuming.
 
-For this reason, in this Practical we start by looking at a number of `R`
-packages to fit Bayesian statistical models. These packages will equip us
-with tools which can be used to deal with more complex models efficiently,
-without us having to do a lot of extra coding ourselves. Fitting Bayesian
-models in `R` will then be much like fitting non-Bayesian models, using
+For this reason, in this Practical we start by listing a number of `R`
+packages to fit Bayesian statistical models. These packages equip researchers
+with tools for dealing with complex models efficiently,
+without having to do a lot of extra mathematics and coding. Fitting Bayesian
+models in `R` is then much like fitting non-Bayesian models, using
 model-fitting functions at the command line, and using standard syntax for
 model specification.
 
-## BayesX and INLA
+## Specific Software
 
-In particular, the following two software packages will be considered:
-
-* `BayesX`
-
-* `INLA`
-
-`BayesX` (http://www.bayesx.org/) implements MCMC methods to obtain samples
+* We have already seen package `MCMCpack` in R, which contains functions
+such as `MCMClogit()`, `MCMCPoisson()` and `MCMCprobit()` for fitting
+specific kinds of models via simple function calls.
+* `BayesX` (http://www.bayesx.org/) implements MCMC methods to obtain samples
 from the joint posterior and is conveniently accessed from R via the package
-`R2BayesX`.
-
-`INLA` (https://www.r-inla.org/) is based on producing (accurate)
+`R2BayesX`. It has a very simple interface to define models.
+using a `formula` (in the same way as with `glm()` and `gam()` functions).
+* `INLA` (https://www.r-inla.org/) is based on producing (accurate)
 approximations to the marginal posterior distributions of the model parameters.
 Although this can be enough most of the time, making multivariate inference
 with `INLA` can be difficult or impossible. However, in many cases this is
 not needed and `INLA` can fit some classes of models in a fraction of the
-time it takes with MCMC.
-
-Both `R2BayesX` and `INLA` have a very simple interface to define models
-using a `formula` (in the same way as with `glm()` and `gam()` functions).
-
-While `R2BayesX` can be installed from CRAN, `INLA` is not on CRAN and
-needs to be installed from a specific repository.
-
-## Other Bayesian Software
-
-* Package `MCMCpack` in R contains functions such as `MCMClogit()`, `MCMCPoisson()` and
-`MCMCprobit()` for fitting specific kinds of models.
+time it takes with MCMC.  It has a very simple interface to define models,
+although it cannot be installed directly from CRAN - instead you have a
+specific website where it can be downloaded:
+[https://www.r-inla.org/download-install](https://www.r-inla.org/download-install)
 * A classic MCMC program is `BUGS`, (Bayesian Analysis using Gibbs Sampling)
 described in Lunn et al. (2000):
 [http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml](http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml).
-BUGS can be used through graphical interfaces `WinBUGS` and `OpenBUGS`. Both of
+`BUGS` can be used through graphical interfaces `WinBUGS` and `OpenBUGS`. Both of
 these packages can be called from within R using packages `R2WinBUGS` and
-`R2OpenBUGS`.
+`R2OpenBUGS`. There also exists software called
+[`multibugs`](https://www.multibugs.org/) which is a parallel implementation of
+BUGS.
 * `JAGS`, which stands for “just another Gibbs sampler”. Can also be called from
 R using package `r2jags`.
 * The `NIMBLE` package extends `BUGS` and implements MCMC and other methods
-for Bayesian inference. You can get it from https://r-nimble.org, and is best
+for Bayesian inference. You can get it from
+[https://r-nimble.org](https://r-nimble.org), and is best
 run directly from R.
 * The `Stan` software implements Hamiltonian Monte Carlo and other methods for
-fit hierarchical Bayesian models. It is available from https://mc-stan.org.
+fitting hierarchical Bayesian models. It is available from
+[https://mc-stan.org](https://mc-stan.org).
 
 # Bayesian Logistic Regression
 
@@ -130,38 +123,24 @@ being fake news is related to the three covariates here.
 
 ## Fitting Bayesian Logistic Regression Models
 
-`BayesX` makes inference via MCMC, via the `R2BayesX` package which as noted 
-makes the syntax for model fitting very similar to that for fitting
-non-Bayesian models using `glm()` in R. If you do not yet have it installed,
-you can install it in the usual way from CRAN.
+We will analyse these data using the `MCMClogit()` function in package
+`MCMCpack`. Note that this function uses a Metropolis-Hastings algorithm to
+fit the model, rather than the Gibbs Sampler as used by `MCMCregress()`.
 
-The package must be loaded into R:
+The package must first be loaded into R:
 ```{r}
-library(R2BayesX)
+library(MCMCpack)
 ```
 
 The syntax for fitting a Bayesian Logistic Regression Model with one response
 variable and three explanatory variables will be like so:
 
 ```{r eval=FALSE}
-model1 <- bayesx(formula = y ~ x1 + x2 + x3,
-                 data = data.set,
-                 family = "binomial")
+model1 <- MCMClogit(formula = y ~ x1 + x2 + x3,
+                 data = data.set)
 ```
-
-Alternatively, we can obtain a Bayesian model fit without using MCMC with the
-INLA software, implemented in R via the `INLA` package. If you do not have this
-package installed already, as it is not on CRAN you will need to install it via
-
-```{r eval=FALSE}
-install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
-```
-
-After this, the package can be loaded into R:
-```{r}
-library(INLA)
-```
-
+with extra options for burn-in (`burnin`), MCMC samples (`mcmc`), and thinning
+(`thin`) as with `MCMCregress()`.
 
 ## Model Fitting
 
@@ -172,11 +151,11 @@ converted to a factor, for example
 fakenews$titlehasexcl <- as.factor(fakenews$title_has_excl)
 ```
 
-Functions `summary` and `confint` produce a summary (including parameter
-estimates etc) and confidence intervals for the parameters, respectively.
+Function `summary` produces a summary (including parameter
+estimates etc) for the parameters.
 
-In order to be able to obtain output plots from BayesX, it seems that we need
-to create a new version of the response variable of type logical:
+<!-- In order to be able to obtain output plots from BayesX, it seems that we need -->
+<!-- to create a new version of the response variable of type logical: -->
 
 ```{r}
 fakenews$typeFAKE <- fakenews$type == "fake"
@@ -193,16 +172,16 @@ function `boxplot()` here.
     
     ```{r fig = TRUE}
     # Is there a link between the fakeness and whether the title has an exclamation mark?
-    table(fakenews$title_has_excl, fakenews$typeFAKE)
+    table(fakenews$title_has_excl, fakenews$type)
     # For the quantitative variables, look at boxplots on fake vs real
-    boxplot(fakenews$title_words ~ fakenews$typeFAKE)
-    boxplot(fakenews$negative ~ fakenews$typeFAKE)
+    boxplot(fakenews$title_words ~ fakenews$type)
+    boxplot(fakenews$negative ~ fakenews$type)
 
     ```
     
     </details>
     
-* Fit a Bayesian model in BayesX using the fake news `typeFAKE` variable as
+* Fit a Bayesian model in MCMCpack using the fake news `typeFAKE` variable as
 response and the others as covariates. Examine the output; does the model fit
 well, and is there any evidence that any of the explanatory variables are
 associated with changes in probability of an article being fake or not?
@@ -210,15 +189,14 @@ associated with changes in probability of an article being fake or not?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    # Produce the BayesX output
-    bayesx.output <- bayesx(formula = typeFAKE ~ titlehasexcl + title_words + negative,
+    # Fit the logistic regression model
+    results1 <- MCMClogit(formula = typeFAKE ~ titlehasexcl + title_words + negative,
     data = fakenews,
-    family = "binomial",
-    method = "MCMC",
-    iter = 15000,
-    burnin = 5000)
-    summary(bayesx.output)
-    confint(bayesx.output)
+    burnin = 5000, mcmc = 15000, thin=1,
+    beta.start = NA, # uses maximum likelihood estimates as starting values
+    b0 = c(0,0,0,0), B0 = c(0.0001,0.0001,0.0001,0.0001),
+    verbose=1000)
+    summary(results1)
     ```
     
     </details>
@@ -230,38 +208,18 @@ achieved?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE, fig.width = 5, fig.height = 10}
-    # Traces can be obtained separately
-    plot(bayesx.output,which = "coef-samples")
+    # Trace plots
+    par(mfrow=c(2,2))
+    traceplot(results1)
     ```
 
     ```{r fig = TRUE} 
-    # And the density plots one-by-one
+    # And the density plots
     par(mfrow=c(2,2))
-    plot(density(samples(bayesx.output)[,"titlehasexclTRUE"]),main="Title Has Excl")
-    plot(density(samples(bayesx.output)[,"title_words"]),main="Title Words")
-    plot(density(samples(bayesx.output)[,"negative"]),main="Negative")
+    densplot(results1)
+
     ```
     
-    </details>
-    
-* Fit the Bayesian model without MCMC using `INLA`; note that the summary output
-provides credible intervals for each parameter to help us make inference.
-Also, in INLA a Binomial response needs to be entered as type integer, so we
-need another conversion:
-    ```{r}
-    fakenews$typeFAKE.int <- as.integer(fakenews$typeFAKE)
-    ```
-    
-    <details><summary>Solution</summary>
-    
-    ```{r fig = TRUE}
-    # Fit model - note similarity with bayesx syntax
-    inla.output <- inla(formula = typeFAKE.int ~ titlehasexcl + title_words + negative,
-      data = fakenews,
-      family = "binomial")
-    # Summarise output
-    summary(inla.output)
-    ```
     </details>
 
 * Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
@@ -307,8 +265,8 @@ complaints received.
 The response variable that we will use is `complaints`, an integer count of the
 number of complaints received. It is expected that the number of complaints will
 scale by the number of visits (contained in the `visits` column), so we are
-modelling the rate of complaints per visit - thus we will need to include a new
-variable `log.visits` as an offset.
+modelling the **rate** of complaints per visit - thus we will need to include
+a new variable `log.visits` as an offset.
 
 The three explanatory variables we will use in the analysis are:
 
@@ -331,38 +289,45 @@ esdcomp <- faraway::esdcomp
 
 ## Fitting Bayesian Poisson Regression Models
 
-Again we can use `BayesX` and `INLA` to fit this form of Bayesian generalised
-linear model.
+Again we can use package `MCMCpack` to fit this form of Bayesian generalised
+linear model, this time using the function `MCMCpoisson()`.
 
-If not loaded already, the packages must be loaded into R:
+If not loaded already, the package must be loaded into R:
 ```{r echo=FALSE}
-library(R2BayesX)
-library(INLA)
+library(MCMCpack)
 ```
 
-In BayesX, the syntax for fitting a Bayesian Poisson Regression Model with one
-response variable, three explanatory variables and an offset will be like so:
-
+The syntax for fitting a Bayesian Poisson Regression Model with one
+response variable, three explanatory variables and an offset `w` would be
+like so:
 ```{r eval=FALSE}
-model1 <- bayesx(formula = y~x1+x2+x3+offset(w),
-                 data = data.set,
-                 family="poisson")
+results2 <- MCMCpoisson(formula = y~x1+x2+x3+w,
+                 data = data.set)
 ```
+but we will to be careful with the prior for `w`, as noted below.
 
-As noted above we need to include an offset in this analysis; since
-for a Poisson GLM we will be using a log() link function by default, we must
-compute the log of the number of visits and include that in the data set
-`esdcomp`:
+For a Poisson GLM we will be using a log() link function by default, so for the
+offset we must compute the log of the number of visits and include that in
+the data set `esdcomp`:
 
 ```{r}
 esdcomp$log.visits <- log(esdcomp$visits)    
 ```
 
-The offset term in the model is then written
+Using an offset term in a model fitted by (non-Bayesian) `glm` in R is simpler;
+we just by add
 
 `offset(log.visits)`
 
-in the call to `bayesx`.
+in the model formula when calling `glm` (see later). However, `MCMCpoisson`
+does not allow offset terms, but there is a workaround. An offset term is
+essentially just a covariate in a model with coefficient fixed at 1, so if we
+choose a prior distribution for the $\beta$ for the offset variable
+having mean 1 and *very* high precision (so a very small variance) then we can
+effectively force the $\beta$ to be 1 (or very, very close to 1), thus
+approximating an offset term. Recall that functions in `MCMCpack` allow us to
+set priors on our $\beta$'s individually via arguments `b0` and `B0`; we can
+also use `beta.start` to set a starting value of 1 for the offset $\beta$.
 
 ## Exercises
 
@@ -385,21 +350,26 @@ another variable which is the ratio of `complaints` to `visits`.
     
     </details>
 
-* Fit a Bayesian model in BayesX using the `complaints` variable as Poisson
-response and the others as covariates. Examine the output; does the model fit
-well, and is there any evidence that any of the explanatory variables are
-associated with the rate of complaints?
+* Fit a Bayesian model using `MCMCpoisson` using the `complaints` variable as
+Poisson response and the others as covariates, and remembering the advice about
+offsets above. Examine the output; does the model fit well, and is there any
+evidence that any of the explanatory variables are associated with the rate of
+complaints?
 
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    # Fit model - note similarity with bayesx syntax
+    # Fit model
     esdcomp$log.visits <- log(esdcomp$visits)
-    bayesx.output <- bayesx(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
-      data = esdcomp,
-      family = "poisson")
+    results2 <- MCMCpoisson(formula = complaints ~ log.visits + residency + gender + revenue,
+                            data = esdcomp,
+                            burnin = 5000, mcmc = 10000, thin=10,
+                            beta.start = c(NA,1,NA,NA,NA), # uses maximum likelihood estimates as starting values when NA
+                            b0 = c(0,1,0,0,0), # offset beta - mean 1 
+                            B0 = c(0.0001,1000000,0.0001,0.0001,0.0001), # offset precision very high
+                            verbose=1000)
     # Summarise output
-    summary(bayesx.output)
+    summary(results2)
     ```
     
     </details>
@@ -411,35 +381,16 @@ achieved?
 
     <details><summary>Solution</summary>
     
-    ```{r fig = TRUE, fig.width = 5, fig.height = 10}
-    # An overall plot of sample traces and density estimates
-  #  plot(samples(bayesx.output))
+    ```{r fig = TRUE, fig.width = 7, fig.height = 9}
     # Traces can be obtained separately
-    plot(bayesx.output,which = "coef-samples")
+    par(mfrow =c(3, 2))
+    traceplot(results2)
     ```
 
-    ```{r fig = TRUE}
-    # And the density plots one-by-one
-    par(mfrow =c(2, 2))
-    plot(density(samples(bayesx.output)[, "residencyY"]), main = "Residency")
-    plot(density(samples(bayesx.output)[, "genderM"]), main = "Gender")
-    plot(density(samples(bayesx.output)[, "revenue"]), main = "Revenue")
-    ```
-    
-    </details>
-    
-* Fit the Bayesian model without MCMC using `INLA`; note that the summary output
-provides credible intervals for each parameter to help us make inference.
-
-    <details><summary>Solution</summary>
-    
-    ```{r}
-    # Fit model - note similarity with bayesx syntax
-    inla.output <- inla(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
-      data = esdcomp,
-      family = "poisson")
-    # Summarise output
-    summary(inla.output)
+    ```{r fig = TRUE, fig.width = 7, fig.height = 7}
+    # And the density plots
+    par(mfrow =c(3, 2))
+    densplot(results2)
     ```
     
     </details>
@@ -449,7 +400,7 @@ compare?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    # Fit model - note similarity with bayesx syntax
+    # Fit model - note similarity with MCMCpack syntax
     esdcomp$log.visits <- log(esdcomp$visits)
     glm.output <- glm(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
       data = esdcomp,
@@ -459,6 +410,5 @@ compare?
     # Perform ANOVA on each variable in turn
     drop1(glm.output, test = "Chisq")
     ```
-    
-    </details>
 
+    </details>

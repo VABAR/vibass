@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Valencia International Bayesian Summer School
-Version: 0.0.40
+Version: 0.0.41
 Authors@R: 
     c(person(given = "VIBASS5",
              role = c("aut")),
@@ -66,6 +66,7 @@ Suggests:
     LaplacesDemon,
     magick,
     MASS,
+    MCMCpack,
     plotly,
     rmarkdown,
     R2BayesX,
