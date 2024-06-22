@@ -3,7 +3,7 @@ Package: vibass
 Title: Valencia International Bayesian Summer School
 Version: 0.0.41
 Authors@R: 
-    c(person(given = "VIBASS5",
+    c(person(given = "VIBASS7",
              role = c("aut")),
       person(given = "Facundo",
              family = "Muñoz",
@@ -29,7 +29,8 @@ Authors@R:
              family = "Brewer",
              role = "ctb",
              email = "mark.brewer@bioss.ac.uk",
-             comment = c("Biomathematics and Statistics Scotland (BioSS)", ORCID = "0000-0001-7559-389X")),
+             comment = c("Biomathematics and Statistics Scotland (BioSS)",
+             ORCID = "0000-0001-7559-389X")),
       person(given = "Virgilio",
              family = "Gómez-Rubio",
              role = "ctb",
@@ -49,6 +50,7 @@ Imports:
     golem,
     knitr,
     magrittr,
+    MCMCpack,
     rlang,
     rstudioapi,
     shiny (>= 1.5),
@@ -66,7 +68,6 @@ Suggests:
     LaplacesDemon,
     magick,
     MASS,
-    MCMCpack,
     plotly,
     rmarkdown,
     R2BayesX,

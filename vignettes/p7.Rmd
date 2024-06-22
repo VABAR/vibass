@@ -172,6 +172,9 @@ making use of `grepl`, a function for matching regular expressions:
 ```{r}
 summary(results2$mcmc[ , grepl("beta", colnames(results2$mcmc), fixed=TRUE)])
 ```
+This works because all the names of the fixed effects (including the overall
+Intercept) contain the string `beta`.
+
 We are also interested in the variance terms for the random effects and for
 the residuals - the relative sizes of these in informative on whether there is
 more variability within the groups or between the groups.
@@ -231,6 +234,9 @@ Finally, we can study some trace plots and some density plots.
 ```
 
 # Generalised Linear Mixed Models
+
+NB: Either edit this example to introduce INLA, or find another example. A
+third possibility is to use the MCMCpack generic MH sampler.
 
 Mixed effects models can also be considered within the context of generalised 
 linear models. In this case, the linear predictor of observation $i$, $\eta_i$,
