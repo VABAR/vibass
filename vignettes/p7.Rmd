@@ -246,7 +246,6 @@ observations are not necessarily nested within groups.
 
 # Poisson regression
 
-
 In this practical we will use the North Carolina Sudden Infant Death Syndrome
 (SIDS) data set. It is available in the `spData` package and it can be loaded
 using:
@@ -319,7 +318,6 @@ hist(nc.sids$SMR, xlab = "SMR")
 Values above 1 indicate that the county has more observed deaths than expected
 and that there might be an increased risk in the area.
 
-
 As a covariate, we will compute the proportion of non-white births:
 
 ```{r}
@@ -337,7 +335,7 @@ cor(nc.sids$NWPROP74, nc.sids$SMR74)
 ```
 
 
-A simple Poisson regression can be fit by using the following code:
+A simple Poisson regression can be fitted by using the following code:
 
 ```{r}
 library(INLA)
