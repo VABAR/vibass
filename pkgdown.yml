@@ -1,8 +1,9 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   p1: p1.html
+  p10: p10.html
   p2count: p2count.html
   p2normal: p2normal.html
   p3: p3.html
@@ -10,7 +11,9 @@ articles:
   p5: p5.html
   p6: p6.html
   p7: p7.html
-last_built: 2023-07-11T13:32Z
+  p8: p8.html
+  p9: p9.html
+last_built: 2024-06-23T09:41Z
 urls:
   reference: http://vabar.es/vibass/reference
   article: http://vabar.es/vibass/articles
