@@ -3,7 +3,6 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   p1: p1.html
-  p10: p10.html
   p2count: p2count.html
   p2normal: p2normal.html
   p3: p3.html
@@ -11,9 +10,7 @@ articles:
   p5: p5.html
   p6: p6.html
   p7: p7.html
-  p8: p8.html
-  p9: p9.html
-last_built: 2024-06-23T09:56Z
+last_built: 2024-06-23T10:17Z
 urls:
   reference: http://vabar.es/vibass/reference
   article: http://vabar.es/vibass/articles
