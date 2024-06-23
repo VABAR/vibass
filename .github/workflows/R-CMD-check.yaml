@@ -68,7 +68,7 @@ jobs:
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "22.04")) |> c("apt-get install -y libudunits2-dev")')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "22.04") |> c("apt-get install -y libudunits2-dev"))')
 
       - name: Install dependencies
         run: |
