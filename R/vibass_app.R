@@ -44,7 +44,7 @@ available_apps_message <- function() {
   )
 }
 
-#' List available apps in {vibass} package.
+#' List available apps in \{vibass\} package.
 #'
 #' App codes that are available for use in [vibass_app()].
 #'

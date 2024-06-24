@@ -2,7 +2,7 @@
 % Please edit documentation in R/vibass_app.R
 \name{available_apps}
 \alias{available_apps}
-\title{List available apps in {vibass} package.}
+\title{List available apps in \{vibass\} package.}
 \usage{
 available_apps()
 }
