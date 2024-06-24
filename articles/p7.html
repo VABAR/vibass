@@ -917,6 +917,8 @@ somewhat clunky but powerful code below,. making use of
 <span><span class="co">## beta.GS           -2.04128 -0.4443 -0.02741  0.4147  1.9634</span></span>
 <span><span class="co">## beta.SES          -0.02861  0.1049  0.17252  0.2385  0.3544</span></span>
 <span><span class="co">## beta.COMB1       -26.10932 -7.2956 -1.96992  2.8135 20.9009</span></span></code></pre>
+<p>This works because all the names of the fixed effects (including the
+overall Intercept) contain the string <code>beta</code>.</p>
 <p>We are also interested in the variance terms for the random effects
 and for the residuals - the relative sizes of these in informative on
 whether there is more variability within the groups or between the
@@ -988,6 +990,9 @@ variability between the groups than within the groups.</p>
 <div class="section level2">
 <h2 id="generalised-linear-mixed-models">Generalised Linear Mixed Models<a class="anchor" aria-label="anchor" href="#generalised-linear-mixed-models"></a>
 </h2>
+<p>NB: Either edit this example to introduce INLA, or find another
+example. A third possibility is to use the MCMCpack generic MH
+sampler.</p>
 <p>Mixed effects models can also be considered within the context of
 generalised linear models. In this case, the linear predictor of
 observation <span class="math inline">\(i\)</span>, <span class="math inline">\(\eta_i\)</span>, can be defined as</p>
@@ -1098,7 +1103,7 @@ non-white births in a county:</p>
 <code class="sourceCode R"><span><span class="co"># Correlation</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.5793901</span></span></code></pre>
-<p>A simple Poisson regression can be fit by using the following
+<p>A simple Poisson regression can be fitted by using the following
 code:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">INLA</span><span class="op">)</span></span></code></pre></div>
@@ -1117,7 +1122,7 @@ code:</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.14, Running = 0.639, Post = 0.014, Total = 1.79 </span></span>
+<span><span class="co">##     Pre = 0.766, Running = 0.497, Post = 0.00989, Total = 1.27 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0</span></span>
@@ -1143,7 +1148,7 @@ differences between the counties:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.18, Running = 0.279, Post = 0.0089, Total = 1.47 </span></span>
+<span><span class="co">##     Pre = 0.954, Running = 0.217, Post = 0.00855, Total = 1.18 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.650 0.104     -0.857   -0.649     -0.446 -0.649   0</span></span>
@@ -1174,7 +1179,7 @@ it:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m3nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.11, Running = 0.268, Post = 0.00747, Total = 1.39 </span></span>
+<span><span class="co">##     Pre = 0.88, Running = 0.199, Post = 0.00705, Total = 1.09 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.029 0.063     -0.156   -0.028      0.091 -0.028   0</span></span>
@@ -1227,7 +1232,7 @@ course but feel free to ask about this!!</p>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by VIBASS5, Facundo Muñoz.</p>
+<p>Developed by VIBASS7, Facundo Muñoz.</p>
 </div>
 
 <div class="pkgdown">
