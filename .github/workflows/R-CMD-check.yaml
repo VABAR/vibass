@@ -70,7 +70,7 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "22.04"))')
           ## INLA system requirements not installed previously
-          apt-get install libudunits2-dev libgdal-dev gdal-bin libgeos-dev libproj-dev libsqlite3-dev libjpeg-dev libfribidi-dev libharfbuzz-dev libtiff-dev libgit2-dev libgsl0-dev libglu1-mesa-dev libgl1-mesa-dev
+          sudo apt-get install libudunits2-dev libgdal-dev gdal-bin libgeos-dev libproj-dev libsqlite3-dev libjpeg-dev libfribidi-dev libharfbuzz-dev libtiff-dev libgit2-dev libgsl0-dev libglu1-mesa-dev libgl1-mesa-dev
 
       - name: Install dependencies
         run: |
