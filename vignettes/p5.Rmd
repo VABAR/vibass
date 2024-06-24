@@ -517,12 +517,12 @@ The package MCMCpack should be loaded into R:
 ```{r}
 library(MCMCpack)
 ```
-For this Bayesian Linear Regression example, we will use the MCMCregress function;
-use
+For this Bayesian Linear Regression example, we will use the `MCMCregress()`
+function; use
 ```{r}
 ?MCMCregress
 ```
-to see the help page for MCMCregress. We specify the formula just as we would
+to see the help page for `MCMCregress()`. We specify the formula just as we would
 for a non-Bayesian regression using the lm function in Base R. Conjugate priors
 are used, with Normal priors for the regression parameters $\beta$ (with means
 in `b0` and precisions in `B0`) and an inverse Gamma prior for the residual
