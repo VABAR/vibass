@@ -576,15 +576,15 @@ pollution requires more oxygen to break it down).</p></li>
 <pre><code><span><span class="co">## ## (Grants SES-0350646 and SES-0350613)</span></span>
 <span><span class="co">## ##</span></span></code></pre>
 <p>For this Bayesian Linear Regression example, we will use the
-MCMCregress function; use</p>
+<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code> function; use</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">MCMCregress</span></span></code></pre></div>
-<p>to see the help page for MCMCregress. We specify the formula just as
-we would for a non-Bayesian regression using the lm function in Base R.
-Conjugate priors are used, with Normal priors for the regression
-parameters <span class="math inline">\(\beta\)</span> (with means in
-<code>b0</code> and precisions in <code>B0</code>) and an inverse Gamma
-prior for the residual variance <span class="math inline">\(\sigma^2\)</span>; the latter is equivalent to a
+<p>to see the help page for <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code>. We specify the
+formula just as we would for a non-Bayesian regression using the lm
+function in Base R. Conjugate priors are used, with Normal priors for
+the regression parameters <span class="math inline">\(\beta\)</span>
+(with means in <code>b0</code> and precisions in <code>B0</code>) and an
+inverse Gamma prior for the residual variance <span class="math inline">\(\sigma^2\)</span>; the latter is equivalent to a
 Gamma prior for the residual precision <span class="math inline">\(\tau\)</span>. The parameters for the prior for
 <span class="math inline">\(\tau\)</span> can either be set as the shape
 and scale parameters of the Gamma distribution (<code>c0/2</code> and
