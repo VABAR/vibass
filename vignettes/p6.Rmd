@@ -254,38 +254,29 @@ parameter $\lambda_i$:
 \end{align*}
 assuming the log link function and with linear predictor $\eta_{i}$.
 
-## Example: Emergency Room Complaints
+The following example considers a slightly more complex relationship.
 
-For this example we will use the `esdcomp` data set, which is available in the
-`faraway` package. This data set records complaints about emergency room
-doctors.  In particular, data was recorded on 44 doctors working in an
-emergency service at a hospital to study the factors affecting the number of
-complaints received.
+## Example: Salmonella
 
-The response variable that we will use is `complaints`, an integer count of the
-number of complaints received. It is expected that the number of complaints will
-scale by the number of visits (contained in the `visits` column), so we are
-modelling the **rate** of complaints per visit - thus we will need to include
-a new variable `log.visits` as an offset.
-
-The three explanatory variables we will use in the analysis are:
-
-* `residency`, whether or not the doctor is still in residency training (values
-`N` or `Y`);
-
-* `gender`, the gender of the doctor (values `F` or `M`); and
-
-* `revenue`, dollars per hour earned by the doctor, recorded as an integer.
-
-Our simple aim here is to assess whether the seniority, gender or income of the
-doctor is linked with the rate of complaints against that doctor.
-
-We can use the following code to extract the data we want without having to load
-the whole package:
-
+For this example we will use the `salmonella` data set, which can be read in
+via the code
 ```{r}
-esdcomp <- faraway::esdcomp    
+salmonella <- read.csv("..\\data\\salmonella.csv")
 ```
+
+This data set appeared in Breslow (1984) where Poisson methods were developed
+for analysis. The data record the number of colonies of TA98 Salmonella which
+are measured for different dosage levels of quinoline (in `mg` per plate) for
+three replicate plates for each dosage level.
+
+The number of colonies is the response variable - an integer count;
+and we are interested in the relationship between the numbers of
+Salmonella colonies and dose. Theory suggests a dose-response curve of the
+form
+$ y_i = \beta_0 + \beta_1 \log \left(x_i+10\right) + \beta_2x_i $
+
+Thus we have a single explanatory variable (dosage level) which appears twice
+in the formula to represent the curved relatioship.
 
 ## Fitting Bayesian Poisson Regression Models
 
@@ -298,75 +289,51 @@ library(MCMCpack)
 ```
 
 The syntax for fitting a Bayesian Poisson Regression Model with one
-response variable, three explanatory variables and an offset `w` would be
+response variable and two explanatory variables would be
 like so:
 ```{r eval=FALSE}
-results2 <- MCMCpoisson(formula = y~x1+x2+x3+w,
+results2 <- MCMCpoisson(formula = y~x1+x2,
                  data = data.set)
 ```
-but we will to be careful with the prior for `w`, as noted below.
+In this example, the first explanatory variable ($x_1) is $\log(x_1+10)$, and
+this will need to be calculated before fitting the model.
 
-For a Poisson GLM we will be using a log() link function by default, so for the
-offset we must compute the log of the number of visits and include that in
-the data set `esdcomp`:
-
-```{r}
-esdcomp$log.visits <- log(esdcomp$visits)    
-```
-
-Using an offset term in a model fitted by (non-Bayesian) `glm` in R is simpler;
-we just by add
-
-`offset(log.visits)`
-
-in the model formula when calling `glm` (see later). However, `MCMCpoisson`
-does not allow offset terms, but there is a workaround. An offset term is
-essentially just a covariate in a model with coefficient fixed at 1, so if we
-choose a prior distribution for the $\beta$ for the offset variable
-having mean 1 and *very* high precision (so a very small variance) then we can
-effectively force the $\beta$ to be 1 (or very, very close to 1), thus
-approximating an offset term. Recall that functions in `MCMCpack` allow us to
-set priors on our $\beta$'s individually via arguments `b0` and `B0`; we can
-also use `beta.start` to set a starting value of 1 for the offset $\beta$.
+For a Poisson GLM we will be using a log() link function by default.
 
 ## Exercises
 
-* Perform an exploratory assessment of the emergency room complaints data set,
-particularly how the response variable `complaints` varies with the proposed
-explanatory variables relative to the number of visits. To do this, create
-another variable which is the ratio of `complaints` to `visits`.
+* Perform an exploratory assessment of the salmonella data set,
+particularly how the number of Salmonella colonies varies with
+the dosage of quinoline.
 
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    # Compute the ratio
-    esdcomp$ratio <- esdcomp$complaints / esdcomp$visits
-    # Plot the link with revenue
-    plot(esdcomp$revenue,esdcomp$ratio)
-    # Use boxplots against residency and gender
-    boxplot(esdcomp$ratio ~ esdcomp$residency)
-    boxplot(esdcomp$ratio ~ esdcomp$gender)
+    # Plot the relationship between number of colonies and dose
+    plot(salmonella$Dose,salmonella$y)
     ```
     
     </details>
 
-* Fit a Bayesian model using `MCMCpoisson` using the `complaints` variable as
-Poisson response and the others as covariates, and remembering the advice about
-offsets above. Examine the output; does the model fit well, and is there any
-evidence that any of the explanatory variables are associated with the rate of
-complaints?
+* Fit a Bayesian model using `MCMCpoisson` using the `y` variable (colonies of 
+salmonella) as
+Poisson response and the dose as covariate. Examine the output; does the
+model fit well, and is there any statistical
+evidence that dosage level is associated with the number of salmonella
+colonies? In particular, do the 95% credible intervals for $\beta_1$ and
+$\beta_2$ contain zero?
 
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
     # Fit model
-    esdcomp$log.visits <- log(esdcomp$visits)
-    results2 <- MCMCpoisson(formula = complaints ~ log.visits + residency + gender + revenue,
-                            data = esdcomp,
+    salmonella$log.Dose10 <- log(salmonella$Dose+10)
+    results2 <- MCMCpoisson(formula = y ~ log.Dose10 + Dose,
+                            data = salmonella,
                             burnin = 5000, mcmc = 10000, thin=10,
-                            beta.start = c(NA,1,NA,NA,NA), # uses maximum likelihood estimates as starting values when NA
-                            b0 = c(0,1,0,0,0), # offset beta - mean 1 
-                            B0 = c(0.0001,1000000,0.0001,0.0001,0.0001), # offset precision very high
+                            beta.start = c(NA,NA,NA), # uses maximum likelihood estimates as starting values when NA
+                            b0 = c(0,1,1),
+                            B0 = c(0.0001,0.0001,0.0001),
                             verbose=1000)
     # Summarise output
     summary(results2)
@@ -383,27 +350,53 @@ achieved?
     
     ```{r fig = TRUE, fig.width = 7, fig.height = 9}
     # Traces can be obtained separately
-    par(mfrow =c(3, 2))
+    par(mfrow =c(2, 2))
     traceplot(results2)
     ```
 
     ```{r fig = TRUE, fig.width = 7, fig.height = 7}
     # And the density plots
-    par(mfrow =c(3, 2))
+    par(mfrow =c(2, 2))
     densplot(results2)
     ```
     
     </details>
 
+* Plot the curved relationship from the fitted model, showing how Salmonella
+colonies are predicted to vary with dose. Add the 95% prediction intervals;
+do the intervals look wide enough, that is, do they capture most of the data
+points?
+    <details><summary>Solution</summary>
+    
+    ```{r fig = TRUE}
+    plot(salmonella$Dose,salmonella$y,ylab="Number of colonies")
+    x.predict <- seq(0,1000,length=1001)
+    beta.0 <- summary(results2)[[1]]["(Intercept)","Mean"]
+    beta.1 <- summary(results2)[[1]]["log.Dose10","Mean"]
+    beta.2 <- summary(results2)[[1]]["Dose","Mean"]
+    y.predict <-exp(beta.0 + beta.1 * log(x.predict+10) + beta.2 * x.predict)
+    lines(x.predict,y.predict)
+    # Now let's plot the prediction intervals - here we need to use the full set of MCMC samples
+    x.pred.matrix <- as.matrix(x.predict) # Needed to use apply()
+    y.pred.matrix <- apply(x.pred.matrix,1,function(x){results2[,"(Intercept)"]+results2[,"log.Dose10"]*log(x+10)+results2[,"Dose"]*x})
+    y.predict.lower <- exp(apply(y.pred.matrix,2,function(x){quantile(x,0.025)}))
+    lines(x.predict,y.predict.lower,lty=2)
+    x.pred.matrix <- as.matrix(x.predict) # Needed to use apply()
+    y.pred.matrix <- apply(x.pred.matrix,1,function(x){results2[,"(Intercept)"]+results2[,"log.Dose10"]*log(x+10)+results2[,"Dose"]*x})
+    y.predict.upper <- exp(apply(y.pred.matrix,2,function(x){quantile(x,0.975)}))
+    lines(x.predict,y.predict.upper,lty=2)
+    ```
+
+    </details>
+    
 * Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
 compare?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
     # Fit model - note similarity with MCMCpack syntax
-    esdcomp$log.visits <- log(esdcomp$visits)
-    glm.output <- glm(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
-      data = esdcomp,
+    glm.output <- glm(formula = y ~ log.Dose10 + Dose,
+      data = salmonella,
       family = "poisson")
     # Summarise output
     summary(glm.output)
@@ -412,3 +405,7 @@ compare?
     ```
 
     </details>
+
+## Reference
+
+Breslow, N. E. (1984). Extra-Poisson Variation in Log-Linear Models. Journal of the Royal Statistical Society. Series C (Applied Statistics), 33(1), 38–44. https://doi.org/10.2307/2347661
