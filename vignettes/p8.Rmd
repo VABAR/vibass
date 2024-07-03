@@ -386,7 +386,7 @@ on the estimate of the regression intercept afterwards.
     
     </details>
 
-## INLA
+# INLA
 
 `INLA` (https://www.r-inla.org/) is based on producing (accurate)
 approximations to the marginal posterior distributions of the model parameters.
@@ -479,9 +479,10 @@ function `boxplot()` here.
 provides credible intervals for each parameter to help us make inference.
 Also, in `INLA` a Binomial response needs to be entered as type integer, so we
 need another conversion:
-```{r}
-fakenews$typeFAKE.int <- as.integer(fakenews$typeFAKE)
-```
+
+  ```{r}
+  fakenews$typeFAKE.int <- as.integer(fakenews$typeFAKE)
+  ```
 
   <details><summary>Solution</summary>
   
@@ -612,7 +613,7 @@ provides credible intervals for each parameter to help us make inference.
 * Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
 compare?
 
-<details><summary>Solution</summary>
+  <details><summary>Solution</summary>
 
   ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
