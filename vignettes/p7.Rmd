@@ -235,9 +235,6 @@ Finally, we can study some trace plots and some density plots.
 
 # Generalised Linear Mixed Models
 
-NB: Either edit this example to introduce INLA, or find another example. A
-third possibility is to use the MCMCpack generic MH sampler.
-
 Mixed effects models can also be considered within the context of generalised 
 linear models. In this case, the linear predictor of observation $i$, $\eta_i$,
 can be defined as
@@ -250,161 +247,106 @@ Compared to the previous setting of linear mixed effects models, note that now
 the distribution of the response could be other than Gaussian and that
 observations are not necessarily nested within groups.
 
-# Poisson regression
+# Poisson GLMM - overdispersion 
 
-In this practical we will use the North Carolina Sudden Infant Death Syndrome
-(SIDS) data set. It is available in the `spData` package and it can be loaded
-using:
+In the previous practical we looked at the Salmonella example with a Poisson
+GLM, and we saw evidence that a standard GLM was not adequate to describe the
+amount of variability in the data set, in terms of the number of colonies.
 
-```{r message = FALSE, warning = FALSE}
-library(spData)
-data(nc.sids)
-summary(nc.sids)
-```
+In this practical we will fit a Poisson GLMM as a mechanism for introducing
+extra variation into the model; another way of thinking of this is that we
+will be including a term in the model to deal with *overdispersion*.
 
-A full description of the data set is provided in the associated manual page
-(check with `?nc.sids`) but in this practical we will only consider these
-variables:
-
-* `BIR74`,  number of births (1974-78).
-
-* `SID74`,  number of SID deaths (1974-78).
-
-* `NWBIR74`, number of non-white births (1974-78).
-
-These variables are measured at the county level in North Carolina, of which
-there are 100.
-
-Because `SID74` records the number of SID deaths, the model is Poisson:
-
-$$
-O_i \mid \mu_i \sim Po(\mu_i),\ i=1,\ldots, 100
-$$
-Here, $O_i$ represents the number of cases in county $i$ and $\mu_i$ the mean.
-In addition, mean $\mu_i$ will be written as $\mu_i = E_i \theta_i$, where $E_i$
-is the *expected* number of cases and $\theta_i$ the relative risk in county $i$.
-
-The relative risk $\theta_i$ is often modelled, on the log-scale, to be equal
-to a linear predictor:
-
-$$
-\log(\theta_i) = \beta_0 + \ldots
-$$
-
-The expected number of cases is computed by multiplying the number of births in
-county $i$ to the overall mortality rate
-
-$$
-r = \frac{\sum_{i=1}^{100}O_i}{\sum_{i=1}^{100}B_i}
-$$
-where $B_i$ represents the total number of births in country $i$. Hence,
-the expected number of cases in county $i$ is $E_i = r B_i$.
-
-
+If you need to load the data set in again:
 ```{r}
-# Overall mortality rate
-r74 <- sum(nc.sids$SID74) / sum(nc.sids$BIR74)
-# Expected cases
-nc.sids$EXP74 <- r74 * nc.sids$BIR74
+salmonella <- read.csv("..\\data\\salmonella.csv")
 ```
 
-A common measure of relative risk is the *standardised mortality ratio*
-($O_i / E_i$):
-
-```{r}
-nc.sids$SMR74 <- nc.sids$SID74 / nc.sids$EXP74
+If not loaded already, the package must be loaded into R:
+```{r echo=FALSE}
+library(MCMCpack)
 ```
 
-A summary of the SMR can be obtained:
-
-```{r fig = TRUE}
-hist(nc.sids$SMR, xlab = "SMR")
+If not loaded already, the package must be loaded into R:
+```{r echo=FALSE}
+library(R2BayesX)
 ```
 
-Values above 1 indicate that the county has more observed deaths than expected
-and that there might be an increased risk in the area.
+A Poisson GLMM to deal with overdispersion simply has a separate random effect
+term $\lambda_i$ for each data point; hence our model becomes:
+$ y_i = \beta_0 + \beta_1 \log \left(x_i+10\right) + \beta_2x_i + \lambda_i$
+where
+$\lambda_i\sim\mbox{N}\left(0,\sigma^2)$.
 
-As a covariate, we will compute the proportion of non-white births:
+`MCMCpack` places an Inverse Wishart prior distribution on the random effect
+distribution variance term; we need to specify the variance matrix, which in
+our case will be a 1 by 1 matrix.
 
-```{r}
-nc.sids$NWPROP74 <- nc.sids$NWBIR74/ nc.sids$BIR74
-```
-
-There is a clear relationship between the SMR and the proportion of non-white
-births in a county:
-
-```{r fig = TRUE}
-plot(nc.sids$NWPROP74, nc.sids$SMR74)
-
-# Correlation
-cor(nc.sids$NWPROP74, nc.sids$SMR74)
-```
-
-
-A simple Poisson regression can be fitted by using the following code:
-
-```{r}
-library(INLA)
-m1nc <- inla(
-  SID74 ~ 1 + NWPROP74,
-  family = "poisson",
-  E = nc.sids$EXP74,
-  data = nc.sids
-)
-summary(m1nc)
-```
-
-Random effects can also be included to account for intrinsic differences between
-the counties:
-
-```{r}
+Now the model fitting:
+```{r fig=TRUE}
 # Index for random effects
-nc.sids$ID <- 1:nrow(nc.sids)
+salmonella$ID <- 1:nrow(salmonella)
+salmonella$ID
+ID <- salmonella$ID
 
-# Model WITH covariate
-m2nc <- inla(
-  SID74 ~  1 + NWPROP74 + f(ID, model = "iid"),
-  family = "poisson",
-  E = nc.sids$EXP74,
-  data = as.data.frame(nc.sids)
-)
+# Fit the model
+salmonella$logDose10 <- log(salmonella$Dose+10)
+results3 <- bayesx(y ~ logDose10 + Dose + sx(ID, bs = "re"),
+                   family="poisson", data = salmonella)
+summary(results3)
+plot(results3)
 
-summary(m2nc)
+# Fit the model
+# salmonella$log.Dose10 <- log(salmonella$Dose+10)
+# results3 <- MCMChpoisson(fixed = y ~ log.Dose10 + Dose,
+#                          random = ~ 1,
+#                          group = "ID",
+#                          data = salmonella,
+#                          burnin = 5000, mcmc = 10000, thin=10,
+#                          # beta.start = c(NA,NA,NA), # uses maximum likelihood estimates as starting values when NA
+#                          mubeta = c(0,1,1),
+#                          Vbeta = 0.0001,
+#                          R = diag(1,1),
+#                          FixOD=1, verbose=1)
+# # Summarise output
+# summary(results3)
+
 ```
 
-The role of the covariate can be explored by fitting a model without it:
+## Exercises
 
+* Use BayesX
 
-```{r}
-# Model WITHOUT covariate
-m3nc <- inla(
-  SID74 ~  1 + f(ID, model = "iid"),
-  family = "poisson",
-  E = nc.sids$EXP74,
-  data = as.data.frame(nc.sids)
-)
-
-summary(m3nc)
+```{r fig = TRUE, echo=TRUE}
+    plot(salmonella$Dose,salmonella$y)#,ylab="Number of colonies")
+    x.predict <- seq(0,1000,length=1001)
+    beta.0 <- coef(results3)["(Intercept)","Mean"]
+    beta.0
+    beta.1 <- coef(results3)["logDose10","Mean"]
+    beta.2 <- coef(results3)["Dose","Mean"]
+    y.predict <- exp(beta.0 + beta.1 * log(x.predict+10) + beta.2 * x.predict)
+    lines(x.predict,y.predict)
+    # Now let's plot the prediction intervals - here we need to use the full set of MCMC samples, and add on a contribution for the random effect variance
+    beta.samples <- samples(results3) # Extract MCMC samples for the betas
+    RE.sd <- sqrt(mean(samples(results3, term = "sx(ID):re")[,"Var"])) # RE standard deviation
+    x.pred.matrix <- as.matrix(x.predict) # Needed to use apply()
+    y.pred.matrix <- apply(x.pred.matrix,1,function(x){beta.samples[,"Intercept"]+beta.samples[,"logDose10"]*log(x+10)+beta.samples[,"Dose"]*x})
+    y.predict.lower <- apply(y.pred.matrix,2,function(x){quantile(x,0.025)})
+    y.predict.lower <- exp(y.predict.lower)#-1.96*RE.sd)
+    lines(x.predict,y.predict.lower,lty=2)
+    y.predict.upper <- apply(y.pred.matrix,2,function(x){quantile(x,0.975)})
+    y.predict.upper <- exp(y.predict.upper)#+1.96*RE.sd)
+    lines(x.predict,y.predict.upper,lty=2)
 ```
 
-Now, notice the decrease in the estimate of the precision of the random effects
-(i.e., the variance increases). This means that values of the random effects
-are now larger than in the previous case as the random effects pick some of the
-effect explained by the covariate.
-
-
-```{r fig = TRUE}
-par(mfrow = c(1, 2))
-boxplot(m2nc$summary.random$ID$mean, ylim = c(-1, 1), main = "With NWPROP74")
-boxplot(m3nc$summary.random$ID$mean, ylim = c(-1, 1), main = "Without NWPROP74")
-```
 
 # Further Extensions
 
 Spatial random effects can be defined not to be independent and identically
 distributed. Instead, spatial or temporal correlation can be considered when
-defining them. For example, in the North Carolina SIDS data set, it is common
-to consider that two counties that are neighbours (i.e., share a boundary)
-will have similar relative risks. This can be taken into account in the model
+defining them. With spatial area data sets for example, it is common
+to consider that two areas that are neighbours (i.e., share a boundary)
+will have some correlation between them, This can be taken into account in
+GLMMs,
 but assuming that the random effects are spatially autocorrelated. This is out
 of the scope of this introductory course but feel free to ask about this!!

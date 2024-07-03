@@ -327,8 +327,8 @@ $\beta_2$ contain zero?
     
     ```{r fig = TRUE}
     # Fit model
-    salmonella$log.Dose10 <- log(salmonella$Dose+10)
-    results2 <- MCMCpoisson(formula = y ~ log.Dose10 + Dose,
+    salmonella$logDose10 <- log(salmonella$Dose+10)
+    results2 <- MCMCpoisson(formula = y ~ logDose10 + Dose,
                             data = salmonella,
                             burnin = 5000, mcmc = 10000, thin=10,
                             beta.start = c(NA,NA,NA), # uses maximum likelihood estimates as starting values when NA
@@ -372,17 +372,17 @@ points?
     plot(salmonella$Dose,salmonella$y,ylab="Number of colonies")
     x.predict <- seq(0,1000,length=1001)
     beta.0 <- summary(results2)[[1]]["(Intercept)","Mean"]
-    beta.1 <- summary(results2)[[1]]["log.Dose10","Mean"]
+    beta.1 <- summary(results2)[[1]]["logDose10","Mean"]
     beta.2 <- summary(results2)[[1]]["Dose","Mean"]
-    y.predict <-exp(beta.0 + beta.1 * log(x.predict+10) + beta.2 * x.predict)
+    y.predict <- exp(beta.0 + beta.1 * log(x.predict+10) + beta.2 * x.predict)
     lines(x.predict,y.predict)
     # Now let's plot the prediction intervals - here we need to use the full set of MCMC samples
     x.pred.matrix <- as.matrix(x.predict) # Needed to use apply()
-    y.pred.matrix <- apply(x.pred.matrix,1,function(x){results2[,"(Intercept)"]+results2[,"log.Dose10"]*log(x+10)+results2[,"Dose"]*x})
+    y.pred.matrix <- apply(x.pred.matrix,1,function(x){results2[,"(Intercept)"]+results2[,"logDose10"]*log(x+10)+results2[,"Dose"]*x})
     y.predict.lower <- exp(apply(y.pred.matrix,2,function(x){quantile(x,0.025)}))
     lines(x.predict,y.predict.lower,lty=2)
     x.pred.matrix <- as.matrix(x.predict) # Needed to use apply()
-    y.pred.matrix <- apply(x.pred.matrix,1,function(x){results2[,"(Intercept)"]+results2[,"log.Dose10"]*log(x+10)+results2[,"Dose"]*x})
+    y.pred.matrix <- apply(x.pred.matrix,1,function(x){results2[,"(Intercept)"]+results2[,"logDose10"]*log(x+10)+results2[,"Dose"]*x})
     y.predict.upper <- exp(apply(y.pred.matrix,2,function(x){quantile(x,0.975)}))
     lines(x.predict,y.predict.upper,lty=2)
     ```
@@ -395,7 +395,7 @@ compare?
     
     ```{r fig = TRUE}
     # Fit model - note similarity with MCMCpack syntax
-    glm.output <- glm(formula = y ~ log.Dose10 + Dose,
+    glm.output <- glm(formula = y ~ logDose10 + Dose,
       data = salmonella,
       family = "poisson")
     # Summarise output
