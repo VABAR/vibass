@@ -487,10 +487,11 @@ package, using the so-called
 "full conditional" distributions - that is, the conditional distributions
 referred to in the [Section on Gibbs Sampling](#Gibbs).
 
-We will use the R package MCMCpack to run the Gibbs Sampling here and for the
-other examples coming in this and the next two Practicals.
+We will use the R package MCMCpack to run the Gibbs Sampling for this simple
+example, although we will use more advanced software in Practicals 6 and 7 for
+more complex examples.
 
-We will study an example from ecology, looking at the relationship between water pollution and mayfly size - the data come from the book *Statistics for
+We will study an problem from ecology, looking at the relationship between water pollution and mayfly size - the data come from the book *Statistics for
 Ecologists Using R and Excel 2nd edition* by Mark Gardener (ISBN 9781784271398),
 see [the publisher's webpage](https://pelagicpublishing.com/products/statistics-for-ecologists-using-r-and-excel-gardener-2nd-edition).
 
