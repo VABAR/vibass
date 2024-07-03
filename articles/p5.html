@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.41</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.43</span>
       </span>
     </div>
 
@@ -139,13 +139,12 @@ the importance weights are <span class="math display">\[
 w(\theta^{(m)}) = \frac{L(\theta^{(m)} \mid
 \mathbf{y})\,\pi(\theta^{(m)})}
   {g(\theta^{(m)})} .
-\]</span> When the normalizing constant in the posterior distribution is
+\]</span> When the normalising constant in the posterior distribution is
 not known, the importance weights are rescaled to sum to one. Note that
 this rescaling is done by the denominator in the expression at point 2
-on slide 12/27 <strong>CHECK THIS</strong> of the Numerical Approaches
-slides you have just seen. In practice, rescaling removes the need for
-the denominator and simplifies the calculations throughout (we do it
-once, rather than every time).</p>
+on slide 9/26 of the Numerical Approaches slides you have just seen. In
+practice, rescaling removes the need for the denominator and simplifies
+the calculations throughout (we do it once, rather than every time).</p>
 <p>Hence, the posterior mean can be computed as <span class="math display">\[
 E\left(\theta \mid \mathbf{y}\right) = \mu = \int \theta\, \pi(\theta
 \mid \mathbf{y}) \mathop{d\theta}
@@ -540,9 +539,10 @@ by deriving the necessary calculations needed to run the Gibbs Sampling
 in R without using a specific package, using the so-called “full
 conditional” distributions - that is, the conditional distributions
 referred to in the <a href="#Gibbs">Section on Gibbs Sampling</a>.</p>
-<p>We will use the R package MCMCpack to run the Gibbs Sampling here and
-for the other examples coming in this and the next two Practicals.</p>
-<p>We will study an example from ecology, looking at the relationship
+<p>We will use the R package MCMCpack to run the Gibbs Sampling for this
+simple example, although we will use more advanced software in
+Practicals 6 and 7 for more complex examples.</p>
+<p>We will study an problem from ecology, looking at the relationship
 between water pollution and mayfly size - the data come from the book
 <em>Statistics for Ecologists Using R and Excel 2nd edition</em> by Mark
 Gardener (ISBN 9781784271398), see <a href="https://pelagicpublishing.com/products/statistics-for-ecologists-using-r-and-excel-gardener-2nd-edition" class="external-link">the

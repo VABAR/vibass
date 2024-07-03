@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.41</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.43</span>
       </span>
     </div>
 
@@ -118,27 +118,35 @@ from it.</p>
 <p>In general, posterior distributions are seldom available in closed
 form and implementing MCMC algorithms for complex models can be
 technically difficult and very time-consuming.</p>
-<p>For this reason, in this Practical we start by listing a number of
+<p>For this reason, in this Practical we start by looking at a number of
 <code>R</code> packages to fit Bayesian statistical models. These
-packages equip researchers with tools for dealing with complex models
-efficiently, without having to do a lot of extra mathematics and coding.
-Fitting Bayesian models in <code>R</code> is then much like fitting
-non-Bayesian models, using model-fitting functions at the command line,
-and using standard syntax for model specification.</p>
+packages will equip us with tools which can be used to deal with more
+complex models efficiently, without us having to do a lot of extra
+coding ourselves. Fitting Bayesian models in <code>R</code> will then be
+much like fitting non-Bayesian models, using model-fitting functions at
+the command line, and using standard syntax for model specification.</p>
 <div class="section level3">
-<h3 id="specific-software">Specific Software<a class="anchor" aria-label="anchor" href="#specific-software"></a>
+<h3 id="bayesx">BayesX<a class="anchor" aria-label="anchor" href="#bayesx"></a>
+</h3>
+<p>In particular, the following software package will be considered:</p>
+<ul>
+<li><code>BayesX</code></li>
+</ul>
+<p><code>BayesX</code> (<a href="http://www.bayesx.org/" class="external-link uri">http://www.bayesx.org/</a>) implements MCMC methods to
+obtain samples from the joint posterior and is conveniently accessed
+from R via the package <code>R2BayesX</code>.</p>
+<p><code>R2BayesX</code> has a very simple interface to define models
+using a <code>formula</code> (in the same way as with <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>
+and <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">gam()</a></code> functions).</p>
+<p><code>R2BayesX</code> can be installed from CRAN.</p>
+</div>
+<div class="section level3">
+<h3 id="other-bayesian-software">Other Bayesian Software<a class="anchor" aria-label="anchor" href="#other-bayesian-software"></a>
 </h3>
 <ul>
-<li>We have already seen package <code>MCMCpack</code> in R, which
-contains functions such as <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMClogit.html" class="external-link">MCMClogit()</a></code>,
-<code>MCMCPoisson()</code> and <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCprobit.html" class="external-link">MCMCprobit()</a></code> for fitting
-specific kinds of models via simple function calls.</li>
-<li>
-<code>BayesX</code> (<a href="http://www.bayesx.org/" class="external-link uri">http://www.bayesx.org/</a>) implements MCMC methods to
-obtain samples from the joint posterior and is conveniently accessed
-from R via the package <code>R2BayesX</code>. It has a very simple
-interface to define models. using a <code>formula</code> (in the same
-way as with <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> and <code>gam()</code> functions).</li>
+<li>Package <code>MCMCpack</code> in R contains functions such as
+<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMClogit.html" class="external-link">MCMClogit()</a></code>, <code>MCMCPoisson()</code> and
+<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCprobit.html" class="external-link">MCMCprobit()</a></code> for fitting specific kinds of models.</li>
 <li>
 <code>INLA</code> (<a href="https://www.r-inla.org/" class="external-link uri">https://www.r-inla.org/</a>) is based on producing
 (accurate) approximations to the marginal posterior distributions of the
@@ -152,21 +160,20 @@ have a specific website where it can be downloaded: <a href="https://www.r-inla.
 </li>
 <li>A classic MCMC program is <code>BUGS</code>, (Bayesian Analysis
 using Gibbs Sampling) described in Lunn et al. (2000): <a href="http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml" class="external-link">http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml</a>.
-<code>BUGS</code> can be used through graphical interfaces
-<code>WinBUGS</code> and <code>OpenBUGS</code>. Both of these packages
-can be called from within R using packages <code>R2WinBUGS</code> and
-<code>R2OpenBUGS</code>. There also exists software called <a href="https://www.multibugs.org/" class="external-link"><code>multibugs</code></a> which is a
-parallel implementation of BUGS.</li>
+BUGS can be used through graphical interfaces <code>WinBUGS</code> and
+<code>OpenBUGS</code>. Both of these packages can be called from within
+R using packages <code>R2WinBUGS</code> and
+<code>R2OpenBUGS</code>.</li>
 <li>
 <code>JAGS</code>, which stands for “just another Gibbs sampler”.
 Can also be called from R using package <code>r2jags</code>.</li>
 <li>The <code>NIMBLE</code> package extends <code>BUGS</code> and
 implements MCMC and other methods for Bayesian inference. You can get it
-from <a href="https://r-nimble.org" class="external-link">https://r-nimble.org</a>, and is
-best run directly from R.</li>
+from <a href="https://r-nimble.org" class="external-link uri">https://r-nimble.org</a>, and is best run directly from
+R.</li>
 <li>The <code>Stan</code> software implements Hamiltonian Monte Carlo
-and other methods for fitting hierarchical Bayesian models. It is
-available from <a href="https://mc-stan.org" class="external-link">https://mc-stan.org</a>.</li>
+and other methods for fit hierarchical Bayesian models. It is available
+from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org</a>.</li>
 </ul>
 </div>
 </div>
@@ -222,30 +229,25 @@ article being fake news is related to the three covariates here.</p>
 <div class="section level3">
 <h3 id="fitting-bayesian-logistic-regression-models">Fitting Bayesian Logistic Regression Models<a class="anchor" aria-label="anchor" href="#fitting-bayesian-logistic-regression-models"></a>
 </h3>
-<p>We will analyse these data using the <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMClogit.html" class="external-link">MCMClogit()</a></code>
-function in package <code>MCMCpack</code>. Note that this function uses
-a Metropolis-Hastings algorithm to fit the model, rather than the Gibbs
-Sampler as used by <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code>.</p>
-<p>The package must first be loaded into R:</p>
+<p><code>BayesX</code> makes inference via MCMC, via the
+<code>R2BayesX</code> package which as noted makes the syntax for model
+fitting very similar to that for fitting non-Bayesian models using
+<code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> in R. If you do not yet have it installed, you can
+install it in the usual way from CRAN.</p>
+<p>The package must be loaded into R:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=MCMCpack" class="external-link">MCMCpack</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: coda</span></span>
-<span><span class="co">#&gt; Loading required package: MASS</span></span>
-<span><span class="co">#&gt; ##</span></span>
-<span><span class="co">#&gt; ## Markov Chain Monte Carlo Package (MCMCpack)</span></span>
-<span><span class="co">#&gt; ## Copyright (C) 2003-2024 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park</span></span>
-<span><span class="co">#&gt; ##</span></span>
-<span><span class="co">#&gt; ## Support provided by the U.S. National Science Foundation</span></span>
-<span><span class="co">#&gt; ## (Grants SES-0350646 and SES-0350613)</span></span>
-<span><span class="co">#&gt; ##</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">R2BayesX</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: BayesXsrc</span></span>
+<span><span class="co">#&gt; Loading required package: colorspace</span></span>
+<span><span class="co">#&gt; Loading required package: mgcv</span></span>
+<span><span class="co">#&gt; Loading required package: nlme</span></span>
+<span><span class="co">#&gt; This is mgcv 1.9-1. For overview type 'help("mgcv-package")'.</span></span></code></pre></div>
 <p>The syntax for fitting a Bayesian Logistic Regression Model with one
 response variable and three explanatory variables will be like so:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MCMCpack/man/MCMClogit.html" class="external-link">MCMClogit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">x3</span>,</span>
-<span>                 data <span class="op">=</span> <span class="va">data.set</span><span class="op">)</span></span></code></pre></div>
-<p>with extra options for burn-in (<code>burnin</code>), MCMC samples
-(<code>mcmc</code>), and thinning (<code>thin</code>) as with
-<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code>.</p>
+<code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">x3</span>,</span>
+<span>                 data <span class="op">=</span> <span class="va">data.set</span>,</span>
+<span>                 family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="model-fitting">Model Fitting<a class="anchor" aria-label="anchor" href="#model-fitting"></a>
@@ -254,10 +256,12 @@ response variable and three explanatory variables will be like so:</p>
 either replaced by or converted to a factor, for example</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">titlehasexcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_has_excl</span><span class="op">)</span></span></code></pre></div>
-<p>Function <code>summary</code> produces a summary (including parameter
-estimates etc) for the parameters.</p>
-<!-- In order to be able to obtain output plots from BayesX, it seems that we need -->
-<!-- to create a new version of the response variable of type logical: -->
+<p>Functions <code>summary</code> and <code>confint</code> produce a
+summary (including parameter estimates etc) and confidence intervals for
+the parameters, respectively.</p>
+<p>In order to be able to obtain output plots from BayesX, it seems that
+we need to create a new version of the response variable of type
+logical:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span> <span class="op">&lt;-</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"fake"</span></span></code></pre></div>
 </div>
@@ -273,264 +277,59 @@ may wish to use the R function <code><a href="https://rdrr.io/r/graphics/boxplot
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Is there a link between the fakeness and whether the title has an exclamation mark?</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_has_excl</span>, <span class="va">fakenews</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_has_excl</span>, <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        </span></span>
-<span><span class="co">#&gt;         fake real</span></span>
-<span><span class="co">#&gt;   FALSE   44   88</span></span>
-<span><span class="co">#&gt;   TRUE    16    2</span></span></code></pre></div>
+<span><span class="co">#&gt;         FALSE TRUE</span></span>
+<span><span class="co">#&gt;   FALSE    88   44</span></span>
+<span><span class="co">#&gt;   TRUE      2   16</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For the quantitative variables, look at boxplots on fake vs real</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_words</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_words</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">negative</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">negative</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </details>
 </li>
 <li>
-<p>Fit a Bayesian model in MCMCpack using the fake news
+<p>Fit a Bayesian model in BayesX using the fake news
 <code>typeFAKE</code> variable as response and the others as covariates.
 Examine the output; does the model fit well, and is there any evidence
 that any of the explanatory variables are associated with changes in
 probability of an article being fake or not?</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fit the logistic regression model</span></span>
-<span><span class="va">results1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MCMCpack/man/MCMClogit.html" class="external-link">MCMClogit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
-<span>data <span class="op">=</span> <span class="va">fakenews</span>,</span>
-<span>burnin <span class="op">=</span> <span class="fl">5000</span>, mcmc <span class="op">=</span> <span class="fl">15000</span>, thin<span class="op">=</span><span class="fl">1</span>,</span>
-<span>beta.start <span class="op">=</span> <span class="cn">NA</span>, <span class="co"># uses maximum likelihood estimates as starting values</span></span>
-<span>b0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, B0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0001</span>,<span class="fl">0.0001</span>,<span class="fl">0.0001</span>,<span class="fl">0.0001</span><span class="op">)</span>,</span>
-<span>verbose<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Produce the BayesX output</span></span>
+<span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
+<span>                        data <span class="op">=</span> <span class="va">fakenews</span>,</span>
+<span>                        family <span class="op">=</span> <span class="st">"binomial"</span>,</span>
+<span>                        method <span class="op">=</span> <span class="st">"MCMC"</span>,</span>
+<span>                        iter <span class="op">=</span> <span class="fl">15000</span>,</span>
+<span>                        burnin <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; bayesx(formula = typeFAKE ~ titlehasexcl + title_words + negative, </span></span>
+<span><span class="co">#&gt;     data = fakenews, family = "binomial", method = "MCMC", iter = 15000, </span></span>
+<span><span class="co">#&gt;     burnin = 5000)</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt; Fixed effects estimation results:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 1 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -2.91516</span></span>
-<span><span class="co">#&gt;    2.44156</span></span>
-<span><span class="co">#&gt;    0.11164</span></span>
-<span><span class="co">#&gt;    0.31527</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.00000</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 1001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -1.87070</span></span>
-<span><span class="co">#&gt;    2.83126</span></span>
-<span><span class="co">#&gt;    0.05170</span></span>
-<span><span class="co">#&gt;    0.18811</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.32967</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 2001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.72452</span></span>
-<span><span class="co">#&gt;    2.24271</span></span>
-<span><span class="co">#&gt;    0.16218</span></span>
-<span><span class="co">#&gt;    0.36352</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34183</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 3001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.02769</span></span>
-<span><span class="co">#&gt;    2.44590</span></span>
-<span><span class="co">#&gt;    0.11416</span></span>
-<span><span class="co">#&gt;    0.38764</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34122</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 4001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -2.55842</span></span>
-<span><span class="co">#&gt;    1.83973</span></span>
-<span><span class="co">#&gt;    0.11668</span></span>
-<span><span class="co">#&gt;    0.24937</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34441</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 5001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.57829</span></span>
-<span><span class="co">#&gt;    2.39788</span></span>
-<span><span class="co">#&gt;    0.10101</span></span>
-<span><span class="co">#&gt;    0.50069</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34513</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 6001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.23625</span></span>
-<span><span class="co">#&gt;    2.99509</span></span>
-<span><span class="co">#&gt;    0.15839</span></span>
-<span><span class="co">#&gt;    0.32010</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34578</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 7001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -1.13377</span></span>
-<span><span class="co">#&gt;    2.89018</span></span>
-<span><span class="co">#&gt;   -0.05744</span></span>
-<span><span class="co">#&gt;    0.38544</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34681</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 8001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -4.15398</span></span>
-<span><span class="co">#&gt;    1.72993</span></span>
-<span><span class="co">#&gt;    0.15888</span></span>
-<span><span class="co">#&gt;    0.52203</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34746</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 9001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.72664</span></span>
-<span><span class="co">#&gt;    2.80461</span></span>
-<span><span class="co">#&gt;    0.21782</span></span>
-<span><span class="co">#&gt;    0.23643</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34863</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 10001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.27273</span></span>
-<span><span class="co">#&gt;    2.54479</span></span>
-<span><span class="co">#&gt;    0.16191</span></span>
-<span><span class="co">#&gt;    0.26289</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34767</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 11001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.43932</span></span>
-<span><span class="co">#&gt;    1.71788</span></span>
-<span><span class="co">#&gt;    0.20215</span></span>
-<span><span class="co">#&gt;    0.20654</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34779</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 12001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -5.11506</span></span>
-<span><span class="co">#&gt;    1.94439</span></span>
-<span><span class="co">#&gt;    0.19563</span></span>
-<span><span class="co">#&gt;    0.68218</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34805</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 13001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.38735</span></span>
-<span><span class="co">#&gt;    2.31804</span></span>
-<span><span class="co">#&gt;    0.16135</span></span>
-<span><span class="co">#&gt;    0.29050</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34743</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 14001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -2.26679</span></span>
-<span><span class="co">#&gt;    2.55758</span></span>
-<span><span class="co">#&gt;    0.02234</span></span>
-<span><span class="co">#&gt;    0.48332</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34655</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 15001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.20935</span></span>
-<span><span class="co">#&gt;    3.37552</span></span>
-<span><span class="co">#&gt;    0.14046</span></span>
-<span><span class="co">#&gt;    0.20267</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34578</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 16001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -3.20098</span></span>
-<span><span class="co">#&gt;    1.43115</span></span>
-<span><span class="co">#&gt;    0.18014</span></span>
-<span><span class="co">#&gt;    0.33038</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34542</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 17001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -4.20026</span></span>
-<span><span class="co">#&gt;    2.90128</span></span>
-<span><span class="co">#&gt;    0.25259</span></span>
-<span><span class="co">#&gt;    0.15081</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34492</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 18001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -2.63526</span></span>
-<span><span class="co">#&gt;    2.70862</span></span>
-<span><span class="co">#&gt;    0.08054</span></span>
-<span><span class="co">#&gt;    0.33312</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34415</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMClogit iteration 19001 of 20000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -0.95278</span></span>
-<span><span class="co">#&gt;    2.19185</span></span>
-<span><span class="co">#&gt;    0.00508</span></span>
-<span><span class="co">#&gt;    0.13844</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34419</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span></span>
-<span><span class="co">#&gt; The Metropolis acceptance rate for beta was 0.34390</span></span>
-<span><span class="co">#&gt; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span></span></code></pre></div>
+<span><span class="co">#&gt; Parametric coefficients:</span></span>
+<span><span class="co">#&gt;                     Mean      Sd    2.5%     50%   97.5%</span></span>
+<span><span class="co">#&gt; (Intercept)      -2.9894  0.7843 -4.5582 -2.9716 -1.3947</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  2.7615  0.9268  1.2487  2.6605  5.1330</span></span>
+<span><span class="co">#&gt; title_words       0.1145  0.0592 -0.0072  0.1139  0.2261</span></span>
+<span><span class="co">#&gt; negative          0.3242  0.1629  0.0220  0.3186  0.6485</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt; N = 150  burnin = 5000  method = MCMC  family = binomial  </span></span>
+<span><span class="co">#&gt; iterations = 15000  step = 10</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Iterations = 5001:20000</span></span>
-<span><span class="co">#&gt; Thinning interval = 1 </span></span>
-<span><span class="co">#&gt; Number of chains = 1 </span></span>
-<span><span class="co">#&gt; Sample size per chain = 15000 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 1. Empirical mean and standard deviation for each variable,</span></span>
-<span><span class="co">#&gt;    plus standard error of the mean:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                     Mean      SD  Naive SE Time-series SE</span></span>
-<span><span class="co">#&gt; (Intercept)      -3.0067 0.77813 0.0063534       0.023637</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  2.7315 0.87676 0.0071587       0.028600</span></span>
-<span><span class="co">#&gt; title_words       0.1158 0.05941 0.0004851       0.001779</span></span>
-<span><span class="co">#&gt; negative          0.3289 0.15657 0.0012784       0.004727</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 2. Quantiles for each variable:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                       2.5%      25%     50%     75%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept)      -4.607563 -3.52100 -3.0014 -2.4959 -1.4778</span></span>
-<span><span class="co">#&gt; titlehasexclTRUE  1.237210  2.10895  2.6534  3.2532  4.6584</span></span>
-<span><span class="co">#&gt; title_words      -0.002373  0.07722  0.1166  0.1552  0.2314</span></span>
-<span><span class="co">#&gt; negative          0.023304  0.22177  0.3259  0.4304  0.6439</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                          2.5%      97.5%</span></span>
+<span><span class="co">#&gt; (Intercept)      -4.553338750 -1.3992430</span></span>
+<span><span class="co">#&gt; titlehasexclTRUE  1.253023500  5.1184442</span></span>
+<span><span class="co">#&gt; title_words      -0.006889553  0.2256098</span></span>
+<span><span class="co">#&gt; negative          0.023594783  0.6466613</span></span></code></pre></div>
 </details>
 </li>
 <li>
@@ -539,14 +338,15 @@ posterior distributions for the model parameters. Does it seem like
 convergence has been achieved?</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Trace plots</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/traceplot.html" class="external-link">traceplot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Traces can be obtained separately</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.output</span>,which <span class="op">=</span> <span class="st">"coef-samples"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-8-1.png" width="480"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># And the density plots</span></span>
+<code class="sourceCode R"><span><span class="co"># And the density plots one-by-one</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/densplot.html" class="external-link">densplot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>,<span class="st">"titlehasexclTRUE"</span><span class="op">]</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Title Has Excl"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>,<span class="st">"title_words"</span><span class="op">]</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Title Words"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>,<span class="st">"negative"</span><span class="op">]</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Negative"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </details>
 </li>
@@ -557,8 +357,8 @@ How do the model fits compare?</p>
 </summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">fakenews</span>,</span>
-<span>  family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
+<span>                  data <span class="op">=</span> <span class="va">fakenews</span>,</span>
+<span>                  family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">glm.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -632,9 +432,9 @@ study the factors affecting the number of complaints received.</p>
 <p>The response variable that we will use is <code>complaints</code>, an
 integer count of the number of complaints received. It is expected that
 the number of complaints will scale by the number of visits (contained
-in the <code>visits</code> column), so we are modelling the
-<strong>rate</strong> of complaints per visit - thus we will need to
-include a new variable <code>log.visits</code> as an offset.</p>
+in the <code>visits</code> column), so we are modelling the rate of
+complaints per visit - thus we will need to include a new variable
+<code>log.visits</code> as an offset.</p>
 <p>The three explanatory variables we will use in the analysis are:</p>
 <ul>
 <li><p><code>residency</code>, whether or not the doctor is still in
@@ -650,43 +450,30 @@ doctor.</p>
 <p>We can use the following code to extract the data we want without
 having to load the whole package:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">esdcomp</span> <span class="op">&lt;-</span> <span class="fu">faraway</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/faraway/man/esdcomp.html" class="external-link">esdcomp</a></span>    </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">esdcomp</span> <span class="op">&lt;-</span> <span class="fu">faraway</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/faraway/man/esdcomp.html" class="external-link">esdcomp</a></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fitting-bayesian-poisson-regression-models">Fitting Bayesian Poisson Regression Models<a class="anchor" aria-label="anchor" href="#fitting-bayesian-poisson-regression-models"></a>
 </h3>
-<p>Again we can use package <code>MCMCpack</code> to fit this form of
-Bayesian generalised linear model, this time using the function
-<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCpoisson.html" class="external-link">MCMCpoisson()</a></code>.</p>
+<p>Again we can use <code>BayesX</code> to fit this form of Bayesian
+generalised linear model.</p>
 <p>If not loaded already, the package must be loaded into R:</p>
-<p>The syntax for fitting a Bayesian Poisson Regression Model with one
-response variable, three explanatory variables and an offset
-<code>w</code> would be like so:</p>
+<p>In BayesX, the syntax for fitting a Bayesian Poisson Regression Model
+with one response variable, three explanatory variables and an offset
+will be like so:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCpoisson.html" class="external-link">MCMCpoisson</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span><span class="op">~</span><span class="va">x1</span><span class="op">+</span><span class="va">x2</span><span class="op">+</span><span class="va">x3</span><span class="op">+</span><span class="va">w</span>,</span>
-<span>                 data <span class="op">=</span> <span class="va">data.set</span><span class="op">)</span></span></code></pre></div>
-<p>but we will to be careful with the prior for <code>w</code>, as noted
-below.</p>
-<p>For a Poisson GLM we will be using a log() link function by default,
-so for the offset we must compute the log of the number of visits and
-include that in the data set <code>esdcomp</code>:</p>
+<code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span><span class="op">~</span><span class="va">x1</span><span class="op">+</span><span class="va">x2</span><span class="op">+</span><span class="va">x3</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span>,</span>
+<span>                 data <span class="op">=</span> <span class="va">data.set</span>,</span>
+<span>                 family<span class="op">=</span><span class="st">"poisson"</span><span class="op">)</span></span></code></pre></div>
+<p>As noted above we need to include an offset in this analysis; since
+for a Poisson GLM we will be using a log() link function by default, we
+must compute the log of the number of visits and include that in the
+data set <code>esdcomp</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span>    </span></code></pre></div>
-<p>Using an offset term in a model fitted by (non-Bayesian)
-<code>glm</code> in R is simpler; we just by add</p>
+<code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span></code></pre></div>
+<p>The offset term in the model is then written</p>
 <p><code>offset(log.visits)</code></p>
-<p>in the model formula when calling <code>glm</code> (see later).
-However, <code>MCMCpoisson</code> does not allow offset terms, but there
-is a workaround. An offset term is essentially just a covariate in a
-model with coefficient fixed at 1, so if we choose a prior distribution
-for the <span class="math inline">\(\beta\)</span> for the offset
-variable having mean 1 and <em>very</em> high precision (so a very small
-variance) then we can effectively force the <span class="math inline">\(\beta\)</span> to be 1 (or very, very close to 1),
-thus approximating an offset term. Recall that functions in
-<code>MCMCpack</code> allow us to set priors on our <span class="math inline">\(\beta\)</span>’s individually via arguments
-<code>b0</code> and <code>B0</code>; we can also use
-<code>beta.start</code> to set a starting value of 1 for the offset
-<span class="math inline">\(\beta\)</span>.</p>
+<p>in the call to <code>bayesx</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="exercises-1">Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"></a>
@@ -716,220 +503,35 @@ which is the ratio of <code>complaints</code> to
 </details>
 </li>
 <li>
-<p>Fit a Bayesian model using <code>MCMCpoisson</code> using the
-<code>complaints</code> variable as Poisson response and the others as
-covariates, and remembering the advice about offsets above. Examine the
+<p>Fit a Bayesian model in BayesX using the <code>complaints</code>
+variable as Poisson response and the others as covariates. Examine the
 output; does the model fit well, and is there any evidence that any of
 the explanatory variables are associated with the rate of
 complaints?</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fit model</span></span>
+<code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
-<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCpoisson.html" class="external-link">MCMCpoisson</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="va">log.visits</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
+<span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
 <span>                        data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
-<span>                        burnin <span class="op">=</span> <span class="fl">5000</span>, mcmc <span class="op">=</span> <span class="fl">10000</span>, thin<span class="op">=</span><span class="fl">10</span>,</span>
-<span>                        beta.start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>,<span class="fl">1</span>,<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="cn">NA</span><span class="op">)</span>, <span class="co"># uses maximum likelihood estimates as starting values when NA</span></span>
-<span>                        b0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, <span class="co"># offset beta - mean 1 </span></span>
-<span>                        B0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0001</span>,<span class="fl">1000000</span>,<span class="fl">0.0001</span>,<span class="fl">0.0001</span>,<span class="fl">0.0001</span><span class="op">)</span>, <span class="co"># offset precision very high</span></span>
-<span>                        verbose<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<span>                        family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
+<span><span class="co"># Summarise output</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; bayesx(formula = complaints ~ offset(log.visits) + residency + </span></span>
+<span><span class="co">#&gt;     gender + revenue, data = esdcomp, family = "poisson")</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt; Fixed effects estimation results:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 1 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;  -13.75029</span></span>
-<span><span class="co">#&gt;    1.96289</span></span>
-<span><span class="co">#&gt;   -0.20962</span></span>
-<span><span class="co">#&gt;    0.13294</span></span>
-<span><span class="co">#&gt;   -0.00148</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.00000</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 1001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;  -22.91787</span></span>
-<span><span class="co">#&gt;    1.54554</span></span>
-<span><span class="co">#&gt;   -2.47608</span></span>
-<span><span class="co">#&gt;    7.06210</span></span>
-<span><span class="co">#&gt;    0.02671</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.47552</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 2001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;  -13.59408</span></span>
-<span><span class="co">#&gt;    1.16605</span></span>
-<span><span class="co">#&gt;    1.61168</span></span>
-<span><span class="co">#&gt;   10.12300</span></span>
-<span><span class="co">#&gt;   -0.01539</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.47076</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 3001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -6.81145</span></span>
-<span><span class="co">#&gt;    1.00128</span></span>
-<span><span class="co">#&gt;   -0.40305</span></span>
-<span><span class="co">#&gt;    0.32721</span></span>
-<span><span class="co">#&gt;    0.00110</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.43952</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 4001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -8.22242</span></span>
-<span><span class="co">#&gt;    1.00108</span></span>
-<span><span class="co">#&gt;   -0.17971</span></span>
-<span><span class="co">#&gt;    0.22628</span></span>
-<span><span class="co">#&gt;    0.00614</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.39590</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 5001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -7.01708</span></span>
-<span><span class="co">#&gt;    1.00074</span></span>
-<span><span class="co">#&gt;   -0.35799</span></span>
-<span><span class="co">#&gt;   -0.11838</span></span>
-<span><span class="co">#&gt;    0.00247</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.36933</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 6001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -6.64003</span></span>
-<span><span class="co">#&gt;    0.99799</span></span>
-<span><span class="co">#&gt;   -0.46729</span></span>
-<span><span class="co">#&gt;   -0.07554</span></span>
-<span><span class="co">#&gt;    0.00131</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34961</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 7001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -6.69537</span></span>
-<span><span class="co">#&gt;    0.99942</span></span>
-<span><span class="co">#&gt;   -0.29977</span></span>
-<span><span class="co">#&gt;    0.16357</span></span>
-<span><span class="co">#&gt;    0.00046</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.34167</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 8001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -6.41701</span></span>
-<span><span class="co">#&gt;    0.99942</span></span>
-<span><span class="co">#&gt;   -0.06368</span></span>
-<span><span class="co">#&gt;    0.40867</span></span>
-<span><span class="co">#&gt;   -0.00173</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.33183</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 9001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -7.54246</span></span>
-<span><span class="co">#&gt;    0.99892</span></span>
-<span><span class="co">#&gt;   -0.23434</span></span>
-<span><span class="co">#&gt;    0.06812</span></span>
-<span><span class="co">#&gt;    0.00370</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.32785</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 10001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -7.36980</span></span>
-<span><span class="co">#&gt;    1.00098</span></span>
-<span><span class="co">#&gt;   -0.60348</span></span>
-<span><span class="co">#&gt;   -0.02104</span></span>
-<span><span class="co">#&gt;    0.00400</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.32107</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 11001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -6.44119</span></span>
-<span><span class="co">#&gt;    0.99926</span></span>
-<span><span class="co">#&gt;   -0.23142</span></span>
-<span><span class="co">#&gt;    0.16919</span></span>
-<span><span class="co">#&gt;   -0.00073</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.31633</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 12001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -7.73226</span></span>
-<span><span class="co">#&gt;    0.99960</span></span>
-<span><span class="co">#&gt;   -0.68691</span></span>
-<span><span class="co">#&gt;    0.01937</span></span>
-<span><span class="co">#&gt;    0.00539</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.31231</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 13001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -6.62591</span></span>
-<span><span class="co">#&gt;    1.00137</span></span>
-<span><span class="co">#&gt;   -0.27038</span></span>
-<span><span class="co">#&gt;    0.13686</span></span>
-<span><span class="co">#&gt;    0.00057</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.30859</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; MCMCpoisson iteration 14001 of 15000 </span></span>
-<span><span class="co">#&gt; beta = </span></span>
-<span><span class="co">#&gt;   -7.59595</span></span>
-<span><span class="co">#&gt;    0.99950</span></span>
-<span><span class="co">#&gt;   -0.43890</span></span>
-<span><span class="co">#&gt;    0.27954</span></span>
-<span><span class="co">#&gt;    0.00349</span></span>
-<span><span class="co">#&gt; Metropolis acceptance rate for beta = 0.30569</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span></span>
-<span><span class="co">#&gt; The Metropolis acceptance rate for beta was 0.30140</span></span>
-<span><span class="co">#&gt; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Summarise output</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Iterations = 5001:14991</span></span>
-<span><span class="co">#&gt; Thinning interval = 10 </span></span>
-<span><span class="co">#&gt; Number of chains = 1 </span></span>
-<span><span class="co">#&gt; Sample size per chain = 1000 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 1. Empirical mean and standard deviation for each variable,</span></span>
-<span><span class="co">#&gt;    plus standard error of the mean:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                  Mean        SD  Naive SE Time-series SE</span></span>
-<span><span class="co">#&gt; (Intercept) -7.141531 0.6915799 2.187e-02      3.149e-02</span></span>
-<span><span class="co">#&gt; log.visits   0.999990 0.0009467 2.994e-05      4.196e-05</span></span>
-<span><span class="co">#&gt; residencyY  -0.350241 0.1890597 5.979e-03      1.026e-02</span></span>
-<span><span class="co">#&gt; genderM      0.142036 0.2088044 6.603e-03      8.865e-03</span></span>
-<span><span class="co">#&gt; revenue      0.002203 0.0028149 8.901e-05      1.283e-04</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 2. Quantiles for each variable:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                  2.5%        25%       50%       75%     97.5%</span></span>
-<span><span class="co">#&gt; (Intercept) -8.526041 -7.6362630 -7.151277 -6.658781 -5.859865</span></span>
-<span><span class="co">#&gt; log.visits   0.998194  0.9993289  1.000011  1.000653  1.001772</span></span>
-<span><span class="co">#&gt; residencyY  -0.735361 -0.4767768 -0.346837 -0.222444  0.002462</span></span>
-<span><span class="co">#&gt; genderM     -0.254126  0.0010057  0.129876  0.283518  0.570987</span></span>
-<span><span class="co">#&gt; revenue     -0.003315  0.0003129  0.002227  0.004213  0.007652</span></span></code></pre></div>
+<span><span class="co">#&gt; Parametric coefficients:</span></span>
+<span><span class="co">#&gt;                Mean      Sd    2.5%     50%   97.5%</span></span>
+<span><span class="co">#&gt; (Intercept) -0.3904  0.6769 -1.7152 -0.3809  0.9069</span></span>
+<span><span class="co">#&gt; residencyY  -0.5462  0.1920 -0.9243 -0.5552 -0.1618</span></span>
+<span><span class="co">#&gt; genderM      0.1616  0.2083 -0.2278  0.1587  0.6013</span></span>
+<span><span class="co">#&gt; revenue      0.0064  0.0028  0.0013  0.0064  0.0119</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt; N = 44  burnin = 2000  method = MCMC  family = poisson  </span></span>
+<span><span class="co">#&gt; iterations = 12000  step = 10</span></span></code></pre></div>
 </details>
 </li>
 <li>
@@ -937,28 +539,31 @@ complaints?</p>
 posterior distributions for the model parameters. Does it seem like
 convergence has been achieved?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Traces can be obtained separately</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/traceplot.html" class="external-link">traceplot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p6_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># And the density plots</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/densplot.html" class="external-link">densplot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p6_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
+</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># An overall plot of sample traces and density estimates</span></span>
+<span><span class="co">#  plot(samples(bayesx.output))</span></span>
+<span><span class="co"># Traces can be obtained separately</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.output</span>,which <span class="op">=</span> <span class="st">"coef-samples"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="p6_files/figure-html/unnamed-chunk-17-1.png" width="480"></p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># And the density plots one-by-one</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>, <span class="st">"residencyY"</span><span class="op">]</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Residency"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>, <span class="st">"genderM"</span><span class="op">]</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>, <span class="st">"revenue"</span><span class="op">]</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Revenue"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="p6_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </details>
 </li>
 <li>
 <p>Fit a non-Bayesian model using <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> for comparison.
 How do the model fits compare?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fit model - note similarity with MCMCpack syntax</span></span>
+</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
 <span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
-<span>  family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
+<span>                  data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
+<span>                  family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">glm.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -982,7 +587,7 @@ How do the model fits compare?</p>
 <span><span class="co">#&gt; AIC: 189.48</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of Fisher Scoring iterations: 5</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Perform ANOVA on each variable in turn</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/add1.html" class="external-link">drop1</a></span><span class="op">(</span><span class="va">glm.output</span>, test <span class="op">=</span> <span class="st">"Chisq"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Single term deletions</span></span>
