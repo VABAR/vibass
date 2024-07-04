@@ -3,7 +3,7 @@
 
 # vibass
 
-[<img src="http://vabar.es/images//widget_vibass6.png" width="300px"/>](http://vabar.es/events/vibass6/)
+[<img src="http://vabar.es/images//widget_vibass7.jpg" width="300px"/>](http://vabar.es/events/vibass7/)
 
 <!-- badges: start -->
 
@@ -11,8 +11,8 @@
 <!-- badges: end -->
 
 Teaching materials for the [introductory course on Bayesian
-inference](http://vabar.es/events/vibass6-intro/) at
-[VIBASS](http://vabar.es/events/vibass6/)
+inference](http://vabar.es/events/vibass7-intro/) at
+[VIBASS](http://vabar.es/events/vibass7/)
 
 ## Installation
 
