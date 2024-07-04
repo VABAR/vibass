@@ -71,6 +71,11 @@ time it takes with MCMC.  It has a very simple interface to define models,
 although it cannot be installed directly from CRAN - instead you have a
 specific website where it can be downloaded:
 [https://www.r-inla.org/download-install](https://www.r-inla.org/download-install)
+
+* Packages [`rstanarm`](https://mc-stan.org/rstanarm/) and [`brms`](https://paul-buerkner.github.io/brms/)
+in R provide a higher-level interface to `Stan` allowing to fit a large class of regression models,
+with a syntax very similar to classical regression functions in R.
+
 * A classic MCMC program is `BUGS`, (Bayesian Analysis using Gibbs Sampling)
 described in Lunn et al. (2000):
   [http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml](http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml).
