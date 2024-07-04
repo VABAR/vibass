@@ -117,8 +117,7 @@ We can use the following code to extract the variables we want from the
 data set:
 
 ```{r}
-library(bayesrules)
-fakenews <- fake_news[,c("type","title_has_excl","title_words","negative")]
+fakenews <- bayesrules::fake_news[, c("type", "title_has_excl", "title_words", "negative")]
 ```
 
 The response variable `type` takes values `fake` or `real`, which should be
