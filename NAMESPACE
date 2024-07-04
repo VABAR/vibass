@@ -3,6 +3,7 @@
 export(available_apps)
 export(summary_table)
 export(vibass_app)
+import(R2BayesX)
 import(dplyr)
 import(ggplot2)
 import(shiny)

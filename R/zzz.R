@@ -1,3 +1,5 @@
+#' @import R2BayesX
+
 .onAttach <- function(...) {
 
   packageStartupMessage(
