@@ -132,9 +132,6 @@ the command line, and using standard syntax for model specification.</p>
 <h3 id="bayesx">BayesX<a class="anchor" aria-label="anchor" href="#bayesx"></a>
 </h3>
 <p>In particular, the following software package will be considered:</p>
-<ul>
-<li><code>BayesX</code></li>
-</ul>
 <p><code>BayesX</code> (<a href="http://www.bayesx.org/" class="external-link uri">http://www.bayesx.org/</a>) implements MCMC methods to
 obtain samples from the joint posterior and is conveniently accessed
 from R via the package <code>R2BayesX</code>.</p>
@@ -147,11 +144,10 @@ and <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">
 <h3 id="other-bayesian-software">Other Bayesian Software<a class="anchor" aria-label="anchor" href="#other-bayesian-software"></a>
 </h3>
 <ul>
-<li>Package <code>MCMCpack</code> in R contains functions such as
+<li><p>Package <code>MCMCpack</code> in R contains functions such as
 <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMClogit.html" class="external-link">MCMClogit()</a></code>, <code>MCMCPoisson()</code> and
-<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCprobit.html" class="external-link">MCMCprobit()</a></code> for fitting specific kinds of models.</li>
-<li>
-<code>INLA</code> (<a href="https://www.r-inla.org/" class="external-link uri">https://www.r-inla.org/</a>) is based on producing
+<code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCprobit.html" class="external-link">MCMCprobit()</a></code> for fitting specific kinds of models.</p></li>
+<li><p><code>INLA</code> (<a href="https://www.r-inla.org/" class="external-link uri">https://www.r-inla.org/</a>) is based on producing
 (accurate) approximations to the marginal posterior distributions of the
 model parameters. Although this can be enough most of the time, making
 multivariate inference with <code>INLA</code> can be difficult or
@@ -159,24 +155,26 @@ impossible. However, in many cases this is not needed and
 <code>INLA</code> can fit some classes of models in a fraction of the
 time it takes with MCMC. It has a very simple interface to define
 models, although it cannot be installed directly from CRAN - instead you
-have a specific website where it can be downloaded: <a href="https://www.r-inla.org/download-install" class="external-link">https://www.r-inla.org/download-install</a>
-</li>
-<li>A classic MCMC program is <code>BUGS</code>, (Bayesian Analysis
+have a specific website where it can be downloaded: <a href="https://www.r-inla.org/download-install" class="external-link">https://www.r-inla.org/download-install</a></p></li>
+<li><p>Packages <a href="https://mc-stan.org/rstanarm/" class="external-link"><code>rstanarm</code></a> and <a href="https://paul-buerkner.github.io/brms/" class="external-link"><code>brms</code></a> in R
+provide a higher-level interface to <code>Stan</code> allowing to fit a
+large class of regression models, with a syntax very similar to
+classical regression functions in R.</p></li>
+<li><p>A classic MCMC program is <code>BUGS</code>, (Bayesian Analysis
 using Gibbs Sampling) described in Lunn et al. (2000): <a href="http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml" class="external-link">http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml</a>.
 BUGS can be used through graphical interfaces <code>WinBUGS</code> and
 <code>OpenBUGS</code>. Both of these packages can be called from within
 R using packages <code>R2WinBUGS</code> and
-<code>R2OpenBUGS</code>.</li>
-<li>
-<code>JAGS</code>, which stands for “just another Gibbs sampler”.
-Can also be called from R using package <code>r2jags</code>.</li>
-<li>The <code>NIMBLE</code> package extends <code>BUGS</code> and
+<code>R2OpenBUGS</code>.</p></li>
+<li><p><code>JAGS</code>, which stands for “just another Gibbs sampler”.
+Can also be called from R using package <code>r2jags</code>.</p></li>
+<li><p>The <code>NIMBLE</code> package extends <code>BUGS</code> and
 implements MCMC and other methods for Bayesian inference. You can get it
 from <a href="https://r-nimble.org" class="external-link uri">https://r-nimble.org</a>, and is best run directly from
-R.</li>
-<li>The <code>Stan</code> software implements Hamiltonian Monte Carlo
+R.</p></li>
+<li><p>The <code>Stan</code> software implements Hamiltonian Monte Carlo
 and other methods for fit hierarchical Bayesian models. It is available
-from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org</a>.</li>
+from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org</a>.</p></li>
 </ul>
 </div>
 </div>
@@ -189,17 +187,14 @@ from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org
 <p>To summarise the model formulation presented in the lecture, given a
 response variable <span class="math inline">\(Y_i\)</span> representing
 the count of a number of successes from a given number of trials <span class="math inline">\(n_i\)</span> with success probability <span class="math inline">\(\theta_i\)</span>, we have</p>
-<ul>
-<li>
-<span class="math inline">\((Y_i \mid \boldsymbol \theta_i)
-\sim\mbox{Bi}(n_i, \theta_i),\,\, i.i.d.\,\,, i=1, \ldots, m\)</span>
-<span class="math display">\[\begin{align*}
-\mbox{logit}(\theta_i) &amp; =\eta_i \nonumber\\
-\eta_{i} &amp; =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol
-x_i\boldsymbol \beta\nonumber
+<p><span class="math display">\[\begin{align*}
+  (Y_i \mid \boldsymbol \theta_i) &amp; \sim\mbox{Bi}(n_i,
+\theta_i),\quad \text{i.i.d.},\quad i=1, \ldots, m
+  \mbox{logit}(\theta_i) &amp; =\eta_i \nonumber\\
+  \eta_{i} &amp; =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p
+x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
 \end{align*}\]</span> assuming the logit link function and with linear
-predictor <span class="math inline">\(\eta_{i}\)</span>.</li>
-</ul>
+predictor <span class="math inline">\(\eta_{i}\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="example-fake-news">Example: Fake News<a class="anchor" aria-label="anchor" href="#example-fake-news"></a>
@@ -212,8 +207,7 @@ of news is fake or not given three explanatory variables.</p>
 <p>We can use the following code to extract the variables we want from
 the data set:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bayes-rules.github.io/bayesrules/docs/" class="external-link">bayesrules</a></span><span class="op">)</span></span>
-<span><span class="va">fakenews</span> <span class="op">&lt;-</span> <span class="va">fake_news</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"type"</span>,<span class="st">"title_has_excl"</span>,<span class="st">"title_words"</span>,<span class="st">"negative"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fakenews</span> <span class="op">&lt;-</span> <span class="fu">bayesrules</span><span class="fu">::</span><span class="va"><a href="https://bayes-rules.github.io/bayesrules/docs/reference/fake_news.html" class="external-link">fake_news</a></span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"type"</span>, <span class="st">"title_has_excl"</span>, <span class="st">"title_words"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <p>The response variable <code>type</code> takes values
 <code>fake</code> or <code>real</code>, which should be
 self-explanatory. The three explanatory variables are:</p>
@@ -248,9 +242,11 @@ install it in the usual way from CRAN.</p>
 <p>The syntax for fitting a Bayesian Logistic Regression Model with one
 response variable and three explanatory variables will be like so:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">x3</span>,</span>
-<span>                 data <span class="op">=</span> <span class="va">data.set</span>,</span>
-<span>                 family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span></span>
+<span>  formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">x3</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">data.set</span>,</span>
+<span>  family <span class="op">=</span> <span class="st">"binomial"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="model-fitting">Model Fitting<a class="anchor" aria-label="anchor" href="#model-fitting"></a>
@@ -413,16 +409,14 @@ How do the model fits compare?</p>
 <p>To summarise the model formulation presented in the lecture, given a
 response variable <span class="math inline">\(Y_i\)</span> representing
 the counts occurring from a process with mean parameter <span class="math inline">\(\lambda_i\)</span>:</p>
-<ul>
-<li>
-<span class="math inline">\((Y_i \mid \boldsymbol \lambda_i)
-\sim\mbox{Po}(\lambda_i),\,\, i.i.d.\,\,, i=1, \ldots, n\)</span> <span class="math display">\[\begin{align*}
-\mbox{log}(\lambda_i) &amp; =\eta_i \nonumber\\
-\eta_{i} &amp; =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol
-x_i\boldsymbol \beta\nonumber
+<p><span class="math display">\[\begin{align*}
+  (Y_i \mid \boldsymbol \lambda_i) &amp; \sim\mbox{Po}(\lambda_i),\quad
+i.i.d., \quad i=1, \ldots, n
+  \mbox{log}(\lambda_i) &amp; =\eta_i \nonumber\\
+  \eta_{i} &amp; =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p
+x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
 \end{align*}\]</span> assuming the log link function and with linear
-predictor <span class="math inline">\(\eta_{i}\)</span>.</li>
-</ul>
+predictor <span class="math inline">\(\eta_{i}\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="example-emergency-room-complaints">Example: Emergency Room Complaints<a class="anchor" aria-label="anchor" href="#example-emergency-room-complaints"></a>
