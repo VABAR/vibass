@@ -15,7 +15,7 @@ and make sure some text is printed in a contrasting colour depending
 on the theme (dark or light) in RStudio.
 }
 \details{
-Uses \code{crayon} for printing white text in dark themes or black text
+Uses \code{cli} for printing white text in dark themes or black text
 on light themes in RStudio.
 Borrowed from package \code{tidyverse} (https://github.com/tidyverse/tidyverse/blob/72af810106d7249c905d6b0f5b8b42dc33e6ac21/R/utils.R)
 }
