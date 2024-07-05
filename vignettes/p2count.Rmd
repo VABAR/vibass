@@ -194,8 +194,8 @@ setNames(nm = c(0.025, 0.975)) |> qgamma(748.8, 29.6) |> round(1)
 
 and the subsequent posterior probabilities that the mean number of letters _u_'s in a page of *A Game of Thrones* is between 24 and 26 letters are
 ```{r}
-round(pgamma(27, 643.5, 25) - pgamma(24, 643.5, 25), 3)
-round(pgamma(27, 748.8, 29.6) - pgamma(24, 748.8, 29.6), 3)
+round(pgamma(26, 643.5, 25) - pgamma(23, 643.5, 25), 3)
+round(pgamma(26, 748.8, 29.6) - pgamma(23, 748.8, 29.6), 3)
 ```
 
 

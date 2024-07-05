@@ -436,7 +436,7 @@ hmen <- data.frame(height = c(1.92, 1.82, 1.69, 1.75, 1.72, 1.71, 1.73, 1.69, 1.
 
 1. Construct a Bayesian inferential process for the mean of the height of the VIBASS men participants. Assume a non-informative prior scenario and a sampling model approximately Normal with
     
-    - Known variance $\sigma^2=0.1$. 
+    - Known standard deviation $\sigma=0.1$. 
     
     - Unknown variance. 
   
