@@ -22,13 +22,22 @@ install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cl
 
 ## Example
 
-The package contains the course practicals and associated interactive
-apps
+If installed with vignettes, the package contains the course practicals.
+Otherwise, it points to the corresponding articles in the web site
+<http://vabar.es/vibass/>.
+
+Most importantly, it contains interactive apps associated with some of
+the practicals
 
 ``` r
 library(vibass)
+
+## If installed with vignettes:
+## Otherwise, read at: http://vabar.es/vibass/
 browseVignettes('vibass')  # Index of all practicals
-vignette('p1')  # Open practical 1
+vignette('p1')  # Open practical
+
+vibass_app()    # Lists available apps
 vibass_app(1)   # Launch the interactive app for practical 1
 ```
 
