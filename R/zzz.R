@@ -8,40 +8,37 @@
 }
 
 #' @importFrom utils packageVersion
-#' @importFrom cli rule
-#' @importFrom crayon bold blue
+#' @import cli
 print_welcome <- function() {
   message(
     text_col(
       cli::rule(
-        left = crayon::bold("Welcomme to VIBASS"),
+        left = cli::style_bold("Welcomme to VIBASS"),
         right = paste("vibass", packageVersion("vibass"))
       )
     )
   )
 
-  message(
+  cli::cli_par()
+  cli::cli_text(
     "Training materials for the introductory ",
     "course on Bayesian inference, at the Val\u00e8ncia ",
     "International Bayesian Summer School."
   )
+  cli::cli_end()
 
-  message(
-    crayon::blue("Use:\n"),
-    paste(
-      format(
-        text_col(
-          c("browseVignettes('vibass')",
-            "vignette('p1') ",
-            "vibass_app(1) "
-          )
-        )
-      ),
-      c(
-        "to access the course practicals\n",
-        "to open a practical (e.g. the first one)\n",
-        "to open an interactive app (e.g. the first one)"
-      )
+  cli::cli_par()
+  cli::cli_alert_info(
+    c(
+      "Browse to: {.url http://vabar.es/vibass/} ",
+      cli::col_yellow("to access the course practicals under 'Articles'")
+    )
+  )
+
+  cli::cli_alert_success(
+    c(
+      "Use: {.code vibass_app(1)} ",
+      cli::col_yellow("to open an interactive app (e.g. the first one)")
     )
   )
 
