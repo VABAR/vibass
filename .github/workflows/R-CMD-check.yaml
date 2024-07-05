@@ -77,10 +77,9 @@ jobs:
         run: |
           sudo apt-get install -y libudunits2-dev libgdal-dev gdal-bin libgeos-dev libproj-dev libsqlite3-dev libjpeg-dev libfribidi-dev libharfbuzz-dev libtiff-dev libgit2-dev libgsl0-dev libglu1-mesa-dev libgl1-mesa-dev
 
-      - name: Install INLA on Windows
-        if: runner.os == 'Windows'
+      - name: Install INLA beforehand
         run: |
-          install.packages("INLA", repos = c(getOption("repos"), INLA = "https://inla.r-inla-download.org/R/stable"), dep = TRUE, type = "binary")
+          install.packages("INLA", repos = c(getOption("repos"), INLA = "https://inla.r-inla-download.org/R/stable"), dep = TRUE)
         shell: Rscript {0}
 
       - name: Install dependencies
