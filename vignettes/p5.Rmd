@@ -50,7 +50,7 @@ $$
 When the normalising constant in the posterior distribution is not
 known, the importance weights are rescaled to sum to one. Note that this
 rescaling is done by the denominator in the expression at point 2 on
-slide 9/26 of the Numerical Approaches slides you have just seen. In practice,
+slide 12/28 of the Numerical Approaches slides you have just seen. In practice,
 rescaling removes the need for the denominator and simplifies the
 calculations throughout (we do it once, rather than every time).
 
