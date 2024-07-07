@@ -1,66 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://vabar.es/vibass/404.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/like_surf.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p1.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p2count.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p2normal.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p3.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p4.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p5.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p6.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p7.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/articles/p8.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/authors.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/index.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/Weights.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/available_apps.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/available_apps_message.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/summary_table.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/text_col.html</loc>
-  </url>
-  <url>
-    <loc>http://vabar.es/vibass/reference/vibass_app.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://vabar.es/vibass/404.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/index.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/like_surf.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p1.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p2count.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p2normal.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p3.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p4.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p5.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p6.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p7.html</loc></url>
+<url><loc>http://vabar.es/vibass/articles/p8.html</loc></url>
+<url><loc>http://vabar.es/vibass/authors.html</loc></url>
+<url><loc>http://vabar.es/vibass/index.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/Weights.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/available_apps.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/available_apps_message.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/index.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/summary_table.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/text_col.html</loc></url>
+<url><loc>http://vabar.es/vibass/reference/vibass_app.html</loc></url>
 </urlset>
+

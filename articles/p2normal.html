@@ -12,14 +12,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Practical 2: Normal data">
-<meta property="og:description" content="vibass">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -45,7 +44,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -59,10 +58,10 @@
       <a href="../articles/p2normal.html">Practical 2: Normal data</a>
     </li>
     <li>
-      <a href="../articles/p3.html">Practical 3: Bayesian linear regression</a>
+      <a href="../articles/p3.html">Practical 3: Bayesian polynomial regression</a>
     </li>
     <li>
-      <a href="../articles/p4.html">Practical 4: Simualtion-based Bayesian inference</a>
+      <a href="../articles/p4.html">Practical 4: Simulation-based Bayesian inference</a>
     </li>
     <li>
       <a href="../articles/p5.html">Practical 5: Numerical approaches</a>
@@ -83,7 +82,7 @@
 <li>
   <a href="https://github.com/VABAR/vibass/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -94,7 +93,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -103,7 +102,7 @@
                         <h4 data-toc-skip class="author">VIBASS</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/VABAR/vibass/blob/HEAD/vignettes/p2normal.Rmd" class="external-link"><code>vignettes/p2normal.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/VABAR/vibass/blob/main/vignettes/p2normal.Rmd" class="external-link"><code>vignettes/p2normal.Rmd</code></a></small>
       <div class="hidden name"><code>p2normal.Rmd</code></div>
 
     </div>
@@ -131,8 +130,8 @@ participants. The variance of the sampling Normal model is known.<a class="ancho
 <h3 id="the-data">The data<a class="anchor" aria-label="anchor" href="#the-data"></a>
 </h3>
 <p>We have the following height data, in metres, for a random sample of
-<span class="math inline">\(n=15\)</span> women participants from
-previous editions of VIBASS.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">n=15</annotation></semantics></math>
+women participants from previous editions of VIBASS.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hwomen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.73</span>, <span class="fl">1.65</span>, <span class="fl">1.65</span>, <span class="fl">1.76</span>, <span class="fl">1.65</span>, <span class="fl">1.63</span>, <span class="fl">1.70</span>, <span class="fl">1.58</span>, <span class="fl">1.57</span>, <span class="fl">1.65</span>, <span class="fl">1.74</span>, <span class="fl">1.68</span>, <span class="fl">1.67</span>, <span class="fl">1.58</span>, <span class="fl">1.66</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>We can summarize the data and represent them by means of a
@@ -200,61 +199,74 @@ samples, few of them would resemble the Gaussian ideal.</p>
 <div class="section level3">
 <h3 id="the-sampling-model-is-approximately-normal">The sampling model is approximately Normal<a class="anchor" aria-label="anchor" href="#the-sampling-model-is-approximately-normal"></a>
 </h3>
-<p>Let <span class="math inline">\(Y\)</span> be the random variable
-that describes the height of the women in VIBASS. We assume that given
-the mean of the height of the VIBASS women <span class="math inline">\(\mu\)</span>, the distribution of <span class="math inline">\(Y\)</span> is Normal with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma= 0.1\)</span>.</p>
-<p><span class="math display">\[Y \mid \mu \sim \mathcal{N}(\mu,\,
-\sigma = 0.1),\]</span> whose conditional density function, expectation
-and variance are:</p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+be the random variable that describes the height of the women in VIBASS.
+We assume that given the mean of the height of the VIBASS women
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
+the distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+is Normal with mean
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and standard deviation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo>=</mo><mn>0.1</mn></mrow><annotation encoding="application/x-tex">\sigma= 0.1</annotation></semantics></math>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>∣</mo><mi>μ</mi><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><mi>σ</mi><mo>=</mo><mn>0.1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">Y \mid \mu \sim \mathcal{N}(\mu,\, \sigma = 0.1),</annotation></semantics></math>
+whose conditional density function, expectation and variance are:</p>
 <ul>
-<li><span class="math inline">\(f(y \mid \mu )= \frac{1}{0.1 \,\sqrt{2
-\pi}}\, \mbox{e}^{\big\{ \frac{-1}{2 \,\cdot \,
-0.1^2}\,(y-\mu)^2\big\}}\)</span></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mn>0.1</mn><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><mspace width="0.167em"></mspace><msup><mtext mathvariant="normal">e</mtext><mrow><mo minsize="1.2" maxsize="1.2" stretchy="false" form="prefix">{</mo><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><mspace width="0.167em"></mspace><mo>⋅</mo><mspace width="0.167em"></mspace><msup><mn>0.1</mn><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo minsize="1.2" maxsize="1.2" stretchy="false" form="postfix">}</mo></mrow></msup></mrow><annotation encoding="application/x-tex">f(y \mid \mu )= \frac{1}{0.1 \,\sqrt{2 \pi}}\, \mbox{e}^{\big\{ \frac{-1}{2 \,\cdot \, 0.1^2}\,(y-\mu)^2\big\}}</annotation></semantics></math></li>
 <li>
-<span class="math inline">\(\text{E}(Y \mid \mu)= \mu\)</span>,</li>
-<li><span class="math inline">\(\text{Var}(Y \mid \mu) = \sigma^2 =
-0.01.\)</span></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">E</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">\text{E}(Y \mid \mu)= \mu</annotation></semantics></math>,</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>=</mo><mn>0.01</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{Var}(Y \mid \mu) = \sigma^2 = 0.01.</annotation></semantics></math></li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="a-prior-distribution-for-mu">A prior distribution for <span class="math inline">\(\mu\)</span><a class="anchor" aria-label="anchor" href="#a-prior-distribution-for-mu"></a>
+<h3 id="a-prior-distribution-for-mu">A prior distribution for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#a-prior-distribution-for-mu"></a>
 </h3>
 <p>Recall that the Normal distribution is conjugate with respect to the
-Normal probability model with <span class="math inline">\(\sigma\)</span> known. If we elicit a Normal prior
-distribution <span class="math inline">\(\mathcal{N}(\mu_0,\,
-\sigma_0)\)</span> for <span class="math inline">\(\mu\)</span>, its
-density is</p>
-<p><span class="math display">\[\pi(\mu)=\frac{1}{\sigma_0 \,\sqrt{2
-\pi}}\, \mbox{e}^{\, \frac{-1}{2\sigma_{0}^2}\,(\mu-\mu_0)^2
-}\]</span></p>
+Normal probability model with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+known. If we elicit a Normal prior distribution
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>,</mo><mspace width="0.167em"></mspace><msub><mi>σ</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{N}(\mu_0,\, \sigma_0)</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
+its density is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><msub><mi>σ</mi><mn>0</mn></msub><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><mspace width="0.167em"></mspace><msup><mtext mathvariant="normal">e</mtext><mrow><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><msubsup><mi>σ</mi><mn>0</mn><mn>2</mn></msubsup></mrow></mfrac><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></msup></mrow><annotation encoding="application/x-tex">\pi(\mu)=\frac{1}{\sigma_0 \,\sqrt{2 \pi}}\, \mbox{e}^{\, \frac{-1}{2\sigma_{0}^2}\,(\mu-\mu_0)^2 }</annotation></semantics></math></p>
 <p>with prior mean and and variance</p>
 <ul>
 <li>
-<span class="math inline">\(\text{E}(\mu)= \mu_0\)</span>,</li>
-<li><span class="math inline">\(\text{Var}(\mu)= \sigma_0.\)</span></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">E</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">\text{E}(\mu)= \mu_0</annotation></semantics></math>,</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>σ</mi><mn>0</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{Var}(\mu)= \sigma_0.</annotation></semantics></math></li>
 </ul>
 <p>We are going to work with a prior distribution based on the
 information from two of the VIBASS lecturers. This prior distribution
 is</p>
-<p><span class="math display">\[\pi(\mu) = \mathcal{N}(\mu_0=1.70,\,
-\sigma_0=0.07).\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>=</mo><mn>1.70</mn><mo>,</mo><mspace width="0.167em"></mspace><msub><mi>σ</mi><mn>0</mn></msub><mo>=</mo><mn>0.07</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\pi(\mu) = \mathcal{N}(\mu_0=1.70,\, \sigma_0=0.07).</annotation></semantics></math></p>
 <p>On the basis of this distribution these two teachers think that the
-mean of the height of women VIBASS participants is centred on <span class="math inline">\(1.70\)</span> m with a standard deviation of <span class="math inline">\(0.07\)</span> m. According to it, we can compute
-the following percentile and probabilities</p>
+mean of the height of women VIBASS participants is centred on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.70</mn><annotation encoding="application/x-tex">1.70</annotation></semantics></math>
+m with a standard deviation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.07</mn><annotation encoding="application/x-tex">0.07</annotation></semantics></math>
+m. According to it, we can compute the following percentile and
+probabilities</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.519692 1.880308</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.002137367 0.076563726 0.500000000 0.923436274 0.997862633</span></span></code></pre></div>
-<p>Consequently, a 99<span class="math inline">\(\%\)</span> credible
-interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.52, \,1.88)\)</span> which means that the
-probability that a VIBASS participant is neither taller than 1.88 metres
-nor shorter than 1.52 is 0.99. The probability that she is shorter than
-1.50 is 0.0021, the probability that her height is between 1.60 and 1.80
-is 0.9234-0.0766= 0.8468 or the probability that is taller than 1.80 is
-1-0.9234=0.0766. Next we show the graphic of the density of this prior
-distribution.</p>
+<p>Consequently, a
+99<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>%</mi><annotation encoding="application/x-tex">\%</annotation></semantics></math>
+credible interval for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>1.52</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>1.88</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1.52, \,1.88)</annotation></semantics></math>
+which means that the probability that a VIBASS participant is neither
+taller than 1.88 metres nor shorter than 1.52 is 0.99. The probability
+that she is shorter than 1.50 is 0.0021, the probability that her height
+is between 1.60 and 1.80 is 0.9234-0.0766= 0.8468 or the probability
+that is taller than 1.80 is 1-0.9234=0.0766. Next we show the graphic of
+the density of this prior distribution.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cap</span> <span class="op">&lt;-</span> <span class="st">"Prior distribution for the mean height."</span></span>
 <span><span class="va">m0</span> <span class="op">&lt;-</span> <span class="fl">1.7</span>; <span class="va">s0</span> <span class="op">&lt;-</span> <span class="fl">0.07</span></span>
@@ -270,26 +282,37 @@ Prior distribution for the mean height.
 </div>
 </div>
 <div class="section level3">
-<h3 id="the-likelihood-function-of-mu">The likelihood function of <span class="math inline">\(\mu\)</span><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-mu"></a>
+<h3 id="the-likelihood-function-of-mu">The likelihood function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-mu"></a>
 </h3>
-<p>The likelihood is a function of <span class="math inline">\(\mu\)</span> for the data <span class="math inline">\(\mathcal D=\{y_1, y_2,\ldots, y_{15} \}\)</span>.
+<p>The likelihood is a function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+for the data
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒟</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mn>15</mn></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\mathcal D=\{y_1, y_2,\ldots, y_{15} \}</annotation></semantics></math>.
 It is defined as follows</p>
-<p><span class="math display">\[\begin{align*}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>L</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mn>15</mn></msub><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><mspace width="0.167em"></mspace><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><mspace width="0.167em"></mspace><mfrac><mn>1</mn><mrow><mn>0.1</mn><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><mspace width="0.167em"></mspace><mo>exp</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">{</mo><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><mo>⋅</mo><msup><mn>0.1</mn><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mspace width="0.167em"></mspace><mfrac><mn>1</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.1</mn><mspace width="0.167em"></mspace><mo>⋅</mo><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt><mo stretchy="true" form="postfix">)</mo></mrow><mn>15</mn></msup></mfrac><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mo>exp</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">{</mo><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><mo>⋅</mo><msup><mn>0.1</mn><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mspace width="0.167em"></mspace><mfrac><mn>1</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.1</mn><mspace width="0.167em"></mspace><mo>⋅</mo><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt><mo stretchy="true" form="postfix">)</mo></mrow><mn>15</mn></msup></mfrac><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mo>exp</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">{</mo><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><mo>⋅</mo><msup><mn>0.1</mn><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><mn>2</mn><mo>⋅</mo><mn>15</mn><mspace width="0.167em"></mspace><mover><mi>y</mi><mo accent="true">‾</mo></mover><mspace width="0.167em"></mspace><mi>μ</mi><mo>+</mo><mn>15</mn><msup><mi>μ</mi><mn>2</mn></msup><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">)</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">}</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
 L(\mu \mid \mathcal D)=&amp; f(y_1, y_2, \ldots, y_{15} \mid \mu) =
-\prod_{i=1}^{15}\, f(y_i \mid \mu) =
-\prod_{i=1}^{15}\, \frac{1}{0.1\,\sqrt{2 \pi}}\, \exp\Big\{\,
-\frac{-1}{2 \cdot 0.1^2}\,(y_i-\mu)^2\Big\} \\
-= &amp; \, \frac{1}{(0.1\,\cdot\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\,
-\frac{-1}{2 \cdot 0.1^2}\,\sum_{i=1}^{15}\,(y_i-\mu)^2\Big \} \\
-= &amp;\,\frac{1}{(0.1\,\cdot\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\,
-\frac{-1}{2 \cdot 0.1^2}\,\Big(\sum_{i=1}^{15} y_i^{2} - 2 \cdot 15 \,
-\bar{y} \, \mu + 15 \mu^2\Big)\Big \}
-\end{align*}\]</span></p>
-<p>where <span class="math inline">\(f(y_1, y_2, \ldots, y_{15} \mid
-\mu)\)</span> is the joint density of the <span class="math inline">\(Y_i\)</span>’s given <span class="math inline">\(\mu\)</span> evaluated in <span class="math inline">\(\mathcal D\)</span>. Since the <span class="math inline">\(Y_i\)</span>’s are <strong>conditionally
-independent</strong> given <span class="math inline">\(\mu\)</span>, the
-joint density is the product of the marginal densities. In our case, the
-likelihood function of <span class="math inline">\(\mu\)</span> is</p>
+ \prod_{i=1}^{15}\, f(y_i \mid \mu) =
+ \prod_{i=1}^{15}\, \frac{1}{0.1\,\sqrt{2 \pi}}\, \exp\Big\{\, \frac{-1}{2 \cdot 0.1^2}\,(y_i-\mu)^2\Big\} \\
+= &amp; \, \frac{1}{(0.1\,\cdot\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\, \frac{-1}{2 \cdot 0.1^2}\,\sum_{i=1}^{15}\,(y_i-\mu)^2\Big \} \\
+ = &amp;\,\frac{1}{(0.1\,\cdot\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\, \frac{-1}{2 \cdot 0.1^2}\,\Big(\sum_{i=1}^{15} y_i^{2} - 2 \cdot 15 \, \bar{y} \, \mu + 15 \mu^2\Big)\Big \}
+\end{align*}</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mn>15</mn></msub><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y_1, y_2, \ldots, y_{15} \mid \mu)</annotation></semantics></math>
+is the joint density of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>’s
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+evaluated in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒟</mi><annotation encoding="application/x-tex">\mathcal D</annotation></semantics></math>.
+Since the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>’s
+are <strong>conditionally independent</strong> given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
+the joint density is the product of the marginal densities. In our case,
+the likelihood function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cap</span> <span class="op">&lt;-</span> <span class="st">"Likelihood function."</span></span>
 <span><span class="va">Lnorm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">mu</span>, <span class="va">y</span>, <span class="va">sigma</span><span class="op">)</span> <span class="op">{</span></span>
@@ -315,28 +338,27 @@ Likelihood function.
 </div>
 </div>
 <div class="section level3">
-<h3 id="the-posterior-distribution-of-mu">The posterior distribution of <span class="math inline">\(\mu\)</span><a class="anchor" aria-label="anchor" href="#the-posterior-distribution-of-mu"></a>
+<h3 id="the-posterior-distribution-of-mu">The posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#the-posterior-distribution-of-mu"></a>
 </h3>
-<p>The posterior distribution of <span class="math inline">\(\mu\)</span> is a Normal distribution with
-parameters</p>
-<p><span class="math display">\[\begin{align*}
-\pi(\mu \mid \mathcal{D}) &amp; = \mathcal{N}(\mu_n,\, \sigma_n), \,
-\text{where}\\
-\sigma^2_n &amp; =\frac{\sigma_0^2\,\sigma^2}{\sigma^2 + n
-\,\sigma_0^2}=
+<p>The posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is a Normal distribution with parameters</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>n</mi></msub><mo>,</mo><mspace width="0.167em"></mspace><msub><mi>σ</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="0.167em"></mspace><mtext mathvariant="normal">where</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>σ</mi><mi>n</mi><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msubsup><mi>σ</mi><mn>0</mn><mn>2</mn></msubsup><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup></mrow><mrow><msup><mi>σ</mi><mn>2</mn></msup><mo>+</mo><mi>n</mi><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mn>0</mn><mn>2</mn></msubsup></mrow></mfrac><mo>=</mo><mfrac><mrow><msup><mn>0.07</mn><mn>2</mn></msup><mo>⋅</mo><msup><mn>0.1</mn><mn>2</mn></msup></mrow><mrow><msup><mn>0.1</mn><mn>2</mn></msup><mo>+</mo><mn>15</mn><mo>⋅</mo><msup><mn>0.07</mn><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mn>0.000587</mn><mo>,</mo><mo>⤳</mo><msub><mi>σ</mi><mi>n</mi></msub><mo>=</mo><mn>0.0242</mn></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>μ</mi><mi>n</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msubsup><mi>σ</mi><mi>n</mi><mn>2</mn></msubsup><mspace width="0.167em"></mspace><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">(</mo><mfrac><msub><mi>μ</mi><mn>0</mn></msub><msubsup><mi>σ</mi><mn>0</mn><mn>2</mn></msubsup></mfrac><mspace width="0.167em"></mspace><mo>+</mo><mspace width="0.167em"></mspace><mfrac><mrow><mi>n</mi><mover><mi>y</mi><mo accent="true">‾</mo></mover></mrow><msup><mi>σ</mi><mn>2</mn></msup></mfrac><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.000587</mn><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">(</mo><mfrac><mn>1.70</mn><msup><mn>0.07</mn><mn>2</mn></msup></mfrac><mo>+</mo><mfrac><mrow><mn>15</mn><mo>⋅</mo><mn>1.66</mn></mrow><msup><mn>0.1</mn><mn>2</mn></msup></mfrac><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1.6648</mn></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ \pi(\mu \mid \mathcal{D}) &amp; = \mathcal{N}(\mu_n,\, \sigma_n), \, \text{where}\\
+ \sigma^2_n &amp; =\frac{\sigma_0^2\,\sigma^2}{\sigma^2 + n \,\sigma_0^2}=
         \frac{0.07^2 \cdot 0.1^2}{0.1^2 + 15 \cdot 0.07^2}= 0.000587,
         \leadsto \sigma_n=0.0242\\
-\mu_n &amp; = \sigma_n^2 \,\Big (\frac{\mu_0}{\sigma_0^2}\, +
-       \, \frac{n \bar{y}}{\sigma^2}\Big) =
-      0.000587 \Big(\frac{1.70}{0.07^2} +\frac{15 \cdot
-1.66}{0.1^2}\Big) = 1.6648
-\end{align*}\]</span></p>
+ \mu_n &amp; = \sigma_n^2 \,\Big (\frac{\mu_0}{\sigma_0^2}\, +
+       \, \frac{n \bar{y}}{\sigma^2}\Big) = 
+      0.000587 \Big(\frac{1.70}{0.07^2} +\frac{15 \cdot 1.66}{0.1^2}\Big) = 1.6648 
+\end{align*}</annotation></semantics></math></p>
 <p>Next, we plot on the same graph the prior (in blue) and the posterior
-distribution (in green) of <span class="math inline">\(\mu\)</span>
-<span class="math display">\[\begin{align*}
-\pi(\mu &amp;)=\mathcal{N}(\mu_0=1.70, \sigma_0=0.07)\\
-\pi(\mu &amp;\mid \mathcal D)=\mathcal{N}(\mu_n=1.6648, \sigma_n=0.0242)
-\end{align*}\]</span></p>
+distribution (in green) of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mo stretchy="false" form="prefix">(</mo><mi>μ</mi></mtd><mtd columnalign="left" style="text-align: left"><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>=</mo><mn>1.70</mn><mo>,</mo><msub><mi>σ</mi><mn>0</mn></msub><mo>=</mo><mn>0.07</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mo stretchy="false" form="prefix">(</mo><mi>μ</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>∣</mo><mi>𝒟</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>n</mi></msub><mo>=</mo><mn>1.6648</mn><mo>,</mo><msub><mi>σ</mi><mi>n</mi></msub><mo>=</mo><mn>0.0242</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ \pi(\mu &amp;)=\mathcal{N}(\mu_0=1.70, \sigma_0=0.07)\\
+ \pi(\mu &amp;\mid \mathcal D)=\mathcal{N}(\mu_n=1.6648, \sigma_n=0.0242)
+\end{align*}</annotation></semantics></math></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m0</span> <span class="op">&lt;-</span> <span class="fl">1.7</span>; <span class="va">s0</span> <span class="op">&lt;-</span> <span class="fl">0.07</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fl">1.6648</span>; <span class="va">s1</span> <span class="op">&lt;-</span> <span class="fl">0.0242</span></span>
@@ -356,16 +378,21 @@ Prior (blue) and posterior (green) distributions for the mean height.
 </div>
 <p>The visual difference between the two distributions is very clear:
 The posterior distribution has a very low variability compared to the
-prior (<span class="math inline">\(\sigma_n \approx 0.02\)</span> m
-vs. <span class="math inline">\(\sigma_0 =0.07\)</span> m) and is
-slightly shifted to the left because the posterior mean is slightly
-lower than the prior mean (<span class="math inline">\(\mu_n\approx
-1.7\)</span> vs. <span class="math inline">\(\mu_0 = 1.7\)</span>).</p>
+prior
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>n</mi></msub><mo>≈</mo><mn>0.02</mn></mrow><annotation encoding="application/x-tex">\sigma_n \approx 0.02</annotation></semantics></math>
+m
+vs. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mn>0</mn></msub><mo>=</mo><mn>0.07</mn></mrow><annotation encoding="application/x-tex">\sigma_0 =0.07</annotation></semantics></math>
+m) and is slightly shifted to the left because the posterior mean is
+slightly lower than the prior mean
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>n</mi></msub><mo>≈</mo><mn>1.7</mn></mrow><annotation encoding="application/x-tex">\mu_n\approx 1.7</annotation></semantics></math>
+vs. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mn>0</mn></msub><mo>=</mo><mn>1.7</mn></mrow><annotation encoding="application/x-tex">\mu_0 = 1.7</annotation></semantics></math>).</p>
 <p>On the basis of the posterior distribution, the two teachers now
 think that the mean of the height of women VIBASS participants is
-centred on <span class="math inline">\(\mu_n\)</span> with a standard
-deviation of <span class="math inline">\(\sigma_n\)</span> metres.
-According to it, we can compute the following percentiles and
+centred on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>n</mi></msub><annotation encoding="application/x-tex">\mu_n</annotation></semantics></math>
+with a standard deviation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>n</mi></msub><annotation encoding="application/x-tex">\sigma_n</annotation></semantics></math>
+metres. According to it, we can compute the following percentiles and
 probabilities</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span></span>
@@ -373,12 +400,17 @@ probabilities</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 4.882741e-12 3.706635e-03 9.271024e-01 1.000000e+00 1.000000e+00</span></span></code></pre></div>
-<p>Consequently, a 99% credible interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.6,
-1.73)\)</span>, which means that the probability that a VIBASS
-participant is between 1.6 m and 1.73 m is 0.99. The probability that
-she is shorter than 1.50 m is <span class="math inline">\(0.0000\)</span>, the probability that her height
-is between 1.60 m and 1.80 m is <span class="math inline">\(1.0000-0.0040=0.9960\)</span> or the probability
-that is taller than 1.80 m is 0.0000.</p>
+<p>Consequently, a 99% credible interval for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>1.6</mn><mo>,</mo><mn>1.73</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1.6, 1.73)</annotation></semantics></math>,
+which means that the probability that a VIBASS participant is between
+1.6 m and 1.73 m is 0.99. The probability that she is shorter than 1.50
+m is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0000</mn><annotation encoding="application/x-tex">0.0000</annotation></semantics></math>,
+the probability that her height is between 1.60 m and 1.80 m is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.0000</mn><mo>−</mo><mn>0.0040</mn><mo>=</mo><mn>0.9960</mn></mrow><annotation encoding="application/x-tex">1.0000-0.0040=0.9960</annotation></semantics></math>
+or the probability that is taller than 1.80 m is 0.0000.</p>
 </div>
 <div class="section level3">
 <h3 id="the-posterior-predictive-distribution-for-the-height-of-a-new-vibass-participant">The posterior predictive distribution for the height of a new VIBASS
@@ -387,20 +419,22 @@ participant<a class="anchor" aria-label="anchor" href="#the-posterior-predictive
 <p>We are interested in predicting the height of Aninè, a new female
 VIBASS participant who has not participated in the sample of the
 inferential process. In this case, the posterior predictive distribution
-for the Aninè’s height <span class="math inline">\(Y_{16}\)</span> is a
-Normal distribution</p>
-<p><span class="math display">\[\mathcal{N}\Big(\mu_n,
-\sqrt{\sigma_n^2+\sigma^2}\Big)\]</span></p>
-<p>with standard deviation <span class="math inline">\(\sqrt{\sigma_n^2+\sigma^2} =
-\sqrt{0.000587+0.01}=0.1029\)</span>.</p>
+for the Aninè’s height
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mn>16</mn></msub><annotation encoding="application/x-tex">Y_{16}</annotation></semantics></math>
+is a Normal distribution</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒩</mi><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mi>n</mi></msub><mo>,</mo><msqrt><mrow><msubsup><mi>σ</mi><mi>n</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{N}\Big(\mu_n, \sqrt{\sigma_n^2+\sigma^2}\Big)</annotation></semantics></math></p>
+<p>with standard deviation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow><msubsup><mi>σ</mi><mi>n</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt><mo>=</mo><msqrt><mrow><mn>0.000587</mn><mo>+</mo><mn>0.01</mn></mrow></msqrt><mo>=</mo><mn>0.1029</mn></mrow><annotation encoding="application/x-tex">\sqrt{\sigma_n^2+\sigma^2} = \sqrt{0.000587+0.01}=0.1029</annotation></semantics></math>.</p>
 <p>It is important to note that the mean of this predictive distribution
-coincides with the mean of the posterior distribution of <span class="math inline">\(\mu\)</span>. However, the enormous variability of
-the predictive distribution, which depends on the variability of the
-sampling model and the variability of the a posteriori distribution, is
-very striking. The following figure shows the posterior distribution (in
-green) of <span class="math inline">\(\mu\)</span> and the posterior
-predictive distribution (in purple) for Aninè’s height illustrating the
-previous comments.</p>
+coincides with the mean of the posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>.
+However, the enormous variability of the predictive distribution, which
+depends on the variability of the sampling model and the variability of
+the a posteriori distribution, is very striking. The following figure
+shows the posterior distribution (in green) of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and the posterior predictive distribution (in purple) for Aninè’s height
+illustrating the previous comments.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="va">m1</span>; <span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">s1</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
@@ -438,104 +472,138 @@ but now we will work with a Normal with unknown mean and variance.</p>
 <div class="section level3">
 <h3 id="the-sampling-model-is-approximately-normal-1">The sampling model is approximately Normal<a class="anchor" aria-label="anchor" href="#the-sampling-model-is-approximately-normal-1"></a>
 </h3>
-<p>Let <span class="math inline">\(Y\)</span> the random variable that
-describes the height of the women in VIBASS. We assume that the
-distribution of <span class="math inline">\(Y\)</span> is Normal with
-unknown mean <span class="math inline">\(\mu\)</span> and unknown
-standard deviation <span class="math inline">\(\sigma\)</span></p>
-<p><span class="math display">\[Y \mid \mu \sim \mathcal{N}(\mu,\,
-\sigma),\]</span> whose conditional density function, expectation and
-variance are:</p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+the random variable that describes the height of the women in VIBASS. We
+assume that the distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+is Normal with unknown mean
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and unknown standard deviation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>∣</mo><mi>μ</mi><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">Y \mid \mu \sim \mathcal{N}(\mu,\, \sigma),</annotation></semantics></math>
+whose conditional density function, expectation and variance are:</p>
 <ul>
-<li><span class="math inline">\(f(y \mid \mu )= \frac{1}{\sigma
-\,\sqrt{2 \pi}}\, \mbox{e}^{\big\{ -\frac12
-\big(\frac{y-\mu}{\sigma}\big)^2\big\}}\)</span></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mi>σ</mi><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><mspace width="0.167em"></mspace><msup><mtext mathvariant="normal">e</mtext><mrow><mo minsize="1.2" maxsize="1.2" stretchy="false" form="prefix">{</mo><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo minsize="1.2" maxsize="1.2" stretchy="false" form="prefix">(</mo><mfrac><mrow><mi>y</mi><mo>−</mo><mi>μ</mi></mrow><mi>σ</mi></mfrac><msup><mo minsize="1.2" maxsize="1.2" stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo minsize="1.2" maxsize="1.2" stretchy="false" form="postfix">}</mo></mrow></msup></mrow><annotation encoding="application/x-tex">f(y \mid \mu )= \frac{1}{\sigma \,\sqrt{2 \pi}}\, \mbox{e}^{\big\{ -\frac12 \big(\frac{y-\mu}{\sigma}\big)^2\big\}}</annotation></semantics></math></li>
 <li>
-<span class="math inline">\(\text{E}(Y\mid \mu)= \mu\)</span>,</li>
-<li><span class="math inline">\(\text{Var}(Y\mid
-\mu)=\sigma^2.\)</span></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">E</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">\text{E}(Y\mid \mu)= \mu</annotation></semantics></math>,</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{Var}(Y\mid \mu)=\sigma^2.</annotation></semantics></math></li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="a-prior-distribution-for-mu-sigma2">A prior distribution for <span class="math inline">\((\mu,\,
-\sigma^2)\)</span><a class="anchor" aria-label="anchor" href="#a-prior-distribution-for-mu-sigma2"></a>
+<h3 id="a-prior-distribution-for-mu-sigma2">A prior distribution for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#a-prior-distribution-for-mu-sigma2"></a>
 </h3>
-<p>Our basic quantity of interest is bi-dimensional <span class="math inline">\((\mu,\, \sigma^2)\)</span>. We work in a
-non-informative prior scenario and use the improper reference prior
-distribution</p>
-<p><span class="math display">\[\pi(\mu,\, \sigma^2) \propto
-1/\sigma^2\]</span></p>
+<p>Our basic quantity of interest is bi-dimensional
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math>.
+We work in a non-informative prior scenario and use the improper
+reference prior distribution</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><mn>1</mn><mi>/</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\pi(\mu,\, \sigma^2) \propto 1/\sigma^2</annotation></semantics></math></p>
 </div>
 <div class="section level3">
-<h3 id="the-likelihood-function-of-mu-sigma2">The likelihood function of <span class="math inline">\((\mu,\,
-\sigma^2)\)</span><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-mu-sigma2"></a>
+<h3 id="the-likelihood-function-of-mu-sigma2">The likelihood function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#the-likelihood-function-of-mu-sigma2"></a>
 </h3>
-<p>The likelihood is a function of <span class="math inline">\((\mu,\,
-\sigma^2)\)</span> for the data <span class="math inline">\(\mathcal
-D=\{y_1, y_2,\ldots, y_{15} \}\)</span>. It is defined as follows</p>
-<p><span class="math display">\[\begin{align*}
-L(\mu,\, \sigma^2 \mid \mathcal D)=&amp; f(y_1, y_2, \ldots, y_{15} \mid
-\mu,\, \sigma^2) =
-\prod_{i=1}^{15}\, f(y_i \mid \mu,\, \sigma^2) =
-\prod_{i=1}^{15}\, \frac{1}{\sigma \,\sqrt{2 \pi}}\, \exp\Big\{\,
-\frac{-1}{2\sigma^2}\,(y_i-\mu)^2\Big\} \\
-= &amp; \, \frac{1}{(\sigma\,\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\,
-\frac{-1}{2\sigma^2}\,\sum_{i=1}^{15}\,(y_i-\mu)^2\Big \} \\
-= &amp;\,\frac{1}{(\sigma\,\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\,
-\frac{-1}{2  \sigma^2}\,\big(
-\sum_{i=1}^{15} y_i^{2} - 2 \cdot 15 \, \bar{y} \, \mu + 15 \mu^2
-\big) \Big\},
-\end{align*}\]</span></p>
-<p>where <span class="math inline">\(f(y_1, y_2, \ldots,
-y_{15})\)</span> is the joint density of the <span class="math inline">\(Y_i\)</span>’s given <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> evaluated in <span class="math inline">\(\mathcal D\)</span>. Since <span class="math inline">\(Y_i\)</span>’s are independent given <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, the joint density is the
-product of the marginal densities. In our case, the graphic of the
-likelihood function of <span class="math inline">\((\mu,\,
-\sigma^2)\)</span> will be</p>
+<p>The likelihood is a function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math>
+for the data
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒟</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mn>15</mn></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\mathcal D=\{y_1, y_2,\ldots, y_{15} \}</annotation></semantics></math>.
+It is defined as follows</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>L</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mn>15</mn></msub><mo>∣</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><mspace width="0.167em"></mspace><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><mspace width="0.167em"></mspace><mfrac><mn>1</mn><mrow><mi>σ</mi><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><mspace width="0.167em"></mspace><mo>exp</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">{</mo><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mspace width="0.167em"></mspace><mfrac><mn>1</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>σ</mi><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt><mo stretchy="true" form="postfix">)</mo></mrow><mn>15</mn></msup></mfrac><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mo>exp</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">{</mo><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mspace width="0.167em"></mspace><mfrac><mn>1</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>σ</mi><mspace width="0.167em"></mspace><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt><mo stretchy="true" form="postfix">)</mo></mrow><mn>15</mn></msup></mfrac><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mo>exp</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="prefix">{</mo><mspace width="0.167em"></mspace><mfrac><mrow><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mspace width="0.167em"></mspace><mo minsize="1.2" maxsize="1.2" stretchy="false" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>15</mn></munderover><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><mn>2</mn><mo>⋅</mo><mn>15</mn><mspace width="0.167em"></mspace><mover><mi>y</mi><mo accent="true">‾</mo></mover><mspace width="0.167em"></mspace><mi>μ</mi><mo>+</mo><mn>15</mn><msup><mi>μ</mi><mn>2</mn></msup><mo minsize="1.2" maxsize="1.2" stretchy="false" form="postfix">)</mo><mo minsize="1.8" maxsize="1.8" stretchy="false" form="postfix">}</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+L(\mu,\, \sigma^2 \mid \mathcal D)=&amp; f(y_1, y_2, \ldots, y_{15} \mid \mu,\, \sigma^2) =
+ \prod_{i=1}^{15}\, f(y_i \mid \mu,\, \sigma^2) =
+ \prod_{i=1}^{15}\, \frac{1}{\sigma \,\sqrt{2 \pi}}\, \exp\Big\{\, \frac{-1}{2\sigma^2}\,(y_i-\mu)^2\Big\} \\
+= &amp; \, \frac{1}{(\sigma\,\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\, \frac{-1}{2\sigma^2}\,\sum_{i=1}^{15}\,(y_i-\mu)^2\Big \} \\
+ = &amp;\,\frac{1}{(\sigma\,\sqrt{2 \pi})^{15}}\,\,\exp\Big\{\, \frac{-1}{2  \sigma^2}\,\big(
+ \sum_{i=1}^{15} y_i^{2} - 2 \cdot 15 \, \bar{y} \, \mu + 15 \mu^2
+ \big) \Big\},
+\end{align*}</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mn>15</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y_1, y_2, \ldots, y_{15})</annotation></semantics></math>
+is the joint density of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>’s
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>
+evaluated in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒟</mi><annotation encoding="application/x-tex">\mathcal D</annotation></semantics></math>.
+Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>’s
+are independent given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>,
+the joint density is the product of the marginal densities. In our case,
+the graphic of the likelihood function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math>
+will be</p>
 <iframe src="like_surf.html" width="100%" height="400" id="igraph" scrolling="no" seamless="seamless" frameborder="0">
 </iframe>
 </div>
 <div class="section level3">
-<h3 id="the-posterior-distribution-of-mu-sigma2">The posterior distribution of <span class="math inline">\((\mu,\,
-\sigma^2)\)</span><a class="anchor" aria-label="anchor" href="#the-posterior-distribution-of-mu-sigma2"></a>
+<h3 id="the-posterior-distribution-of-mu-sigma2">The posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#the-posterior-distribution-of-mu-sigma2"></a>
 </h3>
-<p>The posterior distribution of <span class="math inline">\((\mu,\,
-\sigma^2)\)</span> is a bivariant probability distribution whose joint
-posterior density function can be expressed in terms of the
-<em>conditional</em> posterior distribution of <span class="math inline">\(\mu\)</span> given <span class="math inline">\(\sigma^2\)</span> and the <em>marginal</em>
-posterior distribution of <span class="math inline">\(\sigma^2\)</span>
+<p>The posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,\, \sigma^2)</annotation></semantics></math>
+is a bivariant probability distribution whose joint posterior density
+function can be expressed in terms of the <em>conditional</em> posterior
+distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>
+and the <em>marginal</em> posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>
 as follows</p>
-<p><span class="math display">\[
-\pi(\mu, \sigma^2 \mid \mathcal{D}) =
-\pi(\mu \mid \sigma^2, \mathcal{D}) \,
-\pi(\sigma^2 \mid \mathcal{D}),
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>,</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">
+ \pi(\mu, \sigma^2 \mid \mathcal{D}) = 
+ \pi(\mu \mid \sigma^2, \mathcal{D}) \, 
+ \pi(\sigma^2 \mid \mathcal{D}),
+</annotation></semantics></math></p>
 <p>where</p>
 <ul>
-<li><p><span class="math inline">\(\pi(\mu \mid \sigma^2, \mathcal D)
-=\mathcal{N}(\mu_n, \sigma^2_n = \sigma^2/15)\)</span></p></li>
-<li><p><span class="math inline">\(\pi(\sigma^2 \mid \mathcal
-D)\)</span> is such that <span class="math inline">\(\pi((n-1)s^2/\sigma^2 \mid \mathcal D) =
-\chi^2(n-1)\)</span>, where <span class="math inline">\(s^2 = \sum(y_i -
-\bar{y})^2 / (n-1)\)</span></p></li>
-<li><p>The posterior marginal of <span class="math inline">\(\mu\)</span> is <span class="math inline">\(\pi(\mu \mid \mathcal D)= \text{St}(\bar{y},
-s^2/n, n-1)\)</span></p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>,</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>n</mi></msub><mo>,</mo><msubsup><mi>σ</mi><mi>n</mi><mn>2</mn></msubsup><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><mn>15</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu \mid \sigma^2, \mathcal D) =\mathcal{N}(\mu_n, \sigma^2_n = \sigma^2/15)</annotation></semantics></math></p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma^2 \mid \mathcal D)</annotation></semantics></math>
+is such that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>s</mi><mn>2</mn></msup><mi>/</mi><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>χ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi((n-1)s^2/\sigma^2 \mid \mathcal D) = \chi^2(n-1)</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>s</mi><mn>2</mn></msup><mo>=</mo><mo>∑</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mover><mi>y</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">s^2 = \sum(y_i - \bar{y})^2 / (n-1)</annotation></semantics></math></p></li>
+<li><p>The posterior marginal of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mtext mathvariant="normal">St</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>y</mi><mo accent="true">‾</mo></mover><mo>,</mo><msup><mi>s</mi><mn>2</mn></msup><mi>/</mi><mi>n</mi><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu \mid \mathcal D)= \text{St}(\bar{y}, s^2/n, n-1)</annotation></semantics></math></p></li>
 </ul>
 <p>In our case, the more relevant posterior distributions are the
 marginal ones:</p>
 <ul>
-<li><p>The posterior marginal <span class="math inline">\(\pi(\sigma^2
-\mid \mathcal D)\)</span> is such that <span class="math inline">\(\pi(0.045598/\sigma^2 \mid \mathcal D) =
-\chi^2(14)\)</span></p></li>
-<li><p>The posterior marginal of <span class="math inline">\(\pi(\mu
-\mid \mathcal D)= \text{St}(1.66, 0.003257/15=0.000217,
-14)\)</span></p></li>
+<li><p>The posterior marginal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma^2 \mid \mathcal D)</annotation></semantics></math>
+is such that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.045598</mn><mi>/</mi><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>χ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>14</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)</annotation></semantics></math></p></li>
+<li><p>The posterior marginal of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mtext mathvariant="normal">St</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mn>1.66</mn><mo>,</mo><mn>0.003257</mn><mi>/</mi><mn>15</mn><mo>=</mo><mn>0.000217</mn><mo>,</mo><mn>14</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu \mid \mathcal D)= \text{St}(1.66, 0.003257/15=0.000217, 14)</annotation></semantics></math></p></li>
 </ul>
-<p>We start working with the posterior <span class="math inline">\(\pi(\mu \mid \mathcal D)\)</span>. The posterior
-mean and scale of <span class="math inline">\(\mu\)</span> are <span class="math inline">\(\bar{y} = 1.66\)</span> and <span class="math inline">\(\sqrt{s^2/n} = 0.014735\)</span> m. A 99<span class="math inline">\(\%\)</span> credible interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.62,
-1.70)\)</span> and the posterior probabilities that the mean of the
-height of the women VIBASS is less than <span class="math inline">\(1.50, 1.60. 1.70, 1.80, \text{and } 1.90\)</span>
-are <span class="math inline">\(0.0000, 0.0006, 0.9916, 1.0000,
-\text{and } 1.0000\)</span>, respectively.</p>
+<p>We start working with the posterior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu \mid \mathcal D)</annotation></semantics></math>.
+The posterior mean and scale of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>y</mi><mo accent="true">‾</mo></mover><mo>=</mo><mn>1.66</mn></mrow><annotation encoding="application/x-tex">\bar{y} = 1.66</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow><msup><mi>s</mi><mn>2</mn></msup><mi>/</mi><mi>n</mi></mrow></msqrt><mo>=</mo><mn>0.014735</mn></mrow><annotation encoding="application/x-tex">\sqrt{s^2/n} = 0.014735</annotation></semantics></math>
+m. A
+99<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>%</mi><annotation encoding="application/x-tex">\%</annotation></semantics></math>
+credible interval for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>1.62</mn><mo>,</mo><mn>1.70</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1.62, 1.70)</annotation></semantics></math>
+and the posterior probabilities that the mean of the height of the women
+VIBASS is less than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.50</mn><mo>,</mo><mn>1.60</mn><mi>.</mi><mn>1.70</mn><mo>,</mo><mn>1.80</mn><mo>,</mo><mrow><mtext mathvariant="normal">and </mtext><mspace width="0.333em"></mspace></mrow><mn>1.90</mn></mrow><annotation encoding="application/x-tex">1.50, 1.60. 1.70, 1.80, \text{and } 1.90</annotation></semantics></math>
+are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0000</mn><mo>,</mo><mn>0.0006</mn><mo>,</mo><mn>0.9916</mn><mo>,</mo><mn>1.0000</mn><mo>,</mo><mrow><mtext mathvariant="normal">and </mtext><mspace width="0.333em"></mspace></mrow><mn>1.0000</mn></mrow><annotation encoding="application/x-tex">0.0000, 0.0006, 0.9916, 1.0000, \text{and } 1.0000</annotation></semantics></math>,
+respectively.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ny</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">hwomen</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span>
 <span><span class="va">ybar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">hwomen</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span>
@@ -563,18 +631,28 @@ Posterior (green) distribution for the mean height.
 </p>
 </div>
 <p>We focus now on the variance of the sampling model. Its posterior
-distribution is such that <span class="math inline">\(\pi(0.045598/\sigma^2 \mid \mathcal D) =
-\chi^2(14)\)</span>. This is not the posterior distribution of <span class="math inline">\(\sigma^2\)</span> but a function, <span class="math inline">\(0.045598/\sigma^2\)</span>, of it. Consequently,
-we can approximate the posterior distribution for <span class="math inline">\(\sigma^2\)</span> by simulation as follows:</p>
+distribution is such that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.045598</mn><mi>/</mi><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>χ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>14</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)</annotation></semantics></math>.
+This is not the posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>
+but a function,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.045598</mn><mi>/</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">0.045598/\sigma^2</annotation></semantics></math>,
+of it. Consequently, we can approximate the posterior distribution for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>
+by simulation as follows:</p>
 <ul>
-<li>If <span class="math display">\[\{a^{(1)}, a^{(2)}, \ldots,
-a^{(M)}\}\]</span> is a random sample from <span class="math inline">\(\pi(0.045598/\sigma^2 \mid \mathcal D) =
-\chi^2(14)\)</span> then <span class="math display">\[\{0.045598/a^{(1)}, 0.045598/a^{(2)}, \ldots,
-0.045598/a^{(M)}\}\]</span> is a random sample from <span class="math inline">\(\pi(\sigma^2 \mid \mathcal D)\)</span>.</li>
+<li>If
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>,</mo><msup><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>,</mo><mi>…</mi><mo>,</mo><msup><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>M</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{a^{(1)}, a^{(2)}, \ldots, a^{(M)}\}</annotation></semantics></math>
+is a random sample from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.045598</mn><mi>/</mi><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>χ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>14</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(0.045598/\sigma^2 \mid \mathcal D) = \chi^2(14)</annotation></semantics></math>
+then
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0.045598</mn><mi>/</mi><msup><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>,</mo><mn>0.045598</mn><mi>/</mi><msup><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>,</mo><mi>…</mi><mo>,</mo><mn>0.045598</mn><mi>/</mi><msup><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>M</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0.045598/a^{(1)}, 0.045598/a^{(2)}, \ldots, 0.045598/a^{(M)}\}</annotation></semantics></math>
+is a random sample from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma^2 \mid \mathcal D)</annotation></semantics></math>.</li>
 </ul>
 <p>Next we show the approximate graph and some posterior characteristics
-of the posterior <span class="math inline">\(\pi(\sigma^2 \mid \mathcal
-D)\)</span>.</p>
+of the posterior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma^2 \mid \mathcal D)</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span>, <span class="fl">0.001</span><span class="op">)</span></span>
 <span><span class="va">simuchi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -601,8 +679,14 @@ D)\)</span>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        0.5%       99.5% </span></span>
 <span><span class="co">#&gt; 0.001468482 0.010937895</span></span></code></pre></div>
-<p>We observe that <span class="math inline">\(\text{E}(\sigma^2 \mid
-\mathcal D)=0.0038\)</span> and a <span class="math inline">\(99\)</span>% credible interval for <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\((0.00147, 0.01118)\)</span>.</p>
+<p>We observe that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">E</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.0038</mn></mrow><annotation encoding="application/x-tex">\text{E}(\sigma^2 \mid \mathcal D)=0.0038</annotation></semantics></math>
+and a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>99</mn><annotation encoding="application/x-tex">99</annotation></semantics></math>%
+credible interval for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.00147</mn><mo>,</mo><mn>0.01118</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0.00147, 0.01118)</annotation></semantics></math>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -621,21 +705,23 @@ session and that we have been practising in this session.</p>
 height of the VIBASS men participants. Assume a non-informative prior
 scenario and a sampling model approximately Normal with</p>
 <ul>
-<li><p>Known variance <span class="math inline">\(\sigma^2=0.1\)</span>.</p></li>
+<li><p>Known variance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>σ</mi><mn>2</mn></msup><mo>=</mo><mn>0.1</mn></mrow><annotation encoding="application/x-tex">\sigma^2=0.1</annotation></semantics></math>.</p></li>
 <li><p>Unknown variance.</p></li>
 </ul>
 </li>
 <li><p>Compare the mean of the height between men and women. Is it
-possible to compute the posterior probability associated to <span class="math inline">\(\mu_\text{m}-\mu_\text{w}\)</span>? and to <span class="math inline">\(\mu_\text{m}/\mu_\text{w}\)</span>?</p></li>
+possible to compute the posterior probability associated to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mtext mathvariant="normal">m</mtext></msub><mo>−</mo><msub><mi>μ</mi><mtext mathvariant="normal">w</mtext></msub></mrow><annotation encoding="application/x-tex">\mu_\text{m}-\mu_\text{w}</annotation></semantics></math>?
+and to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mtext mathvariant="normal">m</mtext></msub><mi>/</mi><msub><mi>μ</mi><mtext mathvariant="normal">w</mtext></msub></mrow><annotation encoding="application/x-tex">\mu_\text{m}/\mu_\text{w}</annotation></semantics></math>?</p></li>
 </ol>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -648,16 +734,16 @@ possible to compute the posterior probability associated to <span class="math in
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
