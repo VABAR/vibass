@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.49</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.50</span>
       </span>
     </div>
 
@@ -587,7 +587,7 @@ single dimension problems.</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>θ</mi><mi>D</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g\left(\mathbf{\theta}\right)=
 g\left(\theta_1,\theta_2,\ldots,\theta_D\right)</annotation></semantics></math>
 for a model with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
 parameters, we use the following algorithm:</p>
 <ol style="list-style-type: decimal">
 <li>Start with an initial set
@@ -723,9 +723,9 @@ pollution requires more oxygen to break it down).</p></li>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">MCMCregress</span></span></code></pre></div>
 <p>to see the help page for <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code>. We specify the
-formula just as we would for a non-Bayesian regression using the lm
-function in Base R. Conjugate priors are used, with Normal priors for
-the regression parameters
+formula just as we would for a non-Bayesian regression using the
+<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function in Base R. Conjugate priors are used, with
+Normal priors for the regression parameters
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 (with means in <code>b0</code> and precisions in <code>B0</code>) and an
 inverse Gamma prior for the residual variance
@@ -793,7 +793,7 @@ could be helpful.]</p>
 </li>
 <li>
 <p>Run a frequentist simple linear regression using the
-<code>lm</code> function in R; this will be useful for comparison with
+<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function in R; this will be useful for comparison with
 our Bayesian analysis.</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
@@ -1009,7 +1009,7 @@ posterior densities of each parameter.</p>
 be concerned about cross-correlations between different parameters -
 ideally these correlations would be close to zero, as parameters would
 be sampled at least approximately independently from each other. Use the
-<code>crosscorr</code> function to see the cross-correlation between
+<code><a href="https://rdrr.io/pkg/coda/man/crosscorr.html" class="external-link">crosscorr()</a></code> function to see the cross-correlation between
 samples from the posterior distribution of the regression intercept and
 the coefficient for BOD. Are the values close to zero, or to +1 or
 -1?</p>
