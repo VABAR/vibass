@@ -117,6 +117,29 @@ m2 <- bayesx(
 summary(m2)
 ```
 
+You can compare this Bayesian fit with a non-Bayesian analysis, this time making
+use of the `lmer()' function in the package `lme4`. (Here, `lme` means `linear
+effects.) We present the code only for comparison, and we do not describe
+`lmer()` or `lme4` more fully.
+
+```{r}
+library(lme4)
+m2lmer <- lmer(
+  lang ~ IQ + GS +  SES + COMB + (1 | class), # Fit a separate intercept for each level of class
+  data = nlschools
+)
+
+summary(m2lmer)
+```
+
+## Exercises
+
+* Are the model fits from `bayesx()` and from `lmer()` similar?
+
+* What are the relative sizes of the variances estimated in the random effect
+term for `class` versus the residual variance? Does this make sense looking at
+the boxplot graph above?
+
 
 # Generalised Linear Mixed Models
 
@@ -262,8 +285,8 @@ par(mfrow = c(1, 1))
 plot(nc.sids$NWPROP74, nc.sids$SMR74)
 lines(x.predict,y.predict)
 ```
-The role of the covariate can be explored by fitting a model without it:
 
+The role of the covariate can be explored by fitting a model without it:
 
 ```{r}
 # Model WITHOUT covariate
@@ -298,3 +321,13 @@ to consider that two counties that are neighbours (i.e., share a boundary)
 will have similar relative risks. This can be taken into account in the model
 but assuming that the random effects are spatially autocorrelated. This is out
 of the scope of this introductory course but feel free to ask about this!!
+
+# Final Exercises (Optional!!)
+
+We tend to use the final Practical session for catching up and to give you the
+opportunity to ask us any questions you may have. So please ask away!
+
+If you would like some further exercises to practice, please look at Practical
+8 for more material and examples, including the use of the non-MCMC package
+`INLA`.
+
