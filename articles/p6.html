@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.50</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.51</span>
       </span>
     </div>
 
@@ -259,12 +259,12 @@ response variable and three explanatory variables will be like so:</p>
 either replaced by or converted to a factor, for example</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">titlehasexcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_has_excl</span><span class="op">)</span></span></code></pre></div>
-<p>Functions <code>summary</code> and <code>confint</code> produce a
+<p>Functions <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code> produce a
 summary (including parameter estimates etc) and confidence intervals for
 the parameters, respectively.</p>
-<p>In order to be able to obtain output plots from BayesX, it seems that
-we need to create a new version of the response variable of type
-logical:</p>
+<p>In order to be able to obtain output plots from <code>BayesX</code>,
+it seems that we need to create a new version of the response variable
+of type logical:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span> <span class="op">&lt;-</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"fake"</span></span></code></pre></div>
 </div>
@@ -294,7 +294,7 @@ may wish to use the R function <code><a href="https://rdrr.io/r/graphics/boxplot
 </details>
 </li>
 <li>
-<p>Fit a Bayesian model in BayesX using the fake news
+<p>Fit a Bayesian model in <code>BayesX</code> using the fake news
 <code>typeFAKE</code> variable as response and the others as covariates.
 Examine the output; does the model fit well, and is there any evidence
 that any of the explanatory variables are associated with changes in
@@ -457,22 +457,22 @@ having to load the whole package:</p>
 <p>Again we can use <code>BayesX</code> to fit this form of Bayesian
 generalised linear model.</p>
 <p>If not loaded already, the package must be loaded into R:</p>
-<p>In BayesX, the syntax for fitting a Bayesian Poisson Regression Model
-with one response variable, three explanatory variables and an offset
-will be like so:</p>
+<p>In <code>BayesX</code>, the syntax for fitting a Bayesian Poisson
+Regression Model with one response variable, three explanatory variables
+and an offset will be like so:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span><span class="op">~</span><span class="va">x1</span><span class="op">+</span><span class="va">x2</span><span class="op">+</span><span class="va">x3</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span>,</span>
 <span>                 data <span class="op">=</span> <span class="va">data.set</span>,</span>
 <span>                 family<span class="op">=</span><span class="st">"poisson"</span><span class="op">)</span></span></code></pre></div>
 <p>As noted above we need to include an offset in this analysis; since
-for a Poisson GLM we will be using a log() link function by default, we
+for a Poisson GLM we will be using a log link function by default, we
 must compute the log of the number of visits and include that in the
 data set <code>esdcomp</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span></code></pre></div>
 <p>The offset term in the model is then written</p>
 <p><code>offset(log.visits)</code></p>
-<p>in the call to <code>bayesx</code>.</p>
+<p>in the call to <code><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="exercises-1">Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"></a>
@@ -502,11 +502,11 @@ which is the ratio of <code>complaints</code> to
 </details>
 </li>
 <li>
-<p>Fit a Bayesian model in BayesX using the <code>complaints</code>
-variable as Poisson response and the others as covariates. Examine the
-output; does the model fit well, and is there any evidence that any of
-the explanatory variables are associated with the rate of
-complaints?</p>
+<p>Fit a Bayesian model in <code>BayesX</code> using the
+<code>complaints</code> variable as Poisson response and the others as
+covariates. Examine the output; does the model fit well, and is there
+any evidence that any of the explanatory variables are associated with
+the rate of complaints?</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with glm syntax</span></span>
