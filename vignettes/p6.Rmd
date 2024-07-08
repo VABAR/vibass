@@ -70,6 +70,8 @@ although it cannot be installed directly from CRAN - instead you have a
 specific website where it can be downloaded:
 [https://www.r-inla.org/download-install](https://www.r-inla.org/download-install)
 
+* The `Stan` software implements Hamiltonian Monte Carlo and other methods for
+fit hierarchical Bayesian models. It is available from https://mc-stan.org.
 * Packages [`rstanarm`](https://mc-stan.org/rstanarm/) and [`brms`](https://paul-buerkner.github.io/brms/)
 in R provide a higher-level interface to `Stan` allowing to fit a large class of regression models,
 with a syntax very similar to classical regression functions in R.
@@ -85,8 +87,7 @@ R using package `r2jags`.
 * The `NIMBLE` package extends `BUGS` and implements MCMC and other methods
 for Bayesian inference. You can get it from https://r-nimble.org, and is best
 run directly from R.
-* The `Stan` software implements Hamiltonian Monte Carlo and other methods for
-fit hierarchical Bayesian models. It is available from https://mc-stan.org.
+
 
 
 
@@ -99,7 +100,7 @@ variable $Y_i$ representing the count of a number of successes from a given
 number of trials $n_i$ with success probability $\theta_i$, we have
 
 \begin{align*}
-  (Y_i \mid \boldsymbol \theta_i) & \sim\mbox{Bi}(n_i, \theta_i),\quad \text{i.i.d.},\quad i=1, \ldots, m
+  (Y_i \mid \boldsymbol \theta_i) & \sim\mbox{Bi}(n_i, \theta_i),\quad \text{i.i.d.},\quad i=1, \ldots, m \\
   \mbox{logit}(\theta_i) & =\eta_i \nonumber\\
   \eta_{i} & =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
 \end{align*}
@@ -366,7 +367,7 @@ associated with the rate of complaints?
   <details><summary>Solution</summary>
   
   ```{r fig = TRUE}
-  # Fit model - note similarity with bayesx syntax
+  # Fit model - note similarity with glm syntax
   esdcomp$log.visits <- log(esdcomp$visits)
   bayesx.output <- bayesx(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
                           data = esdcomp,
