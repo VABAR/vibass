@@ -165,10 +165,10 @@ converted to a factor, for example
 fakenews$titlehasexcl <- as.factor(fakenews$title_has_excl)
 ```
 
-Functions `summary` and `confint` produce a summary (including parameter
+Functions `summary()` and `confint()` produce a summary (including parameter
 estimates etc) and confidence intervals for the parameters, respectively.
 
-In order to be able to obtain output plots from BayesX, it seems that we need
+In order to be able to obtain output plots from `BayesX`, it seems that we need
 to create a new version of the response variable of type logical:
 
 ```{r}
@@ -195,7 +195,7 @@ function `boxplot()` here.
   
   </details>
 
-* Fit a Bayesian model in BayesX using the fake news `typeFAKE` variable as
+* Fit a Bayesian model in `BayesX` using the fake news `typeFAKE` variable as
 response and the others as covariates. Examine the output; does the model fit
 well, and is there any evidence that any of the explanatory variables are
 associated with changes in probability of an article being fake or not?
@@ -314,7 +314,7 @@ If not loaded already, the package must be loaded into R:
 library(R2BayesX)
 ```
 
-In BayesX, the syntax for fitting a Bayesian Poisson Regression Model with one
+In `BayesX`, the syntax for fitting a Bayesian Poisson Regression Model with one
 response variable, three explanatory variables and an offset will be like so:
 
 ```{r eval=FALSE}
@@ -324,7 +324,7 @@ model1 <- bayesx(formula = y~x1+x2+x3+offset(w),
 ```
 
 As noted above we need to include an offset in this analysis; since
-for a Poisson GLM we will be using a log() link function by default, we must
+for a Poisson GLM we will be using a log link function by default, we must
 compute the log of the number of visits and include that in the data set
 `esdcomp`:
 
@@ -336,7 +336,7 @@ The offset term in the model is then written
 
 `offset(log.visits)`
 
-in the call to `bayesx`.
+in the call to `bayesx()`.
 
 ## Exercises
 
@@ -359,7 +359,7 @@ another variable which is the ratio of `complaints` to `visits`.
   
   </details>
 
-* Fit a Bayesian model in BayesX using the `complaints` variable as Poisson
+* Fit a Bayesian model in `BayesX` using the `complaints` variable as Poisson
 response and the others as covariates. Examine the output; does the model fit
 well, and is there any evidence that any of the explanatory variables are
 associated with the rate of complaints?
