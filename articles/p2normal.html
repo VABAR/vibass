@@ -251,9 +251,8 @@ m. According to it, we can compute the following percentile and
 probabilities</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.519692 1.880308</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.519692 1.880308</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="fl">1.70</span>, <span class="fl">0.07</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.002137367 0.076563726 0.500000000 0.923436274 0.997862633</span></span></code></pre></div>
 <p>Consequently, a
 99<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>%</mi><annotation encoding="application/x-tex">\%</annotation></semantics></math>
@@ -267,7 +266,7 @@ that she is shorter than 1.50 is 0.0021, the probability that her height
 is between 1.60 and 1.80 is 0.9234-0.0766= 0.8468 or the probability
 that is taller than 1.80 is 1-0.9234=0.0766. Next we show the graphic of
 the density of this prior distribution.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cap</span> <span class="op">&lt;-</span> <span class="st">"Prior distribution for the mean height."</span></span>
 <span><span class="va">m0</span> <span class="op">&lt;-</span> <span class="fl">1.7</span>; <span class="va">s0</span> <span class="op">&lt;-</span> <span class="fl">0.07</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
@@ -313,7 +312,7 @@ the joint density is the product of the marginal densities. In our case,
 the likelihood function of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
 is</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cap</span> <span class="op">&lt;-</span> <span class="st">"Likelihood function."</span></span>
 <span><span class="va">Lnorm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">mu</span>, <span class="va">y</span>, <span class="va">sigma</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Essentially:</span></span>
@@ -359,7 +358,7 @@ distribution (in green) of
  \pi(\mu &amp;)=\mathcal{N}(\mu_0=1.70, \sigma_0=0.07)\\
  \pi(\mu &amp;\mid \mathcal D)=\mathcal{N}(\mu_n=1.6648, \sigma_n=0.0242)
 \end{align*}</annotation></semantics></math></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m0</span> <span class="op">&lt;-</span> <span class="fl">1.7</span>; <span class="va">s0</span> <span class="op">&lt;-</span> <span class="fl">0.07</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fl">1.6648</span>; <span class="va">s1</span> <span class="op">&lt;-</span> <span class="fl">0.0242</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
@@ -394,11 +393,10 @@ with a standard deviation of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>n</mi></msub><annotation encoding="application/x-tex">\sigma_n</annotation></semantics></math>
 metres. According to it, we can compute the following percentiles and
 probabilities</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.602465 1.727135</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.602465 1.727135</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 4.882741e-12 3.706635e-03 9.271024e-01 1.000000e+00 1.000000e+00</span></span></code></pre></div>
 <p>Consequently, a 99% credible interval for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
@@ -435,7 +433,7 @@ shows the posterior distribution (in green) of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
 and the posterior predictive distribution (in purple) for Aninè’s height
 illustrating the previous comments.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="va">m1</span>; <span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">s1</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">m1</span>, <span class="va">s1</span><span class="op">)</span>,</span>
@@ -454,7 +452,7 @@ height.
 </div>
 <p>We can calculate prediction intervals for the height of Aninè. A
 prediction interval at 95% would be</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="fl">1.6642</span>, <span class="fl">0.1029</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.46252 1.86588</span></span></code></pre></div>
 <p>This indicates that the probability that Aninè’s height is between
@@ -604,7 +602,7 @@ VIBASS is less than
 are
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0000</mn><mo>,</mo><mn>0.0006</mn><mo>,</mo><mn>0.9916</mn><mo>,</mo><mn>1.0000</mn><mo>,</mo><mrow><mtext mathvariant="normal">and </mtext><mspace width="0.333em"></mspace></mrow><mn>1.0000</mn></mrow><annotation encoding="application/x-tex">0.0000, 0.0006, 0.9916, 1.0000, \text{and } 1.0000</annotation></semantics></math>,
 respectively.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ny</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">hwomen</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span>
 <span><span class="va">ybar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">hwomen</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span>
 <span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">hwomen</span><span class="op">$</span><span class="va">height</span> <span class="op">-</span> <span class="va">ybar</span><span class="op">)</span> <span class="op">**</span> <span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -614,12 +612,11 @@ respectively.</p>
 <span>  scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">s2</span> <span class="op">/</span> <span class="va">ny</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">post_mu</span><span class="op">$</span><span class="va">scale</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">qt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.995</span><span class="op">)</span>, <span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">mean</span></span>
-<span><span class="co">#&gt; [1] 1.616134 1.703866</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">pt</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span> <span class="op">-</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">mean</span><span class="op">)</span> <span class="op">/</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">scale</span>, <span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.616134 1.703866</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">pt</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.50</span>, <span class="fl">1.60</span>, <span class="fl">1.70</span>, <span class="fl">1.80</span>, <span class="fl">1.90</span><span class="op">)</span> <span class="op">-</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">mean</span><span class="op">)</span> <span class="op">/</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">scale</span>, <span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.669533e-08 5.718022e-04 9.916131e-01 9.999999e-01 1.000000e+00</span></span></code></pre></div>
 <p>The graphics of that posterior density is</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">dt</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">mean</span><span class="op">)</span> <span class="op">/</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">scale</span>, <span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="va">post_mu</span><span class="op">$</span><span class="va">scale</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"density"</span>,</span>
@@ -653,7 +650,7 @@ is a random sample from
 <p>Next we show the approximate graph and some posterior characteristics
 of the posterior
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mn>2</mn></msup><mo>∣</mo><mi>𝒟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma^2 \mid \mathcal D)</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span>, <span class="fl">0.001</span><span class="op">)</span></span>
 <span><span class="va">simuchi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">ny</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">simu.sigma</span> <span class="op">&lt;-</span> <span class="fl">0.045598</span> <span class="op">/</span> <span class="va">simuchi</span> </span>
@@ -664,19 +661,16 @@ of the posterior
 <span>  main <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="st">"density"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">sigma2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="p2normal_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
-<span><span class="co">#&gt; 0.000904 0.002667 0.003413 0.003789 0.004466 0.026238</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2.768883e-06</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.001663996</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 0.000904 0.002667 0.003413 0.003789 0.004466 0.026238</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2.768883e-06</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simu.sigma</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.001663996</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">simu.sigma</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.995</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        0.5%       99.5% </span></span>
 <span><span class="co">#&gt; 0.001468482 0.010937895</span></span></code></pre></div>
 <p>We observe that
@@ -697,7 +691,7 @@ the basic concepts that we have learned in the previous theoretical
 session and that we have been practising in this session.</p>
 <p><strong>Exercice</strong></p>
 <p>We focus now on the height of the VIBASS men participants.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hmen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.92</span>, <span class="fl">1.82</span>, <span class="fl">1.69</span>, <span class="fl">1.75</span>, <span class="fl">1.72</span>, <span class="fl">1.71</span>, <span class="fl">1.73</span>, <span class="fl">1.69</span>, <span class="fl">1.70</span>, <span class="fl">1.78</span>, <span class="fl">1.88</span>, <span class="fl">1.82</span>, <span class="fl">1.86</span>, <span class="fl">1.65</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>

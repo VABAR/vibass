@@ -284,12 +284,11 @@ may wish to use the R function <code><a href="https://rdrr.io/r/graphics/boxplot
 <span><span class="co">#&gt;        </span></span>
 <span><span class="co">#&gt;         FALSE TRUE</span></span>
 <span><span class="co">#&gt;   FALSE    88   44</span></span>
-<span><span class="co">#&gt;   TRUE      2   16</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># For the quantitative variables, look at boxplots on fake vs real</span></span>
+<span><span class="co">#&gt;   TRUE      2   16</span></span>
+<span><span class="co"># For the quantitative variables, look at boxplots on fake vs real</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_words</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">negative</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </details>
@@ -301,7 +300,7 @@ Examine the output; does the model fit well, and is there any evidence
 that any of the explanatory variables are associated with changes in
 probability of an article being fake or not?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Produce the BayesX output</span></span>
 <span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
 <span>                        data <span class="op">=</span> <span class="va">fakenews</span>,</span>
@@ -325,9 +324,8 @@ probability of an article being fake or not?</p>
 <span><span class="co">#&gt; negative          0.3242  0.1629  0.0220  0.3186  0.6485</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 150  burnin = 5000  method = MCMC  family = binomial  </span></span>
-<span><span class="co">#&gt; iterations = 15000  step = 10</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
+<span><span class="co">#&gt; iterations = 15000  step = 10</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                          2.5%      97.5%</span></span>
 <span><span class="co">#&gt; (Intercept)      -4.553338750 -1.3992430</span></span>
 <span><span class="co">#&gt; titlehasexclTRUE  1.253023500  5.1184442</span></span>
@@ -340,11 +338,11 @@ probability of an article being fake or not?</p>
 posterior distributions for the model parameters. Does it seem like
 convergence has been achieved?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Traces can be obtained separately</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.output</span>,which <span class="op">=</span> <span class="st">"coef-samples"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-8-1.png" width="480"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># And the density plots one-by-one</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>,<span class="st">"titlehasexclTRUE"</span><span class="op">]</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Title Has Excl"</span><span class="op">)</span></span>
@@ -357,7 +355,7 @@ convergence has been achieved?</p>
 <p>Fit a non-Bayesian model using <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> for comparison.
 How do the model fits compare?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
 <span>                  data <span class="op">=</span> <span class="va">fakenews</span>,</span>
@@ -384,9 +382,8 @@ How do the model fits compare?</p>
 <span><span class="co">#&gt; Residual deviance: 169.36  on 146  degrees of freedom</span></span>
 <span><span class="co">#&gt; AIC: 177.36</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Perform ANOVA on each variable in turn</span></span>
+<span><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span>
+<span><span class="co"># Perform ANOVA on each variable in turn</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/add1.html" class="external-link">drop1</a></span><span class="op">(</span><span class="va">glm.output</span>,test<span class="op">=</span><span class="st">"Chisq"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Single term deletions</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -451,7 +448,7 @@ income of the doctor is linked with the rate of complaints against that
 doctor.</p>
 <p>We can use the following code to extract the data we want without
 having to load the whole package:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">esdcomp</span> <span class="op">&lt;-</span> <span class="fu">faraway</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/faraway/man/esdcomp.html" class="external-link">esdcomp</a></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -463,7 +460,7 @@ generalised linear model.</p>
 <p>In BayesX, the syntax for fitting a Bayesian Poisson Regression Model
 with one response variable, three explanatory variables and an offset
 will be like so:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span><span class="op">~</span><span class="va">x1</span><span class="op">+</span><span class="va">x2</span><span class="op">+</span><span class="va">x3</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span>,</span>
 <span>                 data <span class="op">=</span> <span class="va">data.set</span>,</span>
 <span>                 family<span class="op">=</span><span class="st">"poisson"</span><span class="op">)</span></span></code></pre></div>
@@ -471,7 +468,7 @@ will be like so:</p>
 for a Poisson GLM we will be using a log() link function by default, we
 must compute the log of the number of visits and include that in the
 data set <code>esdcomp</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span></code></pre></div>
 <p>The offset term in the model is then written</p>
 <p><code>offset(log.visits)</code></p>
@@ -489,17 +486,17 @@ relative to the number of visits. To do this, create another variable
 which is the ratio of <code>complaints</code> to
 <code>visits</code>.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute the ratio</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">complaints</span> <span class="op">/</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span></span>
 <span><span class="co"># Plot the link with revenue</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">revenue</span>,<span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use boxplots against residency and gender</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span> <span class="op">~</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">residency</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-15-2.png" width="700"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span> <span class="op">~</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-15-3.png" width="700"></p>
 </details>
@@ -511,7 +508,7 @@ output; does the model fit well, and is there any evidence that any of
 the explanatory variables are associated with the rate of
 complaints?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
 <span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
@@ -541,13 +538,13 @@ complaints?</p>
 posterior distributions for the model parameters. Does it seem like
 convergence has been achieved?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># An overall plot of sample traces and density estimates</span></span>
 <span><span class="co">#  plot(samples(bayesx.output))</span></span>
 <span><span class="co"># Traces can be obtained separately</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bayesx.output</span>,which <span class="op">=</span> <span class="st">"coef-samples"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="p6_files/figure-html/unnamed-chunk-17-1.png" width="480"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># And the density plots one-by-one</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/samples.html" class="external-link">samples</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span><span class="op">[</span>, <span class="st">"residencyY"</span><span class="op">]</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Residency"</span><span class="op">)</span></span>
@@ -560,7 +557,7 @@ convergence has been achieved?</p>
 <p>Fit a non-Bayesian model using <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> for comparison.
 How do the model fits compare?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
 <span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
@@ -588,9 +585,8 @@ How do the model fits compare?</p>
 <span><span class="co">#&gt; Residual deviance: 58.698  on 40  degrees of freedom</span></span>
 <span><span class="co">#&gt; AIC: 189.48</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of Fisher Scoring iterations: 5</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Perform ANOVA on each variable in turn</span></span>
+<span><span class="co">#&gt; Number of Fisher Scoring iterations: 5</span></span>
+<span><span class="co"># Perform ANOVA on each variable in turn</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/add1.html" class="external-link">drop1</a></span><span class="op">(</span><span class="va">glm.output</span>, test <span class="op">=</span> <span class="st">"Chisq"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Single term deletions</span></span>
 <span><span class="co">#&gt; </span></span>
