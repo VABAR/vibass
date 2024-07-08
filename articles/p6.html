@@ -155,6 +155,9 @@ impossible. However, in many cases this is not needed and
 time it takes with MCMC. It has a very simple interface to define
 models, although it cannot be installed directly from CRAN - instead you
 have a specific website where it can be downloaded: <a href="https://www.r-inla.org/download-install" class="external-link">https://www.r-inla.org/download-install</a></p></li>
+<li><p>The <code>Stan</code> software implements Hamiltonian Monte Carlo
+and other methods for fit hierarchical Bayesian models. It is available
+from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org</a>.</p></li>
 <li><p>Packages <a href="https://mc-stan.org/rstanarm/" class="external-link"><code>rstanarm</code></a> and <a href="https://paul-buerkner.github.io/brms/" class="external-link"><code>brms</code></a> in R
 provide a higher-level interface to <code>Stan</code> allowing to fit a
 large class of regression models, with a syntax very similar to
@@ -171,9 +174,6 @@ Can also be called from R using package <code>r2jags</code>.</p></li>
 implements MCMC and other methods for Bayesian inference. You can get it
 from <a href="https://r-nimble.org" class="external-link uri">https://r-nimble.org</a>, and is best run directly from
 R.</p></li>
-<li><p>The <code>Stan</code> software implements Hamiltonian Monte Carlo
-and other methods for fit hierarchical Bayesian models. It is available
-from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org</a>.</p></li>
 </ul>
 </div>
 </div>
@@ -192,8 +192,8 @@ trials
 with success probability
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\theta_i</annotation></semantics></math>,
 we have</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>𝛉</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∼</mo><mtext mathvariant="normal">Bi</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo>,</mo><msub><mi>θ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mtext mathvariant="normal">i.i.d.</mtext><mo>,</mo><mspace width="1.0em"></mspace><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>m</mi><mtext mathvariant="normal">logit</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="right" style="text-align: right"><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo>+</mo><mi>…</mi><mo>+</mo><msub><mi>β</mi><mi>p</mi></msub><msub><mi>x</mi><mrow><mi>i</mi><mi>p</mi></mrow></msub><mo>=</mo><msub><mi>𝐱</mi><mi>i</mi></msub><mi>𝛃</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
-  (Y_i \mid \boldsymbol \theta_i) &amp; \sim\mbox{Bi}(n_i, \theta_i),\quad \text{i.i.d.},\quad i=1, \ldots, m
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>𝛉</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∼</mo><mtext mathvariant="normal">Bi</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo>,</mo><msub><mi>θ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mtext mathvariant="normal">i.i.d.</mtext><mo>,</mo><mspace width="1.0em"></mspace><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>m</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">logit</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo>+</mo><mi>…</mi><mo>+</mo><msub><mi>β</mi><mi>p</mi></msub><msub><mi>x</mi><mrow><mi>i</mi><mi>p</mi></mrow></msub><mo>=</mo><msub><mi>𝐱</mi><mi>i</mi></msub><mi>𝛃</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+  (Y_i \mid \boldsymbol \theta_i) &amp; \sim\mbox{Bi}(n_i, \theta_i),\quad \text{i.i.d.},\quad i=1, \ldots, m \\
   \mbox{logit}(\theta_i) &amp; =\eta_i \nonumber\\
   \eta_{i} &amp; =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
 \end{align*}</annotation></semantics></math> assuming the logit link
@@ -509,7 +509,7 @@ the explanatory variables are associated with the rate of
 complaints?</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
+<code class="sourceCode R"><span><span class="co"># Fit model - note similarity with glm syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
 <span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
 <span>                        data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
