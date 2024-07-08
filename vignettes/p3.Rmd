@@ -20,23 +20,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Fitting a Bayesian polynomial model
 
+```{r packages}
+## Load some required libraries
+library(extraDistr)    # functions related with the inverse-Gamma distribution
+library(LaplacesDemon) # functions related with the multivariate Student dist.
+```
+
+
 ## Introduction 
 
-The \texttt{Auto} dataset of the \texttt{ISLR} library contains information on several characteristics of 392 vehicles. Specifically, we will want to model the relationship between the efficiency of these cars, measured as the number of miles they are able to travel per gallon of fuel (variable \texttt{mpg}), and their power, quantified by the variable \texttt{horsepower}.
+The `Auto` dataset of the `ISLR` library contains information on several characteristics of 392 vehicles. Specifically, we will want to model the relationship between the efficiency of these cars, measured as the number of miles they are able to travel per gallon of fuel (variable `mpg`), and their power, quantified by the variable `horsepower`.
 
 We begin by visualizing the relationship between the two variables
 
 ```{r}
-if(!("ISLR"%in%installed.packages())){install.packages("ISLR")}
-library(ISLR)
+data("Auto", package = "ISLR")
 plot(mpg ~ horsepower, data = Auto)
 ```
 
-The relationship between both variables is clearly nonlinear, posibly quadratic, so we will fit a (Bayesian) quadratic regression model to this data set to describe this relationship.
+The relationship between both variables is clearly nonlinear, possibly quadratic, so we will fit a (Bayesian) quadratic regression model to this data set to describe this relationship.
 
 ## Fitting a (frequentist) quadratic regression model 
 
-We are going to fit now a regression model which describes a quadratic function of \texttt{horsepower} following a frequentist approach and tools. Previously, we will standardize \texttt{horsepower} in order to obtain more manageable estimates of the coefficients of the model and their variability. Let's do it:
+We are going to fit now a regression model which describes a quadratic function of `horsepower` following a frequentist approach and tools. Previously, we will standardize `horsepower` in order to obtain more manageable estimates of the coefficients of the model and their variability. Let's do it:
 ```{r}
 # Standardization of horsepower
 Auto$horse.std <- (Auto$horsepower - mean(Auto$horsepower))/sd(Auto$horsepower)
@@ -48,15 +54,13 @@ plot(mpg ~ horse.std, data = Auto)
 where <- seq(min(Auto$horse.std), max(Auto$horse.std), length = 100)
 lines(where, predict(Fit1, data.frame(horse.std = where)), col = 2, lwd = 2)
 ```
-The fitted curve adequately describes the relationship between both variables. Moreover, every term of the polynomial seem to have a significant effect, that is, all of them seem necessary to appropriately describe the variation of \texttt{mpg} as a function of \texttt{horse.std}.
+The fitted curve adequately describes the relationship between both variables. Moreover, every term of the polynomial seem to have a significant effect, that is, all of them seem necessary to appropriately describe the variation of `mpg` as a function of `horse.std`.
 
 ## Fitting a Bayesian quadratic regression model 
 
 Let us now fit the Bayesian version of the above model. We will use, for convenience, Jeffreys' prior for $P(\boldsymbol{\beta},\sigma^2)\propto \sigma^{-2}$. Therefore, we have:
 $$\pi(\sigma^2\mid \mathcal{D})\sim IG(\sigma^2\mid(n-(p+1))/2,s_e^2/2)$$
 ```{r}
-if(!("LaplacesDemon"%in%installed.packages())){install.packages("LaplacesDemon")}
-library(LaplacesDemon)
 plot(seq(13, 25, by = 0.1), 
      dinvgamma(seq(13, 25, by = 0.1), (nrow(Auto)-3)/2,sum(residuals(Fit1)^2)/2), 
      type = "l", ylab = "Posterior density", xlab = "sigma2")
@@ -74,7 +78,7 @@ The Bayesian posterior point estimates are quite close to the frequentist estima
 
 As mentioned in the theoretical session, $\boldsymbol{\beta}$ has the following marginal posterior distribution:
 $$\pi(\boldsymbol{\beta}\mid \boldsymbol{y})\sim t_{n-(p+1)}(\hat{\boldsymbol{\beta}},s_e^2(\boldsymbol{X}'\boldsymbol{X})^{-1}/(n-(p+1)))$$
-The mean of this distribution coincides with the coefficients of the linear model \texttt{Fit1}, and has as variance-covariance matrix:
+The mean of this distribution coincides with the coefficients of the linear model `Fit1`, and has as variance-covariance matrix:
 ```{r}
 X <- cbind(rep(1, dim(Auto)[1]), Auto$horse.std, Auto$horse.std^2)
 VarCov <- solve(t(X)%*%X)*sum(residuals(Fit1)^2)/(nrow(Auto)-3)
@@ -137,4 +141,4 @@ We propose below an individual exercice that pursues to consolidate the basic co
 
 **Exercice** 
 
-The data set \texttt{Weights}, included in the \texttt{VIBASS} package, is the data set used for the example of the theoretical session. That data set has a categorical variable, \texttt{race}, which contains the race of each child in the study. Fit a Bayesian linear regression model (ANCOVA) that explains each child's weight as a function of age, race and the interaction of these factors. Explore the posterior distribution of the coefficients in the model and assess therefore its convenience in the regression model.
+The data set `Weights`, included in the `VIBASS` package, is the data set used for the example of the theoretical session. That data set has a categorical variable, `race`, which contains the race of each child in the study. Fit a Bayesian linear regression model (ANCOVA) that explains each child's weight as a function of age, race and the interaction of these factors. Explore the posterior distribution of the coefficients in the model and assess therefore its convenience in the regression model.
