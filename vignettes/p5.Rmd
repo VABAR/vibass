@@ -367,9 +367,11 @@ How is this related to the number of IS samples (`n_simulations`)?
     
     </details>
 
+### Changing the proposal distribution - Importance Sampling
 
 * Use a different proposal distribution and check how sampling weights,
-ESS and point estimates differ from those in the current example. For
+ESS and point estimates differ from those in the current example when using
+Importance Sampling. For
 example, a $\text{Ga}(5,\, 0.1)$ will put a higher mass on values
 around 40, unlike the actual posterior distribution. What differences
 do you find with the example presented here using a uniform proposal
@@ -408,6 +410,65 @@ distribution? Why do you think that these differences appear?
     ```{r}
     ESS(ww)
     n_simulations
+    ```
+    
+    </details>
+
+### Changing the prior distribution - Metropolis-Hastings
+
+* We can also try using a different prior distribution on $\lambda$, and analyse
+the data using the Metropolis-Hastings algorithm. Run the example for a prior
+distribution on $\lambda$ which is a Gamma distribution with
+parameters $1.0$ and $1.0$, which is centred at 1 and has a larger
+precision (i.e., smaller variance) than before. How does the different prior
+distribution change the estimate of $\lambda$, and why?
+    
+    <details><summary>Solution</summary>
+    
+    ```{r}
+    # Prior distribution: Ga(1.0, 1.0)
+    logprior <- function(lambda) {
+      dgamma(lambda, 1.0, 1.0, log = TRUE)
+    }
+    # Number of iterations
+    n.iter <- 40500
+    
+    # Simulations of the parameter
+    lambda <- rep(NA, n.iter)
+    
+    # Initial value
+    lambda[1] <- 30
+    
+    for(i in 2:n.iter) {
+      new.lambda <- rq(lambda[i - 1])
+      
+      # Log-Acceptance probability
+      logacc.prob <- loglik(y, new.lambda) + logprior(new.lambda) +
+        logdq(lambda[i - 1], new.lambda)
+      logacc.prob <- logacc.prob - loglik(y, lambda[i - 1]) - logprior(lambda[i - 1]) - 
+        logdq(new.lambda, lambda[i - 1])
+      logacc.prob <- min(0, logacc.prob)#0 = log(1)
+      
+      if(log(runif(1)) < logacc.prob) {
+        # Accept
+        lambda[i] <- new.lambda
+      } else {
+        # Reject
+        lambda[i] <- lambda[i - 1]
+      }
+    }
+    # Remove burn-in
+    lambda <- lambda[-c(1:500)]
+    
+    # Thinning
+    lambda <- lambda[seq(1, length(lambda), by = 10)]
+    
+    # Summary statistics
+    summary(lambda)
+    
+    par(mfrow = c(1, 2))
+    plot(lambda, type = "l", main = "MCMC samples", ylab = expression(lambda))
+    plot(density(lambda), main = "Posterior density", xlab = expression(lambda))
     ```
     
     </details>
