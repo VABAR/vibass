@@ -283,7 +283,7 @@ The response variable that we will use is `complaints`, an integer count of the
 number of complaints received. It is expected that the number of complaints will
 scale by the number of visits (contained in the `visits` column), so we are
 modelling the rate of complaints per visit - thus we will need to include a new
-variable `log.visits` as an offset.
+variable `logvisits` as an offset.
 
 The three explanatory variables we will use in the analysis are:
 
@@ -329,12 +329,12 @@ compute the log of the number of visits and include that in the data set
 `esdcomp`:
 
 ```{r}
-esdcomp$log.visits <- log(esdcomp$visits)
+esdcomp$logvisits <- log(esdcomp$visits)
 ```
 
 The offset term in the model is then written
 
-`offset(log.visits)`
+`offset(logvisits)`
 
 in the call to `bayesx()`.
 
@@ -368,8 +368,9 @@ associated with the rate of complaints?
   
   ```{r fig = TRUE}
   # Fit model - note similarity with glm syntax
-  esdcomp$log.visits <- log(esdcomp$visits)
-  bayesx.output <- bayesx(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
+  esdcomp$logvisits <- log(esdcomp$visits)
+  bayesx.output <- bayesx(formula = complaints ~ residency + gender + revenue,
+                          offset = logvisits,
                           data = esdcomp,
                           family = "poisson")
   # Summarise output
@@ -410,7 +411,8 @@ compare?
   ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
   esdcomp$log.visits <- log(esdcomp$visits)
-  glm.output <- glm(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
+  glm.output <- glm(formula = complaints ~ residency + gender + revenue,
+                    offset = logvisits,
                     data = esdcomp,
                     family = "poisson")
   # Summarise output
