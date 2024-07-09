@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.54</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.55</span>
       </span>
     </div>
 
@@ -433,7 +433,7 @@ integer count of the number of complaints received. It is expected that
 the number of complaints will scale by the number of visits (contained
 in the <code>visits</code> column), so we are modelling the rate of
 complaints per visit - thus we will need to include a new variable
-<code>log.visits</code> as an offset.</p>
+<code>logvisits</code> as an offset.</p>
 <p>The three explanatory variables we will use in the analysis are:</p>
 <ul>
 <li><p><code>residency</code>, whether or not the doctor is still in
@@ -469,9 +469,9 @@ for a Poisson GLM we will be using a log link function by default, we
 must compute the log of the number of visits and include that in the
 data set <code>esdcomp</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">logvisits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span></code></pre></div>
 <p>The offset term in the model is then written</p>
-<p><code>offset(log.visits)</code></p>
+<p><code>offset(logvisits)</code></p>
 <p>in the call to <code><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -510,24 +510,25 @@ the rate of complaints?</p>
 <details><summary><p>Solution</p>
 </summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with glm syntax</span></span>
-<span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
-<span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
+<span><span class="va">esdcomp</span><span class="op">$</span><span class="va">logvisits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
+<span><span class="va">bayesx.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/R2BayesX/man/bayesx.html" class="external-link">bayesx</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
+<span>                        offset <span class="op">=</span> <span class="va">logvisits</span>,</span>
 <span>                        data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
 <span>                        family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bayesx.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; bayesx(formula = complaints ~ offset(log.visits) + residency + </span></span>
-<span><span class="co">#&gt;     gender + revenue, data = esdcomp, family = "poisson")</span></span>
+<span><span class="co">#&gt; bayesx(formula = complaints ~ residency + gender + revenue, data = esdcomp, </span></span>
+<span><span class="co">#&gt;     offset = logvisits, family = "poisson")</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; Fixed effects estimation results:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parametric coefficients:</span></span>
 <span><span class="co">#&gt;                Mean      Sd    2.5%     50%   97.5%</span></span>
-<span><span class="co">#&gt; (Intercept) -0.3904  0.6769 -1.7152 -0.3809  0.9069</span></span>
-<span><span class="co">#&gt; residencyY  -0.5462  0.1920 -0.9243 -0.5552 -0.1618</span></span>
-<span><span class="co">#&gt; genderM      0.1616  0.2083 -0.2278  0.1587  0.6013</span></span>
-<span><span class="co">#&gt; revenue      0.0064  0.0028  0.0013  0.0064  0.0119</span></span>
+<span><span class="co">#&gt; (Intercept) -7.1678  0.6841 -8.5077 -7.1564 -5.8598</span></span>
+<span><span class="co">#&gt; residencyY  -0.3443  0.1953 -0.7247 -0.3553  0.0458</span></span>
+<span><span class="co">#&gt; genderM      0.1449  0.2098 -0.2469  0.1447  0.5755</span></span>
+<span><span class="co">#&gt; revenue      0.0023  0.0028 -0.0029  0.0023  0.0079</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; N = 44  burnin = 2000  method = MCMC  family = poisson  </span></span>
 <span><span class="co">#&gt; iterations = 12000  step = 10</span></span></code></pre></div>
@@ -560,15 +561,16 @@ How do the model fits compare?</p>
 </summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
-<span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
+<span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
+<span>                  offset <span class="op">=</span> <span class="va">logvisits</span>,</span>
 <span>                  data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
 <span>                  family <span class="op">=</span> <span class="st">"poisson"</span><span class="op">)</span></span>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">glm.output</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; glm(formula = complaints ~ offset(log.visits) + residency + gender + </span></span>
-<span><span class="co">#&gt;     revenue, family = "poisson", data = esdcomp)</span></span>
+<span><span class="co">#&gt; glm(formula = complaints ~ residency + gender + revenue, family = "poisson", </span></span>
+<span><span class="co">#&gt;     data = esdcomp, offset = logvisits)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;              Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
@@ -591,7 +593,7 @@ How do the model fits compare?</p>
 <span><span class="co">#&gt; Single term deletions</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model:</span></span>
-<span><span class="co">#&gt; complaints ~ offset(log.visits) + residency + gender + revenue</span></span>
+<span><span class="co">#&gt; complaints ~ residency + gender + revenue</span></span>
 <span><span class="co">#&gt;           Df Deviance    AIC    LRT Pr(&gt;Chi)  </span></span>
 <span><span class="co">#&gt; &lt;none&gt;         58.698 189.48                  </span></span>
 <span><span class="co">#&gt; residency  1   62.128 190.91 3.4303  0.06401 .</span></span>
