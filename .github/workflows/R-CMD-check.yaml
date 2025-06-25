@@ -24,22 +24,22 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-oldrel, r: '4.4'}
-          - {os: windows-release, r: '4.5'}
-          - {os: macOS-oldrel, r: '4.4'}
-          - {os: macOS-release, r: '4.5'}
-          # - {os: ubuntu-24.04, r: '4.4', rspm: "https://packagemanager.rstudio.com/cran/__linux__/noble/latest"}
-          # - {os: ubuntu-24.04-release,   r: '4.5', rspm: "https://packagemanager.rstudio.com/cran/__linux__/noble/latest", http-user-agent: "R/4.5.0 (ubuntu-22.04) R (4.5.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
-          - {os: ubuntu-22.04, r: '4.4', rspm: "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest"}
-          - {os: ubuntu-22.04-release,   r: '4.5', rspm: "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest", http-user-agent: "R/4.5.0 (ubuntu-22.04) R (4.5.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
+          - {os: windows-latest, r: 'oldrel-1'}
+          - {os: windows-latest, r: 'release'}
+          - {os: macos-oldrel, r: 'oldrel-1'}
+          - {os: macos-release, r: 'release'}
+          - {os: ubuntu-latest, r: 'oldrel-1'}
+          - {os: ubuntu-latest, r: 'release'}
+          - {os: ubuntu-latest, r: 'devel', http-user-agent: 'release'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      RSPM: ${{ matrix.config.rspm }}
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -49,46 +49,21 @@ jobs:
           use-public-rspm: true
           extra-repositories: "https://inla.r-inla-download.org/R/testing"
 
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Restore R package cache
-        uses: actions/cache@v4
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ env.cache-version }}-${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          dependencies: '"all"'
+          extra-packages: |
+             rcmdcheck
+             Cairo
+             remotes
 
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
+      - name: Limit INLA version to 24.05.10 on old R version
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "22.04"))')
-
-      - name: INLA system requirements not detected previously
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get install -y libudunits2-dev libgdal-dev gdal-bin libgeos-dev libproj-dev libsqlite3-dev libjpeg-dev libfribidi-dev libharfbuzz-dev libtiff-dev libgit2-dev libgsl0-dev libglu1-mesa-dev libgl1-mesa-dev
-
-      - name: Install INLA beforehand
-        run: |
-          install.packages("INLA", repos = c(getOption("repos"), INLA = "https://inla.r-inla-download.org/R/testing"), dep = TRUE)
+          if (getRversion() < "4.4.0") {
+            remotes::install_version("INLA", version = "24.05.10", repos = "https://inla.r-inla-download.org/R/testing")
+          }
         shell: Rscript {0}
 
-      - name: Install dependencies
-        run: |
-          options(install.packages.check.source = "no")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
-        shell: Rscript {0}
 
       - name: Session info
         run: |
@@ -96,6 +71,7 @@ jobs:
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
+
 
       - uses: r-lib/actions/check-r-package@v2
         env:
