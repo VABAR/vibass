@@ -581,7 +581,7 @@ library(MCMCpack)
 ```
 For this Bayesian Linear Regression example, we will use the `MCMCregress()`
 function; use
-```{r}
+```{r eval = FALSE}
 ?MCMCregress
 ```
 to see the help page for `MCMCregress()`. We specify the formula just as we would
