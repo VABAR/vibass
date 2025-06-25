@@ -709,18 +709,9 @@ pollution requires more oxygen to break it down).</p></li>
 <p>The package MCMCpack should be loaded into R:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=MCMCpack" class="external-link">MCMCpack</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: coda</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: MASS</span></span></code></pre>
-<pre><code><span><span class="co">## ##</span></span>
-<span><span class="co">## ## Markov Chain Monte Carlo Package (MCMCpack)</span></span></code></pre>
-<pre><code><span><span class="co">## ## Copyright (C) 2003-2025 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park</span></span></code></pre>
-<pre><code><span><span class="co">## ##</span></span>
-<span><span class="co">## ## Support provided by the U.S. National Science Foundation</span></span></code></pre>
-<pre><code><span><span class="co">## ## (Grants SES-0350646 and SES-0350613)</span></span>
-<span><span class="co">## ##</span></span></code></pre>
 <p>For this Bayesian Linear Regression example, we will use the
 <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code> function; use</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">MCMCregress</span></span></code></pre></div>
 <p>to see the help page for <code><a href="https://rdrr.io/pkg/MCMCpack/man/MCMCregress.html" class="external-link">MCMCregress()</a></code>. We specify the
 formula just as we would for a non-Bayesian regression using the
@@ -771,11 +762,11 @@ which is helpful to us.</p>
 would be sensible. [Hint: a scatterplot and a correlation coefficient
 could be helpful.]</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Scatterplot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">BOD</span>,<span class="va">mayfly.length</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p5_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<p><img src="p5_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correlation with hypothesis test</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></span><span class="op">(</span><span class="va">BOD</span>,<span class="va">mayfly.length</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -796,7 +787,7 @@ could be helpful.]</p>
 <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function in R; this will be useful for comparison with
 our Bayesian analysis.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Linear Regression using lm()</span></span>
 <span><span class="va">linreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mayfly.length</span> <span class="op">~</span> <span class="va">BOD</span>, data <span class="op">=</span> <span class="va">Data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">linreg</span><span class="op">)</span></span></code></pre></div>
@@ -837,7 +828,7 @@ using the <code>beta.start</code> argument of
 <code>verbose</code>, where e.g. setting a value of 1000 implies the
 code will show an update to the screen every 1000 iterations.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bayesian Linear Regression using a Gibbs Sampler</span></span>
 <span></span>
 <span><span class="co"># Set the size of the burn-in, the number of iterations of the Gibbs Sampler</span></span>
@@ -958,7 +949,7 @@ code will show an update to the screen every 1000 iterations.</p>
 <span><span class="co">##   29.38684</span></span>
 <span><span class="co">##   -0.06209</span></span>
 <span><span class="co">## sigma2 =    3.87291</span></span></code></pre>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Iterations = 5001:14991</span></span>
@@ -988,20 +979,20 @@ autocorrelation in the Gibbs sampling simulation chain. Is there any
 visual evidence of autocorrelation, or do the samples look
 independent?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/traceplot.html" class="external-link">traceplot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p5_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="p5_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 </details>
 </li>
 <li>
 <p>Use the function <code><a href="https://rdrr.io/pkg/coda/man/densplot.html" class="external-link">densplot()</a></code> to view the shape of the
 posterior densities of each parameter.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/densplot.html" class="external-link">densplot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p5_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="p5_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 </details>
 </li>
 <li>
@@ -1014,7 +1005,7 @@ samples from the posterior distribution of the regression intercept and
 the coefficient for BOD. Are the values close to zero, or to +1 or
 -1?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/crosscorr.html" class="external-link">crosscorr</a></span><span class="op">(</span><span class="va">results1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             (Intercept)         BOD      sigma2</span></span>
 <span><span class="co">## (Intercept)  1.00000000 -0.96109141 -0.05564442</span></span>
@@ -1037,7 +1028,7 @@ intercept and slope(s). Do this for the current example, noting that you
 will need to make a correction on the estimate of the regression
 intercept afterwards.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Mean-centre the x covariate</span></span>
 <span><span class="va">DataC</span> <span class="op">&lt;-</span> <span class="va">Data</span></span>
 <span><span class="va">meanBOD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">DataC</span><span class="op">$</span><span class="va">BOD</span><span class="op">)</span></span>
@@ -1476,7 +1467,7 @@ intercept afterwards.</p>
 <span><span class="co">##   19.66103</span></span>
 <span><span class="co">##   -0.05363</span></span>
 <span><span class="co">## sigma2 =    2.07754</span></span></code></pre>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Iterations = 50001:59991</span></span>
@@ -1498,7 +1489,7 @@ intercept afterwards.</p>
 <span><span class="co">## (Intercept) 18.84960 19.36318 19.63098 19.86544 20.34886</span></span>
 <span><span class="co">## BOD         -0.07067 -0.06099 -0.05491 -0.04897 -0.03778</span></span>
 <span><span class="co">## sigma2       2.01223  2.72506  3.27807  3.98491  6.20298</span></span></code></pre>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correct the effect of the mean-centering on the intercept, using the</span></span>
 <span><span class="co"># full set of simulated outputs</span></span>
 <span><span class="va">results2.simulations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span>
@@ -1506,10 +1497,10 @@ intercept afterwards.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results2.beta.0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##   22.78   26.77   27.64   27.61   28.49   31.96</span></span></code></pre>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">results2.beta.0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1.704337</span></span></code></pre>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">results2.beta.0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1.305503</span></span></code></pre>
 </details>
@@ -1519,19 +1510,19 @@ intercept afterwards.</p>
 before. Are there any notable differences when mean-centering the
 covariate, especially with regard to the cross-correlations?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/traceplot.html" class="external-link">traceplot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p5_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<p><img src="p5_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/densplot.html" class="external-link">densplot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span>
 <span><span class="co"># Need to use the Base R kernel density function to look at the corrected </span></span>
 <span><span class="co"># Intercept</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2.beta.0</span>, bw <span class="op">=</span> <span class="fl">0.3404</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>,<span class="fl">34</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Density, corrected Intercept"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p5_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<p><img src="p5_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/coda/man/crosscorr.html" class="external-link">crosscorr</a></span><span class="op">(</span><span class="va">results2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##              (Intercept)         BOD       sigma2</span></span>
 <span><span class="co">## (Intercept)  1.000000000  0.02131006 -0.001004385</span></span>

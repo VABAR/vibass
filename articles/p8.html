@@ -683,7 +683,7 @@ conversion:</p>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.output</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.79, Running = 1.19, Post = 0.0134, Total = 2.99 </span></span>
+<span><span class="co">##     Pre = 1.07, Running = 0.943, Post = 0.0156, Total = 2.03 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##                    mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept)      -3.016 0.761     -4.507   -3.016     -1.525 -3.016   0</span></span>
@@ -835,7 +835,7 @@ to help us make inference.</p>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.output</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.48, Running = 0.521, Post = 0.0302, Total = 2.03 </span></span>
+<span><span class="co">##     Pre = 0.89, Running = 0.263, Post = 0.00537, Total = 1.16 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -7.171 0.688     -8.520   -7.171     -5.822 -7.171   0</span></span>
@@ -981,7 +981,7 @@ easily be fit with <code>INLA</code> as follows:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.35, Running = 0.376, Post = 0.0314, Total = 1.76 </span></span>
+<span><span class="co">##     Pre = 0.888, Running = 0.291, Post = 0.0197, Total = 1.2 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0</span></span>
@@ -996,7 +996,7 @@ easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">##                                         0.975quant  mode</span></span>
 <span><span class="co">## Precision for the Gaussian observations      0.022 0.021</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7713.44 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7713.43 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -1028,14 +1028,14 @@ explored by means of boxplots:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.78, Running = 0.612, Post = 0.0391, Total = 2.43 </span></span>
+<span><span class="co">##     Pre = 1, Running = 0.314, Post = 0.0197, Total = 1.33 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept) 10.626 1.494      7.699   10.624     13.563 10.624   0</span></span>
+<span><span class="co">## (Intercept) 10.628 1.497      7.696   10.626     13.570 10.626   0</span></span>
 <span><span class="co">## IQ           2.248 0.072      2.108    2.248      2.388  2.248   0</span></span>
-<span><span class="co">## GS          -0.016 0.047     -0.109   -0.016      0.077 -0.016   0</span></span>
+<span><span class="co">## GS          -0.016 0.048     -0.109   -0.016      0.078 -0.016   0</span></span>
 <span><span class="co">## SES          0.165 0.015      0.136    0.165      0.194  0.165   0</span></span>
-<span><span class="co">## COMB1       -2.017 0.597     -3.193   -2.016     -0.848 -2.016   0</span></span>
+<span><span class="co">## COMB1       -2.018 0.599     -3.196   -2.017     -0.846 -2.017   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Random effects:</span></span>
 <span><span class="co">##   Name     Model</span></span>
@@ -1044,12 +1044,12 @@ explored by means of boxplots:</p>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
 <span><span class="co">## Precision for the Gaussian observations 0.025 0.001      0.024    0.025</span></span>
-<span><span class="co">## Precision for class                     0.122 0.020      0.087    0.121</span></span>
+<span><span class="co">## Precision for class                     0.122 0.021      0.087    0.121</span></span>
 <span><span class="co">##                                         0.975quant  mode</span></span>
 <span><span class="co">## Precision for the Gaussian observations      0.027 0.025</span></span>
-<span><span class="co">## Precision for class                          0.166 0.118</span></span>
+<span><span class="co">## Precision for class                          0.168 0.117</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7613.02 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7613.00 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -1200,7 +1200,7 @@ code:</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.52, Running = 0.291, Post = 0.00609, Total = 1.82 </span></span>
+<span><span class="co">##     Pre = 0.9, Running = 0.261, Post = 0.00438, Total = 1.17 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0</span></span>
@@ -1226,7 +1226,7 @@ differences between the counties:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.56, Running = 0.313, Post = 0.0147, Total = 1.89 </span></span>
+<span><span class="co">##     Pre = 0.905, Running = 0.23, Post = 0.00848, Total = 1.14 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.650 0.104     -0.856   -0.649     -0.446 -0.649   0</span></span>
@@ -1257,7 +1257,7 @@ it:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m3nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.59, Running = 0.36, Post = 0.0216, Total = 1.97 </span></span>
+<span><span class="co">##     Pre = 0.958, Running = 0.22, Post = 0.00828, Total = 1.19 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.029 0.063     -0.156   -0.028      0.091 -0.028   0</span></span>
