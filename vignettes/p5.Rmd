@@ -576,9 +576,17 @@ Data <- data.frame(BOD=BOD,mayfly.length=mayfly.length)
 ```
 
 The package MCMCpack should be loaded into R:
-```{r}
+
+```{r echo = FALSE}
+suppressPackageStartupMessages(
+  library(MCMCpack)
+)
+```
+
+```{r eval = FALSE}
 library(MCMCpack)
 ```
+
 For this Bayesian Linear Regression example, we will use the `MCMCregress()`
 function; use
 ```{r eval = FALSE}
