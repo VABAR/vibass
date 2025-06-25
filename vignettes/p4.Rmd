@@ -9,7 +9,7 @@ output:
     fig_width: 6
     fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Practical 3: Bayesian polynomial regression}
+  %\VignetteIndexEntry{Practical 4: Simulation-based Bayesian inference}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
