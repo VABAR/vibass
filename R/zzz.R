@@ -1,4 +1,6 @@
 #' @import R2BayesX
+#' @import lme4
+
 
 .onAttach <- function(...) {
 
