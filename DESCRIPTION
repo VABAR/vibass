@@ -1,10 +1,10 @@
 Type: Package
 Package: vibass
-Title: Valencia International Bayesian Summer School
-Version: 0.1.0
+Title: Materials for Introductory Course on Bayesian Learning at VIBASS
+Version: 1.0.0
 Authors@R: 
     c(person(given = "VIBASS Team",
-             role = c("aut")),
+             role = c("aut", "cph")),
       person(given = "Facundo",
              family = "Muñoz",
              role = c("ctb", "cre"),
@@ -36,11 +36,13 @@ Authors@R:
              role = "ctb",
              email = "Virgilio.Gomez@uclm.es",
              comment = "Universidad Castilla-La Mancha"))
-Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
-Description: Materials for the introductory course on Bayesian
-    inference at VIBASS. Practicals, data and interactive apps.
+Description: Practicals, data sets, helper functions and interactive 'Shiny' apps
+    used in the introductory course on Bayesian inference at the
+    Valencia International Bayesian Summer School. Installing 'vibass' installs
+    all the other packages used during the course and downloads all necessary
+    materials for working off line.
 License: GPL-3
-Depends: R (>= 3.6)
+Depends: R (>= 4.0)
 Imports: 
     cli,
     dplyr,
@@ -79,6 +81,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 URL: http://vabar.es/vibass/, https://github.com/VABAR/vibass
+BugReports: https://github.com/VABAR/vibass/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
