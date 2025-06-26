@@ -83,7 +83,9 @@ p1_server <- function(input, output, session) {
 
 
   output$inference <- renderPlot(
-    theta_values %>%
+    data.frame(
+      x = seq(0.01, .99, length = 101)
+    ) %>%
       mutate(
         prior = dbeta(.data$x, input$a0, input$b0),
         likelihood = dbeta(.data$x, 1 + input$r, 1 + input$n - input$r),

@@ -8,6 +8,8 @@ available_apps()
 }
 \value{
 Character vector.
+
+Character vector with available app codes in the package.
 }
 \description{
 App codes that are available for use in [vibass_app()].

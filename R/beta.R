@@ -1,8 +1,3 @@
-theta_values <- data.frame(
-  x = seq(0.01, .99, length = 101)
-)
-
-
 #' Beta-Binomial quantile function
 #'
 #' @param p numeric vector of values between 0 and 1. Cumulative probabilities.
@@ -10,7 +5,7 @@ theta_values <- data.frame(
 #' @param a numeric vector of alpha values.
 #' @param b numeric vector of beta values.
 #'
-#' @return numeric vector of quantiles between 0 and n.
+#' @returns Numeric vector of quantiles between 0 and n.
 #' @importFrom extraDistr pbbinom
 #'
 #' @examples

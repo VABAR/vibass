@@ -3,10 +3,14 @@
 #' Launches the Shiny interactive applications for the practicals.
 #'
 #' @param x integer or character interpretable as integer. See
-#'   [get_available_apps()] for valid options.
+#'   [available_apps()] for valid options.
 #'
 #' @import shiny
 #' @export
+#' @returns With no arguments, displays a list of available app codes.
+#'    Otherwise, lauches the corresponding Shiny app.
+#' @examples
+#' vibass_app()
 vibass_app <- function (x = NULL) {
 
   if (is.null(x)) {
@@ -50,7 +54,7 @@ available_apps_message <- function() {
 #'
 #' @return Character vector.
 #' @export
-#'
+#' @returns Character vector with available app codes in the package.
 #' @examples
 #' available_apps()
 available_apps <- function() {

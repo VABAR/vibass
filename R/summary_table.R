@@ -18,7 +18,7 @@
 #' @param digits Integer. Number of decimal places to be used.
 #' @param ... Passed to knitr::kable().
 #'
-#' @return A knitr_kable object.
+#' @returns A knitr_kable object.
 #' @importFrom knitr kable
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats setNames

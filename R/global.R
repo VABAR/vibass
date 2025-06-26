@@ -87,8 +87,4 @@ plot_style <- list(
 ## - Add button "Take snapshot" and plot the curves greyed out in the
 ## background. Also need a button "Reset", to clear out the memory.
 ## + Let a0 and b0 go up to 100 (and eventually put values)
-## + Add some introductory text and equations
-## + Add a graphical representation of the 95% CrI
-## + Add a table with Mean, SD and 95 % CrI for the prior, posterior and
-## predictive
 ## + Put into a R package

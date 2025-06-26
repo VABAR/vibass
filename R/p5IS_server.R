@@ -124,8 +124,7 @@ p5IS_server <- function(input, output, session) {
 
 
   output$inference <- renderPlot(
-    #theta_values %>%
-      data.frame(x = values$density$x) %>%
+    data.frame(x = values$density$x) %>%
       mutate(
         prior = dbeta(.data$x, input$a0, input$b0),
         likelihood = dbeta(.data$x, 1 + sum(data$red), 1 + sum(data$MMs - data$red)),

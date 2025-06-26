@@ -8,8 +8,15 @@ vibass_app(x = NULL)
 }
 \arguments{
 \item{x}{integer or character interpretable as integer. See
-[get_available_apps()] for valid options.}
+[available_apps()] for valid options.}
+}
+\value{
+With no arguments, displays a list of available app codes.
+   Otherwise, lauches the corresponding Shiny app.
 }
 \description{
 Launches the Shiny interactive applications for the practicals.
+}
+\examples{
+vibass_app()
 }

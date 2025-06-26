@@ -10,6 +10,7 @@
 #'
 #' @param x Character. Text to print.
 #'
+#' @noRd
 #' @examples
 #' vibass:::text_col("Hello world")
 #' message("Hello world")
