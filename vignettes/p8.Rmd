@@ -845,7 +845,7 @@ the counties:
 
 ```{r}
 # Index for random effects
-nc.sids$ID <- 1:nrow(nc.sids)
+nc.sids$ID <- seq_len(nrow(nc.sids))
 
 # Model WITH covariate
 m2nc <- inla(

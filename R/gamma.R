@@ -42,7 +42,7 @@ qgpois <- function(p, a, b) {
   cdf <- pgpois(c(0, seq.int(n_max)), a, b)
 
   q <- apply(
-    vapply(p, '<=', rep(T, length(cdf)), cdf),
+    vapply(p, '<=', rep(TRUE, length(cdf)), cdf),
     2,
     function(.) head(which(.), 1)
   ) - 1

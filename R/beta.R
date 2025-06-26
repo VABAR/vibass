@@ -32,7 +32,7 @@ qbbinom <- function(p, n, a, b) {
   }
 
   q <- apply(
-    vapply(p, '<=', rep(T, length(cdf)), cdf),
+    vapply(p, '<=', rep(TRUE, length(cdf)), cdf),
     2,
     function(.) head(which(.), 1)
   ) - 1

@@ -245,7 +245,7 @@ p5MH_server <- function(input, output, session) {
     ## Avoid check note: "no visible binding for global variable 'iteration'
     ## using the .data pronoun from rlang.
     ## https://ggplot2.tidyverse.org/articles/ggplot2-in-packages.html
-    ggplot(data.frame(iteration = 1:length(values$theta_sim), theta = values$theta_sim)) +
+    ggplot(data.frame(iteration = seq_along(values$theta_sim), theta = values$theta_sim)) +
       geom_line(aes(x = .data$iteration, y = .data$theta)) +
       ggtitle("Trace")
   )
