@@ -301,7 +301,7 @@ where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\
 ```{r likelihood-3d, fig.cap = cap, echo = FALSE}
 ## Note: plotly breaks LaTeX rendering in rmarkdown
 ## Need to enclose output in a iframe. 
-## https://github.com/ropensci/plotly/blob/master/inst/examples/rmd/MathJax/index.Rmd
+## https://github.com/plotly/plotly.R/blob/master/inst/examples/rmd/MathJax/index.Rmd
 
 cap <- "Bi-variate likelihood function"
 

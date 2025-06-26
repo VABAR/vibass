@@ -47,7 +47,7 @@ model specification.
 
 In particular, the following software package will be considered:
 
-`BayesX` (http://www.bayesx.org/) implements MCMC methods to obtain samples
+`BayesX` (https://www.uni-goettingen.de/de/bayesx/550513.html) implements MCMC methods to obtain samples
 from the joint posterior and is conveniently accessed from R via the package
 `R2BayesX`.
 
@@ -72,13 +72,13 @@ specific website where it can be downloaded:
 
 * The `Stan` software implements Hamiltonian Monte Carlo and other methods for
 fit hierarchical Bayesian models. It is available from https://mc-stan.org.
-* Packages [`rstanarm`](https://mc-stan.org/rstanarm/) and [`brms`](https://paul-buerkner.github.io/brms/)
+* Packages [`rstanarm`](https://mc-stan.org/rstanarm/) and [`brms`](https://paulbuerkner.com/brms/)
 in R provide a higher-level interface to `Stan` allowing to fit a large class of regression models,
 with a syntax very similar to classical regression functions in R.
 
 * A classic MCMC program is `BUGS`, (Bayesian Analysis using Gibbs Sampling)
 described in Lunn et al. (2000):
-  [http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml](http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml).
+  <https://www.mrc-bsu.cam.ac.uk/software/bugs-project>.
 BUGS can be used through graphical interfaces `WinBUGS` and `OpenBUGS`. Both of
 these packages can be called from within R using packages `R2WinBUGS` and
 `R2OpenBUGS`.
