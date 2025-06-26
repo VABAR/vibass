@@ -298,7 +298,7 @@ L(\mu,\, \sigma^2 \mid \mathcal D)=& f(y_1, y_2, \ldots, y_{15} \mid \mu,\, \sig
 where $f(y_1, y_2, \ldots, y_{15})$ is the joint density of the $Y_i$'s given $\mu$ and $\sigma^2$ evaluated in $\mathcal D$. Since $Y_i$'s are independent given $\mu$ and $\sigma^2$, the joint density is the product of the marginal densities. In our case, the graphic of the likelihood function of $(\mu,\, \sigma^2)$ will be
 
 
-```{r likelihood-3d, fig.cap = cap, echo = FALSE}
+```{r likelihood-3d, fig.cap = cap, echo = FALSE, eval = !Sys.getenv("_R_CHECK_CRAN_INCOMING_")}
 ## Note: plotly breaks LaTeX rendering in rmarkdown
 ## Need to enclose output in a iframe. 
 ## https://github.com/plotly/plotly.R/blob/master/inst/examples/rmd/MathJax/index.Rmd
