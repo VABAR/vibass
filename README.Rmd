@@ -26,7 +26,13 @@ Teaching materials for the [introductory course on Bayesian inference](http://va
 
 ## Installation
 
-```{r install, eval = FALSE}
+Install the released version of `vibass` from CRAN:
+```{r install-cran, eval = FALSE}
+install.packages('vibass')
+```
+
+Or install the development version from our `r-universe` with:
+```{r install-r-universe, eval = FALSE}
 install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
