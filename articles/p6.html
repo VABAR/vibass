@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.55</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -76,6 +76,9 @@
       <a href="../articles/p8.html">Practical 8: Optional Extra and Advanced Material</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -131,9 +134,10 @@ the command line, and using standard syntax for model specification.</p>
 <h3 id="bayesx">BayesX<a class="anchor" aria-label="anchor" href="#bayesx"></a>
 </h3>
 <p>In particular, the following software package will be considered:</p>
-<p><code>BayesX</code> (<a href="http://www.bayesx.org/" class="external-link uri">http://www.bayesx.org/</a>) implements MCMC methods to
-obtain samples from the joint posterior and is conveniently accessed
-from R via the package <code>R2BayesX</code>.</p>
+<p><code>BayesX</code> (<a href="https://www.uni-goettingen.de/de/bayesx/550513.html" class="external-link uri">https://www.uni-goettingen.de/de/bayesx/550513.html</a>)
+implements MCMC methods to obtain samples from the joint posterior and
+is conveniently accessed from R via the package
+<code>R2BayesX</code>.</p>
 <p><code>R2BayesX</code> has a very simple interface to define models
 using a <code>formula</code> (in the same way as with <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>
 and <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">gam()</a></code> functions).</p>
@@ -158,12 +162,12 @@ have a specific website where it can be downloaded: <a href="https://www.r-inla.
 <li><p>The <code>Stan</code> software implements Hamiltonian Monte Carlo
 and other methods for fit hierarchical Bayesian models. It is available
 from <a href="https://mc-stan.org" class="external-link uri">https://mc-stan.org</a>.</p></li>
-<li><p>Packages <a href="https://mc-stan.org/rstanarm/" class="external-link"><code>rstanarm</code></a> and <a href="https://paul-buerkner.github.io/brms/" class="external-link"><code>brms</code></a> in R
-provide a higher-level interface to <code>Stan</code> allowing to fit a
-large class of regression models, with a syntax very similar to
-classical regression functions in R.</p></li>
+<li><p>Packages <a href="https://mc-stan.org/rstanarm/" class="external-link"><code>rstanarm</code></a> and <a href="https://paulbuerkner.com/brms/" class="external-link"><code>brms</code></a> in R provide
+a higher-level interface to <code>Stan</code> allowing to fit a large
+class of regression models, with a syntax very similar to classical
+regression functions in R.</p></li>
 <li><p>A classic MCMC program is <code>BUGS</code>, (Bayesian Analysis
-using Gibbs Sampling) described in Lunn et al. (2000): <a href="http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml" class="external-link">http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml</a>.
+using Gibbs Sampling) described in Lunn et al. (2000): <a href="https://www.mrc-bsu.cam.ac.uk/software/bugs-project" class="external-link uri">https://www.mrc-bsu.cam.ac.uk/software/bugs-project</a>.
 BUGS can be used through graphical interfaces <code>WinBUGS</code> and
 <code>OpenBUGS</code>. Both of these packages can be called from within
 R using packages <code>R2WinBUGS</code> and

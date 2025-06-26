@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">vibass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.55</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -76,6 +76,9 @@
       <a href="../articles/p8.html">Practical 8: Optional Extra and Advanced Material</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -368,7 +371,9 @@ outputs from Practical 5.]</p>
 </summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Scatterplot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">BOD</span>,<span class="va">mayfly.length</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"><div class="figcaption">plot of chunk unnamed-chunk-3</div>
+</div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correlation with hypothesis test</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></span><span class="op">(</span><span class="va">BOD</span>,<span class="va">mayfly.length</span><span class="op">)</span></span></code></pre></div>
@@ -447,30 +452,36 @@ posterior distributions.</p>
 <span><span class="co"># Estimates are the column means</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results1</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">mean</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       beta0       beta1         tau    Variance      StdDev </span></span>
-<span><span class="co">## 27.83106974 -0.05601266  0.30100327  3.60231795  1.87830936</span></span></code></pre>
+<span><span class="co">## 27.65318069 -0.05486106  0.30030561  3.64651228  1.88708959</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Also look at uncertainty</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results1</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       beta0       beta1         tau    Variance      StdDev </span></span>
-<span><span class="co">## 1.299354815 0.008545667 0.084527221 1.076312250 0.272665080</span></span></code></pre>
+<span><span class="co">## 1.333977050 0.008754095 0.088994547 1.180979250 0.292387827</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results1</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">quantile</span>,probs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          beta0       beta1       tau Variance   StdDev</span></span>
-<span><span class="co">## 2.5%  25.33259 -0.07363652 0.1601001 2.050841 1.432076</span></span>
-<span><span class="co">## 97.5% 30.52762 -0.03997987 0.4876049 6.246093 2.499218</span></span></code></pre>
+<span><span class="co">## 2.5%  24.94863 -0.07188798 0.1532262 1.997486 1.413324</span></span>
+<span><span class="co">## 97.5% 30.31030 -0.03701739 0.5006294 6.526298 2.554662</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Kernel density plots for beta0, beta1 and the residual stanard deviation</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta0"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5"><div class="figcaption">plot of chunk unnamed-chunk-5</div>
+</div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta1</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-5-2.png" alt="plot of chunk unnamed-chunk-5"><div class="figcaption">plot of chunk unnamed-chunk-5</div>
+</div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">StdDev</span>, bw <span class="op">=</span> <span class="fl">0.075</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for StdDev"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-5-3.png" alt="plot of chunk unnamed-chunk-5"><div class="figcaption">plot of chunk unnamed-chunk-5</div>
+</div>
 </details>
 </li>
 <li>
@@ -482,13 +493,19 @@ independent?</p>
 </summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot sampled series</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta0</span>,ylab<span class="op">=</span><span class="st">"beta0"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6"><div class="figcaption">plot of chunk unnamed-chunk-6</div>
+</div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">beta1</span>,ylab<span class="op">=</span><span class="st">"beta1"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-6-2.png" alt="plot of chunk unnamed-chunk-6"><div class="figcaption">plot of chunk unnamed-chunk-6</div>
+</div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results1</span><span class="op">$</span><span class="va">StdDev</span>,ylab<span class="op">=</span><span class="st">"sigma"</span>,xlab<span class="op">=</span><span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-6-3.png" alt="plot of chunk unnamed-chunk-6"><div class="figcaption">plot of chunk unnamed-chunk-6</div>
+</div>
 </details>
 </li>
 <li><p>How do the results compare with the frequentist output?</p></li>
@@ -533,42 +550,54 @@ intercept afterwards.</p>
 <span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">Variance</span><span class="op">)</span></span>
 <span><span class="co"># Estimates are the column means</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       beta0       beta1         tau    Variance      StdDev </span></span>
-<span><span class="co">## 27.68531943 -0.05519129  0.30093059  3.61456152  1.88007189</span></span></code></pre>
+<pre><code><span><span class="co">##      beta0      beta1        tau   Variance     StdDev </span></span>
+<span><span class="co">## 27.7619863 -0.0554732  0.3055647  3.5419578  1.8627159</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Also look at uncertainty</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      beta0      beta1        tau   Variance     StdDev </span></span>
-<span><span class="co">## 1.29306106 0.00862200 0.08380093 1.14480593 0.28279176</span></span></code></pre>
+<pre><code><span><span class="co">##       beta0       beta1         tau    Variance      StdDev </span></span>
+<span><span class="co">## 1.339327429 0.008712278 0.084838193 1.070089030 0.268923052</span></span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">results2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          beta0       beta1       tau Variance   StdDev</span></span>
-<span><span class="co">## 2.5%  25.11358 -0.07207168 0.1553362 2.088474 1.445155</span></span>
-<span><span class="co">## 97.5% 30.14594 -0.03829827 0.4788186 6.437684 2.537257</span></span></code></pre>
+<span><span class="co">## 2.5%  25.16694 -0.07283719 0.1603452 2.002122 1.414964</span></span>
+<span><span class="co">## 97.5% 30.36258 -0.03852308 0.4994701 6.236545 2.497308</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Kernel density plots for beta0, beta1 and the residual standard</span></span>
 <span><span class="co"># deviation</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>, bw <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta0"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
+</div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta1</span>, bw <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for beta1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-7-2.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
+</div>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span>, bw <span class="op">=</span> <span class="fl">0.075</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Posterior density for StdDev"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-7-3.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
+</div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot sampled series</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta0</span>, ylab <span class="op">=</span> <span class="st">"beta0"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-7-4.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
+</div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">beta1</span>, ylab <span class="op">=</span> <span class="st">"beta1"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-7-5.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-7-5.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
+</div>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">results2</span><span class="op">$</span><span class="va">StdDev</span>, ylab <span class="op">=</span> <span class="st">"sigma"</span>, xlab <span class="op">=</span> <span class="st">"Iteration"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-7-6.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-7-6.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
+</div>
 </details>
 </li>
 </ul>
@@ -594,11 +623,6 @@ need to install it via</p>
 <p>After this, the package can be loaded into R:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">INLA</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: Matrix</span></span></code></pre>
-<pre><code><span><span class="co">## This is INLA_24.12.11 built 2024-12-11 20:07:43 UTC.</span></span>
-<span><span class="co">##  - See www.r-inla.org/contact-us for how to get help.</span></span>
-<span><span class="co">##  - List available models/likelihoods/etc with inla.list.models()</span></span>
-<span><span class="co">##  - Use inla.doc(&lt;NAME&gt;) to access documentation</span></span></code></pre>
 <div class="section level3">
 <h3 id="example-fake-news">Example: Fake News<a class="anchor" aria-label="anchor" href="#example-fake-news"></a>
 </h3>
@@ -611,7 +635,7 @@ some real news and some fake news.</p>
 of news is fake or not given three explanatory variables.</p>
 <p>We can use the following code to extract the variables we want from
 the data set:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bayes-rules.github.io/bayesrules/docs/" class="external-link">bayesrules</a></span><span class="op">)</span></span>
 <span><span class="va">fakenews</span> <span class="op">&lt;-</span> <span class="va">fake_news</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"type"</span>,<span class="st">"title_has_excl"</span>,<span class="st">"title_words"</span>,<span class="st">"negative"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <p>The response variable <code>type</code> takes values
@@ -630,14 +654,14 @@ continuous scale.</p></li>
 article being fake news is related to the three covariates here.</p>
 <p>Note that the variable <code>title_has_excl</code> will need to be
 either replaced by or converted to a factor, for example</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">titlehasexcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_has_excl</span><span class="op">)</span></span></code></pre></div>
 <p>Functions <code>summary</code> and <code>confint</code> produce a
 summary (including parameter estimates etc) and confidence intervals for
 the parameters, respectively.</p>
 <p>Finally, we create a new version of the response variable of type
 logical:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span> <span class="op">&lt;-</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"fake"</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -650,20 +674,24 @@ particular looking at the possible relationships between the explanatory
 variables and the fake/real response variable <code>typeFAKE</code>. You
 may wish to use the R function <code><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot()</a></code> here.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Is there a link between the fakeness and whether the title has an exclamation mark?</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_has_excl</span>, <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        </span></span>
 <span><span class="co">##         FALSE TRUE</span></span>
 <span><span class="co">##   FALSE    88   44</span></span>
 <span><span class="co">##   TRUE      2   16</span></span></code></pre>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For the quantitative variables, look at boxplots on fake vs real</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">title_words</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="float">
+<img src="img/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13"><div class="figcaption">plot of chunk unnamed-chunk-13</div>
+</div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">negative</span> <span class="op">~</span> <span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-13-2.png" alt="plot of chunk unnamed-chunk-13"><div class="figcaption">plot of chunk unnamed-chunk-13</div>
+</div>
 </details>
 </li>
 <li>
@@ -672,10 +700,10 @@ that the summary output provides credible intervals for each parameter
 to help us make inference. Also, in <code>INLA</code> a Binomial
 response needs to be entered as type integer, so we need another
 conversion:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE.int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">fakenews</span><span class="op">$</span><span class="va">typeFAKE</span><span class="op">)</span></span></code></pre></div>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">inla.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE.int</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
 <span>                    data <span class="op">=</span> <span class="va">fakenews</span>,</span>
@@ -683,7 +711,7 @@ conversion:</p>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.output</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1.07, Running = 0.943, Post = 0.0156, Total = 2.03 </span></span>
+<span><span class="co">##     Pre = 0.274, Running = 0.172, Post = 0.00536, Total = 0.452 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##                    mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept)      -3.016 0.761     -4.507   -3.016     -1.525 -3.016   0</span></span>
@@ -701,7 +729,7 @@ conversion:</p>
 <p>Fit a non-Bayesian model using <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> for comparison.
 How do the model fits compare?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">typeFAKE</span> <span class="op">~</span> <span class="va">titlehasexcl</span> <span class="op">+</span> <span class="va">title_words</span> <span class="op">+</span> <span class="va">negative</span>,</span>
 <span>                  data <span class="op">=</span> <span class="va">fakenews</span>,</span>
@@ -729,7 +757,7 @@ How do the model fits compare?</p>
 <span><span class="co">## AIC: 177.36</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of Fisher Scoring iterations: 4</span></span></code></pre>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Perform ANOVA on each variable in turn</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/add1.html" class="external-link">drop1</a></span><span class="op">(</span><span class="va">glm.output</span>,test<span class="op">=</span><span class="st">"Chisq"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Single term deletions</span></span>
@@ -777,7 +805,7 @@ income of the doctor is linked with the rate of complaints against that
 doctor.</p>
 <p>We can use the following code to extract the data we want without
 having to load the whole package:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">esdcomp</span> <span class="op">&lt;-</span> <span class="fu">faraway</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/faraway/man/esdcomp.html" class="external-link">esdcomp</a></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -790,7 +818,7 @@ generalised linear model.</p>
 for a Poisson GLM we will be using a log() link function by default, we
 must compute the log of the number of visits and include that in the
 data set <code>esdcomp</code>:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span></code></pre></div>
 <p>The offset term in the model is then written</p>
 <p><code>offset(log.visits)</code></p>
@@ -807,19 +835,25 @@ relative to the number of visits. To do this, create another variable
 which is the ratio of <code>complaints</code> to
 <code>visits</code>.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute the ratio</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">complaints</span> <span class="op">/</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span></span>
 <span><span class="co"># Plot the link with revenue</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">revenue</span>,<span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="float">
+<img src="img/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20"><div class="figcaption">plot of chunk unnamed-chunk-20</div>
+</div>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use boxplots against residency and gender</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span> <span class="op">~</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">residency</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-20-2.png" width="700"></p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="float">
+<img src="img/unnamed-chunk-20-2.png" alt="plot of chunk unnamed-chunk-20"><div class="figcaption">plot of chunk unnamed-chunk-20</div>
+</div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">ratio</span> <span class="op">~</span> <span class="va">esdcomp</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-20-3.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-20-3.png" alt="plot of chunk unnamed-chunk-20"><div class="figcaption">plot of chunk unnamed-chunk-20</div>
+</div>
 </details>
 </li>
 <li>
@@ -827,7 +861,7 @@ which is the ratio of <code>complaints</code> to
 that the summary output provides credible intervals for each parameter
 to help us make inference.</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">inla.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
 <span>                    data <span class="op">=</span> <span class="va">esdcomp</span>,</span>
@@ -835,7 +869,7 @@ to help us make inference.</p>
 <span><span class="co"># Summarise output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">inla.output</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 0.89, Running = 0.263, Post = 0.00537, Total = 1.16 </span></span>
+<span><span class="co">##     Pre = 0.129, Running = 0.145, Post = 0.061, Total = 0.335 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -7.171 0.688     -8.520   -7.171     -5.822 -7.171   0</span></span>
@@ -853,7 +887,7 @@ to help us make inference.</p>
 <p>Fit a non-Bayesian model using <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> for comparison.
 How do the model fits compare?</p>
 <details><summary><p>Solution</p>
-</summary><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit model - note similarity with bayesx syntax</span></span>
 <span><span class="va">esdcomp</span><span class="op">$</span><span class="va">log.visits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">esdcomp</span><span class="op">$</span><span class="va">visits</span><span class="op">)</span></span>
 <span><span class="va">glm.output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">complaints</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="va">log.visits</span><span class="op">)</span> <span class="op">+</span> <span class="va">residency</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">revenue</span>,</span>
@@ -882,7 +916,7 @@ How do the model fits compare?</p>
 <span><span class="co">## AIC: 189.48</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of Fisher Scoring iterations: 5</span></span></code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Perform ANOVA on each variable in turn</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/add1.html" class="external-link">drop1</a></span><span class="op">(</span><span class="va">glm.output</span>, test <span class="op">=</span> <span class="st">"Chisq"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Single term deletions</span></span>
@@ -951,37 +985,29 @@ family.</p></li>
 multi-grade class with 7th-grade students.</p></li>
 </ul>
 <p>The data set can be loaded and summarised as follows:</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">"MASS"</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nlschools"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nlschools</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       lang             IQ            class            GS             SES       </span></span>
-<span><span class="co">##  Min.   : 9.00   Min.   : 4.00   15580  :  33   Min.   :10.00   Min.   :10.00  </span></span>
-<span><span class="co">##  1st Qu.:35.00   1st Qu.:10.50   5480   :  31   1st Qu.:23.00   1st Qu.:20.00  </span></span>
-<span><span class="co">##  Median :42.00   Median :12.00   15980  :  31   Median :27.00   Median :27.00  </span></span>
-<span><span class="co">##  Mean   :40.93   Mean   :11.83   16180  :  31   Mean   :26.51   Mean   :27.81  </span></span>
-<span><span class="co">##  3rd Qu.:48.00   3rd Qu.:13.00   18380  :  31   3rd Qu.:31.00   3rd Qu.:35.00  </span></span>
-<span><span class="co">##  Max.   :58.00   Max.   :18.00   5580   :  30   Max.   :39.00   Max.   :50.00  </span></span>
-<span><span class="co">##                                  (Other):2100                                  </span></span>
-<span><span class="co">##  COMB    </span></span>
-<span><span class="co">##  0:1658  </span></span>
-<span><span class="co">##  1: 629  </span></span>
-<span><span class="co">##          </span></span>
-<span><span class="co">##          </span></span>
-<span><span class="co">##          </span></span>
-<span><span class="co">##          </span></span>
-<span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">##       lang             IQ            class            GS             SES        COMB    </span></span>
+<span><span class="co">##  Min.   : 9.00   Min.   : 4.00   15580  :  33   Min.   :10.00   Min.   :10.00   0:1658  </span></span>
+<span><span class="co">##  1st Qu.:35.00   1st Qu.:10.50   5480   :  31   1st Qu.:23.00   1st Qu.:20.00   1: 629  </span></span>
+<span><span class="co">##  Median :42.00   Median :12.00   15980  :  31   Median :27.00   Median :27.00           </span></span>
+<span><span class="co">##  Mean   :40.93   Mean   :11.83   16180  :  31   Mean   :26.51   Mean   :27.81           </span></span>
+<span><span class="co">##  3rd Qu.:48.00   3rd Qu.:13.00   18380  :  31   3rd Qu.:31.00   3rd Qu.:35.00           </span></span>
+<span><span class="co">##  Max.   :58.00   Max.   :18.00   5580   :  30   Max.   :39.00   Max.   :50.00           </span></span>
+<span><span class="co">##                                  (Other):2100</span></span></code></pre>
 <p>The model to fit will take <code>lang</code> as the response variable
 and include <code>IQ</code>, <code>GS</code>, <code>SES</code> and
 <code>COMB</code> as covariates (i.e., fixed effects). This model can
 easily be fit with <code>INLA</code> as follows:</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"INLA"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">INLA</span><span class="op">)</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span><span class="va">lang</span> <span class="op">~</span> <span class="va">IQ</span> <span class="op">+</span> <span class="va">GS</span> <span class="op">+</span>  <span class="va">SES</span> <span class="op">+</span> <span class="va">COMB</span>, data <span class="op">=</span> <span class="va">nlschools</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 0.888, Running = 0.291, Post = 0.0197, Total = 1.2 </span></span>
+<span><span class="co">##     Pre = 0.13, Running = 0.163, Post = 0.0111, Total = 0.305 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0</span></span>
@@ -991,12 +1017,10 @@ easily be fit with <code>INLA</code> as follows:</p>
 <span><span class="co">## COMB1       -1.684 0.325     -2.322   -1.684     -1.047 -1.684   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
-<span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
-<span><span class="co">## Precision for the Gaussian observations 0.021 0.001       0.02    0.021</span></span>
-<span><span class="co">##                                         0.975quant  mode</span></span>
-<span><span class="co">## Precision for the Gaussian observations      0.022 0.021</span></span>
+<span><span class="co">##                                          mean    sd 0.025quant 0.5quant 0.975quant  mode</span></span>
+<span><span class="co">## Precision for the Gaussian observations 0.021 0.001       0.02    0.021      0.022 0.021</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7713.43 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7713.44 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -1016,11 +1040,13 @@ normal distribution with zero mean and precision
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>.</p>
 <p>Before fitting the model, the between-class variability can be
 explored by means of boxplots:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">lang</span> <span class="op">~</span> <span class="va">class</span>, data <span class="op">=</span> <span class="va">nlschools</span>, las <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-25-1.png" width="1440"></p>
+<div class="float">
+<img src="img/unnamed-chunk-25-1.png" alt="plot of chunk unnamed-chunk-25"><div class="figcaption">plot of chunk unnamed-chunk-25</div>
+</div>
 <p>The code to fit the model with random effects is:</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">lang</span> <span class="op">~</span> <span class="va">IQ</span> <span class="op">+</span> <span class="va">GS</span> <span class="op">+</span>  <span class="va">SES</span> <span class="op">+</span> <span class="va">COMB</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">class</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">nlschools</span></span>
@@ -1028,28 +1054,25 @@ explored by means of boxplots:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 1, Running = 0.314, Post = 0.0197, Total = 1.33 </span></span>
+<span><span class="co">##     Pre = 0.814, Running = 0.19, Post = 0.0219, Total = 1.03 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
-<span><span class="co">## (Intercept) 10.628 1.497      7.696   10.626     13.570 10.626   0</span></span>
+<span><span class="co">## (Intercept) 10.626 1.495      7.698   10.624     13.565 10.624   0</span></span>
 <span><span class="co">## IQ           2.248 0.072      2.108    2.248      2.388  2.248   0</span></span>
-<span><span class="co">## GS          -0.016 0.048     -0.109   -0.016      0.078 -0.016   0</span></span>
+<span><span class="co">## GS          -0.016 0.047     -0.109   -0.016      0.078 -0.016   0</span></span>
 <span><span class="co">## SES          0.165 0.015      0.136    0.165      0.194  0.165   0</span></span>
-<span><span class="co">## COMB1       -2.018 0.599     -3.196   -2.017     -0.846 -2.017   0</span></span>
+<span><span class="co">## COMB1       -2.017 0.598     -3.193   -2.016     -0.847 -2.016   0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Random effects:</span></span>
 <span><span class="co">##   Name     Model</span></span>
 <span><span class="co">##     class IID model</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
-<span><span class="co">##                                          mean    sd 0.025quant 0.5quant</span></span>
-<span><span class="co">## Precision for the Gaussian observations 0.025 0.001      0.024    0.025</span></span>
-<span><span class="co">## Precision for class                     0.122 0.021      0.087    0.121</span></span>
-<span><span class="co">##                                         0.975quant  mode</span></span>
-<span><span class="co">## Precision for the Gaussian observations      0.027 0.025</span></span>
-<span><span class="co">## Precision for class                          0.168 0.117</span></span>
+<span><span class="co">##                                          mean    sd 0.025quant 0.5quant 0.975quant  mode</span></span>
+<span><span class="co">## Precision for the Gaussian observations 0.025 0.001      0.024    0.025      0.027 0.025</span></span>
+<span><span class="co">## Precision for class                     0.122 0.020      0.087    0.121      0.167 0.118</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Marginal log-Likelihood:  -7613.00 </span></span>
+<span><span class="co">## Marginal log-Likelihood:  -7613.01 </span></span>
 <span><span class="co">##  is computed </span></span>
 <span><span class="co">## Posterior summaries for the linear predictor and the fitted values are computed</span></span>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
@@ -1076,38 +1099,31 @@ and that observations are not necessarily nested within groups.</p>
 <p>In this practical we will use the North Carolina Sudden Infant Death
 Syndrome (SIDS) data set. It is available in the <code>spData</code>
 package and it can be loaded using:</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jakubnowosad.com/spData/" class="external-link">spData</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     CNTY.ID         BIR74           SID74          NWBIR74      </span></span>
-<span><span class="co">##  Min.   :1825   Min.   :  248   Min.   : 0.00   Min.   :   1.0  </span></span>
-<span><span class="co">##  1st Qu.:1902   1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0  </span></span>
-<span><span class="co">##  Median :1982   Median : 2180   Median : 4.00   Median : 697.5  </span></span>
-<span><span class="co">##  Mean   :1986   Mean   : 3300   Mean   : 6.67   Mean   :1051.0  </span></span>
-<span><span class="co">##  3rd Qu.:2067   3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5  </span></span>
-<span><span class="co">##  Max.   :2241   Max.   :21588   Max.   :44.00   Max.   :8027.0  </span></span>
-<span><span class="co">##      BIR79           SID79          NWBIR79             east      </span></span>
-<span><span class="co">##  Min.   :  319   Min.   : 0.00   Min.   :    3.0   Min.   : 19.0  </span></span>
-<span><span class="co">##  1st Qu.: 1336   1st Qu.: 2.00   1st Qu.:  250.5   1st Qu.:178.8  </span></span>
-<span><span class="co">##  Median : 2636   Median : 5.00   Median :  874.5   Median :285.0  </span></span>
-<span><span class="co">##  Mean   : 4224   Mean   : 8.36   Mean   : 1352.8   Mean   :271.3  </span></span>
-<span><span class="co">##  3rd Qu.: 4889   3rd Qu.:10.25   3rd Qu.: 1406.8   3rd Qu.:361.2  </span></span>
-<span><span class="co">##  Max.   :30757   Max.   :57.00   Max.   :11631.0   Max.   :482.0  </span></span>
-<span><span class="co">##      north             x                 y             lon        </span></span>
-<span><span class="co">##  Min.   :  6.0   Min.   :-328.04   Min.   :3757   Min.   :-84.08  </span></span>
-<span><span class="co">##  1st Qu.: 97.0   1st Qu.: -60.55   1st Qu.:3920   1st Qu.:-81.20  </span></span>
-<span><span class="co">##  Median :125.5   Median : 114.38   Median :3963   Median :-79.26  </span></span>
-<span><span class="co">##  Mean   :122.1   Mean   :  91.46   Mean   :3953   Mean   :-79.51  </span></span>
-<span><span class="co">##  3rd Qu.:151.5   3rd Qu.: 240.03   3rd Qu.:4000   3rd Qu.:-77.87  </span></span>
-<span><span class="co">##  Max.   :182.0   Max.   : 439.65   Max.   :4060   Max.   :-75.67  </span></span>
-<span><span class="co">##       lat             L.id           M.id     </span></span>
-<span><span class="co">##  Min.   :33.92   Min.   :1.00   Min.   :1.00  </span></span>
-<span><span class="co">##  1st Qu.:35.26   1st Qu.:1.00   1st Qu.:2.00  </span></span>
-<span><span class="co">##  Median :35.68   Median :2.00   Median :3.00  </span></span>
-<span><span class="co">##  Mean   :35.62   Mean   :2.12   Mean   :2.67  </span></span>
-<span><span class="co">##  3rd Qu.:36.05   3rd Qu.:3.00   3rd Qu.:3.25  </span></span>
-<span><span class="co">##  Max.   :36.52   Max.   :4.00   Max.   :4.00</span></span></code></pre>
+<pre><code><span><span class="co">##     CNTY.ID         BIR74           SID74          NWBIR74           BIR79           SID79      </span></span>
+<span><span class="co">##  Min.   :1825   Min.   :  248   Min.   : 0.00   Min.   :   1.0   Min.   :  319   Min.   : 0.00  </span></span>
+<span><span class="co">##  1st Qu.:1902   1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336   1st Qu.: 2.00  </span></span>
+<span><span class="co">##  Median :1982   Median : 2180   Median : 4.00   Median : 697.5   Median : 2636   Median : 5.00  </span></span>
+<span><span class="co">##  Mean   :1986   Mean   : 3300   Mean   : 6.67   Mean   :1051.0   Mean   : 4224   Mean   : 8.36  </span></span>
+<span><span class="co">##  3rd Qu.:2067   3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889   3rd Qu.:10.25  </span></span>
+<span><span class="co">##  Max.   :2241   Max.   :21588   Max.   :44.00   Max.   :8027.0   Max.   :30757   Max.   :57.00  </span></span>
+<span><span class="co">##     NWBIR79             east           north             x                 y       </span></span>
+<span><span class="co">##  Min.   :    3.0   Min.   : 19.0   Min.   :  6.0   Min.   :-328.04   Min.   :3757  </span></span>
+<span><span class="co">##  1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0   1st Qu.: -60.55   1st Qu.:3920  </span></span>
+<span><span class="co">##  Median :  874.5   Median :285.0   Median :125.5   Median : 114.38   Median :3963  </span></span>
+<span><span class="co">##  Mean   : 1352.8   Mean   :271.3   Mean   :122.1   Mean   :  91.46   Mean   :3953  </span></span>
+<span><span class="co">##  3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5   3rd Qu.: 240.03   3rd Qu.:4000  </span></span>
+<span><span class="co">##  Max.   :11631.0   Max.   :482.0   Max.   :182.0   Max.   : 439.65   Max.   :4060  </span></span>
+<span><span class="co">##       lon              lat             L.id           M.id     </span></span>
+<span><span class="co">##  Min.   :-84.08   Min.   :33.92   Min.   :1.00   Min.   :1.00  </span></span>
+<span><span class="co">##  1st Qu.:-81.20   1st Qu.:35.26   1st Qu.:1.00   1st Qu.:2.00  </span></span>
+<span><span class="co">##  Median :-79.26   Median :35.68   Median :2.00   Median :3.00  </span></span>
+<span><span class="co">##  Mean   :-79.51   Mean   :35.62   Mean   :2.12   Mean   :2.67  </span></span>
+<span><span class="co">##  3rd Qu.:-77.87   3rd Qu.:36.05   3rd Qu.:3.00   3rd Qu.:3.25  </span></span>
+<span><span class="co">##  Max.   :-75.67   Max.   :36.52   Max.   :4.00   Max.   :4.00</span></span></code></pre>
 <p>A full description of the data set is provided in the associated
 manual page (check with <code><a href="https://jakubnowosad.com/spData/reference/nc.sids.html" class="external-link">?nc.sids</a></code>) but in this practical we
 will only consider these variables:</p>
@@ -1160,7 +1176,7 @@ Hence, the expected number of cases in county
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
 is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mi>i</mi></msub><mo>=</mo><mi>r</mi><msub><mi>B</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">E_i = r B_i</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Overall mortality rate</span></span>
 <span><span class="va">r74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span></span>
 <span><span class="co"># Expected cases</span></span>
@@ -1168,30 +1184,34 @@ is
 <p>A common measure of relative risk is the <em>standardised mortality
 ratio</em>
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mi>i</mi></msub><mi>/</mi><msub><mi>E</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">O_i / E_i</annotation></semantics></math>):</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span> <span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">EXP74</span></span></code></pre></div>
 <p>A summary of the SMR can be obtained:</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR</span>, xlab <span class="op">=</span> <span class="st">"SMR"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-30-1.png" alt="plot of chunk unnamed-chunk-30"><div class="figcaption">plot of chunk unnamed-chunk-30</div>
+</div>
 <p>Values above 1 indicate that the county has more observed deaths than
 expected and that there might be an increased risk in the area.</p>
 <p>As a covariate, we will compute the proportion of non-white
 births:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span></span></code></pre></div>
 <p>There is a clear relationship between the SMR and the proportion of
 non-white births in a county:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="float">
+<img src="img/unnamed-chunk-32-1.png" alt="plot of chunk unnamed-chunk-32"><div class="figcaption">plot of chunk unnamed-chunk-32</div>
+</div>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correlation</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">NWPROP74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">SMR74</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.5793901</span></span></code></pre>
 <p>A simple Poisson regression can be fit by using the following
 code:</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">SID74</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">NWPROP74</span>,</span>
 <span>  family <span class="op">=</span> <span class="st">"poisson"</span>,</span>
@@ -1200,7 +1220,7 @@ code:</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 0.9, Running = 0.261, Post = 0.00438, Total = 1.17 </span></span>
+<span><span class="co">##     Pre = 0.314, Running = 0.148, Post = 0.00488, Total = 0.467 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0</span></span>
@@ -1212,9 +1232,9 @@ code:</p>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
 <p>Random effects can also be included to account for intrinsic
 differences between the counties:</p>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Index for random effects</span></span>
-<span><span class="va">nc.sids</span><span class="op">$</span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span></span>
+<span><span class="va">nc.sids</span><span class="op">$</span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Model WITH covariate</span></span>
 <span><span class="va">m2nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
@@ -1226,7 +1246,7 @@ differences between the counties:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 0.905, Running = 0.23, Post = 0.00848, Total = 1.14 </span></span>
+<span><span class="co">##     Pre = 0.138, Running = 0.157, Post = 0.00974, Total = 0.305 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.650 0.104     -0.856   -0.649     -0.446 -0.649   0</span></span>
@@ -1238,7 +1258,7 @@ differences between the counties:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Model hyperparameters:</span></span>
 <span><span class="co">##                   mean     sd 0.025quant 0.5quant 0.975quant  mode</span></span>
-<span><span class="co">## Precision for ID 89.42 142.77       9.45    28.92     273.93 15.69</span></span>
+<span><span class="co">## Precision for ID 89.43 142.78       9.45    28.92     273.93 15.69</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Marginal log-Likelihood:  -227.82 </span></span>
 <span><span class="co">##  is computed </span></span>
@@ -1246,7 +1266,7 @@ differences between the counties:</p>
 <span><span class="co">## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</span></span></code></pre>
 <p>The role of the covariate can be explored by fitting a model without
 it:</p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model WITHOUT covariate</span></span>
 <span><span class="va">m3nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/inla.html" class="external-link">inla</a></span><span class="op">(</span></span>
 <span>  <span class="va">SID74</span> <span class="op">~</span>  <span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/INLA/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="va">ID</span>, model <span class="op">=</span> <span class="st">"iid"</span><span class="op">)</span>,</span>
@@ -1257,7 +1277,7 @@ it:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m3nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Time used:</span></span>
-<span><span class="co">##     Pre = 0.958, Running = 0.22, Post = 0.00828, Total = 1.19 </span></span>
+<span><span class="co">##     Pre = 0.145, Running = 0.166, Post = 0.00903, Total = 0.32 </span></span>
 <span><span class="co">## Fixed effects:</span></span>
 <span><span class="co">##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld</span></span>
 <span><span class="co">## (Intercept) -0.029 0.063     -0.156   -0.028      0.091 -0.028   0</span></span>
@@ -1278,11 +1298,13 @@ it:</p>
 random effects (i.e., the variance increases). This means that values of
 the random effects are now larger than in the previous case as the
 random effects pick some of the effect explained by the covariate.</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">m2nc</span><span class="op">$</span><span class="va">summary.random</span><span class="op">$</span><span class="va">ID</span><span class="op">$</span><span class="va">mean</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"With NWPROP74"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">m3nc</span><span class="op">$</span><span class="va">summary.random</span><span class="op">$</span><span class="va">ID</span><span class="op">$</span><span class="va">mean</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Without NWPROP74"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="p8_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<div class="float">
+<img src="img/unnamed-chunk-36-1.png" alt="plot of chunk unnamed-chunk-36"><div class="figcaption">plot of chunk unnamed-chunk-36</div>
+</div>
 </div>
   </div>
 
