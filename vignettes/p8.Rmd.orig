@@ -150,8 +150,7 @@ measure of organic pollution (since more organic pollution requires more oxygen
 to break it down).
 
 The data can be read into R:
-
-``` r
+```{r}
 # Read in data
 BOD <- c(200,180,135,120,110,120,95,168,180,195,158,145,140,145,165,187,
          190,157,90,235,200,55,87,97,95)
@@ -166,8 +165,7 @@ Sampling, using the full conditionals derived above. The functions assume
 you have a data frame with two columns, the response `y` and the covariate
 `x`.
 
-
-``` r
+```{r}
 # Function to update tau, the precision
 sample_tau <- function(data, beta0, beta1, alphatau, betatau) {
   rgamma(1,
@@ -248,32 +246,12 @@ Practical 5.]
 
     <details><summary>Solution</summary>
 
-    
-    ``` r
+    ```{r fig = TRUE}
     # Scatterplot
     plot(BOD,mayfly.length)
-    ```
-    
-    ![plot of chunk unnamed-chunk-3](img/unnamed-chunk-3-1.png)
-    
-    ``` r
     # Correlation with hypothesis test
     cor.test(BOD,mayfly.length)
-    ```
-    
-    ```
-    ## 
-    ## 	Pearson's product-moment correlation
-    ## 
-    ## data:  BOD and mayfly.length
-    ## t = -6.52, df = 23, p-value = 1.185e-06
-    ## alternative hypothesis: true correlation is not equal to 0
-    ## 95 percent confidence interval:
-    ##  -0.9107816 -0.6020516
-    ## sample estimates:
-    ##        cor 
-    ## -0.8055507
-    ```
+    ``` 
 
     </details>
     
@@ -282,33 +260,11 @@ will be useful for comparison with our Bayesian analysis.
 
     <details><summary>Solution</summary>
 
-    
-    ``` r
+    ```{r}
     # Linear Regression using lm()
     linreg <- lm(mayfly.length ~ BOD, data = Data)
     summary(linreg)
-    ```
-    
-    ```
-    ## 
-    ## Call:
-    ## lm(formula = mayfly.length ~ BOD, data = Data)
-    ## 
-    ## Residuals:
-    ##    Min     1Q Median     3Q    Max 
-    ## -3.453 -1.073  0.307  1.105  3.343 
-    ## 
-    ## Coefficients:
-    ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 27.697314   1.290822   21.46  < 2e-16 ***
-    ## BOD         -0.055202   0.008467   -6.52 1.18e-06 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 1.865 on 23 degrees of freedom
-    ## Multiple R-squared:  0.6489,	Adjusted R-squared:  0.6336 
-    ## F-statistic: 42.51 on 1 and 23 DF,  p-value: 1.185e-06
-    ```
+    ``` 
 
     </details>
 
@@ -322,8 +278,7 @@ the posterior distributions.
 
     <details><summary>Solution</summary>
 
-    
-    ``` r
+    ```{r fig = TRUE}
     # Bayesian Linear Regression using a Gibbs Sampler
     
     # Set the number of iterations of the Gibbs Sampler - including how many to
@@ -341,54 +296,18 @@ the posterior distributions.
     results1$StdDev <- sqrt(results1$Variance)
     # Estimates are the column means
     apply(results1[,-1],2,mean)
-    ```
-    
-    ```
-    ##       beta0       beta1         tau    Variance      StdDev 
-    ## 27.65318069 -0.05486106  0.30030561  3.64651228  1.88708959
-    ```
-    
-    ``` r
     # Also look at uncertainty
     apply(results1[,-1],2,sd)
-    ```
-    
-    ```
-    ##       beta0       beta1         tau    Variance      StdDev 
-    ## 1.333977050 0.008754095 0.088994547 1.180979250 0.292387827
-    ```
-    
-    ``` r
     apply(results1[,-1],2,quantile,probs=c(0.025,0.975))
-    ```
     
-    ```
-    ##          beta0       beta1       tau Variance   StdDev
-    ## 2.5%  24.94863 -0.07188798 0.1532262 1.997486 1.413324
-    ## 97.5% 30.31030 -0.03701739 0.5006294 6.526298 2.554662
-    ```
-    
-    ``` r
     # Kernel density plots for beta0, beta1 and the residual stanard deviation
     plot(density(results1$beta0, bw = 0.5),
          main = "Posterior density for beta0")
-    ```
-    
-    ![plot of chunk unnamed-chunk-5](img/unnamed-chunk-5-1.png)
-    
-    ``` r
     plot(density(results1$beta1, bw = 0.25),
          main = "Posterior density for beta1")
-    ```
-    
-    ![plot of chunk unnamed-chunk-5](img/unnamed-chunk-5-2.png)
-    
-    ``` r
     plot(density(results1$StdDev, bw = 0.075),
          main = "Posterior density for StdDev")
-    ```
-    
-    ![plot of chunk unnamed-chunk-5](img/unnamed-chunk-5-3.png)
+    ``` 
 
     </details>
 
@@ -398,25 +317,12 @@ do the samples look independent?
 
     <details><summary>Solution</summary>
     
-    
-    ``` r
+    ```{r fig = TRUE}
     # Plot sampled series
     ts.plot(results1$beta0,ylab="beta0",xlab="Iteration")
-    ```
-    
-    ![plot of chunk unnamed-chunk-6](img/unnamed-chunk-6-1.png)
-    
-    ``` r
     ts.plot(results1$beta1,ylab="beta1",xlab="Iteration")
-    ```
-    
-    ![plot of chunk unnamed-chunk-6](img/unnamed-chunk-6-2.png)
-    
-    ``` r
     ts.plot(results1$StdDev,ylab="sigma",xlab="Iteration")
     ```
-    
-    ![plot of chunk unnamed-chunk-6](img/unnamed-chunk-6-3.png)
 
     </details>
 
@@ -432,8 +338,7 @@ on the estimate of the regression intercept afterwards.
 
     <details><summary>Solution</summary>
 
-    
-    ``` r
+    ```{r fig = TRUE}
     # Mean-centre the x covariate
     DataC <- Data
     meanx <- mean(DataC$x)
@@ -460,74 +365,24 @@ on the estimate of the regression intercept afterwards.
     results2$StdDev <- sqrt(results2$Variance)
     # Estimates are the column means
     apply(results2[, -1], 2, mean)
-    ```
-    
-    ```
-    ##      beta0      beta1        tau   Variance     StdDev 
-    ## 27.7619863 -0.0554732  0.3055647  3.5419578  1.8627159
-    ```
-    
-    ``` r
     # Also look at uncertainty
     apply(results2[, -1], 2, sd)
-    ```
-    
-    ```
-    ##       beta0       beta1         tau    Variance      StdDev 
-    ## 1.339327429 0.008712278 0.084838193 1.070089030 0.268923052
-    ```
-    
-    ``` r
     apply(results2[, -1], 2, quantile, probs = c(0.025, 0.975))
-    ```
     
-    ```
-    ##          beta0       beta1       tau Variance   StdDev
-    ## 2.5%  25.16694 -0.07283719 0.1603452 2.002122 1.414964
-    ## 97.5% 30.36258 -0.03852308 0.4994701 6.236545 2.497308
-    ```
-    
-    ``` r
     # Kernel density plots for beta0, beta1 and the residual standard
     # deviation
     plot(density(results2$beta0, bw = 0.5),
          main = "Posterior density for beta0")
-    ```
-    
-    ![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7-1.png)
-    
-    ``` r
     plot(density(results2$beta1, bw = 0.25),
          main = "Posterior density for beta1")
-    ```
-    
-    ![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7-2.png)
-    
-    ``` r
     plot(density(results2$StdDev, bw = 0.075),
          main = "Posterior density for StdDev")
-    ```
     
-    ![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7-3.png)
-    
-    ``` r
     # Plot sampled series
     ts.plot(results2$beta0, ylab = "beta0", xlab = "Iteration")
-    ```
-    
-    ![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7-4.png)
-    
-    ``` r
     ts.plot(results2$beta1, ylab = "beta1", xlab = "Iteration")
-    ```
-    
-    ![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7-5.png)
-    
-    ``` r
     ts.plot(results2$StdDev, ylab = "sigma", xlab = "Iteration")
     ```
-    
-    ![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7-6.png)
     
     </details>
 
@@ -544,14 +399,12 @@ We can obtain Bayesian model fits without using MCMC with the
 INLA software, implemented in R via the `INLA` package. If you do not have this
 package installed already, as it is not on CRAN you will need to install it via
 
-
-``` r
+```{r eval=FALSE}
 install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
 ```
 
 After this, the package can be loaded into R:
-
-``` r
+```{r}
 library(INLA)
 ```
 
@@ -569,8 +422,7 @@ is fake or not given three explanatory variables.
 We can use the following code to extract the variables we want from the
 data set:
 
-
-``` r
+```{r}
 library(bayesrules)
 fakenews <- fake_news[,c("type","title_has_excl","title_words","negative")]
 ```
@@ -591,8 +443,7 @@ being fake news is related to the three covariates here.
 Note that the variable `title_has_excl` will need to be either replaced by or
 converted to a factor, for example
 
-
-``` r
+```{r}
 fakenews$titlehasexcl <- as.factor(fakenews$title_has_excl)
 ```
 
@@ -600,8 +451,7 @@ Functions `summary` and `confint` produce a summary (including parameter
 estimates etc) and confidence intervals for the parameters, respectively.
 
 Finally, we create a new version of the response variable of type logical:
-
-``` r
+```{r}
 fakenews$typeFAKE <- fakenews$type == "fake"
 ```
 
@@ -614,31 +464,14 @@ function `boxplot()` here.
 
   <details><summary>Solution</summary>
   
-  
-  ``` r
+  ```{r fig = TRUE}
   # Is there a link between the fakeness and whether the title has an exclamation mark?
   table(fakenews$title_has_excl, fakenews$typeFAKE)
-  ```
-  
-  ```
-  ##        
-  ##         FALSE TRUE
-  ##   FALSE    88   44
-  ##   TRUE      2   16
-  ```
-  
-  ``` r
   # For the quantitative variables, look at boxplots on fake vs real
   boxplot(fakenews$title_words ~ fakenews$typeFAKE)
-  ```
-  
-  ![plot of chunk unnamed-chunk-13](img/unnamed-chunk-13-1.png)
-  
-  ``` r
   boxplot(fakenews$negative ~ fakenews$typeFAKE)
-  ```
   
-  ![plot of chunk unnamed-chunk-13](img/unnamed-chunk-13-2.png)
+  ```
   
   </details>
                    
@@ -647,37 +480,19 @@ provides credible intervals for each parameter to help us make inference.
 Also, in `INLA` a Binomial response needs to be entered as type integer, so we
 need another conversion:
 
-  
-  ``` r
+  ```{r}
   fakenews$typeFAKE.int <- as.integer(fakenews$typeFAKE)
   ```
 
   <details><summary>Solution</summary>
   
-  
-  ``` r
+  ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
   inla.output <- inla(formula = typeFAKE.int ~ titlehasexcl + title_words + negative,
                       data = fakenews,
                       family = "binomial")
   # Summarise output
   summary(inla.output)
-  ```
-  
-  ```
-  ## Time used:
-  ##     Pre = 0.274, Running = 0.172, Post = 0.00536, Total = 0.452 
-  ## Fixed effects:
-  ##                    mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-  ## (Intercept)      -3.016 0.761     -4.507   -3.016     -1.525 -3.016   0
-  ## titlehasexclTRUE  2.680 0.791      1.131    2.680      4.230  2.680   0
-  ## title_words       0.116 0.058      0.002    0.116      0.230  0.116   0
-  ## negative          0.328 0.154      0.027    0.328      0.629  0.328   0
-  ## 
-  ## Marginal log-Likelihood:  -100.78 
-  ##  is computed 
-  ## Posterior summaries for the linear predictor and the fitted values are computed
-  ## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
   ```
   </details>
 
@@ -686,57 +501,15 @@ compare?
 
   <details><summary>Solution</summary>
   
-  
-  ``` r
+  ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
   glm.output <- glm(formula = typeFAKE ~ titlehasexcl + title_words + negative,
                     data = fakenews,
                     family = "binomial")
   # Summarise output
   summary(glm.output)
-  ```
-  
-  ```
-  ## 
-  ## Call:
-  ## glm(formula = typeFAKE ~ titlehasexcl + title_words + negative, 
-  ##     family = "binomial", data = fakenews)
-  ## 
-  ## Coefficients:
-  ##                  Estimate Std. Error z value Pr(>|z|)    
-  ## (Intercept)      -2.91516    0.76096  -3.831 0.000128 ***
-  ## titlehasexclTRUE  2.44156    0.79103   3.087 0.002025 ** 
-  ## title_words       0.11164    0.05801   1.925 0.054278 .  
-  ## negative          0.31527    0.15371   2.051 0.040266 *  
-  ## ---
-  ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-  ## 
-  ## (Dispersion parameter for binomial family taken to be 1)
-  ## 
-  ##     Null deviance: 201.90  on 149  degrees of freedom
-  ## Residual deviance: 169.36  on 146  degrees of freedom
-  ## AIC: 177.36
-  ## 
-  ## Number of Fisher Scoring iterations: 4
-  ```
-  
-  ``` r
   # Perform ANOVA on each variable in turn
   drop1(glm.output,test="Chisq")
-  ```
-  
-  ```
-  ## Single term deletions
-  ## 
-  ## Model:
-  ## typeFAKE ~ titlehasexcl + title_words + negative
-  ##              Df Deviance    AIC     LRT  Pr(>Chi)    
-  ## <none>            169.36 177.36                      
-  ## titlehasexcl  1   183.51 189.51 14.1519 0.0001686 ***
-  ## title_words   1   173.17 179.17  3.8099 0.0509518 .  
-  ## negative      1   173.79 179.79  4.4298 0.0353162 *  
-  ## ---
-  ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
   ```
   
   </details>
@@ -773,8 +546,7 @@ doctor is linked with the rate of complaints against that doctor.
 We can use the following code to extract the data we want without having to load
 the whole package:
 
-
-``` r
+```{r}
 esdcomp <- faraway::esdcomp
 ```
 
@@ -784,15 +556,16 @@ Again we can use `INLA` to fit this form of Bayesian generalised
 linear model.
 
 If not loaded already, the package must be loaded into R:
-
+```{r echo=FALSE}
+library(INLA)
+```
 
 As noted above we need to include an offset in this analysis; since
 for a Poisson GLM we will be using a log() link function by default, we must
 compute the log of the number of visits and include that in the data set
 `esdcomp`:
 
-
-``` r
+```{r}
 esdcomp$log.visits <- log(esdcomp$visits)
 ```
 
@@ -809,28 +582,15 @@ another variable which is the ratio of `complaints` to `visits`.
 
   <details><summary>Solution</summary>
   
-  
-  ``` r
+  ```{r fig = TRUE}
   # Compute the ratio
   esdcomp$ratio <- esdcomp$complaints / esdcomp$visits
   # Plot the link with revenue
   plot(esdcomp$revenue,esdcomp$ratio)
-  ```
-  
-  ![plot of chunk unnamed-chunk-20](img/unnamed-chunk-20-1.png)
-  
-  ``` r
   # Use boxplots against residency and gender
   boxplot(esdcomp$ratio ~ esdcomp$residency)
-  ```
-  
-  ![plot of chunk unnamed-chunk-20](img/unnamed-chunk-20-2.png)
-  
-  ``` r
   boxplot(esdcomp$ratio ~ esdcomp$gender)
   ```
-  
-  ![plot of chunk unnamed-chunk-20](img/unnamed-chunk-20-3.png)
   
   </details>
 
@@ -839,30 +599,13 @@ provides credible intervals for each parameter to help us make inference.
 
   <details><summary>Solution</summary>
   
-  
-  ``` r
+  ```{r}
   # Fit model - note similarity with bayesx syntax
   inla.output <- inla(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
                       data = esdcomp,
                       family = "poisson")
   # Summarise output
   summary(inla.output)
-  ```
-  
-  ```
-  ## Time used:
-  ##     Pre = 0.129, Running = 0.145, Post = 0.061, Total = 0.335 
-  ## Fixed effects:
-  ##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-  ## (Intercept) -7.171 0.688     -8.520   -7.171     -5.822 -7.171   0
-  ## residencyY  -0.354 0.191     -0.728   -0.354      0.021 -0.354   0
-  ## genderM      0.139 0.214     -0.281    0.139      0.559  0.139   0
-  ## revenue      0.002 0.003     -0.003    0.002      0.008  0.002   0
-  ## 
-  ## Marginal log-Likelihood:  -111.90 
-  ##  is computed 
-  ## Posterior summaries for the linear predictor and the fitted values are computed
-  ## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
   ```
   
   </details>
@@ -872,8 +615,7 @@ compare?
 
   <details><summary>Solution</summary>
 
-  
-  ``` r
+  ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
   esdcomp$log.visits <- log(esdcomp$visits)
   glm.output <- glm(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
@@ -881,49 +623,8 @@ compare?
                     family = "poisson")
   # Summarise output
   summary(glm.output)
-  ```
-  
-  ```
-  ## 
-  ## Call:
-  ## glm(formula = complaints ~ offset(log.visits) + residency + gender + 
-  ##     revenue, family = "poisson", data = esdcomp)
-  ## 
-  ## Coefficients:
-  ##              Estimate Std. Error z value Pr(>|z|)    
-  ## (Intercept) -7.157087   0.688148 -10.401   <2e-16 ***
-  ## residencyY  -0.350610   0.191077  -1.835   0.0665 .  
-  ## genderM      0.128995   0.214323   0.602   0.5473    
-  ## revenue      0.002362   0.002798   0.844   0.3986    
-  ## ---
-  ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-  ## 
-  ## (Dispersion parameter for poisson family taken to be 1)
-  ## 
-  ##     Null deviance: 63.435  on 43  degrees of freedom
-  ## Residual deviance: 58.698  on 40  degrees of freedom
-  ## AIC: 189.48
-  ## 
-  ## Number of Fisher Scoring iterations: 5
-  ```
-  
-  ``` r
   # Perform ANOVA on each variable in turn
   drop1(glm.output, test = "Chisq")
-  ```
-  
-  ```
-  ## Single term deletions
-  ## 
-  ## Model:
-  ## complaints ~ offset(log.visits) + residency + gender + revenue
-  ##           Df Deviance    AIC    LRT Pr(>Chi)  
-  ## <none>         58.698 189.48                  
-  ## residency  1   62.128 190.91 3.4303  0.06401 .
-  ## gender     1   59.067 187.85 0.3689  0.54361  
-  ## revenue    1   59.407 188.19 0.7093  0.39969  
-  ## ---
-  ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
   ```
   
   </details>
@@ -971,55 +672,21 @@ language score test) and other variables. The variables in this data set are:
 
 The data set can be loaded and summarised as follows:
 
-
-``` r
+```{r}
 library(MASS)
 data("nlschools")
 summary(nlschools)
-```
-
-```
-##       lang             IQ            class            GS             SES        COMB    
-##  Min.   : 9.00   Min.   : 4.00   15580  :  33   Min.   :10.00   Min.   :10.00   0:1658  
-##  1st Qu.:35.00   1st Qu.:10.50   5480   :  31   1st Qu.:23.00   1st Qu.:20.00   1: 629  
-##  Median :42.00   Median :12.00   15980  :  31   Median :27.00   Median :27.00           
-##  Mean   :40.93   Mean   :11.83   16180  :  31   Mean   :26.51   Mean   :27.81           
-##  3rd Qu.:48.00   3rd Qu.:13.00   18380  :  31   3rd Qu.:31.00   3rd Qu.:35.00           
-##  Max.   :58.00   Max.   :18.00   5580   :  30   Max.   :39.00   Max.   :50.00           
-##                                  (Other):2100
 ```
 
 The model to fit will take `lang` as the response variable and include
 `IQ`, `GS`, `SES` and `COMB` as covariates (i.e., fixed effects). This model
 can easily be fit with `INLA` as follows:
 
-
-``` r
+```{r message = FALSE, warning = FALSE}
 library(INLA)
 m1 <- inla(lang ~ IQ + GS +  SES + COMB, data = nlschools)
 
 summary(m1)
-```
-
-```
-## Time used:
-##     Pre = 0.13, Running = 0.163, Post = 0.0111, Total = 0.305 
-## Fixed effects:
-##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)  9.685 1.070      7.586    9.685     11.784  9.685   0
-## IQ           2.391 0.074      2.246    2.391      2.536  2.391   0
-## GS          -0.026 0.025     -0.076   -0.026      0.024 -0.026   0
-## SES          0.148 0.014      0.120    0.148      0.175  0.148   0
-## COMB1       -1.684 0.325     -2.322   -1.684     -1.047 -1.684   0
-## 
-## Model hyperparameters:
-##                                          mean    sd 0.025quant 0.5quant 0.975quant  mode
-## Precision for the Gaussian observations 0.021 0.001       0.02    0.021      0.022 0.021
-## 
-## Marginal log-Likelihood:  -7713.44 
-##  is computed 
-## Posterior summaries for the linear predictor and the fitted values are computed
-## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
 ```
 
 Note that the previous model only includes fixed effects. The data set includes
@@ -1038,49 +705,19 @@ using a normal distribution with zero mean and precision $\tau$.
 Before fitting the model, the between-class variability can be explored by
 means of boxplots:
 
-
-``` r
+```{r fig = TRUE, fig.width = 15, fig.height = 5}
 boxplot(lang ~ class, data = nlschools, las = 2)
 ```
 
-![plot of chunk unnamed-chunk-25](img/unnamed-chunk-25-1.png)
-
 The code to fit the model with random effects is:
 
-
-``` r
+```{r}
 m2 <- inla(
   lang ~ IQ + GS +  SES + COMB + f(class, model = "iid"),
   data = nlschools
 )
 
 summary(m2)
-```
-
-```
-## Time used:
-##     Pre = 0.814, Running = 0.19, Post = 0.0219, Total = 1.03 
-## Fixed effects:
-##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept) 10.626 1.495      7.698   10.624     13.565 10.624   0
-## IQ           2.248 0.072      2.108    2.248      2.388  2.248   0
-## GS          -0.016 0.047     -0.109   -0.016      0.078 -0.016   0
-## SES          0.165 0.015      0.136    0.165      0.194  0.165   0
-## COMB1       -2.017 0.598     -3.193   -2.016     -0.847 -2.016   0
-## 
-## Random effects:
-##   Name	  Model
-##     class IID model
-## 
-## Model hyperparameters:
-##                                          mean    sd 0.025quant 0.5quant 0.975quant  mode
-## Precision for the Gaussian observations 0.025 0.001      0.024    0.025      0.027 0.025
-## Precision for class                     0.122 0.020      0.087    0.121      0.167 0.118
-## 
-## Marginal log-Likelihood:  -7613.01 
-##  is computed 
-## Posterior summaries for the linear predictor and the fitted values are computed
-## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
 ```
 
 
@@ -1105,35 +742,10 @@ In this practical we will use the North Carolina Sudden Infant Death Syndrome
 (SIDS) data set. It is available in the `spData` package and it can be loaded
 using:
 
-
-``` r
+```{r message = FALSE, warning = FALSE}
 library(spData)
 data(nc.sids)
 summary(nc.sids)
-```
-
-```
-##     CNTY.ID         BIR74           SID74          NWBIR74           BIR79           SID79      
-##  Min.   :1825   Min.   :  248   Min.   : 0.00   Min.   :   1.0   Min.   :  319   Min.   : 0.00  
-##  1st Qu.:1902   1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336   1st Qu.: 2.00  
-##  Median :1982   Median : 2180   Median : 4.00   Median : 697.5   Median : 2636   Median : 5.00  
-##  Mean   :1986   Mean   : 3300   Mean   : 6.67   Mean   :1051.0   Mean   : 4224   Mean   : 8.36  
-##  3rd Qu.:2067   3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889   3rd Qu.:10.25  
-##  Max.   :2241   Max.   :21588   Max.   :44.00   Max.   :8027.0   Max.   :30757   Max.   :57.00  
-##     NWBIR79             east           north             x                 y       
-##  Min.   :    3.0   Min.   : 19.0   Min.   :  6.0   Min.   :-328.04   Min.   :3757  
-##  1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0   1st Qu.: -60.55   1st Qu.:3920  
-##  Median :  874.5   Median :285.0   Median :125.5   Median : 114.38   Median :3963  
-##  Mean   : 1352.8   Mean   :271.3   Mean   :122.1   Mean   :  91.46   Mean   :3953  
-##  3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5   3rd Qu.: 240.03   3rd Qu.:4000  
-##  Max.   :11631.0   Max.   :482.0   Max.   :182.0   Max.   : 439.65   Max.   :4060  
-##       lon              lat             L.id           M.id     
-##  Min.   :-84.08   Min.   :33.92   Min.   :1.00   Min.   :1.00  
-##  1st Qu.:-81.20   1st Qu.:35.26   1st Qu.:1.00   1st Qu.:2.00  
-##  Median :-79.26   Median :35.68   Median :2.00   Median :3.00  
-##  Mean   :-79.51   Mean   :35.62   Mean   :2.12   Mean   :2.67  
-##  3rd Qu.:-77.87   3rd Qu.:36.05   3rd Qu.:3.00   3rd Qu.:3.25  
-##  Max.   :-75.67   Max.   :36.52   Max.   :4.00   Max.   :4.00
 ```
 
 A full description of the data set is provided in the associated manual page
@@ -1175,8 +787,7 @@ where $B_i$ represents the total number of births in country $i$. Hence,
 the expected number of cases in county $i$ is $E_i = r B_i$.
 
 
-
-``` r
+```{r}
 # Overall mortality rate
 r74 <- sum(nc.sids$SID74) / sum(nc.sids$BIR74)
 # Expected cases
@@ -1186,19 +797,15 @@ nc.sids$EXP74 <- r74 * nc.sids$BIR74
 A common measure of relative risk is the *standardised mortality ratio*
 ($O_i / E_i$):
 
-
-``` r
+```{r}
 nc.sids$SMR74 <- nc.sids$SID74 / nc.sids$EXP74
 ```
 
 A summary of the SMR can be obtained:
 
-
-``` r
+```{r fig = TRUE}
 hist(nc.sids$SMR, xlab = "SMR")
 ```
-
-![plot of chunk unnamed-chunk-30](img/unnamed-chunk-30-1.png)
 
 Values above 1 indicate that the county has more observed deaths than expected
 and that there might be an increased risk in the area.
@@ -1206,35 +813,24 @@ and that there might be an increased risk in the area.
 
 As a covariate, we will compute the proportion of non-white births:
 
-
-``` r
+```{r}
 nc.sids$NWPROP74 <- nc.sids$NWBIR74/ nc.sids$BIR74
 ```
 
 There is a clear relationship between the SMR and the proportion of non-white
 births in a county:
 
-
-``` r
+```{r fig = TRUE}
 plot(nc.sids$NWPROP74, nc.sids$SMR74)
-```
 
-![plot of chunk unnamed-chunk-32](img/unnamed-chunk-32-1.png)
-
-``` r
 # Correlation
 cor(nc.sids$NWPROP74, nc.sids$SMR74)
-```
-
-```
-## [1] 0.5793901
 ```
 
 
 A simple Poisson regression can be fit by using the following code:
 
-
-``` r
+```{r}
 m1nc <- inla(
   SID74 ~ 1 + NWPROP74,
   family = "poisson",
@@ -1244,25 +840,10 @@ m1nc <- inla(
 summary(m1nc)
 ```
 
-```
-## Time used:
-##     Pre = 0.314, Running = 0.148, Post = 0.00488, Total = 0.467 
-## Fixed effects:
-##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept) -0.647 0.090     -0.824   -0.647     -0.471 -0.647   0
-## NWPROP74     1.867 0.217      1.441    1.867      2.293  1.867   0
-## 
-## Marginal log-Likelihood:  -226.13 
-##  is computed 
-## Posterior summaries for the linear predictor and the fitted values are computed
-## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
-```
-
 Random effects can also be included to account for intrinsic differences between
 the counties:
 
-
-``` r
+```{r}
 # Index for random effects
 nc.sids$ID <- seq_len(nrow(nc.sids))
 
@@ -1277,33 +858,10 @@ m2nc <- inla(
 summary(m2nc)
 ```
 
-```
-## Time used:
-##     Pre = 0.138, Running = 0.157, Post = 0.00974, Total = 0.305 
-## Fixed effects:
-##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept) -0.650 0.104     -0.856   -0.649     -0.446 -0.649   0
-## NWPROP74     1.883 0.254      1.386    1.882      2.385  1.882   0
-## 
-## Random effects:
-##   Name	  Model
-##     ID IID model
-## 
-## Model hyperparameters:
-##                   mean     sd 0.025quant 0.5quant 0.975quant  mode
-## Precision for ID 89.43 142.78       9.45    28.92     273.93 15.69
-## 
-## Marginal log-Likelihood:  -227.82 
-##  is computed 
-## Posterior summaries for the linear predictor and the fitted values are computed
-## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
-```
-
 The role of the covariate can be explored by fitting a model without it:
 
 
-
-``` r
+```{r}
 # Model WITHOUT covariate
 m3nc <- inla(
   SID74 ~  1 + f(ID, model = "iid"),
@@ -1315,38 +873,14 @@ m3nc <- inla(
 summary(m3nc)
 ```
 
-```
-## Time used:
-##     Pre = 0.145, Running = 0.166, Post = 0.00903, Total = 0.32 
-## Fixed effects:
-##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept) -0.029 0.063     -0.156   -0.028      0.091 -0.028   0
-## 
-## Random effects:
-##   Name	  Model
-##     ID IID model
-## 
-## Model hyperparameters:
-##                  mean   sd 0.025quant 0.5quant 0.975quant mode
-## Precision for ID 7.26 2.57       3.79     6.77      13.55 6.01
-## 
-## Marginal log-Likelihood:  -245.52 
-##  is computed 
-## Posterior summaries for the linear predictor and the fitted values are computed
-## (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
-```
-
 Now, notice the decrease in the estimate of the precision of the random effects
 (i.e., the variance increases). This means that values of the random effects
 are now larger than in the previous case as the random effects pick some of the
 effect explained by the covariate.
 
 
-
-``` r
+```{r fig = TRUE}
 par(mfrow = c(1, 2))
 boxplot(m2nc$summary.random$ID$mean, ylim = c(-1, 1), main = "With NWPROP74")
 boxplot(m3nc$summary.random$ID$mean, ylim = c(-1, 1), main = "Without NWPROP74")
 ```
-
-![plot of chunk unnamed-chunk-36](img/unnamed-chunk-36-1.png)
