@@ -33,7 +33,7 @@ Teaching materials for the [introductory course on Bayesian inference](http://va
 
 <!-- Or install the development version from our `r-universe` with: -->
 
-Install the development version from our `r-universe` with:
+Install the development version from our [`r-universe`](https://vabar.r-universe.dev/vibass) with:
 ```{r install-r-universe, eval = FALSE}
 install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
 ```

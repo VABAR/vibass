@@ -26,7 +26,8 @@ inference](http://vabar.es/events/vibass8-intro/) at
 
 <!-- Or install the development version from our `r-universe` with: -->
 
-Install the development version from our `r-universe` with:
+Install the development version from our
+[`r-universe`](https://vabar.r-universe.dev/vibass) with:
 
 ``` r
 install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
