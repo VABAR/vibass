@@ -36,7 +36,6 @@ Authors@R:
              role = "ctb",
              email = "Virgilio.Gomez@uclm.es",
              comment = "Universidad Castilla-La Mancha"))
-Maintainer: Facundo Muñoz <facundo.munoz@cirad.fr>
 Description: Practicals, data sets, helper functions and interactive 'Shiny' apps
     used in the introductory course on Bayesian inference at the
     Valencia International Bayesian Summer School. Installing 'vibass' installs
