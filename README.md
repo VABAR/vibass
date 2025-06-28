@@ -16,13 +16,15 @@ inference](http://vabar.es/events/vibass8-intro/) at
 
 ## Installation
 
-Install the released version of `vibass` from CRAN:
+# Install the released version of `vibass` from CRAN:
 
-``` r
-install.packages('vibass')
-```
+# `{r install-cran, eval = FALSE} # install.packages('vibass') #`
 
-Or install the development version from our `r-universe` with:
+# 
+
+# Or install the development version from our `r-universe` with:
+
+Install the development version from our `r-universe` with:
 
 ``` r
 install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
