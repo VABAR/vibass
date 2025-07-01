@@ -35,7 +35,8 @@ Authors@R:
              family = "Gómez-Rubio",
              role = "ctb",
              email = "Virgilio.Gomez@uclm.es",
-             comment = "Universidad Castilla-La Mancha"))
+             comment = c("Universidad Castilla-La Mancha",
+             ORCID = "0000-0002-4791-3072")))
 Description: Practicals, data sets, helper functions and interactive 'Shiny' apps
     used in the introductory course on Bayesian inference at the
     Valencia International Bayesian Summer School. Installing 'vibass' installs
