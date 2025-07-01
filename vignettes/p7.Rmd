@@ -37,7 +37,7 @@ $$
 Y_{ij} = X_{ij}\beta +\phi_i+\epsilon_{ij}
 $$
 
-Here, Y_{ij} represents observation $j$ in group $i$, X_{ij} are a vector of
+Here, $Y_{ij}$ represents observation $j$ in group $i$, $X_{ij}$ are a vector of
 covariates with coefficients $\beta$, $\phi_i$ i.i.d. random effects and
 $\epsilon_{ij}$ a Gaussian error term. The distribution of the random effects
 $\phi_i$ is Gaussian with zero mean and precision $\tau_{\phi}$.
