@@ -318,7 +318,7 @@ In `BayesX`, the syntax for fitting a Bayesian Poisson Regression Model with one
 response variable, three explanatory variables and an offset will be like so:
 
 ```{r eval=FALSE}
-model1 <- bayesx(formula = y~x1+x2+x3+offset(w),
+model1 <- bayesx(formula = y ~ x1 + x2 + x3 + offset(w),
                  data = data.set,
                  family="poisson")
 ```
