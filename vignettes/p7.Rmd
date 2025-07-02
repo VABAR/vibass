@@ -281,7 +281,7 @@ We can see the fitted relationship with `NWPROP74`:
 ```{r fig = TRUE}
 x.predict <- seq(0,1,length=1000)
 y.predict <- exp(coef(m2nc)["(Intercept)","Mean"]+coef(m2nc)["NWPROP74","Mean"]*x.predict)
-par <- par(mfrow = c(1, 1))
+oldpar <- par(mfrow = c(1, 1))
 plot(nc.sids$NWPROP74, nc.sids$SMR74)
 lines(x.predict,y.predict)
 par(oldpar)
