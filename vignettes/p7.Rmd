@@ -281,9 +281,10 @@ We can see the fitted relationship with `NWPROP74`:
 ```{r fig = TRUE}
 x.predict <- seq(0,1,length=1000)
 y.predict <- exp(coef(m2nc)["(Intercept)","Mean"]+coef(m2nc)["NWPROP74","Mean"]*x.predict)
-par(mfrow = c(1, 1))
+par <- par(mfrow = c(1, 1))
 plot(nc.sids$NWPROP74, nc.sids$SMR74)
 lines(x.predict,y.predict)
+par(oldpar)
 ```
 
 The role of the covariate can be explored by fitting a model without it:
@@ -307,9 +308,10 @@ effect explained by the covariate.
 
 
 ```{r fig = TRUE}
-par(mfrow = c(1, 2))
+oldpar <- par(mfrow = c(1, 2))
 boxplot(m2nc$effects$`sx(ID):re`$Mean, ylim = c(-1, 1), main = "With NWPROP74")
 boxplot(m3nc$effects$`sx(ID):re`$Mean, ylim = c(-1, 1), main = "Without NWPROP74")
+par(oldpar)
 ```
 
 # Further Extensions

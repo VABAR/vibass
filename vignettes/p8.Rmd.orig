@@ -60,7 +60,7 @@ $\epsilon_i$ are independent with
 $\epsilon_i\sim \textrm{N}\left(0,\sigma^2\right)$ $\forall i=1,2,\ldots,n$. For
 convenience, we refer to the combined set of $\mathbf{Y}$ and
 $\mathbf{x}$ data as $\mathcal{D}$. We also define
-$\hat{\mathbf{y}}$ to be the fitted response vector (i.e., 
+$\hat{\mathbf{y}}$ to be the fitted response vector (i.e.,
 $\hat{y}_i = \beta_0 + \beta_1 x_i$ from the regression equation) using the
 current values of the parameters $\beta_0$, $\beta_1$ and precision $\tau = 1$
 (remember that $\tau=\frac{1}{\sigma^2}$) from the Gibbs Sampling simulations.
@@ -101,7 +101,7 @@ p(\beta_0|\mathcal{D}, \beta_1, \tau) &\propto
 &\propto \exp\left\{-\frac{\tau_{\beta_0}}{2}(\beta_0-\mu_{\beta_0})^2-
 \frac{\tau}{2}\sum_{i=1}^n(y_i-\beta_0-x_i \beta_1)^2\right\}, \\
 &= \exp \left\{ -\frac{1}{2}\left(\beta_0^2(\tau_{\beta_0} + n\tau) +
-\beta_0\left(-2\tau_{\beta_0}\mu_{\beta_0} - 2\tau\sum_{i=1}^n 
+\beta_0\left(-2\tau_{\beta_0}\mu_{\beta_0} - 2\tau\sum_{i=1}^n
 (y_i - x_i\beta_1)\right) \right) + C \right\}, \\
 \textrm{so} \quad \beta_0|\mathcal{D}, \beta_1, \tau &\sim
 \mathcal{N}\left((\tau_{\beta_0} + n\tau)^{-1}
@@ -120,9 +120,9 @@ p(\beta_1|\mathcal{D}, \beta_0, \tau) &\propto
 \exp\left\{-\frac{\tau}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2\right\}, \\
 &\propto \exp\left\{-\frac{\tau_{\beta_1}}{2}(\beta_1-\mu_{\beta_1})^2-
 \frac{\tau}{2}\sum_{i=1}^n(y_i-\beta_0-x_i \beta_1)^2\right\}, \\
-&= \exp \left\{ -\frac{1}{2}\left(\beta_1^2\left(\tau_{\beta_1} + 
+&= \exp \left\{ -\frac{1}{2}\left(\beta_1^2\left(\tau_{\beta_1} +
 \tau\sum_{i=1}^n x_i^2\right) +
-\beta_1\left(-2\tau_{\beta_1}\mu_{\beta_1} - 2\tau\sum_{i=1}^n 
+\beta_1\left(-2\tau_{\beta_1}\mu_{\beta_1} - 2\tau\sum_{i=1}^n
 (y_i - \beta_0)x_i\right) \right) + C \right\}, \\
 \textrm{so} \quad \beta_1|\mathcal{D}, \beta_0, \tau
 &\sim \textrm{N}\left((\tau_{\beta_1} + \tau\sum_{i=1}^n x_i^2)^{-1}
@@ -209,7 +209,7 @@ gibbs_sample <- function(data,
   tau[1] <- tau_start
   beta0[1] <- beta0_start
   beta1[1] <- beta1_start
-  
+
   for (i in 2:m) {
     tau[i] <-
       sample_tau(data, beta0[i-1], beta1[i-1], alpha_tau, beta_tau)
@@ -218,7 +218,7 @@ gibbs_sample <- function(data,
     beta1[i] <-
 	sample_beta1(data, beta0[i], tau[i], mu_beta1, tau_beta1)
   }
-  
+
   Iteration <- 1:m
   data.frame(Iteration,beta0,beta1,tau)
 }
@@ -251,10 +251,10 @@ Practical 5.]
     plot(BOD,mayfly.length)
     # Correlation with hypothesis test
     cor.test(BOD,mayfly.length)
-    ``` 
+    ```
 
     </details>
-    
+
 - Run a frequentist simple linear regression using the `lm` function in R; this
 will be useful for comparison with our Bayesian analysis.
 
@@ -264,7 +264,7 @@ will be useful for comparison with our Bayesian analysis.
     # Linear Regression using lm()
     linreg <- lm(mayfly.length ~ BOD, data = Data)
     summary(linreg)
-    ``` 
+    ```
 
     </details>
 
@@ -280,13 +280,13 @@ the posterior distributions.
 
     ```{r fig = TRUE}
     # Bayesian Linear Regression using a Gibbs Sampler
-    
+
     # Set the number of iterations of the Gibbs Sampler - including how many to
     # discard as the burn-in
     m.burnin <- 500
     m.keep <- 1000
     m <- m.burnin + m.keep
-    
+
     # Obtain the samples
     results1 <- gibbs_sample(Data,1,1,1,m,1,1,0,0.0001,0,0.0001)
     # Remove the burn-in
@@ -299,7 +299,7 @@ the posterior distributions.
     # Also look at uncertainty
     apply(results1[,-1],2,sd)
     apply(results1[,-1],2,quantile,probs=c(0.025,0.975))
-    
+
     # Kernel density plots for beta0, beta1 and the residual stanard deviation
     plot(density(results1$beta0, bw = 0.5),
          main = "Posterior density for beta0")
@@ -307,7 +307,7 @@ the posterior distributions.
          main = "Posterior density for beta1")
     plot(density(results1$StdDev, bw = 0.075),
          main = "Posterior density for StdDev")
-    ``` 
+    ```
 
     </details>
 
@@ -316,7 +316,7 @@ sampling simulation chain. Is there any visual evidence of autocorrelation, or
 do the samples look independent?
 
     <details><summary>Solution</summary>
-    
+
     ```{r fig = TRUE}
     # Plot sampled series
     ts.plot(results1$beta0,ylab="beta0",xlab="Iteration")
@@ -343,23 +343,23 @@ on the estimate of the regression intercept afterwards.
     DataC <- Data
     meanx <- mean(DataC$x)
     DataC$x <- DataC$x - meanx
-    
+
     # Bayesian Linear Regression using a Gibbs Sampler
-    
+
     # Set the number of iterations of the Gibbs Sampler - including how many to
     # discard as the burn-in
     m.burnin <- 500
     m.keep <- 1000
     m <- m.burnin + m.keep
-    
+
     # Obtain the samples
     results2 <- gibbs_sample(DataC, 1, 1, 1, m, 1, 1, 0, 0.0001, 0, 0.0001)
     # Remove the burn-in
     results2 <- results2[-(1:m.burnin), ]
-    
+
     # Correct the effect of the mean-centering on the intercept
     results2$beta0 <- results2$beta0 - meanx * results2$beta1
-    
+
     # Add variance and standard deviation columns
     results2$Variance <- 1 / results2$tau
     results2$StdDev <- sqrt(results2$Variance)
@@ -368,7 +368,7 @@ on the estimate of the regression intercept afterwards.
     # Also look at uncertainty
     apply(results2[, -1], 2, sd)
     apply(results2[, -1], 2, quantile, probs = c(0.025, 0.975))
-    
+
     # Kernel density plots for beta0, beta1 and the residual standard
     # deviation
     plot(density(results2$beta0, bw = 0.5),
@@ -377,13 +377,13 @@ on the estimate of the regression intercept afterwards.
          main = "Posterior density for beta1")
     plot(density(results2$StdDev, bw = 0.075),
          main = "Posterior density for StdDev")
-    
+
     # Plot sampled series
     ts.plot(results2$beta0, ylab = "beta0", xlab = "Iteration")
     ts.plot(results2$beta1, ylab = "beta1", xlab = "Iteration")
     ts.plot(results2$StdDev, ylab = "sigma", xlab = "Iteration")
     ```
-    
+
     </details>
 
 # INLA
@@ -463,18 +463,18 @@ and the fake/real response variable `typeFAKE`. You may wish to use the R
 function `boxplot()` here.
 
   <details><summary>Solution</summary>
-  
+
   ```{r fig = TRUE}
   # Is there a link between the fakeness and whether the title has an exclamation mark?
   table(fakenews$title_has_excl, fakenews$typeFAKE)
   # For the quantitative variables, look at boxplots on fake vs real
   boxplot(fakenews$title_words ~ fakenews$typeFAKE)
   boxplot(fakenews$negative ~ fakenews$typeFAKE)
-  
+
   ```
-  
+
   </details>
-                   
+
 * Fit the Bayesian model without MCMC using `INLA`; note that the summary output
 provides credible intervals for each parameter to help us make inference.
 Also, in `INLA` a Binomial response needs to be entered as type integer, so we
@@ -485,7 +485,7 @@ need another conversion:
   ```
 
   <details><summary>Solution</summary>
-  
+
   ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
   inla.output <- inla(formula = typeFAKE.int ~ titlehasexcl + title_words + negative,
@@ -500,7 +500,7 @@ need another conversion:
 compare?
 
   <details><summary>Solution</summary>
-  
+
   ```{r fig = TRUE}
   # Fit model - note similarity with bayesx syntax
   glm.output <- glm(formula = typeFAKE ~ titlehasexcl + title_words + negative,
@@ -511,9 +511,9 @@ compare?
   # Perform ANOVA on each variable in turn
   drop1(glm.output,test="Chisq")
   ```
-  
+
   </details>
-                                                     
+
 ## Example: Emergency Room Complaints
 
 This section is included here as a reminder, as we are going to reanalyse this
@@ -581,7 +581,7 @@ explanatory variables relative to the number of visits. To do this, create
 another variable which is the ratio of `complaints` to `visits`.
 
   <details><summary>Solution</summary>
-  
+
   ```{r fig = TRUE}
   # Compute the ratio
   esdcomp$ratio <- esdcomp$complaints / esdcomp$visits
@@ -591,14 +591,14 @@ another variable which is the ratio of `complaints` to `visits`.
   boxplot(esdcomp$ratio ~ esdcomp$residency)
   boxplot(esdcomp$ratio ~ esdcomp$gender)
   ```
-  
+
   </details>
 
 * Fit the Bayesian model without MCMC using `INLA`; note that the summary output
 provides credible intervals for each parameter to help us make inference.
 
   <details><summary>Solution</summary>
-  
+
   ```{r}
   # Fit model - note similarity with bayesx syntax
   inla.output <- inla(formula = complaints ~ offset(log.visits) + residency + gender + revenue,
@@ -607,7 +607,7 @@ provides credible intervals for each parameter to help us make inference.
   # Summarise output
   summary(inla.output)
   ```
-  
+
   </details>
 
 * Fit a non-Bayesian model using `glm()` for comparison. How do the model fits
@@ -626,7 +626,7 @@ compare?
   # Perform ANOVA on each variable in turn
   drop1(glm.output, test = "Chisq")
   ```
-  
+
   </details>
 
 # Bayesian Hierarchical Modelling
@@ -695,7 +695,7 @@ impact on the performance of the students, with students in the same class
 performing similarly in the language test.
 
 Very conveniently, `INLA` can include random effects in the model by adding a
-term in the right hand side of the formula that defined the model. Specifically, 
+term in the right hand side of the formula that defined the model. Specifically,
 the term to add is `f(class, model = "iid")` (see code below for the
 full model).
 This will create a random effect indexed over variable `class` and which is of
@@ -723,7 +723,7 @@ summary(m2)
 
 # Generalised Linear Mixed Models
 
-Mixed effects models can also be considered within the context of generalised 
+Mixed effects models can also be considered within the context of generalised
 linear models. In this case, the linear predictor of observation $i$, $\eta_i$,
 can be defined as
 
@@ -880,7 +880,8 @@ effect explained by the covariate.
 
 
 ```{r fig = TRUE}
-par(mfrow = c(1, 2))
+oldpar = par(mfrow = c(1, 2))
 boxplot(m2nc$summary.random$ID$mean, ylim = c(-1, 1), main = "With NWPROP74")
 boxplot(m3nc$summary.random$ID$mean, ylim = c(-1, 1), main = "Without NWPROP74")
+par(oldpar)
 ```

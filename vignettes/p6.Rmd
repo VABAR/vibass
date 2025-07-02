@@ -229,10 +229,11 @@ achieved?
   
   ```{r fig = TRUE}
   # And the density plots one-by-one
-  par(mfrow=c(2,2))
+  oldpar <- par(mfrow = c(2, 2))
   plot(density(samples(bayesx.output)[,"titlehasexclTRUE"]),main="Title Has Excl")
   plot(density(samples(bayesx.output)[,"title_words"]),main="Title Words")
   plot(density(samples(bayesx.output)[,"negative"]),main="Negative")
+  par(oldpar)
   ```
   
   </details>
@@ -395,10 +396,11 @@ achieved?
   
   ```{r fig = TRUE}
   # And the density plots one-by-one
-  par(mfrow =c(2, 2))
+  oldpar <- par(mfrow = c(2, 2))
   plot(density(samples(bayesx.output)[, "residencyY"]), main = "Residency")
   plot(density(samples(bayesx.output)[, "genderM"]), main = "Gender")
   plot(density(samples(bayesx.output)[, "revenue"]), main = "Revenue")
+  par(oldpar)
   ```
   
   </details>

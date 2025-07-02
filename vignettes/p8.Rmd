@@ -1344,9 +1344,10 @@ effect explained by the covariate.
 
 
 ``` r
-par(mfrow = c(1, 2))
+oldpar <- par(mfrow = c(1, 2))
 boxplot(m2nc$summary.random$ID$mean, ylim = c(-1, 1), main = "With NWPROP74")
 boxplot(m3nc$summary.random$ID$mean, ylim = c(-1, 1), main = "Without NWPROP74")
+par(oldpar)
 ```
 
 ![plot of chunk unnamed-chunk-36](img/unnamed-chunk-36-1.png)

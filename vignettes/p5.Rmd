@@ -332,9 +332,10 @@ lambda <- lambda[seq(1, length(lambda), by = 10)]
 # Summary statistics
 summary(lambda)
 
-par(mfrow = c(1, 2))
+oldpar <- par(mfrow = c(1, 2))
 plot(lambda, type = "l", main = "MCMC samples", ylab = expression(lambda))
 plot(density(lambda), main = "Posterior density", xlab = expression(lambda))
+par(oldpar)
 ```
 
 
@@ -466,9 +467,10 @@ distribution change the estimate of $\lambda$, and why?
     # Summary statistics
     summary(lambda)
     
-    par(mfrow = c(1, 2))
+    oldpar <- par(mfrow = c(1, 2))
     plot(lambda, type = "l", main = "MCMC samples", ylab = expression(lambda))
     plot(density(lambda), main = "Posterior density", xlab = expression(lambda))
+    par(oldpar)
     ```
     
     </details>
@@ -694,8 +696,9 @@ do the samples look independent?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    par(mfrow=c(2,2))
+    oldpar <- par(mfrow = c(2, 2))
     traceplot(results1)
+    par(oldpar)
     ```
 
     </details>
@@ -706,8 +709,9 @@ each parameter.
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    par(mfrow=c(2,2))
+    oldpar <- par(mfrow = c(2, 2))
     densplot(results1)
+    par(oldpar)
     ```
 
     </details>
@@ -780,17 +784,19 @@ with regard to the cross-correlations?
     <details><summary>Solution</summary>
     
     ```{r fig = TRUE}
-    par(mfrow=c(2,2))
+    oldpar <- par(mfrow = c(2, 2))
     traceplot(results2)
+    par(oldpar)
     ```
     
     ```{r fig = TRUE}
-    par(mfrow=c(2,2))
+    oldpar <- par(mfrow = c(2, 2))
     densplot(results2)
     # Need to use the Base R kernel density function to look at the corrected 
     # Intercept
     plot(density(results2.beta.0, bw = 0.3404), xlim=c(22,34),
          main = "Density, corrected Intercept")
+    par(oldpar)
     ```
     
     ```{r fig = TRUE}
