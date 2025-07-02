@@ -546,7 +546,11 @@ package installed already, as it is not on CRAN you will need to install it via
 
 
 ``` r
-install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+install.packages(
+  "INLA",
+  repos = c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"),
+  dep=TRUE
+)
 ```
 
 After this, the package can be loaded into R:

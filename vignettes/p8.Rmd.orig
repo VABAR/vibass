@@ -399,8 +399,12 @@ We can obtain Bayesian model fits without using MCMC with the
 INLA software, implemented in R via the `INLA` package. If you do not have this
 package installed already, as it is not on CRAN you will need to install it via
 
-```{r eval=FALSE}
-install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+```{r eval = FALSE}
+install.packages(
+  "INLA",
+  repos = c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"),
+  dep=TRUE
+)
 ```
 
 After this, the package can be loaded into R:
