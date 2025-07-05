@@ -1,7 +1,7 @@
 Type: Package
 Package: vibass
 Title: Materials for Introductory Course on Bayesian Learning
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     c(person(given = "VIBASS Team",
              role = c("aut", "cph")),
