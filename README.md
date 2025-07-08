@@ -8,6 +8,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/VABAR/vibass/workflows/R-CMD-check/badge.svg)](https://github.com/VABAR/vibass/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/vibass)](https://CRAN.R-project.org/package=vibass)
+![runiverse-package example badge for gert
+package](https://vabar.r-universe.dev/badges/vibass)
 <!-- badges: end -->
 
 Teaching materials for the [introductory course on Bayesian
@@ -16,17 +20,13 @@ inference](http://vabar.es/events/vibass8-intro/) at
 
 ## Installation
 
-<!-- Install the released version of `vibass` from CRAN: -->
+Install the released version of `vibass` from CRAN:
 
-<!-- ```{r install-cran, eval = FALSE} -->
+``` r
+install.packages('vibass')
+```
 
-<!-- install.packages('vibass') -->
-
-<!-- ``` -->
-
-<!-- Or install the development version from our `r-universe` with: -->
-
-Install the development version from our
+Or install the development version from our
 [`r-universe`](https://vabar.r-universe.dev/vibass) with:
 
 ``` r

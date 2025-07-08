@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/VABAR/vibass/workflows/R-CMD-check/badge.svg)](https://github.com/VABAR/vibass/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/vibass)](https://CRAN.R-project.org/package=vibass)
+![runiverse-package example badge for gert package](https://vabar.r-universe.dev/badges/vibass)
 <!-- badges: end -->
 
 Teaching materials for the [introductory course on Bayesian inference](http://vabar.es/events/vibass8-intro/) at [VIBASS](http://vabar.es/events/vibass8/)
@@ -26,14 +28,12 @@ Teaching materials for the [introductory course on Bayesian inference](http://va
 
 ## Installation
 
-<!-- Install the released version of `vibass` from CRAN: -->
-<!-- ```{r install-cran, eval = FALSE} -->
-<!-- install.packages('vibass') -->
-<!-- ``` -->
+Install the released version of `vibass` from CRAN:
+```{r install-cran, eval = FALSE}
+install.packages('vibass')
+```
 
-<!-- Or install the development version from our `r-universe` with: -->
-
-Install the development version from our [`r-universe`](https://vabar.r-universe.dev/vibass) with:
+Or install the development version from our [`r-universe`](https://vabar.r-universe.dev/vibass) with:
 ```{r install-r-universe, eval = FALSE}
 install.packages('vibass', repos = c('https://vabar.r-universe.dev', 'https://cloud.r-project.org'))
 ```
