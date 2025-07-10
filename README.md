@@ -10,8 +10,7 @@
 [![R-CMD-check](https://github.com/VABAR/vibass/workflows/R-CMD-check/badge.svg)](https://github.com/VABAR/vibass/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/vibass)](https://CRAN.R-project.org/package=vibass)
-![runiverse-package example badge for gert
-package](https://vabar.r-universe.dev/badges/vibass)
+[![runiverse-vibass](https://vabar.r-universe.dev/badges/vibass)](https://vabar.r-universe.dev/vibass)
 <!-- badges: end -->
 
 Teaching materials for the [introductory course on Bayesian
