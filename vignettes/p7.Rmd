@@ -118,8 +118,8 @@ summary(m2)
 ```
 
 You can compare this Bayesian fit with a non-Bayesian analysis, this time making
-use of the `lmer()` function in the package `lme4`. (Here, `lme` means `linear
-effects.) We present the code only for comparison, and we do not describe
+use of the `lmer()` function in the package `lme4` (here, `lme` means _linear mixed
+effects_). We present the code only for comparison, and we do not describe
 `lmer()` or `lme4` more fully.
 
 ```{r}
