@@ -62,9 +62,9 @@ Imports:
 Suggests:
     bayesrules,
     coda,
+    colorspace,
     cowplot,
     faraway,
-    hrbrthemes,
     htmlwidgets,
     INLA,
     ISLR,
@@ -77,13 +77,12 @@ Suggests:
     pacman,
     png,
     spData,
-    stringi,
-    waffle
+    stringi
 VignetteBuilder: 
     knitr
 URL: http://vabar.es/vibass/, https://github.com/VABAR/vibass
 BugReports: https://github.com/VABAR/vibass/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Additional_repositories: https://inla.r-inla-download.org/R/testing
