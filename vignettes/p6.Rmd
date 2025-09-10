@@ -124,7 +124,7 @@ fakenews <- bayesrules::fake_news[, c("type", "title_has_excl", "title_words", "
 The response variable `type` takes values `fake` or `real`, which should be
 self-explanatory. The three explanatory variables are:
 
-* `title_has_excl`, whether or not the article contains an excalamation mark (values `TRUE` or `FALSE`);
+* `title_has_excl`, whether or not the article contains an exclamation mark (values `TRUE` or `FALSE`);
 
 * `title_words`, the number of words in the title (a positive integer); and
 

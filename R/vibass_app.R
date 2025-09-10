@@ -8,7 +8,7 @@
 #' @import shiny
 #' @export
 #' @returns With no arguments, displays a list of available app codes.
-#'    Otherwise, lauches the corresponding Shiny app.
+#'    Otherwise, launches the corresponding Shiny app.
 #' @examples
 #' vibass_app()
 vibass_app <- function (x = NULL) {

@@ -245,7 +245,7 @@ We propose below an individual exercise that pursues to consolidate the basic co
 
 
 
-**Exercice** 
+**Exercise** 
 
 You just remembered that you have another friend, Tauriel, who is also very enthusiastic of the novel *A Game of Thrones* and you have thought to ask her opinion about the number of _u_'s in the novel. Her prior distribution for $\lambda$ is very different from that of your other friend Joan. It is $\text{Ga}(90, 3)$ and we will call it prior 3.
 \begin{align*}
@@ -256,4 +256,4 @@ You just remembered that you have another friend, Tauriel, who is also very enth
 
 2. From the results of the previous experiment ($\sum y_i= 643$ _u_'s in a total of $n=25$), compare the posterior distribution for $\lambda$ that Joan and Tauriel would obtain. 
 
-3. Joan and Taurel select $n^{\prime}=1$ new page from the novel. Before they start counting the _u_'s on the page, they ask you to calculate the predicted distribution of each of them over the number of _u_'s they will find on this page. Can you compute them? And since they are asking you to do some work, you could also represent them graphically and describe them numerically. 
+3. Joan and Tauriel select $n^{\prime}=1$ new page from the novel. Before they start counting the _u_'s on the page, they ask you to calculate the predicted distribution of each of them over the number of _u_'s they will find on this page. Can you compute them? And since they are asking you to do some work, you could also represent them graphically and describe them numerically. 

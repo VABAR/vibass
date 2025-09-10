@@ -137,8 +137,8 @@ Finally, the posterior mean of every component of $\boldsymbol{\beta}$ coincides
 
 # Time to individual work
 
-We propose below an individual exercice that pursues to consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practicing in this session. 
+We propose below an individual exercise that pursues to consolidate the basic concepts that we have learned in the previous theoretical session and that we have been practicing in this session. 
 
-**Exercice** 
+**Exercise** 
 
 The data set `Weights`, included in the `VIBASS` package, is the data set used for the example of the theoretical session. That data set has a categorical variable, `race`, which contains the race of each child in the study. Fit a Bayesian linear regression model (ANCOVA) that explains each child's weight as a function of age, race and the interaction of these factors. Explore the posterior distribution of the coefficients in the model and assess therefore its convenience in the regression model.

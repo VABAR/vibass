@@ -4,4 +4,4 @@
 
 * Training practicals as package vignettes.
 
-* Interactive Shiny apps for solving exercices.
+* Interactive Shiny apps for solving exercises.
