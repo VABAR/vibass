@@ -12,7 +12,7 @@ vibass_app(x = NULL)
 }
 \value{
 With no arguments, displays a list of available app codes.
-   Otherwise, lauches the corresponding Shiny app.
+   Otherwise, launches the corresponding Shiny app.
 }
 \description{
 Launches the Shiny interactive applications for the practicals.
