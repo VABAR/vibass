@@ -68,7 +68,7 @@ not needed and `INLA` can fit some classes of models in a fraction of the
 time it takes with MCMC.  It has a very simple interface to define models,
 although it cannot be installed directly from CRAN - instead you have a
 specific website where it can be downloaded:
-[https://www.r-inla.org/download-install](https://www.r-inla.org/download-install)
+[https://www.r-inla.org/download/](https://www.r-inla.org/download/)
 
 * The `Stan` software implements Hamiltonian Monte Carlo and other methods for
 fit hierarchical Bayesian models. It is available from https://mc-stan.org.
