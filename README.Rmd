@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # vibass
-[`r htmltools::img(src = "http://vabar.es/images//widget_vibass8.png", width = "300px")`](http://vabar.es/events/vibass8/)
+[`r htmltools::img(src = "https://vabar.github.io/images//widget_vibass9.png", width = "300px")`](https://vabar.github.io/events/vibass9/)
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/VABAR/vibass/workflows/R-CMD-check/badge.svg)](https://github.com/VABAR/vibass/actions)
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![runiverse-vibass](https://vabar.r-universe.dev/badges/vibass)](https://vabar.r-universe.dev/vibass)
 <!-- badges: end -->
 
-Teaching materials for the [introductory course on Bayesian inference](http://vabar.es/events/vibass8-intro/) at [VIBASS](http://vabar.es/events/vibass8/)
+Teaching materials for the [introductory course on Bayesian inference](https://vabar.github.io/events/vibass9-intro/) at [VIBASS](https://vabar.github.io/events/vibass9/)
 
 
 

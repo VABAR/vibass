@@ -3,7 +3,7 @@
 
 # vibass
 
-[<img src="http://vabar.es/images//widget_vibass8.png" width="300px"/>](http://vabar.es/events/vibass8/)
+[<img src="https://vabar.github.io/images//widget_vibass9.png" width="300px"/>](https://vabar.github.io/events/vibass9/)
 
 <!-- badges: start -->
 
@@ -14,8 +14,8 @@ status](https://www.r-pkg.org/badges/version/vibass)](https://CRAN.R-project.org
 <!-- badges: end -->
 
 Teaching materials for the [introductory course on Bayesian
-inference](http://vabar.es/events/vibass8-intro/) at
-[VIBASS](http://vabar.es/events/vibass8/)
+inference](https://vabar.github.io/events/vibass9-intro/) at
+[VIBASS](https://vabar.github.io/events/vibass9/)
 
 ## Installation
 
