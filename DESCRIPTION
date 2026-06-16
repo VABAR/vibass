@@ -88,3 +88,4 @@ LazyData: true
 RoxygenNote: 7.3.3
 Additional_repositories: https://inla.r-inla-download.org/R/testing
 Language: en-GB
+KeepSource: no
