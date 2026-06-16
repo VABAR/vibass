@@ -32,7 +32,7 @@ print_welcome <- function() {
   cli::cli_par()
   cli::cli_alert_info(
     c(
-      "Browse to: {.url http://vabar.es/vibass/} ",
+      "Browse to: {.url https://vabar.github.io/vibass/} ",
       cli::col_yellow("to access the course practicals under 'Articles'")
     )
   )

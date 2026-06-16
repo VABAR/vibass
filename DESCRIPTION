@@ -81,7 +81,7 @@ Suggests:
     stringi
 VignetteBuilder: 
     knitr
-URL: http://vabar.es/vibass/, https://github.com/VABAR/vibass
+URL: https://vabar.github.io/vibass/, https://github.com/VABAR/vibass
 BugReports: https://github.com/VABAR/vibass/issues
 Encoding: UTF-8
 LazyData: true
