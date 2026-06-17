@@ -7,20 +7,24 @@
 # It is unlikely that you need to modify this file manually.
 
 name: R-hub
-run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
+run-name: >-
+  ${{ github.event.inputs.id || format('Manual run by @{0}', github.triggering_actor) }}:
+  ${{ github.event.inputs.name || github.event.inputs.config }}
 
 on:
   workflow_dispatch:
     inputs:
       config:
-        description: 'A comma separated list of R-hub platforms to use.'
+        description: >-
+          Comma-separated list of R-hub platforms to use.
+          Full list: https://r-hub.github.io/containers/
         type: string
         default: 'linux,windows,macos'
       name:
-        description: 'Run name. You can leave this empty now.'
+        description: 'Run name. You can leave this empty.'
         type: string
       id:
-        description: 'Unique ID. You can leave this empty now.'
+        description: 'Unique ID. You can leave this empty.'
         type: string
 
 jobs:
@@ -82,18 +86,16 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
-      # - uses: r-hub/actions/setup-r@v1
-      #   with:
-      #     job-config: ${{ matrix.config.job-config }}
-      #     token: ${{ secrets.RHUB_TOKEN }}
-       - uses: r-lib/actions/setup-r@v2
+      - uses: r-hub/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
           ## Borrowed from inlabru. Don't know why is all this necessary.
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
           extra-repositories: "https://inla.r-inla-download.org/R/testing"
-     - uses: r-hub/actions/platform-info@v1
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
+      - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
