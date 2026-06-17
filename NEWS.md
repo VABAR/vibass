@@ -1,3 +1,5 @@
+# vibass (development version)
+
 # vibass 1.0.4
 
 * Update URLs and package documentation.
