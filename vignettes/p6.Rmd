@@ -266,7 +266,7 @@ variable $Y_i$ representing the counts occurring from a process with mean
 parameter $\lambda_i$:
 
 \begin{align*}
-  (Y_i \mid \boldsymbol \lambda_i) & \sim\mbox{Po}(\lambda_i),\quad i.i.d., \quad i=1, \ldots, n
+  (Y_i \mid \boldsymbol \lambda_i) & \sim\mbox{Po}(\lambda_i),\quad i.i.d., \quad i=1, \ldots, n \nonumber\\
   \mbox{log}(\lambda_i) & =\eta_i \nonumber\\
   \eta_{i} & =\beta_0+\beta_1 x_{i1}+\ldots+\beta_p x_{ip}=\boldsymbol x_i\boldsymbol \beta\nonumber
 \end{align*}
@@ -319,7 +319,7 @@ In `BayesX`, the syntax for fitting a Bayesian Poisson Regression Model with one
 response variable, three explanatory variables and an offset will be like so:
 
 ```{r eval=FALSE}
-model1 <- bayesx(formula = y ~ x1 + x2 + x3 + offset(w),
+model1 <- bayesx(formula = y ~ x1 + x2 + x3 + sx(w, bs = "offset"),
                  data = data.set,
                  family="poisson")
 ```
@@ -335,7 +335,7 @@ esdcomp$logvisits <- log(esdcomp$visits)
 
 The offset term in the model is then written
 
-`offset(logvisits)`
+`sx(logvisits, bs = "offset")`
 
 in the call to `bayesx()`.
 
