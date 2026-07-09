@@ -104,7 +104,7 @@ p(\beta_0|\mathcal{D}, \beta_1, \tau) &\propto
 \beta_0\left(-2\tau_{\beta_0}\mu_{\beta_0} - 2\tau\sum_{i=1}^n 
 (y_i - x_i\beta_1)\right) \right) + C \right\}, \\
 \textrm{so} \quad \beta_0|\mathcal{D}, \beta_1, \tau &\sim
-N\left((\tau_{\beta_0} + n\tau)^{-1}
+\mathcal{N}\left((\tau_{\beta_0} + n\tau)^{-1}
 \left(\tau_{\beta_0}\mu_{\beta_0} + \tau\sum_{i=1}^n (y_i - x_i\beta_1)\right),
 \tau_{\beta_0} + n\tau\right).
 \end{align*}
